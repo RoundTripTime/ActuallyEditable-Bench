@@ -1,0 +1,610 @@
+art:right-angled-axes 20.52, chart:scale-text 20.53, chart:series-source 20.54, chart:solid-type 20.56, chart:sort-by-x-values 20.55, chart:spline-order 20.57, chart:spline-resolution 20.58, chart:stacked 20.59, chart:symbol-height 20.60, chart:symbol-name 20.61, chart:symbol-type 20.62, chart:symbol-width 20.63, chart:text-overlap 20.64, chart:three-dimensional 20.65, chart:tick-mark-position 20.70, chart:tick-marks-major-inner 20.66, chart:tick-marks-major-outer 20.67, chart:tick-marks-minor-inner 20.68, chart:tick-marks-minor-outer 20.69, chart:treat-empty-cells 20.71, chart:vertical 20.72, chart:visible 20.73, style:direction 20.263, style:rotation-angle 20.347 and text:line-break 20.429.
+
+The <style:chart-properties> element has the following child elements: <chart:label-separator> 17.24 and <chart:symbol-image> 17.23.
+
+17.23 <chart:symbol-image>
+
+The <chart:symbol-image> element specifies an image to be used for a data point in a chart.
+
+This element should be used only together with a chart:symbol-type attribute and only when that attribute has the value image.
+
+The <chart:symbol-image> element is usable within the following element: <style:chart-properties> 17.22.
+
+The <chart:symbol-image> element has the following attribute: xlink:href 19.916.
+
+The <chart:symbol-image> element has no child elements.
+
+17.24 <chart:label-separator>
+
+The <chart:label-separator> element specifies text that is used for separating different parts of a textual data label. These parts can be the value as number, the value as a percentage (20.8), and the label text (20.11).
+
+
+The <style:background-fill> element has no child elements.
+
+18 Datatypes
+
+18.1 Introduction
+
+The values of attributes and elements have datatypes. This specification defines datatypes for values of elements and attributes of OpenDocument documents. 
+
+Note: This specification and the schema make reference to other specifications for some datatype definitions. Some datatypes introduced here may be specializations of other datatypes defined here or in other specifications. 
+
+18.2 W3C Schema Datatypes
+
+The following [XMLSchema-2] datatypes are used in this specification:
+
+•string 
+
+•date 
+
+•time 
+
+•dateTime 
+
+•decimal 
+
+•duration 
+
+•int  
+
+•integer 
+
+•nonNegativeInteger 
+
+•positiveInteger 
+
+•double 
+
+•long 
+
+•short 
+
+•base64Binary 
+
+•ID 
+
+•IDREF 
+
+•IDREFS 
+
+•NCName 
+
+18.3 Other Datatypes
+
+18.3.1 angle
+
+An angle, as defined in §4.1 of [SVG], is a double value that may be followed immediately by one of the following angle unit identifiers: deg (degrees), grad (gradiants) or rad (radians). If no unit identifier is specified, the value is assumed to be in degrees.
+
+Note: OpenDocument v1.1 did not support angle specifications that contain an angle unit identifier.  Angle unit identifiers should be omitted for compatibility with OpenDocument v1.1.
+
+18.3.2 anyIRI 
+
+An IRI-reference as defined in [RFC3987], expressed in an [XMLSchema-2] anyURI. 
+
+Note: The procedure for resolution of anyIRI values that are not IRI values is undefined.
+
+18.3.3 boolean
+
+A Boolean value may have either of the values true or false.
+
+18.3.4 cellAddress
+
+
+The anim:audio-level attribute is usable with the following element: <anim:audio> 15.5.
+
+The anim:audio-level attribute has the data type double 18.2.
+
+19.5 anim:command
+
+The anim:command attribute specifies an animation command.
+
+The defined values for the anim:command attribute are:
+
+•custom: the command is user-defined. 
+
+•verb: the command targets an embedded [OLE] object. 10.4.6.3. The parameter verb is the verb number executed on the embedded object. 
+
+•play: the command targets a media shape and starts its playback. The parameter media-time defines the playback start time in seconds. If this parameter is not set, playback starts at the last position. 
+
+•toggle-pause: the command targets a media shape and toggles its playback state from play to paused or from paused to play. 
+
+•stop: the command targets a media shape and stops its playback. 
+
+•stop-audio: the command has no target and stops all running audio playback. 
+
+If the value of the anim:command attribute is custom, then there shall be a <anim:param> 15.6.2 child element whose anim:name 19.10 attribute and anim:value 19.12 attribute values are user-defined.
+
+If the value of the anim:command attribute is verb, there shall be a <anim:param> child element whose anim:name attribute value is verb and whose anim:value attribute value contains the verb number. 
+
+If the value of the anim:command attribute is play, then there shall be a <anim:param> child element whose anim:name attribute value is play and whose anim:value attribute value contains a value expressed in seconds. 
+
+The anim:command attribute is usable with the following element: <anim:command> 15.6.1.
+
+The anim:command attribute has the data type string 18.2.
+
+19.6 anim:formula
+
+The anim:formula attribute specifies a formula used in an animation function. 
+
+The following is the minimum supported grammar:
+
+formula::= additive_expression
+
+identifier::= '$' | 'pi' | 'e' | 'x' | 'y' | 'width' | 'height'
+
+function::= 'abs'|'sqrt'|'sin'|'cos'|'tan'|'atan'|'acos'|'asin'|'exp'|'log'
+
+binary_function::= 'min'|'max'
+
+basic_expression::= number
+
+ | identifier
+
+ | unary_function S* '(' S* additive_expression S* ')'
+
+ | binary_function S* '(' S* additive_expression S* ',' 
+ S*additive_expression S* ')'
+
+ | '(' S* additive_expression S* ')'
+
+unary_expression::= '-' S* basic_expression | basic_expression
+
+multiplicative_expression::= unary_expression ( ( S* '*' S* unary_expression )
+
+ | ( S* '/' S* unary_expression ) )*
+
+additive_expression::= multiplicative_expression ( ( S* '+' S* multiplicative_expression )
+
+ | ( S* '-' S* multiplicative_expression ) )*
+
+number::= sign? integer | sign? Floating-point-constant
+
+floating-point-constant::= fractional-constant exponent? | integer exponent
+
+fractional-constant::= integer? '.' integer | integer '.'
+
+exponent::= ( 'e' | 'E' ) sign? Integer
+
+
+The db:is-clustered attribute is usable with the following element: <db:index> 12.46.
+
+The db:is-clustered attribute has the data type boolean 18.3.3.
+
+19.59 db:is-empty-allowed
+
+The db:is-empty-allowed attribute specifies whether a column may contain empty values. 
+
+The defined values for the db:is-empty-allowed attribute are:
+
+•false: column shall not contain empty values. 
+
+•true: column may contain empty values. 
+
+The db:is-empty-allowed attribute is usable with the following element: <db:column-definition> 12.40.
+
+The db:is-empty-allowed attribute has the data type boolean 18.3.3.
+
+19.60 db:is-first-row-header-line
+
+The db:is-first-row-header-line attribute specifies whether the first row in a text file, which is interpreted as a table of a file-based database, is used to define the columns of a table.
+
+The defined values for the db:is-first-row-header-line attribute are:
+
+•false: first row of text file does not define columns of a table. 
+
+•true: first row of text file does define columns of a table. 
+
+The default value for this attribute is true.
+
+The db:is-first-row-header-line attribute is usable with the following elements: <db:driver-settings> 12.9 and <db:table-setting> 12.14.
+
+The db:is-first-row-header-line attribute has the data type boolean 18.3.3.
+
+19.61 db:login-timeout
+
+The db:login-timeout attribute indicates a default time-out to be used when establishing a connection for this data source. If the attribute is not present, then a default time-out is specified by the database server. 
+
+The db:login-timeout attribute is usable with the following element: <db:login> 12.8.
+
+The db:login-timeout attribute has the data type positiveInteger 18.2.
+
+19.62 db:is-nullable
+
+The db:is-nullable attribute specifies the nullability of values in a column.
+
+The defined values for the db:is-nullable attribute are:
+
+•no-nulls: null values should not appear in a column. 
+
+•nullable: null values may appear in a column. 
+
+The db:is-nullable attribute is usable with the following element: <db:column-definition> 12.40.
+
+The values of the db:is-nullable attribute are no-nulls or nullable.
+
+19.63 db:is-password-required
+
+The db:is-password-required attribute specifies if a password is always necessary when establishing a connection for a data source.
+
+The defined values for the db:is-password-required attribute are:
+
+•false: password should not be required for a connection to data source. 
+
+•true: password should be required for a connection to data source. 
+
+The default value for this attribute is false.
+
+The db:is-password-required attribute is usable with the following element: <db:login> 12.8.
+
+The db:is-password-required attribute has the data type boolean 18.3.3.
+
+19.64 db:is-unique
+
+The db:is-unique attribute specifies whether an index shall have unique values.
+
+The defined values for the db:is-unique attribute are:
+
+•false: index should not require unique values. 
+
+
+19.498 style:lines
+
+19.499 style:list-level
+
+19.500 style:list-style-name
+
+19.501 style:master-page-name
+
+19.502 style:name
+
+19.502.1 General
+
+19.502.2 <number:boolean-style>, <number:currency-style>, <number:date-style>, <number:num-list-format>, <number:number-style>, <number:percentage-style>, <number:text-style>, <number:time-style>, <style:master-page>, <style:page-layout>, <style:presentation-page-layout>, <style:style>, <text:list-style>, <text:outline-style>
+
+19.502.3 <style:font-face>
+
+19.503 style:next-style-name
+
+19.503.1 General
+
+19.503.2 <style:master-page>
+
+19.503.3 <style:style>
+
+19.504 style:num-format
+
+19.505 style:num-letter-sync
+
+19.506 style:num-prefix
+
+19.507 style:num-suffix
+
+19.508 style:page-layout-name
+
+19.509 style:page-usage
+
+19.510 style:parent-style-name
+
+19.511 style:percentage-data-style-name
+
+19.512 style:position
+
+19.512.1 General
+
+19.512.2 <style:background-image>
+
+19.512.3 <style:tab-stop>
+
+19.512.4 <text:index-entry-tab-stop>
+
+
+exec
+/usr/bin/zsh -lc "grep -n -A8 -B2 'The <style:table-row-properties> element has the following attributes\\|The <style:table-cell-properties> element has the following attributes\\|The <style:table-column-properties> element has the following attributes\\|The <style:page-layout> element has the following attributes\\|The <style:master-page> element has the following attributes\\|The <style:style> element has the following attributes\\|The <office:document> element has the following attributes\\|The <office:text> element has the following attributes\\|The <text:p> element has the following attributes\\|The <style:table-row-properties> element is usable' ./odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_xprf4ad2
+ succeeded in 0ms:
+6301-The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+6302-
+6303:The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+6304-
+6305-The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+6306-
+6307-3.1.3 Package OpenDocument Files
+6308-
+6309-3.1.3.1 General
+6310-
+6311- The potential root elements for an OpenDocument document represented as a package are defined in OpenDocument Document, 2.2.1.
+--
+6451-The <office:text> element is usable within the following element: <office:body> 3.3.
+6452-
+6453:The <office:text> element has the following attributes: text:global 19.812 and text:use-soft-page-breaks 19.903.
+6454-
+6455-The <office:text> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:forms> 13.2, <table:calculation-settings> 9.4.1, <table:consolidation> 9.7, <table:content-validations> 9.4.4, <table:data-pilot-tables> 9.6.2, <table:database-ranges> 9.4.14, <table:dde-links> 9.8, <table:label-ranges> 9.4.10, <table:named-expressions> 9.4.11, <table:table> 9.1.2, <text:alphabetical-index> 8.8, <text:alphabetical-index-auto-mark-file> 8.8.3, <text:bibliography> 8.9, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:dde-connection-decls> 14.7.2, <text:h> 5.1.2, <text:illustration-index> 8.4, <text:list> 5.3.1, <text:numbered-paragraph> 5.3.6, <text:object-index> 8.6, <text:p> 5.1.3, <text:page-sequence> 5.2, <text:section> 5.4, <text:sequence-decls> 7.4.11, <text:soft-page-break> 5.6, <text:table-index> 8.5, <text:table-of-content> 8.3, <text:tracked-changes> 5.5.2, <text:user-field-decls> 7.4.7, <text:user-index> 8.7 and <text:variable-decls> 7.4.2.
+6456-
+6457-3.5 <office:drawing>
+6458-
+6459-The <office:drawing> element represents a drawing document.
+6460-
+6461-The <office:drawing> element is usable within the following element: <office:body> 3.3.
+--
+7039-The <text:p> element is usable within the following elements: <chart:data-label> 11.15, <chart:equation> 11.19, <chart:footer> 11.2.3, <chart:label-separator> 17.24, <chart:legend> 11.4, <chart:subtitle> 11.2.2, <chart:title> 11.2.1, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <form:textarea> 13.5.3, <office:annotation> 14.1, <office:change-info> 5.5.7, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <style:region-center> 16.17, <style:region-left> 16.16, <style:region-right> 16.18, <table:change-track-table-cell> 9.9.16, <table:covered-table-cell> 9.1.5, <table:error-message> 9.4.7, <table:help-message> 9.4.6, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7040-
+7041:The <text:p> element has the following attributes: text:class-names 19.775, text:cond-style-name 19.781, text:id 19.815, text:style-name 19.880, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+7042-
+7043-The <text:p> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:annotation> 14.1, <office:annotation-end> 14.2, <presentation:date-time> 10.9.4.5, <presentation:footer> 10.9.4.3, <presentation:header> 10.9.4.1, <text:a> 6.1.8, <text:alphabetical-index-mark> 8.1.10, <text:alphabetical-index-mark-end> 8.1.9, <text:alphabetical-index-mark-start> 8.1.8, <text:author-initials> 7.3.7.2, <text:author-name> 7.3.7.1, <text:bibliography-mark> 8.1.11, <text:bookmark> 6.2.1.2, <text:bookmark-end> 6.2.1.4, <text:bookmark-ref> 7.7.6, <text:bookmark-start> 6.2.1.3, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:chapter> 7.3.8, <text:character-count> 7.5.18.5, <text:conditional-text> 7.7.3, <text:creation-date> 7.5.3, <text:creation-time> 7.5.4, <text:creator> 7.5.17, <text:database-display> 7.6.3, <text:database-name> 7.6.7, <text:database-next> 7.6.4, <text:database-row-number> 7.6.6, <text:database-row-select> 7.6.5, <text:date> 7.3.2, <text:dde-connection> 7.7.12, <text:description> 7.5.5, <text:drop-down> 7.4.16, <text:editing-cycles> 7.5.13, <text:editing-duration> 7.5.14, <text:execute-macro> 7.7.10, <text:expression> 7.4.14, <text:file-name> 7.3.9, <text:hidden-paragraph> 7.7.11, <text:hidden-text> 7.7.4, <text:image-count> 7.5.18.7, <text:initial-creator> 7.5.2, <text:keywords> 7.5.12, <text:line-break> 6.1.5, <text:measure> 7.7.13, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:modification-date> 7.5.16, <text:modification-time> 7.5.15, <text:note> 6.3.2, <text:note-ref> 7.7.7, <text:object-count> 7.5.18.8, <text:page-continuation> 7.3.5, <text:page-count> 7.5.18.2, <text:page-number> 7.3.4, <text:page-variable-get> 7.7.1.3, <text:page-variable-set> 7.7.1.2, <text:paragraph-count> 7.5.18.3, <text:placeholder> 7.7.2, <text:print-date> 7.5.8, <text:print-time> 7.5.7, <text:printed-by> 7.5.9, <text:reference-mark> 6.2.2.2, <text:reference-mark-end> 6.2.2.4, <text:reference-mark-start> 6.2.2.3, <text:reference-ref> 7.7.5, <text:ruby> 6.4, <text:s> 6.1.3, <text:script> 7.7.9, <text:sender-city> 7.3.6.13, <text:sender-company> 7.3.6.10, <text:sender-country> 7.3.6.15, <text:sender-email> 7.3.6.7, <text:sender-fax> 7.3.6.9, <text:sender-firstname> 7.3.6.2, <text:sender-initials> 7.3.6.4, <text:sender-lastname> 7.3.6.3, <text:sender-phone-private> 7.3.6.8, <text:sender-phone-work> 7.3.6.11, <text:sender-position> 7.3.6.6, <text:sender-postal-code> 7.3.6.14, <text:sender-state-or-province> 7.3.6.16, <text:sender-street> 7.3.6.12, <text:sender-title> 7.3.6.5, <text:sequence> 7.4.13, <text:sequence-ref> 7.7.8, <text:sheet-name> 7.3.11, <text:soft-page-break> 5.6, <text:span> 6.1.7, <text:subject> 7.5.11, <text:tab> 6.1.4, <text:table-count> 7.5.18.6, <text:table-formula> 7.7.14, <text:template-name> 7.3.10, <text:text-input> 7.4.15, <text:time> 7.3.3, <text:title> 7.5.10, <text:toc-mark> 8.1.4, <text:toc-mark-end> 8.1.3, <text:toc-mark-start> 8.1.2, <text:user-defined> 7.5.6, <text:user-field-get> 7.4.9, <text:user-field-input> 7.4.10, <text:user-index-mark> 8.1.7, <text:user-index-mark-end> 8.1.6, <text:user-index-mark-start> 8.1.5, <text:variable-get> 7.4.5, <text:variable-input> 7.4.6, <text:variable-set> 7.4.4 and <text:word-count> 7.5.18.4.
+7044-
+7045-5.2 <text:page-sequence>
+7046-
+7047-5.2.1 General
+7048-
+7049-The <text:page-sequence> element contains at least one <text:page> element. If there is more than one <text:page> element, the text:master-page-name attribute of the first <text:page> element specifies the default master style for a document. 
+--
+13139-The <style:style> element is usable within the following elements: <office:automatic-styles> 3.15.3 and <office:styles> 3.15.2.
+13140-
+13141:The <style:style> element has the following attributes: style:auto-update 19.467, style:class 19.470, style:data-style-name 19.473, style:default-outline-level 19.474, style:display-name 19.476, style:family 19.480, style:list-level 19.499, style:list-style-name 19.500, style:master-page-name 19.501, style:name 19.502, style:next-style-name 19.503, style:parent-style-name 19.510 and style:percentage-data-style-name 19.511.
+13142-
+13143-The <style:style> element has the following child elements: <style:chart-properties> 17.22, <style:drawing-page-properties> 17.25, <style:graphic-properties> 17.21, <style:map> 16.3, <style:paragraph-properties> 17.6, <style:ruby-properties> 17.10, <style:section-properties> 17.11, <style:table-cell-properties> 17.18, <style:table-column-properties> 17.16, <style:table-properties> 17.15, <style:table-row-properties> 17.17, <style:text-properties> 16.29.29.
+13144-
+13145-16.3 <style:map>
+13146-
+13147-The <style:map> element represents a condition, which if met, results in the mapping of a style. A style that contains one or more mappings is called a conditional style. Each condition is represented by a unique <style:map> element.
+13148-
+13149-Conditional styles are supported by:
+--
+13179-The <style:page-layout> element is usable within the following element: <office:automatic-styles> 3.15.3.
+13180-
+13181:The <style:page-layout> element has the following attributes: style:name 19.502 and style:page-usage 19.509.
+13182-
+13183-The <style:page-layout> element has the following child elements: <style:footer-style> 16.7, <style:header-style> 16.6 and <style:page-layout-properties> 17.2.
+13184-
+13185-16.6 <style:header-style>
+13186-
+13187-The <style:header-style> element specifies the formatting properties for a header element.
+13188-
+13189-The <style:header-style> element is usable within the following elements: <style:default-page-layout> 16.8 and <style:page-layout> 16.5.
+--
+13231-The <style:master-page> element is usable within the following element: <office:master-styles> 3.15.4.
+13232-
+13233:The <style:master-page> element has the following attributes: draw:style-name 19.219, style:display-name 19.476, style:name 19.502, style:next-style-name 19.503 and style:page-layout-name 19.508.
+13234-
+13235-The <style:master-page> element has the following child elements: <anim:animate> 15.2.2, <anim:animateColor> 15.2.6, <anim:animateMotion> 15.2.5, <anim:animateTransform> 15.2.3, <anim:audio> 15.5, <anim:command> 15.6.1, <anim:iterate> 15.4.4, <anim:par> 15.4.2, <anim:seq> 15.4.3, <anim:set> 15.2.4, <anim:transitionFilter> 15.2.7, <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:layer-set> 10.2.2, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:forms> 13.2, <presentation:notes> 16.19, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11 and <style:header-left> 16.14.
+13236-
+13237-16.10 <style:header>
+13238-
+13239-The <style:header> element represents the content of a header in a <style:master-page> element. 
+13240-
+13241-The <style:header> element is usable within the following element: <style:master-page> 16.9.
+--
+14403-The <style:table-column-properties> element is usable within the following elements: <style:default-style> 16.4 and <style:style> 16.2.
+14404-
+14405:The <style:table-column-properties> element has the following attributes: fo:break-after 20.184, fo:break-before 20.185, style:column-width 20.254, style:rel-column-width 20.338 and style:use-optimal-column-width 20.393.
+14406-
+14407-The <style:table-column-properties> element has no child elements.
+14408-
+14409-17.17 <style:table-row-properties>
+14410-
+14411-The <style:table-row-properties> element specifies formatting properties for table rows.
+14412-
+14413:The <style:table-row-properties> element is usable within the following elements: <style:default-style> 16.4 and <style:style> 16.2.
+14414-
+14415:The <style:table-row-properties> element has the following attributes: fo:background-color 20.182, fo:break-after 20.184, fo:break-before 20.185, fo:keep-together 20.200, style:min-row-height 20.320, style:row-height 20.348 and style:use-optimal-row-height 20.394.
+14416-
+14417-The <style:table-row-properties> element has the following child elements: <style:background-fill> 17.26 and <style:background-image> 17.3.
+14418-
+14419-17.18 <style:table-cell-properties>
+14420-
+14421-The <style:table-cell-properties> element specifies formatting properties for cells.
+14422-
+14423-The <style:table-cell-properties> element is usable within the following elements: <style:default-style> 16.4 and <style:style> 16.2.
+14424-
+14425:The <style:table-cell-properties> element has the following attributes: fo:background-color 20.182, fo:border 20.183.2, fo:border-bottom 20.183.3, fo:border-left 20.183.4, fo:border-right 20.183.5, fo:border-top 20.183.6, fo:padding 20.217, fo:padding-bottom 20.218, fo:padding-left 20.219, fo:padding-right 20.220, fo:padding-top 20.221, fo:wrap-option 20.230, style:border-line-width 20.248, style:border-line-width-bottom 20.249, style:border-line-width-left 20.250, style:border-line-width-right 20.251, style:border-line-width-top 20.252, style:cell-protect 20.253, style:decimal-places 20.258, style:diagonal-bl-tr 20.259, style:diagonal-bl-tr-widths 20.260, style:diagonal-tl-br 20.261, style:diagonal-tl-br-widths 20.262, style:direction 20.263, style:glyph-orientation-vertical 20.297, style:print-content 20.331, style:repeat-content 20.342, style:rotation-align 20.346, style:rotation-angle 20.347, style:shadow 20.359, style:shrink-to-fit 20.360, style:text-align-source 20.364, style:vertical-align 20.396 and style:writing-mode 20.404.
+14426-
+14427-The <style:table-cell-properties> element has the following child elements: <style:background-fill> 17.26 and <style:background-image> 17.3.
+14428-
+14429-17.19 <style:list-level-properties>
+14430-
+14431-The <style:list-level-properties> element specifies formatting properties for a list level.
+14432-
+14433-The <style:list-level-properties> element is usable within the following elements: <text:list-level-style-bullet> 16.33, <text:list-level-style-image> 16.35, <text:list-level-style-number> 16.34 and <text:outline-level-style> 16.37.
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-bottom="0.35cm"/>
+      <style:text-properties fo:font-family="바탕" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.55cm" fo:margin-bottom="1.25cm"/>
+      <style:text-properties fo:font-family="바탕" fo:font-size="22pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="115%"/>
+      <style:text-properties fo:font-family="바탕" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-family="바탕" fo:font-size="10pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.5cm" fo:margin-bottom="1.5cm" fo:margin-left="1.5cm" fo:margin-right="1.5cm"/>
+    </style:page-layout>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties/>
+    </style:style>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="2.3cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="6.3cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="2.0cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="1.5cm"/>
+    </style:style>
+    <style:style style:name="Col5" style:family="table-column">
+      <style:table-column-properties style:column-width="2.0cm"/>
+    </style:style>
+    <style:style style:name="Col6" style:family="table-column">
+      <style:table-column-properties style:column-width="2.0cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.06cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Shade" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.06cm" fo:background-color="#E6E6E6" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="SectionRow" style:family="table-row">
+      <style:table-row-properties style:min-row-height="0.75cm"/>
+    </style:style>
+    <style:style style:name="InfoRow" style:family="table-row">
+      <style:table-row-properties style:min-row-height="0.55cm"/>
+    </style:style>
+    <style:style style:name="DetailRow" style:family="table-row">
+      <style:table-row-properties style:row-height="5.5cm"/>
+    </style:style>
+    <style:style style:name="CommitRow" style:family="table-row">
+      <style:table-row-properties style:min-row-height="4.8cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="PageStart">【붙임1-2】</text:p>
+      <text:p text:style-name="Title">공공심야약국 운영계획서</text:p>
+      <table:table table:name="운영계획서" table:style-name="FormTable">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-column table:style-name="Col6"/>
+        <table:table-row table:style-name="SectionRow">
+          <table:table-cell table:style-name="Shade" table:number-columns-spanned="6"><text:p text:style-name="Body">1. 일반 현황</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:table-cell table:style-name="Shade" table:number-rows-spanned="4"><text:p text:style-name="Center">현재<br/>근무인력</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">약국개설자:</text:p></table:table-cell>
+          <table:table-cell table:style-name="Shade" table:number-rows-spanned="4"><text:p text:style-name="Center">주변환경<br/>(주거지역<br/>의료기관)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="Body">1층 위치 여부: □ 예 □ 아니오</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">상근약사 :</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="Body">5km 이내 주거단지 규모:</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">비상근(시간제)약사 :</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="Body">월평균 처방조제건수 :</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">보조인력 :</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="Body">월평균 일반약매출액 :</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:table-cell table:style-name="Shade" table:number-rows-spanned="4"><text:p text:style-name="Center">현재<br/>운영시간</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">평일:</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="Body">現후일지킴이 약국 여부 : □ 예 □ 아니오</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">토요일:</text:p></table:cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="Body">現 달빛어린이병원 협력약국 여부: □ 예 □ 아니오</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">일·공휴일:</text:p></table:cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="Body">前 공공심야약국 운영 경험 여부: □ 예 □ 아니오</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">휴무일:</text:p></table:cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="Body">前 공공심야약국 운영 기간:</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="SectionRow">
+          <table:table-cell table:style-name="Shade" table:number-columns-spanned="6"><text:p text:style-name="Body">2. 운영 계획</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:table-cell table:style-name="Shade" table:number-rows-spanned="5"><text:p text:style-name="Center">심야시간<br/>근무인력</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">약국개설자: 해당없음</text:p></table:table-cell>
+          <table:table-cell table:style-name="Shade" table:number-rows-spanned="5"><text:p text:style-name="Center">심야시간<br/>운영계획</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p text:style-name="Center">단일<br/>기관</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">□ 매일 22시 ~ 익일 1시</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">상근약사: 해당없음</text:p></table:cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">□ 매일 21시 ~ 24시</text:p></table:cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">비상근(시간제)약사: 2명(교대)</text:p></table:cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">□ 매일 20시 ~ 23시</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">보조인력:</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p text:style-name="Center">연합<br/>기관</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">□ 월 □ 화 □ 수 □ 목 □ 금 □ 토 □ 일·공휴일</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">※비고사항: 채용계획 등</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">□ 운영일 22시 ~ 익일 1시</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="InfoRow">
+          <table:table-cell table:style-name="Shade"><text:p text:style-name="Center">세부<br/>운영계획</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p text:style-name="Body">□ 운영일 21시 ~ 24시</text:p><text:p text:style-name="Body">□ 운영일 20시 ~ 23시</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="DetailRow">
+          <table:table-cell table:style-name="Shade"><text:p text:style-name="Center">세부<br/>운영계획</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"/>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="CommitRow">
+          <table:table-cell table:style-name="Shade"><text:p text:style-name="Center">사업참여<br/>의지계획</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5">
+            <text:p text:style-name="Body">본인은 약사법 제21조의3(공공심야약국 지정·운영 등)에 따른 공공심야약국을 지정받기를 희망하며, 상기 운영 계획에 따라 사업에 참여하여, 정해진 운영시간과 준수사항을 이행하여 지역주민의 의약품 접근성을 높이는 데 사회적 역할과 책임을 다하고, 정부의 공공심야약국 지정·운영 사업의 효과적 수행을 위해 최선의 노력과 협조를 다하겠습니다.</text:p>
+            <text:p text:style-name="Center">년　월　일　　　　　　　　　　　　약국 개설자　　　　　　　　(서명)</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+58,308

@@ -1,0 +1,765 @@
+rng:attribute>
+      </rng:optional>
+    <rng:optional>
+      <rng:element name="style:tab-stops">
+        <rng:zeroOrMore>
+          <rng:ref name="style-tab-stop"/>
+        </rng:zeroOrMore>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-table-cell-properties">
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:choice>
+            <rng:ref name="coordinate"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="svg-stop"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="svg-stop">
+    <rng:element name="svg:stop">
+      <rng:attribute name="svg:offset">
+        <rng:choice>
+          <rng:ref name="double"/>
+          <rng:ref name="percent"/>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="svg:stop-color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="svg:stop-opacity">
+          <rng:ref name="double"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="svg-title">
+    <rng:element name="svg:title">
+      <rng:text/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="tab-cycles">
+    <rng:choice>
+      <rng:value>records</rng:value>
+      <rng:value>current</rng:value>
+      <rng:value>page</rng:value>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="table-background">
+    <rng:element name="table:background">
+      <rng:ref name="table-background-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-background-attlist">
+    <rng:attribute name="table:style-name">
+      <rng:ref name="styleNameRef"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="table-body">
+    <rng:element name="table:body">
+      <rng:ref name="common-table-template-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-calculation-setting-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:case-sensitive">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:page-breaks-on-group-change">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+      <rng:ref name="table-table-row-group-attlist"/>
+      <rng:ref name="table-rows-and-groups"/>
+    </rng:element>
+
+exec
+/usr/bin/zsh -lc 'rg -n "<office:document>|office:document.*mimetype|application/vnd.oasis.opendocument.text|document root|root element" odf_spec/OpenDocument-v1.4-os-part2-packages.txt; rg -n "style:table-column-properties|style:column-width|fo:break-before|table:table-columns-and-groups|table:rows-and-groups|office:body|office:text|office:styles|office:automatic-styles|office:master-styles|style:style-content|style:table-properties" odf_spec/OpenDocument-v1.4-schema.rng' in /tmp/fb_codex_odt_btsvk9rn
+ succeeded in 0ms:
+444:B.2)The XML root element of the file shall be a <manifest:manifest> element 4.2. 
+453:D.2)The XML root element of each file shall be a <dsig:document-signatures> element 5.2. 
+661:The <manifest:manifest> element is the root element of the manifest file. It contains <manifest:file-entry> child elements 4.3, each of which specifies information for a file or directory in the package.
+663:The <manifest:manifest> element is a root element.
+1043:The <dsig:document-signatures> root element serves as a container for any number of <ds:Signature> 5.3 elements. If the <dsig:document-signatures> element contains multiple <ds:Signature> elements, then there should be a relation between the digital signatures they define, for instance, they may all apply to the same set of files.
+1057:The <dsig:document-signatures> element is a root element.
+1297:      <rng:attribute name="fo:break-before">
+7671:      <rng:element name="office:automatic-styles">
+7687:    <rng:element name="office:body">
+7693:      <rng:element name="office:text">
+7939:      <rng:element name="office:master-styles">
+8280:      <rng:element name="office:styles">
+13163:    <rng:element name="style:table-column-properties">
+13170:        <rng:attribute name="style:column-width">
+13195:    <rng:element name="style:table-properties">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties style:font-name="Noto Sans CJK JP" fo:font-size="10pt"/>
+    </style:default-style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="20pt"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.12cm" fo:margin-bottom="0.04cm"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="paragraph">
+      <style:text-properties fo:font-size="11pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.02cm" fo:margin-bottom="0.02cm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.02cm" fo:margin-bottom="0.02cm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="CellBold" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.02cm" fo:margin-bottom="0.02cm"/>
+      <style:text-properties fo:font-size="10pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="BreakPage" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+      <style:text-properties fo:font-size="1pt"/>
+    </style:style>
+    <style:style style:name="Grid" style:family="table">
+      <style:table-properties/>
+    </style:style>
+    <style:style style:name="Col10" style:family="table-column">
+      <style:table-column-properties style:column-width="1.74cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="4.35cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="5.8cm"/>
+    </style:style>
+    <style:style style:name="Col6" style:family="table-column">
+      <style:table-column-properties style:column-width="2.9cm"/>
+    </style:style>
+    <style:style style:name="GridCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="GridTop" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="top"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.4cm" fo:margin-bottom="1.4cm" fo:margin-left="1.8cm" fo:margin-right="1.8cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="DefaultPage" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Cell">様式第２号の２</text:p>
+      <text:p text:style-name="Title">社会福祉法人等利用者負担軽減申告書</text:p>
+
+      <table:table table:name="本人情報" table:style-name="Grid">
+        <table:table-column table:style-name="Col10" table:number-columns-repeated="10"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">フリガナ</text:p><text:p text:style-name="CellCenter">被保険者氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="3"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">被保険者番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="3" table:number-rows-spanned="2"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="3"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/>
+          <table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="CellCenter">生年月日</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="4"><text:p text:style-name="CellCenter">明・大・昭　　　年　　　月　　　日生</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="4"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="CellCenter">住　　所</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridTop" table:number-columns-spanned="8" table:number-rows-spanned="1"><text:p text:style-name="Cell">〒　　　―</text:p><text:p text:style-name="Cell">＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p text:style-name="Cell"> </text:p><text:p text:style-name="Cell"> </text:p><text:p text:style-name="Cell">電話番号　　　　―</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Section">１．収入状況</text:p>
+      <text:p text:style-name="Bold">本人収入（源泉徴収票、年金支払通知書、確定申告書の写し等を添付）</text:p>
+      <table:table table:name="本人収入" table:style-name="Grid">
+        <table:table-column table:style-name="Col3" table:number-columns-repeated="3"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">収入内容</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">年金番号等</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">年額（円）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">Ａ　　　　　　　　　　　円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">Ｂ　　　　　　　　　　　円</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Bold">世帯員収入（源泉徴収票、所得証明書等、収入を証する書類を添付）</text:p>
+      <table:table table:name="世帯員収入" table:style-name="Grid">
+        <table:table-column table:style-name="Col4" table:number-columns-repeated="4"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">世帯員氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">続柄</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">収入内容</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">年額（円）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">Ｃ　　　　　　　　　円</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">Ｄ　　　　　　　　　円</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">Ｅ　　　　　　　　　円</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">Ｆ　　　　　　　　　円</text:p></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Section">収入要件計算欄</text:p>
+      <text:p text:style-name="Body">Ｇ（　　　　＋　　　　）／Ｈ　１５０＋５０×（　　　人）万</text:p>
+      <text:p text:style-name="Center">本人収入　　　世帯員収入　　　（判定対象金額）</text:p>
+      <text:p text:style-name="Body">Ｇ　　　　－　Ｈ　　　　＝</text:p>
+      <text:p text:style-name="Center">ＧがＨよりも少なければ収入の要件を満たすこととする。</text:p>
+
+      <text:p text:style-name="Section">２．扶養状況</text:p>
+      <table:table table:name="扶養状況" table:style-name="Grid">
+        <table:table-column table:style-name="Col4" table:number-columns-repeated="2"/>
+        <table:table-row><table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">・市町村民税の控除対象</text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">・医療保険の被扶養対象</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">有　　 ・　　 無</text:p></table:table-cell><table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">有　　 ・　　 無</text:p></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Section">３．滞納状況　※市記入欄</text:p>
+      <table:table table:name="滞納状況" table:style-name="Grid">
+        <table:table-column table:style-name="Col3" table:number-columns-repeated="3"/>
+        <table:table-row><table:table-cell table:style-name="GridCell" table:number-columns-spanned="3"><text:p text:style-name="CellCenter">・介護保険料の滞納　　　有　　・　　有（分納者、支払誓約者）　　・　　無</text:p></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="BreakPage"> </text:p>
+      <text:p text:style-name="Section">４．預貯金、有価証券等（本人及び世帯員の預金通帳の写しを添付）</text:p>
+      <table:table table:name="預貯金有価証券" table:style-name="Grid">
+        <table:table-column table:style-name="Col10" table:number-columns-repeated="10"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">預貯金</text:p><text:p text:style-name="CellCenter">（本人・世帯員）</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">有</text:p><text:p text:style-name="CellCenter">・</text:p><text:p text:style-name="CellCenter">無</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="CellCenter">預金先</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="CellCenter">口座番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="CellCenter">口座氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">預貯金額</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">円</text:p><text:p text:style-name="Cell">円</text:p><text:p text:style-name="Cell">円</text:p><text:p text:style-name="Cell">円</text:p><text:p text:style-name="Cell">合計金額（Ａ）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">有価証券</text:p><text:p text:style-name="CellCenter">（本人・世帯員）</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">有</text:p><text:p text:style-name="CellCenter">・</text:p><text:p text:style-name="CellCenter">無</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="3"><text:p text:style-name="CellCenter">種類</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="CellCenter">額　面</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="CellCenter">評価概算額</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="3"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Cell">円</text:p><text:p text:style-name="Cell">合計金額（Ｂ）</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">（Ａ）　＋　（Ｂ）　＝　Ｃ　　　　　　　　　円　（判定対象金額）</text:p>
+      <text:p text:style-name="Body">Ｃが３５０（本人）万＋１００×（世帯員　　　人）万より少なければ</text:p>
+      <text:p text:style-name="Body">預貯金等の要件を満たすこととする。</text:p>
+
+      <text:p text:style-name="Section">５．資産内容（世帯がその居住の用に供する資産以外の資産）</text:p>
+      <table:table table:name="資産内容" table:style-name="Grid">
+        <table:table-column table:style-name="Col6" table:number-columns-repeated="6"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">土</text:p><text:p text:style-name="CellCenter">地</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">（１）宅地</text:p><text:p text:style-name="CellCenter">（２）田　畑</text:p><text:p text:style-name="CellCenter">　　山　林</text:p><text:p text:style-name="CellCenter">　　その他</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">有・無</text:p><text:p text:style-name="CellCenter">有・無</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">延面積</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">所有者氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">所在地</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">抵当権</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">有・無</text:p><text:p text:style-name="CellCenter">有・無</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">建</text:p><text:p text:style-name="CellCenter">物</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">（１）居住用</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">持　家</text:p><text:p text:style-name="CellCenter">借家・借間</text:p><text:p text:style-name="CellCenter">いずれかを○で</text:p><text:p text:style-name="CellCenter">囲んで下さい。</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">延面積</text:p><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">所有者氏名</text:p><text:p text:style-name="Cell"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">所在地</text:p><text:p text:style-name="CellCenter">（家賃　　　　円）</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">抵当権</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">（２）その他</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">有・無</text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/><table:covered-table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">有・無</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Body">日田市長　　様</text:p>
+      <text:p text:style-name="Body">上記の内容について、事実と相違ありません。</text:p>
+      <text:p text:style-name="Body">なお、私及び私の世帯に属する者の収入状況、預貯金額、資産内容、扶養状況、</text:p>
+      <text:p text:style-name="Body">滞納状況、公的年金等の受給額について市が調査することに同意します。</text:p>
+      <text:p text:style-name="Body">令和　　　年　　　月　　　日</text:p>
+      <text:p text:style-name="Body">住所　＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿　電話番号</text:p>
+      <text:p text:style-name="Body">申告者</text:p>
+      <text:p text:style-name="Body">氏　名　＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿　（　　　　　　）</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+32,004

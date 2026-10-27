@@ -1,0 +1,476 @@
+t:page-adjust">
+17991-          <rng:ref name="integer"/>
+17992-        </rng:attribute>
+17993-      </rng:optional>
+17994-      <rng:optional>
+17995-        <rng:attribute name="text:select-page">
+17996-          <rng:choice>
+17997-            <rng:value>previous</rng:value>
+17998-            <rng:value>current</rng:value>
+17999-            <rng:value>next</rng:value>
+18000-          </rng:choice>
+18001-        </rng:attribute>
+18002-      </rng:optional>
+18003-    </rng:interleave>
+18004-  </rng:define>
+18005:  <rng:define name="text-page-sequence">
+18006-    <rng:element name="text:page-sequence">
+18007-      <rng:oneOrMore>
+18008-        <rng:ref name="text-page"/>
+18009-      </rng:oneOrMore>
+18010-    </rng:element>
+18011-  </rng:define>
+18012:  <rng:define name="text-placeholder-attlist">
+18013-    <rng:interleave>
+18014-      <rng:attribute name="text:placeholder-type">
+18015-        <rng:choice>
+18016-          <rng:value>text</rng:value>
+18017-          <rng:value>table</rng:value>
+18018-          <rng:value>text-box</rng:value>
+18019-          <rng:value>image</rng:value>
+18020-          <rng:value>object</rng:value>
+18021-        </rng:choice>
+18022-      </rng:attribute>
+18023-      <rng:ref name="common-field-description-attlist"/>
+18024-    </rng:interleave>
+18025-  </rng:define>
+18026-  <rng:define name="text-relative-tab-stop-position-attr">
+18027-    <rng:optional>
+18028-      <rng:attribute name="text:relative-tab-stop-position">
+18029-        <rng:ref name="boolean"/>
+18030-      </rng:attribute>
+18031-    </rng:optional>
+18032-  </rng:define>
+18033-  <rng:define name="text-section">
+18034-    <rng:element name="text:section">
+18035-      <rng:ref name="text-section-attlist"/>
+18036-      <rng:choice>
+18037-        <rng:ref name="text-section-source"/>
+18038-        <rng:ref name="text-section-source-dde"/>
+18039-        <rng:empty/>
+18040-      </rng:choice>
+18041-      <rng:zeroOrMore>
+18042-        <rng:ref name="text-content"/>
+18043-      </rng:zeroOrMore>
+18044-    </rng:element>
+18045-  </rng:define>
+18046-  <rng:define name="text-section-attlist">
+18047-    <rng:interleave>
+
+exec
+/usr/bin/zsh -lc "sed -n '510,540p' ./odf_spec/OpenDocument-v1.4-os-part2-packages.txt" in /tmp/fb_codex_odt_u3xvboz4
+ succeeded in 0ms:
+
+•If a file is stored in the file data in encrypted form, the manifest provides information required to decrypt the file correctly when the encryption key is also supplied. 
+
+The format of the manifest file is specified in chapter 4.
+
+For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+
+The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+
+The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+
+3.3 MIME Media Type
+
+If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+
+The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+
+If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+
+Note: The purpose is to allow the type of document represented by the package to be discovered through 'magic number' mechanisms, such as Unix's file/magic utility. If a Zip file contains a file at the beginning of the file that is uncompressed, and has no extra data in the header, then its file name and data can be found at fixed positions from the beginning of the package. More specifically, one will find:
+
+•the string 'PK' at position 0 of all zip files 
+
+•the string 'mimetype' beginning at position 30 
+
+•the media type itself beginning at position 38. 
+
+3.4 Encryption
+
+3.4.1 General
+
+
+exec
+/usr/bin/zsh -lc "grep -n -A12 -E 'The <office:master-styles>|The <office:styles>|The <office:automatic-styles>|The <style:master-page>|The <style:page-layout>|The <table:table-cell>|The <table:covered-table-cell>|fo:break-before 20.185' ./odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_u3xvboz4
+ succeeded in 0ms:
+6629:The <office:styles> element contains common styles used in a document. A common style is a style chosen by a user for a document or portion thereof.
+6630-
+6631:The <office:styles> element is usable within the following elements: <office:document> 3.1.2 and <office:document-styles> 3.1.3.3.
+6632-
+6633:The <office:styles> element has no attributes.
+6634-
+6635:The <office:styles> element has the following child elements: <draw:fill-image> 16.42.6, <draw:gradient> 16.42.1, <draw:hatch> 16.42.5, <draw:marker> 16.42.8, <draw:opacity> 16.42.7, <draw:stroke-dash> 16.42.9, <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:default-page-layout> 16.8, <style:default-style> 16.4, <style:presentation-page-layout> 16.43, <style:style> 16.2, <svg:linearGradient> 16.42.2, <svg:radialGradient> 16.42.3, <table:table-template> 16.20, <text:bibliography-configuration> 16.31.6, <text:linenumbering-configuration> 16.31.1, <text:list-style> 16.32, <text:notes-configuration> 16.31.3 and <text:outline-style> 16.36.
+6636-
+6637-3.15.3 <office:automatic-styles>
+6638-
+6639:The <office:automatic-styles> element contains automatic styles used in a document. 
+6640-
+6641-An automatic style is a set of formatting properties treated as properties of the object to which the style is assigned. 
+6642-
+6643-Note: Common and automatic styles behave differently in OpenDocument editing consumers. Common styles present to a user as a named set of formatting properties. The formatting properties of an automatic style present to a user as properties of the object to which the style is applied. 
+6644-
+6645:The <office:automatic-styles> element is usable within the following elements: <office:document> 3.1.2, <office:document-content> 3.1.3.2 and <office:document-styles> 3.1.3.3.
+6646-
+6647:The <office:automatic-styles> element has no attributes.
+6648-
+6649:The <office:automatic-styles> element has the following child elements: <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:page-layout> 16.5, <style:style> 16.2 and <text:list-style> 16.32.
+6650-
+6651-3.15.4 <office:master-styles>
+6652-
+6653:The <office:master-styles> element contains master styles that are used in a document. A master style contains formatting and other content that is displayed with document content when the style is used. 
+6654-
+6655:The <office:master-styles> element is usable within the following elements: <office:document> 3.1.2 and <office:document-styles> 3.1.3.3.
+6656-
+6657:The <office:master-styles> element has no attributes.
+6658-
+6659:The <office:master-styles> element has the following child elements: <draw:layer-set> 10.2.2, <style:handout-master> 10.2.1 and <style:master-page> 16.9.
+6660-
+6661-3.16 Document Signatures
+6662-
+6663-An OpenDocument document that is stored in a package may have one or more digital signatures applied to the package.
+6664-
+6665-Document signatures are stored in a file called META-INF/documentsignatures.xml in the package as described in section 3.5 of the OpenDocument specification Part2. Document signatures shall contain a <ds:Reference> element for each file within the package, with the exception that <ds:Reference> elements for the META-INF/documentsignatures.xml file containing the signature, and any files contained in the package whose relative path starts with "external-data/" should be omitted.
+6666-
+6667-Signatures other than document signatures are implementation-defined.
+6668-
+6669-3.17 Foreign Elements and Attributes
+6670-
+6671-OpenDocument extended documents may contain elements and attributes not defined by the OpenDocument schema. Elements and attributes not defined by the OpenDocument schema are called foreign elements and attributes. Foreign elements and attributes shall not use a namespace listed in tables 1, 2 or 3 of section 1.5.
+--
+9414:The <table:table-cell> element represents a table cell. It is contained in a table row element. A table cell can contain paragraphs and other text content as well as nested tables. Table cells may span multiple columns and rows. Table cells may be empty.
+9415-
+9416:The <table:table-cell> element is usable within the following element: <table:table-row> 9.1.3.
+9417-
+9418:The <table:table-cell> element has the following attributes: office:boolean-value 19.371, office:currency 19.373, office:date-value 19.374, office:string-value 19.383, office:time-value 19.386, office:value 19.388, office:value-type 19.389, table:content-validation-name 19.605, table:formula 19.646, table:number-columns-repeated 19.679, table:number-columns-spanned 19.680, table:number-matrix-columns-spanned 19.683, table:number-matrix-rows-spanned 19.684, table:number-rows-spanned 19.682, table:protect 19.699, table:protected 19.700, table:style-name 19.730, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+9419-
+9420:The <table:table-cell> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:annotation> 14.1, <table:cell-range-source> 9.3.1, <table:detective> 9.3.2, <table:table> 9.1.2, <text:alphabetical-index> 8.8, <text:bibliography> 8.9, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:h> 5.1.2, <text:illustration-index> 8.4, <text:list> 5.3.1, <text:numbered-paragraph> 5.3.6, <text:object-index> 8.6, <text:p> 5.1.3, <text:section> 5.4, <text:soft-page-break> 5.6, <text:table-index> 8.5, <text:table-of-content> 8.3 and <text:user-index> 8.7.
+9421-
+9422-9.1.5 <table:covered-table-cell>
+9423-
+9424:The <table:covered-table-cell> element represents cells that are covered by a <table:table-cell> 9.1.4 element that spans multiple columns or rows. The <table:covered-table-cell> elements occupy the same position in document order as the cells spanned. There is one <table:covered-table-cell> element for each cell that is spanned. 
+9425-
+9426:The <table:covered-table-cell> is often used by spreadsheet applications, where covered cells contain content.
+9427-
+9428:The <table:covered-table-cell> element is usable within the following element: <table:table-row> 9.1.3.
+9429-
+9430:The <table:covered-table-cell> element has the following attributes: office:boolean-value 19.371, office:currency 19.373, office:date-value 19.374, office:string-value 19.383, office:time-value 19.386, office:value 19.388, office:value-type 19.389, table:content-validation-name 19.605, table:formula 19.646, table:number-columns-repeated 19.679, table:protect 19.699, table:protected 19.700, table:style-name 19.730, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+9431-
+9432:The <table:covered-table-cell> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:annotation> 14.1, <table:cell-range-source> 9.3.1, <table:detective> 9.3.2, <table:table> 9.1.2, <text:alphabetical-index> 8.8, <text:bibliography> 8.9, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:h> 5.1.2, <text:illustration-index> 8.4, <text:list> 5.3.1, <text:numbered-paragraph> 5.3.6, <text:object-index> 8.6, <text:p> 5.1.3, <text:section> 5.4, <text:soft-page-break> 5.6, <text:table-index> 8.5, <text:table-of-content> 8.3 and <text:user-index> 8.7.
+9433-
+9434-9.1.6 <table:table-column>
+9435-
+9436-The <table:table-column> element specifies properties for one or more adjacent columns in a table. 
+9437-
+9438-The <table:table-column> element is usable within the following elements: <table:table> 9.1.2, <table:table-column-group> 9.1.10, <table:table-columns> 9.1.12 and <table:table-header-columns> 9.1.11.
+9439-
+9440-The <table:table-column> element has the following attributes: table:default-cell-style-name 19.619, table:number-columns-repeated 19.679, table:style-name 19.730, table:visibility 19.754 and xml:id 19.920.
+9441-
+9442-The <table:table-column> element has no child elements.
+9443-
+9444-9.1.7 <table:table-header-rows>
+--
+13177:The <style:page-layout> element represents the styles that specify the formatting properties of a page.
+13178-
+13179:The <style:page-layout> element is usable within the following element: <office:automatic-styles> 3.15.3.
+13180-
+13181:The <style:page-layout> element has the following attributes: style:name 19.502 and style:page-usage 19.509.
+13182-
+13183:The <style:page-layout> element has the following child elements: <style:footer-style> 16.7, <style:header-style> 16.6 and <style:page-layout-properties> 17.2.
+13184-
+13185-16.6 <style:header-style>
+13186-
+13187-The <style:header-style> element specifies the formatting properties for a header element.
+13188-
+13189-The <style:header-style> element is usable within the following elements: <style:default-page-layout> 16.8 and <style:page-layout> 16.5.
+13190-
+13191-The <style:header-style> element has no attributes.
+13192-
+13193-The <style:header-style> element has the following child element: <style:header-footer-properties> 17.5.
+13194-
+13195-16.7 <style:footer-style>
+--
+13231:The <style:master-page> element is usable within the following element: <office:master-styles> 3.15.4.
+13232-
+13233:The <style:master-page> element has the following attributes: draw:style-name 19.219, style:display-name 19.476, style:name 19.502, style:next-style-name 19.503 and style:page-layout-name 19.508.
+13234-
+13235:The <style:master-page> element has the following child elements: <anim:animate> 15.2.2, <anim:animateColor> 15.2.6, <anim:animateMotion> 15.2.5, <anim:animateTransform> 15.2.3, <anim:audio> 15.5, <anim:command> 15.6.1, <anim:iterate> 15.4.4, <anim:par> 15.4.2, <anim:seq> 15.4.3, <anim:set> 15.2.4, <anim:transitionFilter> 15.2.7, <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:layer-set> 10.2.2, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:forms> 13.2, <presentation:notes> 16.19, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11 and <style:header-left> 16.14.
+13236-
+13237-16.10 <style:header>
+13238-
+13239-The <style:header> element represents the content of a header in a <style:master-page> element. 
+13240-
+13241-The <style:header> element is usable within the following element: <style:master-page> 16.9.
+13242-
+13243-The <style:header> element has the following attribute: style:display 19.475.
+13244-
+13245-The <style:header> element has the following child elements: <style:region-center> 16.17, <style:region-left> 16.16, <style:region-right> 16.18, <table:table> 9.1.2, <text:alphabetical-index> 8.8, <text:alphabetical-index-auto-mark-file> 8.8.3, <text:bibliography> 8.9, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:dde-connection-decls> 14.7.2, <text:h> 5.1.2, <text:illustration-index> 8.4, <text:index-title> 8.2.3, <text:list> 5.3.1, <text:object-index> 8.6, <text:p> 5.1.3, <text:section> 5.4, <text:sequence-decls> 7.4.11, <text:table-index> 8.5, <text:table-of-content> 8.3, <text:tracked-changes> 5.5.2, <text:user-field-decls> 7.4.7, <text:user-index> 8.7 and <text:variable-decls> 7.4.2.
+13246-
+13247-16.11 <style:header-first>
+--
+14303:The <style:paragraph-properties> element has the following attributes: fo:background-color 20.182, fo:border 20.183.2, fo:border-bottom 20.183.3, fo:border-left 20.183.4, fo:border-right 20.183.5, fo:border-top 20.183.6, fo:break-after 20.184, fo:break-before 20.185, fo:hyphenation-keep 20.196, fo:hyphenation-ladder-count 20.197, fo:keep-together 20.200, fo:keep-with-next 20.201, fo:line-height 20.204, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, fo:orphans 20.214, fo:padding 20.217, fo:padding-bottom 20.218, fo:padding-left 20.219, fo:padding-right 20.220, fo:padding-top 20.221, fo:text-align 20.223, fo:text-align-last 20.224, fo:text-indent 20.225, fo:widows 20.228, style:auto-text-indent 20.246, style:background-transparency 20.247, style:border-line-width 20.248, style:border-line-width-bottom 20.249, style:border-line-width-left 20.250, style:border-line-width-right 20.251, style:border-line-width-top 20.252, style:contextual-spacing 20.255, style:font-independent-line-spacing 20.276, style:join-border 20.300, style:justify-single-word 20.301, style:line-break 20.315, style:line-height-at-least 20.317, style:line-spacing 20.318, style:page-number 20.328, style:punctuation-wrap 20.335, style:register-true 20.336, style:shadow 20.359, style:snap-to-layout-grid 20.361, style:tab-stop-distance 20.362, style:text-autospace 20.365, style:vertical-align 20.396, style:writing-mode 20.404, style:writing-mode-automatic 20.405, text:line-number 20.430, text:number-lines 20.434 and text:relative-tab-stop-position 20.440.
+14304-
+14305-The <style:paragraph-properties> element has the following child elements: <style:background-fill> 17.26, <style:background-image> 17.3, <style:drop-cap> 17.9 and <style:tab-stops> 17.7.
+14306-
+14307-17.7 <style:tab-stops>
+14308-
+14309-The <style:tab-stops> element is a container for <style:tab-stop> elements.
+14310-
+14311-If a style contains a <style:tab-stops> element, it overrides the entire <style:tab-stops> element of the parent style such that no <style:tab-stop> children are inherited; otherwise, the style inherits the entire <style:tab-stops> element as specified in section 16.2 <style:style>.
+14312-
+14313-The <style:tab-stops> element is usable within the following element: <style:paragraph-properties> 17.6.
+14314-
+14315-The <style:tab-stops> element has no attributes.
+--
+14395:The <style:table-properties> element has the following attributes: fo:background-color 20.182, fo:break-after 20.184, fo:break-before 20.185, fo:keep-with-next 20.201, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, style:may-break-between-rows 20.319, style:page-number 20.328, style:rel-width 20.340, style:shadow 20.359, style:width 20.399, style:writing-mode 20.404, table:align 20.414, table:border-model 20.415, table:display 20.416 and table:tab-color 20.442.
+14396-
+14397-The <style:table-properties> element has the following child elements: <style:background-fill> 17.26 and <style:background-image> 17.3.
+14398-
+14399-17.16 <style:table-column-properties>
+14400-
+14401-The <style:table-column-properties> element specifies formatting properties for table columns.
+14402-
+14403-The <style:table-column-properties> element is usable within the following elements: <style:default-style> 16.4 and <style:style> 16.2.
+14404-
+14405:The <style:table-column-properties> element has the following attributes: fo:break-after 20.184, fo:break-before 20.185, style:column-width 20.254, style:rel-column-width 20.338 and style:use-optimal-column-width 20.393.
+14406-
+14407-The <style:table-column-properties> element has no child elements.
+14408-
+14409-17.17 <style:table-row-properties>
+14410-
+14411-The <style:table-row-properties> element specifies formatting properties for table rows.
+14412-
+14413-The <style:table-row-properties> element is usable within the following elements: <style:default-style> 16.4 and <style:style> 16.2.
+14414-
+14415:The <style:table-row-properties> element has the following attributes: fo:background-color 20.182, fo:break-after 20.184, fo:break-before 20.185, fo:keep-together 20.200, style:min-row-height 20.320, style:row-height 20.348 and style:use-optimal-row-height 20.394.
+14416-
+14417-The <style:table-row-properties> element has the following child elements: <style:background-fill> 17.26 and <style:background-image> 17.3.
+14418-
+14419-17.18 <style:table-cell-properties>
+14420-
+14421-The <style:table-cell-properties> element specifies formatting properties for cells.
+14422-
+14423-The <style:table-cell-properties> element is usable within the following elements: <style:default-style> 16.4 and <style:style> 16.2.
+14424-
+14425-The <style:table-cell-properties> element has the following attributes: fo:background-color 20.182, fo:border 20.183.2, fo:border-bottom 20.183.3, fo:border-left 20.183.4, fo:border-right 20.183.5, fo:border-top 20.183.6, fo:padding 20.217, fo:padding-bottom 20.218, fo:padding-left 20.219, fo:padding-right 20.220, fo:padding-top 20.221, fo:wrap-option 20.230, style:border-line-width 20.248, style:border-line-width-bottom 20.249, style:border-line-width-left 20.250, style:border-line-width-right 20.251, style:border-line-width-top 20.252, style:cell-protect 20.253, style:decimal-places 20.258, style:diagonal-bl-tr 20.259, style:diagonal-bl-tr-widths 20.260, style:diagonal-tl-br 20.261, style:diagonal-tl-br-widths 20.262, style:direction 20.263, style:glyph-orientation-vertical 20.297, style:print-content 20.331, style:repeat-content 20.342, style:rotation-align 20.346, style:rotation-angle 20.347, style:shadow 20.359, style:shrink-to-fit 20.360, style:text-align-source 20.364, style:vertical-align 20.396 and style:writing-mode 20.404.
+14426-
+14427-The <style:table-cell-properties> element has the following child elements: <style:background-fill> 17.26 and <style:background-image> 17.3.
+--
+23403:•style – With the style:family 19.480 attribute, the style:name attribute uniquely identifies a style. The <office:styles> 3.15.2, <office:automatic-styles> 3.15.3 and <office:master-styles> 3.15.4 elements each shall not contain two styles with the same family and the same name. 
+23404-
+23405-For automatic styles, the name may be generated by OpenDocument producers. For each style family or style element, producers should generate distinct sets of names for automatic styles stored in the content.xml 3.1.3.2 and styles.xml 3.1.3.3 files. The names should also be distinct from the names used in the <office:styles> element inside the styles.xml files.
+23406-
+23407-Note: If the document is produced multiple times, it cannot be assumed that the same name is generated each time. 
+23408-
+23409-The style:name attribute is usable with the following elements: <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:master-page> 16.9, <style:page-layout> 16.5, <style:presentation-page-layout> 16.43, <style:style> 16.2, <text:list-style> 16.32 and <text:outline-style> 16.36.
+23410-
+23411-The style:name attribute has the data type styleName 18.3.32.
+23412-
+23413-19.502.3 <style:font-face>
+23414-
+23415-The style:name attribute specifies a unique name for a font declaration. This name can be used inside styles as an attribute of the <style:text-properties> element) as the value of a style:font-name attribute to immediately select a font face declaration.
+--
+30977:A soft page break is a page break that has been included in a document by a page-oriented consumer at a position where the document itself does not include a page break as defined by fo:break-after 20.184 or fo:break-before 20.185. 
+30978-
+30979-Soft page breaks are specified by the <text:soft-page-break> element.
+30980-
+30981-OpenDocument producers need not produce<text:soft-page-break> elements. They may include them if they have computed a paginated layout. Consumers may handle the element while computing the layout, but it shall not depend on its existence. Soft page breaks are only defined for text documents.
+30982-
+30983-Producers that store soft page breaks shall indicate this by setting the text:use-soft-page-breaks attribute to true. Producers that do not store soft page breaks shall indicate that by omitting this attribute, or by setting it to false.
+30984-
+30985-A producer that does not support pagination and soft page-breaks and that modifies an OpenDocument file, which includes soft page-breaks, shall set the text:use-soft-page-breaks attribute to false (or remove it). It should also remove the <text:soft-page-break> elements from the document.
+30986-
+30987-Producers that compute a paginated layout of a document should provide a facility for the export of soft page breaks for the purposes of consistent page breaks and for conversion to talking book formats ( [DAISY]).
+30988-
+30989-For <text:soft-page-break> elements that appear within table rows, the maximum number of <text:soft-page-break> elements that appear within the single table cells determines the number of page breaks that appear within the table row. The <text:soft-page-break> elements contained in each cell determine the positions where these page breaks appear within the cell content.
+--
+42316:fo:break-before 20.185 Office-3751
+42317-
+42318-fo:line-height 20.204 Office-3997
+42319-
+42320-fo:text-indent 20.225 Office-4092
+42321-
+42322-form:default-button 19.265 Office-4101
+42323-
+42324-number:calendar 19.341 Office-4112
+42325-
+42326-office:value-type 19.389 Office-3759
+42327-
+42328-office:version 19.390 Office-4140
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="145%" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.6cm" fo:margin-bottom="0.5cm"/>
+      <style:text-properties fo:font-size="18pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="145%"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.4cm" fo:margin-bottom="1.4cm" fo:margin-left="2cm" fo:margin-right="2cm" style:print-orientation="portrait"/>
+    </style:page-layout>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="StampTable" style:family="table">
+      <style:table-properties style:width="2cm"/>
+    </style:style>
+    <style:style style:name="StampColumn" style:family="table-column">
+      <style:table-column-properties style:column-width="2cm"/>
+    </style:style>
+    <style:style style:name="StampCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.04cm dashed #000000" fo:padding="0.15cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="DetailTable" style:family="table">
+      <style:table-properties style:width="17cm"/>
+    </style:style>
+    <style:style style:name="DetailCol1" style:family="table-column">
+      <style:table-column-properties style:column-width="7cm"/>
+    </style:style>
+    <style:style style:name="DetailCol2" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="DetailCol3" style:family="table-column">
+      <style:table-column-properties style:column-width="5cm"/>
+    </style:style>
+    <style:style style:name="DetailCol4" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="GridCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.02cm solid #000000" fo:padding="0.12cm" style:vertical-align="middle"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="DefaultPage" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p/>
+      <table:table table:name="Stamp" table:style-name="StampTable">
+        <table:table-column table:style-name="StampColumn"/>
+        <table:table-row>
+          <table:table-cell table:style-name="StampCell">
+            <text:p text:style-name="Center">印紙貼付欄</text:p>
+          </table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="Title">工　事　請　負　契　約　書</text:p>
+      <text:p text:style-name="Body">第１条　発注者____________________________（以下「甲」という。）及び</text:p>
+      <text:p text:style-name="Body">　　　　浄化槽工事業者____________________________（以下「乙」という。）は、</text:p>
+      <text:p text:style-name="Body">　　　　東根市合併処理浄化槽設置整備事業補助金の交付を受けて甲が行う末尾記載の工事に関し、対等な立場でこの契約を締結し、信義を守り誠実にこれを履行する。</text:p>
+      <text:p text:style-name="Body">第２条　この契約は、次に掲げる工事に適用される。</text:p>
+      <text:p text:style-name="Body">　工事の場所　____________________________________________________________</text:p>
+      <text:p text:style-name="Body">　工事の期間　　令和　　年　　月　　日　～　令和　　年　　月　　日</text:p>
+      <text:p text:style-name="Body">　設置する浄化槽</text:p>
+      <text:p text:style-name="Body">　　　浄化槽法（昭和58年法律第43号）第４条第１項の規定による構造基準に適合し、かつ、生物化学的酸素要求量（以下「ＢＯＤ」という。）除去率90％以上・放流水のＢＯＤが20mg/ℓ（日間平均値）以下の機能を有するとこの、別添する図面及び仕様書に係る合併処理浄化槽</text:p>
+      <text:p text:style-name="Body">　工事の請負代金及び支払方法</text:p>
+      <text:p text:style-name="Body">　　金額　　　　　　　　　　　　　　　　円</text:p>
+      <text:p text:style-name="Body">　　支払方法　　　１　現金　　　２　その他（　　　　　　　　　　　　　　　　）</text:p>
+      <text:p text:style-name="Body">第３条　乙はこの契約と添付の図面及び仕様書に基づき、前条の期間内に工事を完成して契約の目的物を甲に引き渡すものとし、甲は、引き渡しと引き換えにその請負代金全額の支払いを完了する。</text:p>
+      <text:p text:style-name="Body">第４条　乙は、この契約に係る工事を、浄化槽法第29条第３項に従い浄化槽設備士____________________に実地に監督させ、又は自ら浄化槽設備士の資格を有して、工事を実地に監督しなければならない。</text:p>
+      <text:p text:style-name="Body">第５条　甲及び乙はこの契約によって生じる権利又は義務を、第三者に譲渡又は承継させてはならない。但し、相手方の承諾を得た場合は、この限りではない。</text:p>
+      <text:p text:style-name="Body">第６条　乙は、この契約の履行について、工事の全部又は大部分を一括して第三者に委任し、又は請け負わせてはならない。但し、予め甲の書面による承諾を得た場合は、この限りではない。</text:p>
+      <text:p text:style-name="Body">第７条　乙は、浄化槽法第４条第３項の規定による浄化槽工事の技術上の基準に従って工事を行わなければならない。</text:p>
+      <text:p text:style-name="Body">第８条　甲は、やむを得ない場合には、工事内容を変更し、又は工事着手を延期し、若しくは工事を一時中止することを求めることができる。この場合において、請負代金額又は工期を変更する必要があるときは、甲乙協議して定めるものとする。</text:p>
+      <text:p text:style-name="Body">　２　本条による変更、延期、又は中止による損害は乙の責に帰するべき場合を除き、甲が負担する。</text:p>
+      <text:p text:style-name="Body">第９条　乙は、乙の責に帰することができない事由により工期内に工事を完成することができないときは、甲に対して、遅滞なく、その事由を明示して工期の延長を求めることができる。この場合、その延長日数は、甲乙協議して定める。</text:p>
+      <text:p text:style-name="PageStart">第10条　工事の完成引渡しまでに工事目的物その他工事施工について生じた損害は、乙の負担とする。但し、その損害のうち甲の責に帰すべき事由により生じたものは、甲の負担とする。</text:p>
+      <text:p text:style-name="Body">第11条　乙は、工事のため第三者に損害を及ぼしたときは、その賠償の責を負う。但し甲の責に帰すべき事由による場合は、甲がその責を負うものとする。</text:p>
+      <text:p text:style-name="Body">第12条　乙は、東根市が定める東根市合併処理浄化槽設置整備事業費補助金交付要綱に基づき、所定の期間内に所定の書類及び写真を、甲に提出しなければならない。</text:p>
+      <text:p text:style-name="Body">第13条　甲は、工事が本契約の規定又は第７条に定める基準に適合しないと認めるときは、乙に対し、相当の期限を定めてその瑕疵の修補を請求することができる。</text:p>
+      <text:p text:style-name="Body">　２　甲は、浄化槽法第７条の規定により、水質に関する検査を受け、その検査結果、浄化槽の工事について改善の指摘を受けた場合は、乙に対し、相当の期限を定めてその瑕疵の修補を請求し、又は修補に代わる損害賠償を請求することができる。</text:p>
+      <text:p text:style-name="Body">　３　前項に定める請求は、浄化槽の工事についての改善の指摘が甲の責に帰すべき事由に基づくものである場合には、することができない。</text:p>
+      <text:p text:style-name="Body">第14条　瑕疵の修補又は損害賠償請求権の行使は、引渡し後５年以内に行わなければならない。</text:p>
+      <text:p text:style-name="Body">第15条　次の各号の一に該当するときは、甲又は乙は催告その他何等の手続を要せずこの契約を解除することができる。</text:p>
+      <text:p text:style-name="Body">（1）浄化槽の設置等の届出その他必要な手続きが受理されず、又は認められないとき。</text:p>
+      <text:p text:style-name="Body">（2）工事用地につき、工事施工が著しく困難と判断される瑕疵が発見されたとき。</text:p>
+      <text:p text:style-name="Body">　２　前項により、この契約が解除された場合、乙はこの契約の履行のために乙において要した費用及び乙において甲のために既に支出した立替金を甲に請求することができる。</text:p>
+      <text:p text:style-name="Body">第16条　甲は乙が工事を完成するまでは、乙の損害を賠償して、この契約を解除することができる。</text:p>
+      <text:p text:style-name="Body">　２　甲は乙の契約違反によりこの契約の目的を達することができなくなったと認めるときは、催告その他何等の手段を要せず、この契約を解除することができる。この場合甲は甲の被った損害の賠償を乙に請求することができる。</text:p>
+      <text:p text:style-name="Body">第17条　次の各号の一に該当するときは、乙は催告その他何等の手続を要せず、この契約を解除することができる。</text:p>
+      <text:p text:style-name="Body">（1）第８条に基づき、工事が一時中止され又は甲の責に帰すべき事由により着工期日が延期された場合に、工事の一時中止又は着工期日の延期の状態が10日以上継続したとき。</text:p>
+      <text:p text:style-name="Body">（2）甲が請負代金を所定の期日に支払わなかったとき又は請負代金の支払能力を欠くことが明らかになったとき。</text:p>
+      <text:p text:style-name="Body">（3）甲がこの契約に違反し、その結果、この契約を履行できなくなったことが認めたとき。</text:p>
+      <text:p text:style-name="Body">　２　前項によってこの契約が解除された場合は、甲は乙の損害を賠償するものとする。</text:p>
+      <text:p text:style-name="Body">第18条　乙の責に帰すべき事由により、標記引渡期日（工期が変更された場合は、変更後の工期に基づいて定められる引渡期日）まで工事の目的物を引き渡すことができない場合は、甲は遅滞日数１日につき、請負代金総額の　　　　　分の１の違約金を請求することができる。</text:p>
+      <text:p text:style-name="PageStart">　２　甲がこの契約に基づいて、乙に支払うべき金員を所定の期日までに支払わないときは、</text:p>
+      <text:p text:style-name="Body">　　　甲は当該金員につき、支払期日の翌日から支払い完了の日まで日歩　　銭の割合による遅延損害金を乙に支払うものとする。</text:p>
+      <text:p text:style-name="Body">第19条　この契約に定めのない事項については、必要に応じて、甲乙協議の上定めることとする。</text:p>
+      <text:p text:style-name="Body"/>
+      <text:p text:style-name="Body">以上、契約書の証として、本書２通を作成し、当事者記名捺印の上各自１つを保有する。</text:p>
+      <text:p text:style-name="Body"/>
+      <text:p text:style-name="Right">令和　　年　　月　　日</text:p>
+      <text:p text:style-name="Body"/>
+      <text:p text:style-name="Body">甲　発注者　　住　所　________________________________________________</text:p>
+      <text:p text:style-name="Body">　　　　　　　氏　名　____________________________________________印</text:p>
+      <text:p text:style-name="Body"/>
+      <text:p text:style-name="Body">乙　請負者　　住　所　________________________________________________</text:p>
+      <text:p text:style-name="Body">　　　　　　　氏　名　____________________________________________印</text:p>
+      <text:p text:style-name="Body"/>
+      <text:p text:style-name="Body">（浄化槽工事登録番号又は届出番号　　　　　　　　　　　　　　　　　　　　　　　　　　　　）</text:p>
+      <text:p text:style-name="Body"/>
+      <text:p text:style-name="Body">工事の明細</text:p>
+      <table:table table:name="WorkDetails" table:style-name="DetailTable">
+        <table:table-column table:style-name="DetailCol1"/>
+        <table:table-column table:style-name="DetailCol2"/>
+        <table:table-column table:style-name="DetailCol3"/>
+        <table:table-column table:style-name="DetailCol4"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">工　事　名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">単　位</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">金　額</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">備考</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Body">合併処理浄化槽設置工事</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">１式</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+54,966

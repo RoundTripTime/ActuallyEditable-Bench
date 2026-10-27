@@ -1,0 +1,841 @@
+tect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+
+exec
+/usr/bin/zsh -lc "rg -n -C 2 'OpenDocument package|document root|office:document|mimetype|1\\.4' odf_spec/OpenDocument-v1.4-os-part2-packages.txt; sed -n '7669,7685p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7937,7950p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8278,8290p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8338,8378p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12140,12155p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12410,12442p' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_fv2bcg7w
+ succeeded in 0ms:
+1-
+2-
+3:Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+4-
+5:Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+6-
+7-OASIS Standard
+--
+11-This stage:
+12-
+13:https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.odt (Authoritative)
+14-
+15:https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html
+16-
+17:https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.pdf
+18-
+19-Previous stage:
+20-
+21:https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+22-
+23:https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+24-
+25:https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+26-
+27-Latest stage:
+28-
+29:https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+30-
+31:https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+32-
+33:https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.pdf
+34-
+35-Technical Committee:
+--
+57-This prose specification is one component of a Work Product which includes:
+58-
+59:•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 1: Introduction. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part1-introduction/OpenDocument-v1.4-os-part1-introduction.html. 
+60-
+61:•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. (this part) https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+62-
+63:•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. 
+64-
+65:•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 4: Recalculated Formula (OpenFormula) Format. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html. 
+66-
+67:•XML/RNG schemas and OWL ontologies. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/. 
+68-
+69-Related work:
+--
+71-This specification replaces or supersedes:
+72-
+73:•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4.  27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html. 
+74-
+75-Declared XML namespaces:
+--
+83-Abstract:
+84-
+85:This document is Part 2 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification and defines a package format for OpenDocument documents, the digital signing of such documents, along with metadata that may be supplied with them.
+86-
+87-Status:
+--
+99-When referencing this specification the following citation format should be used:
+100-
+101:[OpenDocument-v1.4-part2]
+102-
+103:Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. Latest stage: https://docs.oasis-open.org/office/v1.4/OpenDocument-v1.4-part2-packages.html.
+104-
+105-Notices
+--
+135-1.3 Normative References
+136-
+137:1.4 Non Normative References
+138-
+139-1.5 Namespaces
+--
+303-1.1 Introduction
+304-
+305:This document is part of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification. It defines a package format for OpenDocument documents.
+306-
+307-1.2 Terminology
+--
+345-[RNG] ISO/IEC 19757-2 Document Schema Definition Language (DSDL) -- Part 2: Regular-grammar-based validation -- RELAX NG, International Organization for Standardization and International Electrotechnical Commission, 2003
+346-
+347:[XAdES] XML Advanced Electronic Signatures (XAdES) (ETSI TS 101 903 v1.4.2 Dec. 2010), ETSI, 650 Route des Lucioles, F-06921 Sophia Antipolis Cedex, FRANCE, http://webapp.etsi.org/WorkProgram/Report_WorkItem.asp?wki_id=35243, 2010.
+348-
+349-[XML1.0] Tim Bray, Jean Paoli, C. M. Sperberg-McQueen, Eve Maler, François Yergeau , Extensible Markup Language (XML) 1.0 (Fourth Edition), http://www.w3.org/TR/2006/REC-xml-20060816/, W3C, 2004.
+--
+363-[ZIP] PKWARE Inc. Zip APPNOTE Version 6.2.0, http://www.pkware.com/support/application-note-archives, 2004
+364-
+365:1.4 Non Normative References
+366-
+367-[Schneier] Bruce Schneier, Applied Cryptography (Second Edition), John Wiley & Sons, ISBN: 0-471-11709-9, 1996
+--
+446-B.3)The XML file shall be valid with respect to the manifest schema defined in appendix A.1 OpenDocument Manifest Schema. 
+447-
+448:C)It should contain a file “mimetype”. 
+449-
+450-D)It may contain files whose relative paths begin with “META-INF/” and whose names contain the string “signatures”. These file shall meet the following requirements: 
+--
+470-2.3.1 OpenDocument Package Producer
+471-
+472:An OpenDocument Package Producer is a program that creates conforming OpenDocument packages, and that meets the additional requirements:
+473-
+474:A)It may produce conforming OpenDocument extended packages, but it shall have a mode of operation where all OpenDocument packages that are created are conforming OpenDocument packages. 
+475-
+476:B)It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument package producer. 
+477-
+478-2.3.2 OpenDocument Package Extended Producer
+479-
+480:An OpenDocument Package Extended Producer is a program that creates conforming OpenDocument extended packages. It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument package producer.
+481-
+482-2.4 OpenDocument Package Consumer
+483-
+484:An OpenDocument Package Consumer is a program that can parse and interpret OpenDocument packages, and that meets the following additional requirements:
+485-
+486:A)It shall be able to parse and interpret OpenDocument packages and OpenDocument extended packages, but it need not interpret the semantics of all elements, attributes and attribute values. 
+487-
+488-B)The XML parser used to parse the files listed in 2.2.1 (B) and 2.2.1 (D) meets the following requirements: 
+--
+503-3.2 Manifest
+504-
+505:All OpenDocument packages shall contain a file named “META-INF/manifest.xml”. This file is the OpenDocument package manifest. The manifest provides :
+506-
+507-•A list of all of the files in the package (except those specifically excluded from the manifest). 
+--
+513-The format of the manifest file is specified in chapter 4.
+514-
+515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+516-
+517:The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+518-
+519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+520-
+521-3.3 MIME Media Type
+522-
+523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+524-
+525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+526-
+527:If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+528-
+529-Note: The purpose is to allow the type of document represented by the package to be discovered through 'magic number' mechanisms, such as Unix's file/magic utility. If a Zip file contains a file at the beginning of the file that is uncompressed, and has no extra data in the header, then its file name and data can be found at fixed positions from the beginning of the package. More specifically, one will find:
+--
+531-•the string 'PK' at position 0 of all zip files 
+532-
+533:•the string 'mimetype' beginning at position 30 
+534-
+535-•the media type itself beginning at position 38. 
+--
+539-3.4.1 General
+540-
+541:OpenDocument packages may be encrypted by encrypting some or all files within the package. The encryption process takes place in the following stages:
+542-
+543-•A single start key is generated and used for all of the keys that will be derived. 
+--
+575-3.6 Metadata
+576-
+577:Metadata for documents contained in an OpenDocument package may be expressed using the model of the W3C Resource Description Framework [RDF-CONCEPTS].
+578-
+579-A document or sub document that is stored in a package may contain any  number of metadata files. The content of a metadata files shall conform to the [RDF-XML] specification. Implementations that are consumers as well as producers should preserve all metadata files.
+580-
+581:All metadata files of a document or sub document shall be listed in a separate metadata manifest file, which has the file name “manifest.rdf”. This file enumerates metadata files and their relationships to other files in an OpenDocument package. See chapter 6.
+582-
+583-In addition to metadata files, the "manifest.rdf" file may list other files which are contained in the document or sub document that contain RDF metadata, like files that contain RDFa metadata. The "manifest.rdf" file need not exist if a document or sub document does not contain any files that contain RDF metadata.
+--
+623-13.If the relative IRI contains a fragment component, it is resolved as fragment identifier, as defined by §3.5 of [RFC3986]. 
+624-
+625:Note: Files whose relative path starts with “META-INF/” are considered to be part of the OpenDocument package rather than of the content stored within the package. Therefore, different rules regarding the resolution of relative IRIs may apply.
+626-
+627-3.8 Preview Image
+--
+1019-4.16.14.2 <manifest:manifest>
+1020-
+1021:The manifest:version attribute identifies the version of OpenDocument specification that defines the schema and interpretation of the package manifest. The value of the manifest:version attribute shall be "1.4".
+1022-
+1023-The manifest:version attribute is usable with the following element: <manifest:manifest> 4.2.
+1024-
+1025:The only value of the manifest:version attribute is 1.4.
+1026-
+1027-4.17 manifest:PGPAlgorithm
+--
+1063-5.3 <ds:Signature>
+1064-
+1065:The <ds:Signature> element is defined by the [xmldsig-core] specification. Each <ds:Signature> element shall contain an Id attribute specifying a unique value. A producer may use the XAdES extensions as specified in ETSI TS 101 903 v1.4.1 [XAdES], or later versions of the XAdES specification.
+1066-
+1067-A <ds:KeyInfo> element, as specified in [xmldsig-core], section 4.4 shall be included. The <ds:KeyInfo> element should contain an <ds:X509Data> element containing an <ds:X509IssuerSerial> element specifying the issuer and serial number of the signing certificate, and an <ds:X509Certificate> element specifying the full signing certificate.
+--
+1109-5.4.1 dsig:version
+1110-
+1111:The dsig:version attribute identifies the version of OpenDocument specification that defines the schema and interpretation of the digital signature file. The value of the dsig:version attribute shall be "1.4".
+1112-
+1113-The dsig:version attribute is usable with the following element: <dsig:document-signatures> 5.2.
+1114-
+1115:The only value of the dsig:version attribute is 1.4.
+1116-
+1117-6 Metadata Manifest Files
+--
+1133-6.3 pkg:File
+1134-
+1135:A file in an OpenDocument package is represented by an instance of class pkg:File or by one of its subclasses, for example pkg:MetadataFile.
+1136-
+1137-An instance of the pkg:File class (or one of its subclasses) is identified by an IRI.
+--
+1149-6.5 pkg:Element
+1150-
+1151:The pkg:Element class describes an XML element contained in a file within an OpenDocument package.
+1152-
+1153-6.6 pkg:hasPart
+--
+1215-For more details about the Zip file format, see [ZIP].
+1216-
+1217:Appendix DChanges from “Open Document Format for Office Applications (OpenDocument) v1.4” 
+1218-
+1219-This appendix describes changes that are related to Part 2 of this specification.
+1220-
+1221:No technical changes have been made to Part 2 of this specification for ODF v1.4.
+1222-
+  <rng:define name="office-automatic-styles">
+    <rng:optional>
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-master-styles">
+    <rng:optional>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+        <rng:attribute name="text:global">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:use-soft-page-breaks">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-text-content-epilogue">
+    <rng:ref name="table-functions"/>
+  </rng:define>
+  <rng:define name="office-text-content-main">
+    <rng:choice>
+      <rng:zeroOrMore>
+        <rng:ref name="text-content"/>
+      </rng:zeroOrMore>
+      <rng:group>
+        <rng:ref name="text-page-sequence"/>
+        <rng:zeroOrMore>
+          <rng:choice>
+            <rng:ref name="shape"/>
+          </rng:choice>
+        </rng:zeroOrMore>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="office-text-content-prelude">
+    <rng:ref name="office-forms"/>
+    <rng:ref name="text-tracked-changes"/>
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="paragraph-attrs">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-ruby-below">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-display">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-snap-to">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-content-strict">
+    <rng:ref name="style-page-layout-properties-attlist"/>
+    <rng:ref name="style-page-layout-properties-elements"/>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:line-height="120%" fo:margin="0cm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:default-style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="120%" fo:margin="0cm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="115%" fo:margin="0cm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="130%" fo:margin="0cm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="120%" fo:margin="0cm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:line-height="120%" fo:margin="0cm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Spacer" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="70%" fo:margin="0cm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="6pt"/>
+    </style:style>
+    <style:style style:name="Grid" style:family="table">
+      <style:table-properties style:width="17cm" table:align="center" table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="1.1cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="4.2cm"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="6cm"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="5.7cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties style:vertical-align="middle" fo:border="none" fo:padding="0cm"/>
+    </style:style>
+    <style:style style:name="FeeCell" style:family="table-cell">
+      <style:table-cell-properties style:vertical-align="middle" fo:border="none" fo:border-bottom="0.5pt solid #000000" fo:padding="0cm"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-left="2cm" fo:margin-right="2cm" fo:margin-top="2cm" fo:margin-bottom="2cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <table:table table:name="申請書" table:style-name="Grid">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">様式第1号（第4条関係）</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Title">公 園 内 行 為 許 可 申 請 書</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Right">年　　月　　日</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Body">鹿部町長　盛田　昌彦　様</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell/>
+          <table:table-cell><text:p text:style-name="Body">申請者　住所</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell/>
+          <table:table-cell><text:p text:style-name="Body">氏　名</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell><text:p text:style-name="Body">○印</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell/>
+          <table:table-cell><text:p text:style-name="Body">職　業</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Body">鹿部町公園条例第5条第1項及び第2項の行為をしたいので、下記のとおり関係図面を添えて申請します。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Center">記</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">1</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">行為の目的</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">2</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">行為の内容</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">3</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">行為の期間</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Body">年　　月　　日から　　　年　　月　　日まで　　日間</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">4</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">公園の名称及び</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell/>
+          <table:table-cell><text:p text:style-name="Body">場所（図面添付）</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">5</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">使用する面積</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">6</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">施設の構造</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">7</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">入場料等の徴収</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell/>
+          <table:table-cell><text:p text:style-name="Body">の有無</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">8</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">使用料</text:p></table:table-cell>
+          <table:table-cell table:style-name="FeeCell"><text:p text:style-name="Body"> </text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Body">9</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">備　考</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Small">※備考欄に、利用人数（大人・子ども各人数）及び、ご連絡先電話番号の記載をお願い致します。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Small">営利を目的とした使用等、使用料が発生する場合がございます。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Center">-------------------------------------------------- （切り取り線） --------------------------------------------------</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Center">鹿部町公園内行為許可（不許可）書</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p text:style-name="Body">年　月　日申請の鹿部町公園内行為使用について次のとおり許可（不許可）とする。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Center">記</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Body">許可条件</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p text:style-name="Body">不許可理由</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell><text:p text:style-name="Spacer"> </text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Right">年　　月　　日</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell/>
+          <table:table-cell><text:p text:style-name="Body">様</text:p></table:table-cell>
+          <table:table-cell/>
+          <table:table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell/>
+          <table:table-cell/>
+          <table:table-cell><text:p text:style-name="Body">鹿部町長</text:p></table:table-cell>
+          <table:table-cell><text:p text:style-name="Body">□印</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+45,706

@@ -1,0 +1,917 @@
+ng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+        <rng:attribute name="office:conversion-mode">
+          <rng:choice>
+            <rng:value>into-default-style-data-style</rng:value>
+            <rng:value>into-english-number</rng:value>
+            <rng:value>keep-text</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document">
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-text-content-epilogue">
+    <rng:ref name="table-functions"/>
+  </rng:define>
+  <rng:define name="office-text-content-main">
+    <rng:choice>
+      <rng:zeroOrMore>
+        <rng:ref name="text-content"/>
+      </rng:zeroOrMore>
+      <rng:group>
+        <rng:ref name="text-page-sequence"/>
+        <rng:zeroOrMore>
+          <rng:choice>
+            <rng:ref name="shape"/>
+          </rng:choice>
+        </rng:zeroOrMore>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="office-text-content-prelude">
+    <rng:ref name="office-forms"/>
+    <rng:ref name="text-tracked-changes"/>
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="paragraph-attrs">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:class-names">
+          <rng:ref name="styleNameRefs"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-page-number-attlist"/>
+      <rng:ref name="common-background-transparency-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-content-strict">
+    <rng:ref name="style-paragraph-properties-attlist"/>
+    <rng:ref name="style-paragraph-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-tab-stops"/>
+      <rng:ref name="style-drop-cap"/>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-presentation-page-layout">
+    <rng:element name="style:presentation-page-layout">
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="presentation-placeholder"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-center">
+    <rng:element name="style:region-center">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-left">
+    <rng:element name="style:region-left">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-right">
+    <rng:element name="style:region-right">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties">
+    <rng:element name="style:ruby-properties">
+      <rng:ref name="style-ruby-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:ruby-position">
+          <rng:choice>
+            <rng:value>above</rng:value>
+            <rng:value>below</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:ruby-align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>distribute-letter</rng:value>
+      <rng:ref name="style-text-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-text-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:font-variant">
+          <rng:ref name="fontVariant"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:text-transform">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>lowercase</rng:value>
+            <rng:value>uppercase</rng:value>
+            <rng:value>capitalize</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-window-font-color">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-outline">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-type">
+          <rng:ref name="lineType"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-style">
+          <rng:ref name="lineStyle"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-width">
+          <rng:ref name="lineWidth"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-color">
+          <rng:choice>
+            <rng:value>font-color</rng:value>
+            <rng:ref name="color"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-text">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-text-style">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-position">
+          <rng:list>
+            <rng:choice>
+              <rng:ref name="percent"/>
+              <rng:value>super</rng:value>
+              <rng:value>sub</rng:value>
+            </rng:choice>
+            <rng:optional>
+              <rng:ref name="percent"/>
+            </rng:optional>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-name-asian">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-name-complex">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:font-family">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-family-asian">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-family-complex">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-family-generic">
+          <rng:ref name="fontFamilyGeneric"/>
+        </rng:attribute>
+  <rng:define name="styles">
+    <rng:interleave>
+      <rng:zeroOrMore>
+        <rng:ref name="style-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="text-list-style"/>
+      </rng:zeroOrMore>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4108 -->
+      <rng:zeroOrMore>
+        <rng:ref name="number-num-list-format"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-number-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-currency-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-percentage-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-date-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-time-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-boolean-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-text-style"/>
+      </rng:zeroOrMore>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="svg-definition-src">
+    <rng:element name="svg:definition-src">
+      <rng:ref name="common-svg-font-face-xlink-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="svg-desc">
+    <rng:element name="svg:desc">
+      <rng:text/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="svg-font-face-format">
+    <rng:element name="svg:font-face-format">
+      <rng:optional>
+        <rng:attribute name="svg:string">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="svg-font-face-name">
+    <rng:element name="svg:font-face-name">
+      <rng:optional>
+        <rng:attribute name="svg:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="svg-font-face-src">
+    <rng:element name="svg:font-face-src">
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="svg-font-face-uri"/>
+          <rng:ref name="svg-font-face-name"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+
+exec
+/usr/bin/zsh -lc "rg -n \"<rng:define name=\\\"text-span\\\"|fo:text-underline-style|text:underline\" odf_spec/OpenDocument-v1.4-schema.rng; sed -n '9300,9355p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '771,800p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; rg -n -A12 \"text-underline-style\" odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_5s0nxz2l
+ succeeded in 0ms:
+    </rng:element>
+  </rng:define>
+  <rng:define name="presentation-hide-text">
+    <rng:element name="presentation:hide-text">
+      <rng:ref name="common-presentation-effect-attlist"/>
+      <rng:optional>
+        <rng:ref name="presentation-sound"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="presentation-notes">
+    <rng:element name="presentation:notes">
+      <rng:ref name="common-presentation-header-footer-attlist"/>
+      <rng:ref name="presentation-notes-attlist"/>
+      <rng:ref name="office-forms"/>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="presentation-notes-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:page-layout-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="presentation-placeholder">
+    <rng:element name="presentation:placeholder">
+      <rng:attribute name="presentation:object">
+        <rng:ref name="presentation-classes"/>
+      </rng:attribute>
+      <rng:attribute name="svg:x">
+        <rng:choice>
+          <rng:ref name="coordinate"/>
+          <rng:ref name="percent"/>
+        </rng:choice>
+      </rng:attribute>
+      <rng:attribute name="svg:y">
+        <rng:choice>
+          <rng:ref name="coordinate"/>
+          <rng:ref name="percent"/>
+        </rng:choice>
+      </rng:attribute>
+      <rng:attribute name="svg:width">
+        <rng:choice>
+          <rng:ref name="length"/>
+          <rng:ref name="percent"/>
+        </rng:choice>
+8.13.8 <text:index-entry-link-end>
+
+9 Tables
+
+9.1 Basic Tables
+
+9.1.1 General
+
+9.1.2 <table:table>
+
+9.1.3 <table:table-row>
+
+9.1.4 <table:table-cell>
+
+9.1.5 <table:covered-table-cell>
+
+9.1.6 <table:table-column>
+
+9.1.7 <table:table-header-rows>
+
+9.1.8 <table:table-rows>
+
+9.1.9 <table:table-row-group>
+
+9.1.10 <table:table-column-group>
+
+9.1.11 <table:table-header-columns>
+
+9.1.12 <table:table-columns>
+
+5563:20.390 style:text-underline-style
+5564-
+5565-20.391 style:text-underline-type
+5566-
+5567-20.392 style:text-underline-width
+5568-
+5569-20.393 style:use-optimal-column-width
+5570-
+5571-20.394 style:use-optimal-row-height
+5572-
+5573-20.395 style:use-window-font-color
+5574-
+5575-20.396 style:vertical-align
+--
+13851:The <style:text-properties> element has the following attributes: fo:background-color 20.182, fo:color 20.187, fo:country 20.188, fo:font-family 20.189, fo:font-size 20.190, fo:font-style 20.191, fo:font-variant 20.192, fo:font-weight 20.193, fo:hyphenate 20.195, fo:hyphenation-push-char-count 20.198, fo:hyphenation-remain-char-count 20.199, fo:language 20.202, fo:letter-spacing 20.203, fo:script 20.222, fo:text-shadow 20.226, fo:text-transform 20.227, style:country-asian 20.256, style:country-complex 20.257, style:font-charset 20.268, style:font-charset-asian 20.269, style:font-charset-complex 20.270, style:font-family-asian 20.271, style:font-family-complex 20.272, style:font-family-generic 20.273, style:font-family-generic-asian 20.274, style:font-family-generic-complex 20.275, style:font-name 20.277, style:font-name-asian 20.278, style:font-name-complex 20.279, style:font-pitch 20.280, style:font-pitch-asian 20.281, style:font-pitch-complex 20.282, style:font-relief 20.283, style:font-size-asian 20.284, style:font-size-complex 20.285, style:font-size-rel 20.286, style:font-size-rel-asian 20.287, style:font-size-rel-complex 20.288, style:font-style-asian 20.289, style:font-style-complex 20.290, style:font-style-name 20.291, style:font-style-name-asian 20.292, style:font-style-name-complex 20.293, style:font-weight-asian 20.294, style:font-weight-complex 20.295, style:language-asian 20.302, style:language-complex 20.303, style:letter-kerning 20.316, style:rfc-language-tag 20.343, style:rfc-language-tag-asian 20.344, style:rfc-language-tag-complex 20.345, style:script-asian 20.356, style:script-complex 20.357, style:script-type 20.358, style:text-blinking 20.366, style:text-combine 20.367, style:text-combine-end-char 20.369, style:text-combine-start-char 20.368, style:text-emphasize 20.370, style:text-line-through-color 20.371, style:text-line-through-mode 20.372, style:text-line-through-style 20.373, style:text-line-through-text 20.374, style:text-line-through-text-style 20.375, style:text-line-through-type 20.376, style:text-line-through-width 20.377, style:text-outline 20.378, style:text-overline-color 20.379, style:text-overline-mode 20.380, style:text-overline-style 20.381, style:text-overline-type 20.382, style:text-overline-width 20.383, style:text-position 20.384, style:text-rotation-angle 20.385, style:text-rotation-scale 20.386, style:text-scale 20.387, style:text-underline-color 20.388, style:text-underline-mode 20.389, style:text-underline-style 20.390, style:text-underline-type 20.391, style:text-underline-width 20.392, style:use-window-font-color 20.395, text:condition 20.426, text:display 20.427.
+13852-
+13853-The <style:text-properties> element has no child elements.
+13854-
+13855-16.29.30 <number:num-list-format>
+13856-
+13857-The <number:num-list-format> element defines a format for the displayed number string of a list level.
+13858-
+13859-The <number:num-list-format> element is usable within the following elements: <office:automatic-styles> 3.15.3 and <office:styles> 3.15.2.
+13860-
+13861-The <number:num-list-format> element has the following attribute: style:name 19.502.
+13862-
+13863-The <number:num-list-format> element has the following child elements: <number:num-list-label> 16.29.31 and <number:text> 16.29.27.
+--
+23219:Note: The definitions of the values of the style:leader-style attribute are based on the text decoration style 'text-underline-style' from [CSS3Text], §9.2.
+23220-
+23221-The style:leader-style attribute is usable with the following element: <style:tab-stop> 17.8.
+23222-
+23223-The values of the style:leader-style attribute are none, solid, dotted, dash, long-dash, dot-dash, dot-dot-dash or wave.
+23224-
+23225-19.490 style:leader-text
+23226-
+23227-The style:leader-text attribute specifies a single Unicode character for use as leader text for tab stops.
+23228-
+23229-An consumer may support only specific characters as textual leaders. If a character that is not supported by a consumer is specified by this attribute, the consumer should display a leader character that it supports instead of the one specified by this attribute. 
+23230-
+23231-If both style:leader-text and style:leader-style 19.480 attributes are specified, the value of the style:leader-text sets the leader text for tab stops.
+--
+40756:20.390 style:text-underline-style
+40757-
+40758:The style:text-underline-style attribute specifies a style for underlining text.
+40759-
+40760:The defined values for the style:text-underline-style attribute are: 
+40761-
+40762-•none: text has no underlining.  
+40763-
+40764-•dash: text has a dashed line underlining it.  
+40765-
+40766-•dot-dash: text has a line whose repeating pattern is a dot followed by a dash underlining it. 
+40767-
+40768-•dot-dot-dash: text has a line whose repeating pattern is two dots followed by a dash underlining it.  
+40769-
+40770-•dotted: text has a dotted line underlining it.  
+40771-
+40772-•long-dash: text has a dashed line whose dashes are longer than the ones from the dashed line for value dash underlining it.  
+--
+40778:Note: The definitions of the values of the style:text-underline-style attribute are based on the text decoration style 'text-underline-style' from [CSS3Text], §9.2.
+40779-
+40780:The style:text-underline-style attribute is usable with the following element: <style:text-properties> 16.29.29.
+40781-
+40782:The values of the style:text-underline-style attribute are none, solid, dotted, dash, long-dash, dot-dash, dot-dot-dash or wave.
+40783-
+40784-20.391 style:text-underline-type
+40785-
+40786-The style:text-underline-type attribute specifies the type of underlining applied to a text. 
+40787-
+40788-The defined values for the style:text-underline-type attribute are:
+40789-
+40790-•double: a double line should be used for underlining applied to a text. 
+40791-
+40792-•none: deprecated. 
+40793-
+40794-•single: a single line should be used for underlining applied to a text. 
+--
+40796:Every occurrence of the style:text-underline-type attribute should be accompanied by an occurrence of the style:text-underline-style 20.390 attribute on the same element. There should not be an occurrence of the style:text-underline-type attribute if the value of the style:text-underline-style attribute is none. 
+40797-
+40798-The style:text-underline-type attribute is usable with the following element: <style:text-properties> 16.29.29.
+40799-
+40800-The values of the style:text-underline-type attribute are none, single or double.
+40801-
+40802-20.392 style:text-underline-width
+40803-
+40804-The style:text-underline-width attribute specifies the width of an underline. The value bold specifies a line width that is calculated from the font sizes like an auto width, but is wider than an auto width.
+40805-
+40806-The defined values for the style:text-underline-width attribute are:
+40807-
+40808-•auto: the width of an underline should be calculated from the font size of the text where the underline will appear.  
+
+exec
+/usr/bin/zsh -lc "rg -n \"name=\\\"text-span\\\"|name=\\\"text:span\\\"\" odf_spec/OpenDocument-v1.4-schema.rng; rg -n \"20.190 fo:font-size|font-size\" odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -n 3; rg -n \"2.2.1|office:document\" odf_spec/OpenDocument-v1.4-os-part2-packages.txt | head -n 12" in /tmp/fb_codex_odt_5s0nxz2l
+ succeeded in 0ms:
+8422:      <rng:element name="text:span">
+3337:19.533 svg:font-size
+5139:20.190 fo:font-size
+5335:20.284 style:font-size-asian
+147:2.2.1 OpenDocument Package
+435:2.2.1 OpenDocument Package
+466:G)An OpenDocument Extended Package shall meet all requirements of a conforming package except item E) of 2.2.1. 
+488:B)The XML parser used to parse the files listed in 2.2.1 (B) and 2.2.1 (D) meets the following requirements: 
+
+exec
+/usr/bin/zsh -lc "sed -n '8415,8445p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '435,460p' odf_spec/OpenDocument-v1.4-os-part2-packages.txt; sed -n '5125,5155p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '15940,15970p' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_5s0nxz2l
+ succeeded in 0ms:
+      <rng:element name="text:tab">
+        <rng:ref name="text-tab-attr"/>
+      </rng:element>
+      <rng:element name="text:line-break">
+        <rng:empty/>
+      </rng:element>
+      <rng:ref name="text-soft-page-break"/>
+      <rng:element name="text:span">
+        <rng:optional>
+          <rng:attribute name="text:style-name">
+            <rng:ref name="styleNameRef"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+          <rng:attribute name="text:class-names">
+            <rng:ref name="styleNameRefs"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:zeroOrMore>
+          <rng:ref name="paragraph-content-or-hyperlink"/>
+        </rng:zeroOrMore>
+      </rng:element>
+      <rng:element name="text:meta">
+        <rng:ref name="text-meta-attlist"/>
+        <rng:zeroOrMore>
+          <rng:ref name="paragraph-content-or-hyperlink"/>
+        </rng:zeroOrMore>
+      </rng:element>
+      <rng:choice>
+        <rng:ref name="text-bookmark"/>
+        <rng:ref name="text-bookmark-start"/>
+2.2.1 OpenDocument Package
+
+An OpenDocument Package shall meet the following requirements:
+
+A)It shall be a Zip file, as defined by [ZIP]. All files contained in the Zip file shall be non compressed (STORED) or compressed using the “deflate” (DEFLATED) algorithm. 
+
+B)It shall contain a file “META-INF/manifest.xml”. This file shall meet the following requirements: 
+B.1)The file shall be a well formed XML document in accordance with the [XML1.0] specification. 
+
+B.2)The XML root element of the file shall be a <manifest:manifest> element 4.2. 
+
+B.3)The XML file shall be valid with respect to the manifest schema defined in appendix A.1 OpenDocument Manifest Schema. 
+
+C)It should contain a file “mimetype”. 
+
+D)It may contain files whose relative paths begin with “META-INF/” and whose names contain the string “signatures”. These file shall meet the following requirements: 
+D.1)The files shall be well-formed XML files in accordance with [XML1.0]. 
+
+D.2)The XML root element of each file shall be a <dsig:document-signatures> element 5.2. 
+
+D.3)The files shall be valid with respect to the digital signature schema defined in appendix A.2 OpenDocument Digital Signature Schema. 
+
+E)It shall not contain other files whose relative path begins with “META-INF/” other than those listed in B) and D), nor shall the META-INF/manifest.xml contain any implementation-defined IRIs as alternative identifications.  
+
+F)The files listed in (B) and (D) meet the following requirements: 
+F.1)They shall be namespace-well-formed with regard to the XML Namespaces specification [xml-names]. 
+20.183.6 fo:border-top
+
+20.184 fo:break-after
+
+20.185 fo:break-before
+
+20.186 fo:clip
+
+20.187 fo:color
+
+20.188 fo:country
+
+20.189 fo:font-family
+
+20.190 fo:font-size
+
+20.191 fo:font-style
+
+20.192 fo:font-variant
+
+20.193 fo:font-weight
+
+20.194 fo:height
+
+20.195 fo:hyphenate
+
+20.196 fo:hyphenation-keep
+
+20.197 fo:hyphenation-ladder-count
+
+20.198 fo:hyphenation-push-char-count
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Standard" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="11pt" style:font-size-asian="11pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:print-orientation="portrait" fo:margin-left="2.5cm" fo:margin-right="2.5cm" fo:margin-top="2.2cm" fo:margin-bottom="2cm"/>
+    </style:page-layout>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:line-height="1.3" fo:margin-top="0cm" fo:margin-bottom="0.1cm"/>
+      <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" fo:font-weight="bold" style:font-weight-asian="bold" style:text-underline-style="solid" style:text-underline-type="single"/>
+    </style:style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="1.45" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+      <style:text-properties fo:font-size="11pt" style:font-size-asian="11pt"/>
+    </style:style>
+    <style:style style:name="Indented" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.4cm" fo:line-height="1.45" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+      <style:text-properties fo:font-size="11pt" style:font-size-asian="11pt"/>
+    </style:style>
+    <style:style style:name="SmallNote" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.4cm" fo:line-height="1.35" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt"/>
+    </style:style>
+    <style:style style:name="TableStyle" style:family="table">
+      <style:table-properties style:width="15.5cm" table:align="center"/>
+    </style:style>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="2.95cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="3.75cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="1.5cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="6cm"/>
+    </style:style>
+    <style:style style:name="Col5" style:family="table-column">
+      <style:table-column-properties style:column-width="1.3cm"/>
+    </style:style>
+    <style:style style:name="RowHeader" style:family="table-row">
+      <style:table-row-properties style:row-height="3.8cm" style:use-optimal-row-height="true"/>
+    </style:style>
+    <style:style style:name="RowInput" style:family="table-row">
+      <style:table-row-properties style:row-height="1.3cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:line-height="1.45" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt"/>
+    </style:style>
+    <style:style style:name="CellTop" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="top"/>
+      <style:paragraph-properties fo:line-height="1.5" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center" fo:line-height="1.5" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-size-asian="10pt"/>
+    </style:style>
+    <style:style style:name="Underline" style:family="text">
+      <style:text-properties style:text-underline-style="solid" style:text-underline-type="single"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="DefaultPage" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Title">過去１年以内の給水装置工事に主に従事した適切に作業を行うことができる技<text:line-break/>能を有する者の状況</text:p>
+      <text:p text:style-name="Indented">水道法施行規則　第36条</text:p>
+      <text:p text:style-name="Body">　法第25条の８に規定する厚生労働省令で定める給水装置工事の事業の運営に関する基<text:line-break/>準は、次に掲げるものとする。（以下抜粋）</text:p>
+      <text:p text:style-name="Indented">2　配水管から分岐して給水管を設ける工事及び給水装置の配水管への取付口から水<text:line-break/>道メーターまでの工事を施行する場合において、当該配水管及び他の地下埋設物に<text:line-break/>変形、破損その他の異常を生じさせることがないよう適切に作業を行うことができ<text:line-break/>る技能を有する者を従事させ、又はその者に当該工事に従事する他の者を実施に監<text:line-break/>督させること。</text:p>
+      <text:p text:style-name="Indented">□「配水管からの分岐～水道メーター」の工事を施工しないため不要</text:p>
+      <text:p text:style-name="Body">　過去１年以内の工事実績がない場合は、直近の状況を記載してください。</text:p>
+      <table:table table:name="技術者状況" table:style-name="TableStyle">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-row table:style-name="RowHeader">
+          <table:table-cell table:style-name="CellCenter" table:number-rows-spanned="2">
+            <text:p>技能を有する</text:p>
+            <text:p>者の氏名</text:p>
+            <text:p>（公表対象外）</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="CellCenter" table:number-rows-spanned="2">
+            <text:p>配水管への分水栓の</text:p>
+            <text:p>取付・せん孔、給水</text:p>
+            <text:p>管の接合、いずれの</text:p>
+            <text:p>経験も有しているか</text:p>
+            <text:p>（〇×を記入）</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2">
+            <text:p>資格等を有しているか</text:p>
+            <text:p>（〇×を記入）</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-rows-spanned="2">
+            <text:p>工事</text:p>
+            <text:p>年度</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowHeader">
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="CellTop">
+            <text:p>保有している資格等</text:p>
+            <text:p>※下記に示している保有資格等の</text:p>
+            <text:p>番号（①～④）を記載してくださ</text:p>
+            <text:p>い。</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="RowInput">
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowInput">
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowInput">
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowInput">
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5">
+            <text:p>上記内容の公表の可否（公表には、ホームページ等への掲載を含みます。）</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5">
+            <text:p>可　　・　　不可</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="SmallNote">※以下に示す保有資格等（下線部）を記載してください。</text:p>
+      <text:p text:style-name="SmallNote">　①　水道事業者等によって行われた試験や講習により、資格を与えられた<text:span text:style-name="Underline">配管工</text:span></text:p>
+      <text:p text:style-name="SmallNote">　　　（配管技能者、その他類似の名称のものを含む）</text:p>
+      <text:p text:style-name="SmallNote">　②　職業能力開発促進法（昭和44年法律第64号）第44条に規定する<text:span text:style-name="Underline">配管技能士</text:span></text:p>
+      <text:p text:style-name="SmallNote">　③　職業能力開発促進法第24条に規定する都道府県の認定を受けた職業訓練校の<text:span text:style-name="Underline">配管科の課程修了者</text:span></text:p>
+      <text:p text:style-name="SmallNote">　④　公益財団法人給水工事技術振興財団が実施する配管技能の習得に係る講習の課程修了者</text:p>
+      <text:p text:style-name="SmallNote">　　　（<text:span text:style-name="Underline">配管技能者講習会修了者</text:span>、<text:span text:style-name="Underline">配管技能検定会合格者</text:span>、<text:span text:style-name="Underline">配管技能者認定</text:span>）</text:p>
+      <text:p text:style-name="SmallNote">　資格を証明する書類（資格証等）の写しを添付してください。</text:p>
+      <text:p text:style-name="Body"/>
+      <text:p text:style-name="SmallNote">※「配水管からの分岐～水道メーター」の工事を施工しない場合は、任意の記載となります。</text:p>
+      <text:p text:style-name="SmallNote">※技能を有する者の氏名は、公表対象ではありません。</text:p>
+      <text:p text:style-name="SmallNote">※行数が足りない場合は、必要に応じてコピー等してください。</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+48,951

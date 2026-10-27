@@ -1,0 +1,696 @@
+r a value of type anyURI 7.2.
+841:4.16.2 manifest:checksum
+843:The manifest:checksum attribute specifies a digest in base64Binary encoding that can be used to detect password correctness as specified by a manifest:checksum-type attribute 4.16.3 .
+845:The manifest:checksum attribute is usable with the following element: <manifest:encryption-data> 4.4.
+847:The manifest:checksum attribute has the data type base64Binary 7.2.
+849:4.16.3 manifest:checksum-type
+851:The manifest:checksum-type attribute specifies the name of a digest algorithm that can be used to check password correctness. The digest is build from the compressed unencrypted file.
+853:The defined values for the manifest:checksum-type attribute are:
+857:•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha1-1k: The same as SHA1/1K. 
+859:•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k: SHA256 algorithm (see [RFC3174]) applied to first 1024 bytes of the compressed unencrypted file. 
+865:Package producers should use the SHA1/1K value and method when compatibility with older versions of consumers is important. In other cases, producers that support encryption should use the urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k value and method. 
+867:Note: manifest:checksum is used to confirm that a decryption is successful. It should not be regarded as a security feature.
+869:Package consumers that support encryption shall support the values SHA1/1K, urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha1-1k and urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k.
+871:The manifest:checksum-type attribute is usable with the following element: <manifest:encryption-data> 4.4.
+873:The values of the manifest:checksum-type attribute are SHA1/1K or a value of type anyURI 7.2.
+875:4.16.4 manifest:full-path
+877:The manifest:full-path attribute describes the location of a file or directory within the package. It's value is the name of a file or folder within the Zip file for which the manifest entry defines additional information, including its relative path in the package. The notation is the same as for the “filename” fields of the Zip file's central directory.
+879:The attribute value "/" denotes a manifest entry for the package itself.
+881:Note: The Zip file's central directory and the manifest file may have different text encodings.
+883:The manifest:full-path attribute is usable with the following element: <manifest:file-entry> 4.3.
+885:The manifest:full-path attribute has the data type string 7.2.
+887:4.16.5 manifest:initialisation-vector
+889:The manifest:initialisation-vector attribute value provides the byte-sequence for the initialization vector used by the encryption algorithm when delivery of a required initialization vector is not specified as part of the encryption algorithm definition. The initialization vector is a base64Binary encoded sequence. The format and length of an initialization vector, in bytes, shall be as required by its encryption algorithm specification.
+891:The manifest:initialisation-vector attribute is usable with the following element: <manifest:algorithm> 4.5.
+893:The manifest:initialisation-vector attribute has the data type base64Binary 7.2.
+895:4.16.6 manifest:start-key-generation-name
+897:The manifest:start-key-generation-name attribute specifies the algorithm used to generate a start key from the user password.
+899:The defined values for the manifest:start-key-generation-name attribute are:
+911:The manifest:start-key-generation-name attribute has the value SHA1 or a value of data type anyURI.
+913:The manifest:start-key-generation-name attribute is usable with the following element: <manifest:start-key-generation> 4.6.
+915:The values of the manifest:start-key-generation-name attribute are SHA1 or a value of type anyURI 7.2.
+917:4.16.7 manifest:key-size
+919:The manifest:key-size attribute specifies the length in octets of a key delivered by a key-developing algorithm.
+921:For a <manifest:start-key-generation> element, the default value for this attribute is 20.
+923:Note: The value used will need to be compatible with the result obtain from the start-key-generation algorithm and the input requirements of the key derivation algorithm.For a <manifest:key-derivation> element, the default value for this attribute is 16.
+927:The manifest:key-size attribute is usable with the following elements: <manifest:key-derivation> 4.7 and <manifest:start-key-generation> 4.6.
+929:The manifest:key-size attribute has the data type nonNegativeInteger 7.2.
+931:4.16.8 manifest:iteration-count
+933:The manifest:iteration-count attribute specifies the number of iterations used by the key derivation algorithm to derive a key.
+935:The manifest:iteration-count attribute is usable with the following element: <manifest:key-derivation> 4.7.
+937:The manifest:iteration-count attribute has the data type nonNegativeInteger 7.2.
+939:4.16.9 manifest:key-derivation-name
+941:The manifest:key-derivation-name attribute specifies the password-based key-derivation algorithm used to derive a cryptographic key for use in encryption and decryption of the file.
+943:The defined values for the manifest:key-derivation-name attribute are:
+947:•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#pbkdf2: The same algorithms as identified by PBKDF2. 
+953:Package producers that support encryption shall support the value PBKDF2. Package consumers that support encryption shall support the values PBKDF2 and urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#pbkdf2.
+955:If the value of this attribute is PBKDF2 or urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#pbkdf2 the <manifest:encryption-data> 4.4 shall contain a <manifest:start-key-generation> 4.6 child element that specifies the start key for the PBKDF2 algorithm.
+957:The manifest:key-derivation-name attribute is usable with the following element: <manifest:key-derivation> 4.7.
+959:The only value of the manifest:key-derivation-name attribute is PGP.
+961:4.16.10 manifest:media-type
+963:The manifest:media-type attribute specifies the MIME media type of a file or directory. See [RFC6838].
+965:A manifest:media-type attribute should be present for all files and directories where a MIME media type exists for the content of the file, or the document or sub document contained in a directory.
+967:The manifest:media-type attribute is usable with the following element: <manifest:file-entry> 4.3.
+969:The manifest:media-type attribute has the data type string 7.2.
+971:4.16.11 manifest:preferred-view-mode
+973:The manifest:preferred-view-mode attribute specifies a preference on how the author of the document would like the document to be presented upon the document being opened. This attribute is only applicable to the root file entry with the manifest:full-path 4.16.4 attribute value of "/".
+975:The defined values for the manifest:preferred-view-mode attribute are:
+985:Preferred view modes are not necessarily generally applicable to all media types. The default preferred view mode is implementation-defined. The behavior for cases where the manifest:preferred-view-mode attribute is absent is implementation-defined.
+987:The manifest:preferred-view-mode attribute is usable with the following element: <manifest:file-entry> 4.3.
+989:The values of the manifest:preferred-view-mode attribute are edit, presentation-slide-show, read-only or a value of type namespacedToken 7.3.1.
+991:4.16.12 manifest:salt
+993:The manifest:salt attribute carries the value of a cryptographically-random binary value designed to mitigate certain cryptographic attacks on the password. There is no maximum length to the salt. See [RFC2898] for further considerations in the use of salts with key-derivation and other cryptographic functions. The salt is encoded in the attribute value as a base64Binary value.
+995:The manifest:salt attribute is usable with the following element: <manifest:key-derivation> 4.7.
+997:The manifest:salt attribute has the data type base64Binary 7.2.
+999:4.16.13 manifest:size
+1001:The manifest:size attribute shall be present for encrypted files. See 3.4. Its value shall be size of the uncompressed, unencrypted file in bytes.
+1003:The manifest:size attribute is usable with the following element: <manifest:file-entry> 4.3.
+1005:The manifest:size attribute has the data type nonNegativeInteger 7.2.
+1007:4.16.14 manifest:version
+1009:4.16.14.1 <manifest:file-entry>
+1011:The manifest:version attribute specifies the format version of a file entry. For documents that are composed from multiple files, this attribute is specified at the manifest entry that references the folder that contains these files.
+1013:The interpretation of the attribute value depends on the MIME media type specified in the manifest:media-type attribute.
+1015:The manifest:version attribute is usable with the following element: <manifest:file-entry> 4.3.
+1017:The manifest:version attribute has the data type string 7.2.
+1019:4.16.14.2 <manifest:manifest>
+1021:The manifest:version attribute identifies the version of OpenDocument specification that defines the schema and interpretation of the package manifest. The value of the manifest:version attribute shall be "1.4".
+1023:The manifest:version attribute is usable with the following element: <manifest:manifest> 4.2.
+1025:The only value of the manifest:version attribute is 1.4.
+1027:4.17 manifest:PGPAlgorithm
+1029:The manifest:PGPAlgorithm attribute contains an identifier for the PGP algorithm used for encryption in the manifest. This identifier is implementation defined.
+1031:The manifest:PGPAlgorithm attribute is usable with the following element: <manifest:encryption-method> 4.9.
+1033:The manifest:PGPAlgorithm attribute has the data type anyURI 7.2.
+1121:Metadata manifest files (see 3.6) have the file name “manifest.rdf”. The metadata manifest file for a document (see 3.1) shall be stored in the root of the package. The metadata manifest file for a sub documents shall be stored in the sub document's directory.
+1123:Metadata manifest files enumerate metadata files and their relationships to other files in that document or sub document as defined by this specification.
+1125:The relationships are expressed in the metadata manifest files using [RDF-XML] and the [OWL] Metadata Manifest Description ontology that is defined in appendix B. The following OWL classes and properties are defined.
+1129:An instance of the pkg:Document class in the metadata manifest file represents the document or sub document itself.
+1193:The OpenDocument manifest schema is defined by a separate document, whose location can be found in the “Additional artifacts” section on the introductory pages.
+1201:The OpenDocument metadata manifest ontology is defined by a separate document, whose location can be found in the “Additional artifacts” section on the introductory pages.
+
+exec
+/usr/bin/zsh -lc "sed -n '7799,7835p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7671,7710p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7939,7970p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8280,8325p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12815,12915p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16154,16262p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '14299,14335p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '1290,1310p' ./odf_spec/OpenDocument-v1.4-schema.rng; grep -n '3.4.1.*OpenDocument' ./odf_spec/OpenDocument-v1.4-os-part2-packages.txt" in /tmp/fb_codex_odt_zrmihdeq
+ exited 1 in 0ms:
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body">
+    <rng:element name="office:body">
+      <rng:ref name="office-body-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body-content">
+    <rng:choice>
+      <rng:element name="office:text">
+        <rng:ref name="office-text-attlist"/>
+        <rng:ref name="office-text-content-prelude"/>
+        <rng:ref name="office-text-content-main"/>
+        <rng:ref name="office-text-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:drawing">
+        <rng:ref name="office-drawing-attlist"/>
+        <rng:ref name="office-drawing-content-prelude"/>
+        <rng:ref name="office-drawing-content-main"/>
+        <rng:ref name="office-drawing-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:presentation">
+        <rng:ref name="office-presentation-attlist"/>
+        <rng:ref name="office-presentation-content-prelude"/>
+        <rng:ref name="office-presentation-content-main"/>
+        <rng:ref name="office-presentation-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta">
+    <rng:optional>
+      <rng:element name="office:meta">
+        <rng:ref name="office-meta-content-strict"/>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta-content-strict">
+    <rng:zeroOrMore>
+      <rng:ref name="office-meta-data"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="office-meta-data">
+    <rng:choice>
+      <rng:element name="meta:generator">
+        <rng:ref name="string"/>
+      </rng:element>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-opacity"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-section-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>ruby</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-ruby-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-column</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-column-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-row</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-row-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-cell</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-cell-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:choice>
+            <rng:value>graphic</rng:value>
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.05cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+    </style:default-style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.18cm" fo:margin-bottom="0.25cm"/>
+      <style:text-properties fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.05cm"/>
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties table:align="margins" style:width="18.5cm"/>
+    </style:style>
+    <style:style style:name="ColNarrow" style:family="table-column">
+      <style:table-column-properties style:column-width="7.5cm"/>
+    </style:style>
+    <style:style style:name="ColWide" style:family="table-column">
+      <style:table-column-properties style:column-width="11cm"/>
+    </style:style>
+    <style:style style:name="ColHalf" style:family="table-column">
+      <style:table-column-properties style:column-width="9.25cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.12cm" fo:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="CellCompact" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.06cm" fo:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" fo:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:print-orientation="portrait" fo:margin-top="1.2cm" fo:margin-bottom="1.2cm" fo:margin-left="1.25cm" fo:margin-right="1.25cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Right">（様式第１号）</text:p>
+      <text:p text:style-name="Right">令和　　年　　月　　日</text:p>
+      <text:p text:style-name="Body">海田町長　様</text:p>
+      <text:p text:style-name="Right">代表者氏名　　　　　　　　　　　　　　　　　</text:p>
+      <text:p text:style-name="Title">高齢者いきいき活動ポイント事業活動団体登録届出書</text:p>
+      <text:p text:style-name="Body">高齢者いきいき活動ポイント事業の趣旨を理解したので、活動団体としての登録及び</text:p>
+      <text:p text:style-name="Body">スタンプの交付を希望します。</text:p>
+      <text:p text:style-name="Body">なお、登録に当たっては、下記の内容を海田町のホームページ等で公表されることにつ</text:p>
+      <text:p text:style-name="Body">いて同意します。また、裏面の確認事項１及び確認事項２の内容に間違いはありません。</text:p>
+      <text:p text:style-name="Center">記</text:p>
+      <text:p text:style-name="Bold">記入に当たってのお願い：読み間違え防止のため、はっきりとご記入ください。（例）「１」と「７」</text:p>
+      <table:table table:name="Registration" table:style-name="FormTable">
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColWide"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>団体名</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>代表者の住所（スタンプ送付先）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>ホームページアドレス（ある場合のみ）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>メールアドレス（ある場合のみ）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>代表者氏名・連絡先電話番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名　　　　　　　　　　　連絡先　　　－</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>スタンプ管理責任者氏名・連絡先電話番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名　　　　　　　　　　　連絡先　　　－</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>スタンプ管理副責任者氏名・連絡先電話番号</text:p><text:p>※　最低１名は記入</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名　　　　　　　　　　　連絡先　　　－</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>氏名　　　　　　　　　　　連絡先　　　－</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>氏名　　　　　　　　　　　連絡先　　　－</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>主な活動場所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Bold">活動内容（別紙『高齢者いきいき活動ポイント事業』参加のご案内Ｐ２～４を参照し、行っている活動</text:p><text:p text:style-name="Bold">の記号に○を付けてください。Ｅ～Ｈに○を付ける場合は、付与するポイント数（２Ｐ・４Ｐ）にも○</text:p><text:p text:style-name="Bold">を付けてください。）</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="Activities" table:style-name="FormTable">
+        <table:table-column table:style-name="ColHalf"/>
+        <table:table-column table:style-name="ColHalf"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>健康づくり・介護予防活動</text:p><text:p>（１回につき１ポイント）</text:p><text:p text:style-name="Small">※　ポイント付与は、ア・ウを合わせて月１回以上の活動が見込まれる場合に限り可能です。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>地域の支え手となるボランティア活動</text:p><text:p>（１回につき２ポイント又は４ポイント）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCompact"><text:p>ア　交流サロン等への参加</text:p><text:p>イ　グラウンドゴルフ等のスポーツ活動</text:p><text:p>ウ　体操・ウォーキング等（イより軽い運動）</text:p><text:p>エ　生涯学習講座等</text:p><text:p>オ　フィットネス・カルチャースクール</text:p><text:p>カ　囲碁・将棋・カラオケ・手芸等（文化活動）</text:p><text:p>キ　自治会等の行事への参加</text:p><text:p>ク　その他健康づくり・介護予防活動</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCompact"><text:p>Ａ　清掃活動</text:p><text:p>Ｂ　見守り活動</text:p><text:p>Ｃ　防災・防犯活動</text:p><text:p>Ｄ　町内会等の行事の世話</text:p><text:p>Ｅ　子育て支援活動（２Ｐ・４Ｐ）</text:p><text:p>Ｆ　介護施設等での支援活動（２Ｐ・４Ｐ）</text:p><text:p>Ｇ　高齢者・障害者への支援活動（２Ｐ・４Ｐ）</text:p><text:p>Ｈ　その他ボランティア活動（２Ｐ・４Ｐ）</text:p><text:p>Ｉ　自治会の運営活動（役員会議等）</text:p><text:p>Ｊ　こどもの居場所づくりに関する活動</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Center">裏面有り（裏面の記入がないものは無効です。）</text:p>
+      <text:p text:style-name="PageBreak"/>
+      <text:p text:style-name="Bold">以下の【確認事項１】及び【確認事項２】を確認し、記入してください。</text:p>
+      <table:table table:name="Confirmation1" table:style-name="FormTable">
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColWide"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Bold">【確認事項１】</text:p><text:p text:style-name="Bold">以下の１０個の確認事項について、貴団体に当てはまる場合には、口欄にレ点をつけてください。</text:p><text:p text:style-name="Bold">１つでも当てはまらない事項があれば、活動団体としての登録はできません。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>やむを得ない事情がない限り、参加を希望する高齢者を広く受け入れます。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>暴力団ではありません。また、暴力団員を活動に参加させることもしません。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>政治・宗教・営利を目的とした活動にポイントを付与しません。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>高齢者が安全かつ適正に活動を行うことができるよう十分に配慮し、かつ、必要な指導をするよう努めます。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>活動団体として知り得た秘密を、目的外で使用したり、漏えいすることはしません。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>不正にスタンプを押印しません。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>スタンプを複製し、又は他団体等に譲渡や貸与しません。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>スタンプの管理に十分注意します。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>スタンプを紛失等した場合には、速やかに海田町に連絡します。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>スタンプを使用しなくなったときには、速やかにスタンプを返還します。</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table table:name="Confirmation2" table:style-name="FormTable">
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColWide"/>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Bold">【確認事項２】</text:p><text:p text:style-name="Bold">貴団体は次のいずれに当てはまりますか？　当てはまる口欄に、レ点をつけてください。</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>１　ポイント事業をきっかけに新たに立ち上げた団体・グループである。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>２　以前からある団体・グループである。</text:p><text:p>　（ポイント事業をきっかけに新たに立ち上げた団体・グループではない。）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>↓</text:p><text:p>２を選んだ場合には、次の(1)、(2)それぞれについて、当てはまるものに○をつけてください。</text:p><text:p>(1)　ポイント事業をきっかけに活動の種類は（ア 増える　イ 減る　ウ 変える　エ 変更なし）</text:p><text:p>(2)　ポイント事業をきっかけに活動の頻度は（ア 増える　イ 減る　ウ 変更なし）</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">【個人情報の取扱いについて】</text:p>
+      <text:p text:style-name="Body">記入いただいた個人情報は、高齢者いきいき活動ポイント事業の実施に関し必要な範囲内でのみ使用します。</text:p>
+      <text:p text:style-name="Body">また、頂いた個人情報の管理には厳重な注意を払います。</text:p>
+      <text:p text:style-name="Body">【留意事項】</text:p>
+      <text:p text:style-name="Body">町が活動団体登録届出書を受け付けた日以降の活動は、スタンプが届いた後に、遡って押印していただけます。</text:p>
+      <text:p text:style-name="Body">（町が活動団体登録届出書を受け付ける前に遡ってスタンプを押印することはできません。）</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+50,485

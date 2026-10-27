@@ -1,0 +1,485 @@
+:define>
+  <rng:define name="text-page-continuation-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:select-page">
+        <rng:choice>
+          <rng:value>previous</rng:value>
+          <rng:value>next</rng:value>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:string-value">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+
+A)It shall be a Zip file, as defined by [ZIP]. All files contained in the Zip file shall be non compressed (STORED) or compressed using the “deflate” (DEFLATED) algorithm. 
+
+B)It shall contain a file “META-INF/manifest.xml”. This file shall meet the following requirements: 
+B.1)The file shall be a well formed XML document in accordance with the [XML1.0] specification. 
+
+B.2)The XML root element of the file shall be a <manifest:manifest> element 4.2. 
+
+B.3)The XML file shall be valid with respect to the manifest schema defined in appendix A.1 OpenDocument Manifest Schema. 
+
+C)It should contain a file “mimetype”. 
+
+D)It may contain files whose relative paths begin with “META-INF/” and whose names contain the string “signatures”. These file shall meet the following requirements: 
+D.1)The files shall be well-formed XML files in accordance with [XML1.0]. 
+
+D.2)The XML root element of each file shall be a <dsig:document-signatures> element 5.2. 
+
+D.3)The files shall be valid with respect to the digital signature schema defined in appendix A.2 OpenDocument Digital Signature Schema. 
+
+E)It shall not contain other files whose relative path begins with “META-INF/” other than those listed in B) and D), nor shall the META-INF/manifest.xml contain any implementation-defined IRIs as alternative identifications.  
+
+F)The files listed in (B) and (D) meet the following requirements: 
+F.1)They shall be namespace-well-formed with regard to the XML Namespaces specification [xml-names]. 
+
+F.2)They shall conform to the xml-id specification [XML-ID]. 
+
+2.2.2 OpenDocument Extended Package
+
+G)An OpenDocument Extended Package shall meet all requirements of a conforming package except item E) of 2.2.1. 
+
+2.3 Producers
+
+2.3.1 OpenDocument Package Producer
+
+An OpenDocument Package Producer is a program that creates conforming OpenDocument packages, and that meets the additional requirements:
+
+A)It may produce conforming OpenDocument extended packages, but it shall have a mode of operation where all OpenDocument packages that are created are conforming OpenDocument packages. 
+
+B)It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument package producer. 
+
+2.3.2 OpenDocument Package Extended Producer
+
+An OpenDocument Package Extended Producer is a program that creates conforming OpenDocument extended packages. It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument package producer.
+
+2.4 OpenDocument Package Consumer
+
+An OpenDocument Package Consumer is a program that can parse and interpret OpenDocument packages, and that meets the following additional requirements:
+
+A)It shall be able to parse and interpret OpenDocument packages and OpenDocument extended packages, but it need not interpret the semantics of all elements, attributes and attribute values. 
+
+B)The XML parser used to parse the files listed in 2.2.1 (B) and 2.2.1 (D) meets the following requirements: 
+B.1)It shall be a nonvalidating XML processor with regard to the XML 1.0 specification [XML1.0]. 
+
+B.2)It shall be a conforming processor with regard to the XML Namespaces specification [xml-names]. 
+
+B.3)It shall conform to the xml-id specification [XML-ID]. 
+
+3 Packages
+
+3.1 General
+
+OpenDocument defines a package file to store the XML content of a document as separate parts together with associated binary data as file entries in a single package file. These file entries may be compressed to further reduce the storage taken by the package. This package is a Zip file [ZIP], whose structure is described in Appendix C. OpenDocument Packages impose additional structure on the Zip file to accomplish the representation of OpenDocument Format documents.
+
+A document within a package may consist of a set of files creating a unit, for instance the set of files specified by OpenDocument Part 3. These files may be located in the root of the package, or within a directory. If they are contained in the root of the package, they are called document. If they are located within a directory, the document they constitute is called a sub document. A package may contain multiple sub documents, but only a single document can be contained in the root of the package. Unless otherwise stated, the term document refers to the document contained in the root of the package. This may include sub documents.
+
+3.2 Manifest
+
+All OpenDocument packages shall contain a file named “META-INF/manifest.xml”. This file is the OpenDocument package manifest. The manifest provides :
+
+•A list of all of the files in the package (except those specifically excluded from the manifest). 
+
+•The MIME media type of each file in the package. 
+
+•If a file is stored in the file data in encrypted form, the manifest provides information required to decrypt the file correctly when the encryption key is also supplied. 
+
+The format of the manifest file is specified in chapter 4.
+
+For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+
+The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+
+The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+
+3.3 MIME Media Type
+
+If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+
+The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+
+If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+
+Note: The purpose is to allow the type of document represented by the package to be discovered through 'magic number' mechanisms, such as Unix's file/magic utility. If a Zip file contains a file at the beginning of the file that is uncompressed, and has no extra data in the header, then its file name and data can be found at fixed positions from the beginning of the package. More specifically, one will find:
+
+•the string 'PK' at position 0 of all zip files 
+
+•the string 'mimetype' beginning at position 30 
+
+•the media type itself beginning at position 38. 
+
+3.4 Encryption
+
+3.4.1 General
+
+
+exec
+/usr/bin/zsh -lc "sed -n '1275,1310p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7930,7955p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8278,8320p' odf_spec/OpenDocument-v1.4-schema.rng; rg -n '3\\.1\\.2 <office:document>|3\\.1\\.2' odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -8" in /tmp/fb_codex_odt_zcnm2l99
+ succeeded in 0ms:
+      <rng:attribute name="style:border-line-width-top">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-bottom">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-left">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+  </rng:define>
+  <rng:define name="office-image-content-main">
+    <rng:ref name="draw-frame"/>
+  </rng:define>
+  <rng:define name="office-image-content-prelude">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="office-master-styles">
+    <rng:optional>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta">
+    <rng:optional>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+177:3.1.2 <office:document>(Single OpenDocument XML Files)
+6168:A)The <office:document> 3.1.2 element shall have an office:mimetype 3.1.2 attribute with one of these values: "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.text-master" or "application/vnd.oasis.opendocument.text-master-template". 
+6178:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.spreadsheet" or "application/vnd.oasis.opendocument.spreadsheet-template". 
+6192:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.graphics" or "application/vnd.oasis.opendocument.graphics-template". 
+6202:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.presentation" or "application/vnd.oasis.opendocument.presentation-template". 
+6212:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.chart" or "application/vnd.oasis.opendocument.chart-template". 
+6222:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.image" or "application/vnd.oasis.opendocument.image-template". 
+6240:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with the value "application/vnd.oasis.opendocument.base".  
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="9pt" fo:line-height="110%"/>
+      <style:text-properties fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="StartPage" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:font-size="1pt" fo:line-height="1pt"/>
+      <style:text-properties fo:font-size="1pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="140%"/>
+      <style:text-properties fo:font-size="17pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #888888" fo:padding="0.06in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="GrayCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #888888" fo:padding="0.06in" fo:background-color="#dddddd" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="PlainCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0.04in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Col" style:family="table-column">
+      <style:table-column-properties style:column-width="1.15in"/>
+    </style:style>
+    <style:style style:name="Grid" style:family="table">
+      <style:table-properties style:width="7.1in" table:align="center" table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="PageHeading" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" fo:print-orientation="portrait" fo:margin-top="0.55in" fo:margin-bottom="0.55in" fo:margin-left="0.8in" fo:margin-right="0.8in"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="StartPage"/>
+      <text:p text:style-name="Small">■ 지방세법 시행규칙[별지 제39호의2서식] &lt;개정 2025. 12. 31.&gt;</text:p>
+      <text:p text:style-name="Title">주민세(종업원분) ([　]기한 내/[　]기한 후) 신고서</text:p>
+      <text:p text:style-name="Small">※ 색상이 어두운 난은 신청인이 작성하지 아니하며, 제3쪽의 작성방법을 읽고 작성하시기 바랍니다.　　　　　　　　　　　　　　　　　　　　　　(3쪽중 제1쪽)</text:p>
+      <table:table table:name="접수번호" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GrayCell"><text:p>접수번호</text:p></table:table-cell>
+          <table:table-cell table:style-name="GrayCell"><text:p>접수일자</text:p></table:table-cell>
+          <table:table-cell table:style-name="GrayCell"><text:p>관리번호</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="신고인" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="6"><text:p>신고인</text:p><text:p>(납세자)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>① 사업소명(상호)</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>② 성명(법인명)</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>③ 주민(법인)등록번호</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>④ 본점 소재지</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>⑤ 사업소(과세대상) 소재지</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>⑥ 사업자등록번호</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>⑦ 전화번호</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>⑧ FAX번호</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="신고납부" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>년　월분</text:p><text:p>신고납부</text:p><text:p>(급여지급일:</text:p><text:p>년　월　일)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>⑨ 종업원 수</text:p><text:p>(소수점 이하</text:p><text:p>1자리까지 기재)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>⑩ 최근 1년간 종업원</text:p><text:p>급여총액의 월평균금액</text:p><text:p>(소수점 이하 1자리까지 기재)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="Center">과세표준</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>⑪ 급여총액</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>⑫ 과세제외급여액</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>⑬ 과세급여총액</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>인</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>원</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>원</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>원</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>원</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p>「지방세법」 제84조의5에 따른 과세표준 공제액</text:p>
+      <table:table table:name="과세표준 공제액" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>⑭ 직전 연도 월평균 종업원수</text:p><text:p>(소수점 이하 1자리까지 기재)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>⑮ 신고월의 월 적용급여액</text:p><text:p>( ⑬ /⑨ )</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>⑯ 과세표준 공제액</text:p><text:p>( ⑮×(⑨−⑭) )</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>인</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>원</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>원</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="납부할 세액" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>납부할</text:p><text:p>세액</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>⑰ 산출과표</text:p><text:p>(⑬−⑯)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>원</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>⑱ 산출세액</text:p><text:p>(⑰×0.5%)</text:p><text:p>원</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p>「지방세법」 제84조의6 및 같은 법 시행령 제85조의4에 따라 위와 같이 신고합니다.</text:p>
+      <text:p text:style-name="Center">년　　월　　일</text:p>
+      <text:p text:style-name="Center">신고인(납세자)　　　　　　　　　　　　　　(서명 또는 인)</text:p>
+      <text:p>시장ㆍ군수ㆍ구청장 귀하</text:p>
+      <text:p text:style-name="PageHeading">접수증</text:p>
+
+      <text:p text:style-name="StartPage"/>
+      <text:p text:style-name="Center">　　　　　　　　　　　　　　　(3쪽중 제2쪽)</text:p>
+      <text:p text:style-name="PageHeading">급여 총괄표</text:p>
+      <table:table table:name="급여 총괄표" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>납세</text:p><text:p>의무자</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>사업소명(상호)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>성명(법인명)</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>주민(법인)등록번호</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>사업소(과세대상) 소재지</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>사업자등록번호</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>전화번호</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>FAX 번호</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table table:name="사업소 인원" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>사업소 인원</text:p><text:p>(소수점 이하 1자리까지 기재)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>계</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>상시고용종업원</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>수시고용종업원</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>비고</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Center">20○○년　 월분 급여 합계(급여지급일: 20○○년　 월　 일)</text:p>
+      <table:table table:name="급여내역" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>과 세 대 상</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>비과세대상</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>비 고</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>구 분</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>급여액</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>구 분</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>급여액</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>기본급</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>기본급</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>수 당</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>수 당</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>상여금</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>상여금</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>기 타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>기 타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>합 계</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>합 계</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Center">최근 12개월간 월급여총액(소수점 이하 1자리까지 기재)</text:p>
+      <text:p text:style-name="Small">※ 신고월(급여지급일이 속한 달) 이전 최근 12개월간의 월급여를 순서대로 기재합니다.</text:p>
+      <table:table table:name="최근12개월 급여" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>월별</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>평균</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○○년</text:p><text:p>신고월</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>급여</text:p><text:p>총액</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Center">직전 연도 월별 종업원수 (소수점 이하 1자리까지 기재)</text:p>
+      <text:p text:style-name="Small">※ 「지방세법」 제84조의5에 따른 중소기업 고용지원 공제 대상에 해당하는 경우만 작성합니다</text:p>
+      <table:table table:name="직전연도 종업원수" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>월별</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>계</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>1월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>2월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>3월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>4월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>5월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>6월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>7월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>8월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>9월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>10월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>11월</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>12월</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>종업원수</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="StartPage"/>
+      <text:p text:style-name="Center">(3쪽중 제3쪽)</text:p>
+      <text:p text:style-name="PageHeading">작성 방법</text:p>
+      <text:p>□ 신고인(납세자)란</text:p>
+      <text:p>① 사업소명(상호): 「부가가치세법」 제8조, 「법인세법」 제111조, 「소득세법」 제168조에 따라 사업자등록을 한 경우 등록된 상호명을, 사업자등록을 하지 않은 경우에는 내부관리명칭을 사업소명으로 적습니다.</text:p>
+      <text:p>※ 사업소: 「지방세법」 제74조제4호에 따라 인적 및 물적 설비를 갖추고 계속하여 사업 또는 사무가 이루어지는 장소를 말합니다.</text:p>
+      <text:p>② 성명(법인명): 개인의 경우 성명, 법인의 경우 법인등기부등본상의 상호명을 적습니다.</text:p>
+      <text:p>③ 주민(법인)등록번호: 개인은 주민등록번호, 외국인은 외국인등록번호, 법인은 법인등록번호를 적습니다.</text:p>
+      <text:p>④ 본점 소재지: 법인등기부등본상 본점 소재지를 적습니다.</text:p>
+      <text:p>⑤ 사업소(과세대상) 소재지: 신고하려는 사업소의 도로명 주소 또는 지번주소를 적습니다.</text:p>
+      <text:p>⑥ 사업자등록번호: 해당 사업소에 사업자등록을 한 경우에는 사업자등록번호를 적고, 사업자등록을 하지 않은 경우에는 빈 칸으로 둡니다.</text:p>
+      <text:p>⑦ 전화번호: 연락이 가능한 유선전화 또는 휴대전화 번호를 적습니다.</text:p>
+      <text:p>※ 기재착오, 계산착오 등으로 과세관청에서 연락이 필요한 경우에 활용합니다.</text:p>
+      <text:p>⑧ FAX번호: 수신이 가능한 FAX번호를 기재하되, 기재를 원하지 않는 경우 생략할 수 있습니다.</text:p>
+      <text:p>□ 신고납부란</text:p>
+      <text:p>⑨ 종업원 수: 「지방세법 시행규칙」 제38조의2에 따른 월 통상인원[해당 월의 상시고용 종업원수 + (해당 월의 수시고용 종업원의 연인원/해당 월의 일수)]을 산출하여 기재합니다.</text:p>
+      <text:p>※ 수시고용 종업원의 연인원은 수시고용 종업원이 근무한 일수의 합계를 의미합니다.</text:p>
+      <text:p>(예시) 수시고용 종업원 3명이 각 10일, 15일, 20일씩 근무한 경우: (10×1 + 15×1 + 20×1) = 45</text:p>
+      <text:p>⑩ 최근 1년간 종업원 급여총액의 월평균금액: 신고월을 포함하여 최근 12개월간 해당 사업소의 종업원에게 지급한 급여총액을 12로 나눈 값을 기재합니다. 이 경우 개업 또는 휴·폐업 등으로 영업한 날이 15일미만인 달의 급여총액과 그 개월수는 제외합니다.</text:p>
+      <text:p>⑪ 급여총액: 신고월에 종업원에게 지급한 급여의 총액을 적습니다.</text:p>
+      <text:p>⑫ 과세제외급여액: 「소득세법」 제12조제3호에 따른 비과세 대상 급여액을 적습니다.</text:p>
+      <text:p>⑬ 과세급여총액: 급여총액에서 과세제외급여액을 차감한 금액(⑪−⑫)을 적습니다.</text:p>
+      <text:p>□ 「지방세법」 제84조의5에 따른 과세표준 공제액란</text:p>
+      <text:p>⑭ 직전 연도 월평균 종업원 수: 「중소기업기본법」 제2조에 따른 중소기업의 사업주가 종업원을 추가로 고용한 경우 직전 연도의 월평균 종업원 수를 기재하되, 그 수가 50명 이하인 경우에는 50명으로 기재합니다.</text:p>
+      <text:p>⑮ 신고월의 월 적용급여액: 과세급여총액(⑬)을 종업원 수(⑨)로 나눈 값을 적습니다.</text:p>
+      <text:p>⑯ 과세표준 공제액: 다음 계산식에 따라 산출한 값을 적습니다. 이 경우 다음 각 호의 어느 하나에 해당하는 경우에는 다음 각 호에서 정하는 날부터 1년 동안(해당 월의 종업원 수가 50명을 초과하는 달만 해당합니다) 월평균 종업원 수 50명에 해당하는 월 적용급여액을 공제액으로 합니다.</text:p>
+      <text:p>과세표준 공제액 = 신고월의 월 적용급여액(⑮) × [신고월의 종업원 수(⑨) − 직전 연도 월평균 종업원 수(⑭)]</text:p>
+      <text:p>1. 사업소를 신설하면서 50명을 초과하여 종업원을 고용하는 경우: 종업원분을 최초로 신고하여야 하는 달</text:p>
+      <text:p>2. 해당 월의 1년 전(해당 월의 과거 1년 내에 사업소를 신설한 경우에는 신설한 달을 말합니다)부터 계속하여 매월 종업원 수가 50명 이하인 사업소가 추가 고용으로 그 종업원 수가 50명을 초과하는 경우(과거 5년 내에 종업원 수가 1회 이상 50명을 초과한 사실이 있는 사업소의 경우는 제외함): 해당 월의 종업원분을 신고하여야 하는 달</text:p>
+      <text:p>□ 납부할 세액란</text:p>
+      <text:p>⑰ 산출과표: 과세급여총액에서 공제액을 차감한 액수(⑬−⑯)를 적습니다.</text:p>
+      <text:p>⑱ 산출세액: 산출과표(⑰)에 「지방세법」 제84조의3에 따른 세율을 곱하여 산출한 세액을 적습니다.</text:p>
+      <text:p>⑲ 가산세 합계: 「지방세기본법」 제53조의 무신고 가산세, 같은 법 제54조의 과소신고가산세, 같은 법 제55조의 납부지연가산세를 산출하여 합계금액을 적습니다. 이 경우 같은 법 제57조에 따른 가산세의 감면사유에 해당하는 경우에는 감면 후의 금액을 적습니다.</text:p>
+      <text:p>⑳ 신고세액 합계: 신고인이 납부하여야 할 세액의 합계(⑱+⑲)를 적습니다.</text:p>
+      <text:p>□ 문의사항은 시(군·구) 과(☎　　-　　　)로 문의하시기 바랍니다.</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+58,230

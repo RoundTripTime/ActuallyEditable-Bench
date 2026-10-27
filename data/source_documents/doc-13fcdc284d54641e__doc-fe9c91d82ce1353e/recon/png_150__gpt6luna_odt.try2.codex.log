@@ -1,0 +1,455 @@
+ment>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+
+exec
+/usr/bin/zsh -lc "rg -n -C 2 'office:document.*1\\.4|text document|single XML|OpenDocument XML|mimetype|flat XML' odf_spec/OpenDocument-v1.4-os-part2-packages.txt; rg -n -C 2 'number-columns-spanned|number-rows-spanned|table-table-cell-attlist-extra|table-table-cell-content|style-page-layout-properties-attlist|fo:margin-top|fo:margin-bottom|style:family|style:parent-style-name|fo:font-size|fo:text-align|fo:padding|style:vertical-align|style:table-cell-properties-attlist' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_je81eayk
+ succeeded in 0ms:
+446-B.3)The XML file shall be valid with respect to the manifest schema defined in appendix A.1 OpenDocument Manifest Schema. 
+447-
+448:C)It should contain a file “mimetype”. 
+449-
+450-D)It may contain files whose relative paths begin with “META-INF/” and whose names contain the string “signatures”. These file shall meet the following requirements: 
+--
+513-The format of the manifest file is specified in chapter 4.
+514-
+515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+516-
+517:The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+518-
+519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+520-
+521-3.3 MIME Media Type
+522-
+523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+524-
+525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+526-
+527:If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+528-
+529-Note: The purpose is to allow the type of document represented by the package to be discovered through 'magic number' mechanisms, such as Unix's file/magic utility. If a Zip file contains a file at the beginning of the file that is uncompressed, and has no extra data in the header, then its file name and data can be found at fixed positions from the beginning of the package. More specifically, one will find:
+--
+531-•the string 'PK' at position 0 of all zip files 
+532-
+533:•the string 'mimetype' beginning at position 30 
+534-
+535-•the media type itself beginning at position 38. 
+2230-  <rng:define name="common-padding-attlist">
+2231-    <rng:optional>
+2232:      <rng:attribute name="fo:padding">
+2233-        <rng:ref name="nonNegativeLength"/>
+2234-      </rng:attribute>
+2235-    </rng:optional>
+2236-    <rng:optional>
+2237:      <rng:attribute name="fo:padding-top">
+2238-        <rng:ref name="nonNegativeLength"/>
+2239-      </rng:attribute>
+2240-    </rng:optional>
+2241-    <rng:optional>
+2242:      <rng:attribute name="fo:padding-bottom">
+2243-        <rng:ref name="nonNegativeLength"/>
+2244-      </rng:attribute>
+2245-    </rng:optional>
+2246-    <rng:optional>
+2247:      <rng:attribute name="fo:padding-left">
+2248-        <rng:ref name="nonNegativeLength"/>
+2249-      </rng:attribute>
+2250-    </rng:optional>
+2251-    <rng:optional>
+2252:      <rng:attribute name="fo:padding-right">
+2253-        <rng:ref name="nonNegativeLength"/>
+2254-      </rng:attribute>
+--
+2625-  <rng:define name="common-text-align">
+2626-    <rng:optional>
+2627:      <rng:attribute name="fo:text-align">
+2628-        <rng:choice>
+2629-          <rng:value>start</rng:value>
+--
+2804-  <rng:define name="common-vertical-margin-attlist">
+2805-    <rng:optional>
+2806:      <rng:attribute name="fo:margin-top">
+2807-        <rng:choice>
+2808-          <rng:ref name="nonNegativeLength"/>
+--
+2812-    </rng:optional>
+2813-    <rng:optional>
+2814:      <rng:attribute name="fo:margin-bottom">
+2815-        <rng:choice>
+2816-          <rng:ref name="nonNegativeLength"/>
+--
+10365-      </rng:optional>
+10366-      <rng:optional>
+10367:        <rng:attribute name="style:vertical-align">
+10368-          <rng:choice>
+10369-            <rng:value>top</rng:value>
+--
+12250-    </rng:element>
+12251-  </rng:define>
+12252:  <rng:define name="style-page-layout-properties-attlist">
+12253-    <rng:interleave>
+12254-      <rng:optional>
+--
+12439-  </rng:define>
+12440-  <rng:define name="style-page-layout-properties-content-strict">
+12441:    <rng:ref name="style-page-layout-properties-attlist"/>
+12442-    <rng:ref name="style-page-layout-properties-elements"/>
+12443-  </rng:define>
+--
+12488-      <rng:ref name="common-text-align"/>
+12489-      <rng:optional>
+12490:        <rng:attribute name="fo:text-align-last">
+12491-          <rng:choice>
+12492-            <rng:value>start</rng:value>
+--
+12614-      </rng:optional>
+12615-      <rng:optional>
+12616:        <rng:attribute name="style:vertical-align">
+12617-          <rng:choice>
+12618-            <rng:value>top</rng:value>
+--
+12775-      </rng:optional>
+12776-      <rng:optional>
+12777:        <rng:attribute name="style:parent-style-name">
+12778-          <rng:ref name="styleNameRef"/>
+12779-        </rng:attribute>
+--
+12838-    <rng:choice>
+12839-      <rng:group>
+12840:        <rng:attribute name="style:family">
+12841-          <rng:value>text</rng:value>
+12842-        </rng:attribute>
+--
+12846-      </rng:group>
+12847-      <rng:group>
+12848:        <rng:attribute name="style:family">
+12849-          <rng:value>paragraph</rng:value>
+12850-        </rng:attribute>
+--
+12857-      </rng:group>
+12858-      <rng:group>
+12859:        <rng:attribute name="style:family">
+12860-          <rng:value>section</rng:value>
+12861-        </rng:attribute>
+--
+12865-      </rng:group>
+12866-      <rng:group>
+12867:        <rng:attribute name="style:family">
+12868-          <rng:value>ruby</rng:value>
+12869-        </rng:attribute>
+--
+12873-      </rng:group>
+12874-      <rng:group>
+12875:        <rng:attribute name="style:family">
+12876-          <rng:value>table</rng:value>
+12877-        </rng:attribute>
+--
+12881-      </rng:group>
+12882-      <rng:group>
+12883:        <rng:attribute name="style:family">
+12884-          <rng:value>table-column</rng:value>
+12885-        </rng:attribute>
+--
+12889-      </rng:group>
+12890-      <rng:group>
+12891:        <rng:attribute name="style:family">
+12892-          <rng:value>table-row</rng:value>
+12893-        </rng:attribute>
+--
+12897-      </rng:group>
+12898-      <rng:group>
+12899:        <rng:attribute name="style:family">
+12900-          <rng:value>table-cell</rng:value>
+12901-        </rng:attribute>
+--
+12911-      </rng:group>
+12912-      <rng:group>
+12913:        <rng:attribute name="style:family">
+12914-          <rng:choice>
+12915-            <rng:value>graphic</rng:value>
+--
+12928-      </rng:group>
+12929-      <rng:group>
+12930:        <rng:attribute name="style:family">
+12931-          <rng:value>drawing-page</rng:value>
+12932-        </rng:attribute>
+--
+12936-      </rng:group>
+12937-      <rng:group>
+12938:        <rng:attribute name="style:family">
+12939-          <rng:value>chart</rng:value>
+12940-        </rng:attribute>
+--
+13039-    <rng:interleave>
+13040-      <rng:optional>
+13041:        <rng:attribute name="style:vertical-align">
+13042-          <rng:choice>
+13043-            <rng:value>top</rng:value>
+--
+13481-      </rng:optional>
+13482-      <rng:optional>
+13483:        <rng:attribute name="fo:font-size">
+13484-          <rng:choice>
+13485-            <rng:ref name="positiveLength"/>
+--
+14299-    <rng:element name="table:covered-table-cell">
+14300-      <rng:ref name="table-table-cell-attlist"/>
+14301:      <rng:ref name="table-table-cell-content"/>
+14302-    </rng:element>
+14303-  </rng:define>
+--
+16053-    <rng:element name="table:table-cell">
+16054-      <rng:ref name="table-table-cell-attlist"/>
+16055:      <rng:ref name="table-table-cell-attlist-extra"/>
+16056:      <rng:ref name="table-table-cell-content"/>
+16057-    </rng:element>
+16058-  </rng:define>
+--
+16100-    </rng:interleave>
+16101-  </rng:define>
+16102:  <rng:define name="table-table-cell-attlist-extra">
+16103-    <rng:interleave>
+16104-      <rng:optional>
+16105:        <rng:attribute name="table:number-columns-spanned">
+16106-          <rng:ref name="positiveInteger"/>
+16107-        </rng:attribute>
+16108-      </rng:optional>
+16109-      <rng:optional>
+16110:        <rng:attribute name="table:number-rows-spanned">
+16111-          <rng:ref name="positiveInteger"/>
+16112-        </rng:attribute>
+--
+16124-    </rng:interleave>
+16125-  </rng:define>
+16126:  <rng:define name="table-table-cell-content">
+16127-    <rng:optional>
+16128-      <rng:ref name="table-cell-range-source"/>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="P" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph" style:parent-style-name="P">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph" style:parent-style-name="P">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.08cm" fo:margin-bottom="0.14cm"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph" style:parent-style-name="P">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.06cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="TightCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.025cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Table" style:family="table">
+      <style:table-properties style:width="18cm"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="0.7cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="3.1cm"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="9.1cm"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="3.3cm"/>
+    </style:style>
+    <style:style style:name="ColE" style:family="table-column">
+      <style:table-column-properties style:column-width="1.8cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PL1">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.5cm" fo:margin-bottom="1.5cm" fo:margin-left="1.5cm" fo:margin-right="1.5cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PL1"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Center">中間検査時提出</text:p>
+      <text:p text:style-name="Title">建築基準法第 12 条第 5 項に基づく工事監理状況報告書（RC 造）</text:p>
+      <text:p text:style-name="P">（あて先）　横須賀市建築主事</text:p>
+      <text:p text:style-name="P">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　年　　　　月　　　　日</text:p>
+      <table:table table:name="Header" table:style-name="Table">
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="P">建築確認済証番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="P">年　　　月　　　日　第　　　　　　　　　　　号</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="P">建築主氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="P">建築場所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="P">神奈川県横須賀市</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="P">上記、工事中の建築物の設計図書と施工状況の照合結果を以下のとおり報告します。</text:p>
+      <text:p text:style-name="P">工事監理資格　　　　（　　　　）建築士（　　　　　　）登録　第　　　　　　　　　号</text:p>
+      <text:p text:style-name="P">氏名</text:p>
+      <text:p text:style-name="P">建築事務所名　　　　（　　　　）建築士事務所　（　　　　　　）知事登録第　　　　　号</text:p>
+      <text:p text:style-name="P">　　　　　　　　　　　　　　　　　　　　　　　　　電話　　　　　　　　　　　　　　番</text:p>
+      <text:p text:style-name="P">建築確認図書と照合した結果、変更は　□　ありません。</text:p>
+      <text:p text:style-name="P">　　　　　　　　　　　　　　　　　　　□　ありますので、別添「軽微な変更説明書」を添付します。</text:p>
+      <text:p text:style-name="P">【チェック項目】</text:p>
+      <text:p text:style-name="P">チェック結果欄について施工状況を確認し、結果を○で囲んで下さい。（該当しない項目は記入しないで下さい。）</text:p>
+      <text:p text:style-name="P">　（　適：建築確認図書のとおり施工されているもの　不：建築確認図書のとおり施工されていないもの</text:p>
+      <text:p text:style-name="P">　　　未：未施工のもの　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　）</text:p>
+      <table:table table:name="Checklist1" table:style-name="Table">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center"/></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">確　認　事　項</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">内　　　容</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">チェック結果</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">※</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">1</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">確認表示板</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">確認表示板の設置</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="4"><text:p text:style-name="Center">2</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="4"><text:p text:style-name="P">敷地と道路の関係</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(1)道路の幅員</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(2)道路に接する敷地の長さ</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(3)２項道路の後退</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(4)法第 43 条許可・認定条件との照合</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="2"><text:p text:style-name="Center">3</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="2"><text:p text:style-name="P">敷地形状、建物形状</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(1)敷地の形状（敷地の形、高低差）</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(2)建物形状、配置、寸法</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">4</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">斜線制限</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">確認図書との照合（離れ、配置）</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">5</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">居室の採光、換気</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">外壁の開口部の位置・大きさ</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">6</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">地盤の状況</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">支持地盤の位置、種類、支持力等の確認</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">7</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">建築物全体</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">間取り（柱・横架材・壁・床の位置）</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">8</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">建築材料の品質（法 37）</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">日本工業規格又は日本農林規格に適合、若しくは指定建築材料が大臣認定を受けたもの</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="4"><text:p text:style-name="Center">9</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="4"><text:p text:style-name="P">施工状況</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(1)鉄筋の乱れ、踏み荒し、波打ち、たるみの有無</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(2)柱、梁、スラブが設計図書通りに配置されているか</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(3)適正なかぶり厚さがとれているか</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(4)型枠中に木片、空缶等のゴミはないか</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="2"><text:p text:style-name="Center">10</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="2"><text:p text:style-name="P">柱</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(1)上階の主筋本数、径、配置方向</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(2)各階止まり、柱頭主筋の止まり高さと定着状況</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="PageStart"/>
+      <table:table table:name="Checklist2" table:style-name="Table">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-row><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(3)柱仕口部分の帯筋の径、ピッチ</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(4)第一帯筋の位置と柱頭拘束帯筋の有無</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="7"><text:p text:style-name="Center">11</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="7"><text:p text:style-name="P">梁</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(1)主筋、あばら筋、腹筋、幅止筋の状況</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(2)主筋の定着方法、長さ</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(3)中吊り筋の位置</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(4)継手の位置と長さ（重ね継手の場合）</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(5)片持ち主筋の位置と定着</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(6)貫通部の位置、補強方法</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(7)ハンチ部分のあばら筋補強</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="5"><text:p text:style-name="Center">12</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="5"><text:p text:style-name="P">スラブ</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(1)主筋方向、ピッチ、径、スラブ厚</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(2)定着方法、長さ</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(3)継手の位置と長さ</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(4)片持ちスラブの定着と上端筋位置確保</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(5)隅部、開口部、設備配管に対する補強</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="3"><text:p text:style-name="Center">13</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="3"><text:p text:style-name="P">壁</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(1)縦筋の定着方法、長さ</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(2)壁交差部の縦筋補強</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(3)スリットの位置、施工状況</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="2"><text:p text:style-name="Center">14</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell" table:number-rows-spanned="2"><text:p text:style-name="P">圧接</text:p></table:table-cell>
+          <table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(1)ガス圧接継手の形状、位置ずらし</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">(2)特殊継手の認定・評定確認</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">15</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">その他</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P">（　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　）</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="Center">適 ・ 不 ・ 未</text:p></table:table-cell><table:table-cell table:style-name="TightCell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="P">《注意事項》</text:p>
+      <text:p text:style-name="P">・結果が不適合の場合は「工事施工者への指示記録」欄に項目番号、指示日及び指摘内容を記載して下さい。</text:p>
+      <text:p text:style-name="P">・※欄は空欄のままにしてください。</text:p>
+      <text:p text:style-name="P">・設計図書の内容について設計者に確認した事項</text:p>
+      <table:table table:name="DesignerNotes" table:style-name="Table">
+        <table:table-column table:style-name="ColC"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="P">・工事施工者への指示記録</text:p>
+      <table:table table:name="Instructions" table:style-name="Table">
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">項目番号</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">指示日</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">指　示　内　容</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P"/></table:table-cell></table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+48,370

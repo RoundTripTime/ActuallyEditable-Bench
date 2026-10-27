@@ -1,0 +1,330 @@
+t item E) of 2.2.1. 
+472:An OpenDocument Package Producer is a program that creates conforming OpenDocument packages, and that meets the additional requirements:
+474:A)It may produce conforming OpenDocument extended packages, but it shall have a mode of operation where all OpenDocument packages that are created are conforming OpenDocument packages. 
+476:B)It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument package producer. 
+480:An OpenDocument Package Extended Producer is a program that creates conforming OpenDocument extended packages. It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument package producer.
+484:An OpenDocument Package Consumer is a program that can parse and interpret OpenDocument packages, and that meets the following additional requirements:
+486:A)It shall be able to parse and interpret OpenDocument packages and OpenDocument extended packages, but it need not interpret the semantics of all elements, attributes and attribute values. 
+499:OpenDocument defines a package file to store the XML content of a document as separate parts together with associated binary data as file entries in a single package file. These file entries may be compressed to further reduce the storage taken by the package. This package is a Zip file [ZIP], whose structure is described in Appendix C. OpenDocument Packages impose additional structure on the Zip file to accomplish the representation of OpenDocument Format documents.
+501:A document within a package may consist of a set of files creating a unit, for instance the set of files specified by OpenDocument Part 3. These files may be located in the root of the package, or within a directory. If they are contained in the root of the package, they are called document. If they are located within a directory, the document they constitute is called a sub document. A package may contain multiple sub documents, but only a single document can be contained in the root of the package. Unless otherwise stated, the term document refers to the document contained in the root of the package. This may include sub documents.
+505:All OpenDocument packages shall contain a file named “META-INF/manifest.xml”. This file is the OpenDocument package manifest. The manifest provides :
+507:•A list of all of the files in the package (except those specifically excluded from the manifest). 
+509:•The MIME media type of each file in the package. 
+515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+529:Note: The purpose is to allow the type of document represented by the package to be discovered through 'magic number' mechanisms, such as Unix's file/magic utility. If a Zip file contains a file at the beginning of the file that is uncompressed, and has no extra data in the header, then its file name and data can be found at fixed positions from the beginning of the package. More specifically, one will find:
+541:OpenDocument packages may be encrypted by encrypting some or all files within the package. The encryption process takes place in the following stages:
+571:Files within a package may have a digital signature applied. Digital signatures are stored in one or more files whose relative paths begin with “META-INF/”. The names of these files shall contain the term “signatures”.
+577:Metadata for documents contained in an OpenDocument package may be expressed using the model of the W3C Resource Description Framework [RDF-CONCEPTS].
+579:A document or sub document that is stored in a package may contain any  number of metadata files. The content of a metadata files shall conform to the [RDF-XML] specification. Implementations that are consumers as well as producers should preserve all metadata files.
+581:All metadata files of a document or sub document shall be listed in a separate metadata manifest file, which has the file name “manifest.rdf”. This file enumerates metadata files and their relationships to other files in an OpenDocument package. See chapter 6.
+585:All references to a resource within the same package that occur within metadata file shall be represented by relative IRIs to the resource. This includes values of rdf:about attributes occurring within metadata files or metadata manifest files.
+589:Within the files contained in a package, relative IRIs as defined by [RFC3987] may be used to reference other files within the same package.
+591:OpenDocument Package Consumers shall resolve relative IRIs that occur within a file of a package as follows:
+595:2.The package base IRI is the base IRI which would be established for the package itself as defined in §5.1 of [RFC3986]. 
+597:3.If the relative IRI does not match the rule for "relative-ref" defined in §4.2 of [RFC3986] or if the relative IRI does start with a "/" character (U+002F, SOLIDUS) then it is resolved as defined in §5.2 of [RFC3986] with the package base IRI as base URI. 
+610:•if the file entry path buffer is empty, then the content of the relative IRI buffer is replaced with "." (U+002E, FULL STOP). The query and fragment components of the relative IRI, if present, are appended to the relative IRI buffer, including the "?" (U+003F, QUESTION MARK) and "#" (U+0023, NUMBER SIGN) delimiter characters. The content of the relative IRI buffer then is resolved as defined in §5.2 of [RFC3986] with the package base IRI as base URI. 
+615:•if the file entry path buffer is empty, then the "../" is replaced with "./" (U+002E, FULL STOP, followed by U+002F, SOLIDUS) in the relative IRI buffer. The query and fragment components of the relative IRI, if present, are appended to the relative IRI buffer, including the "?" (U+003F, QUESTION MARK) and "#" (U+0023, NUMBER SIGN) delimiter characters. The content of the relative IRI buffer then is resolved as defined in §5.2 of [RFC3986] with the package base IRI as base URI. 
+621:12.The content of the relative IRI buffer is interpreted as a file or directory name within the package, that is, as the name of a file or directory including its relative path within the Zip file. An empty buffer denotes the package root. Path segments in the relative IRI buffer that originally came from the relative IRI shall be interpreted according to IRI syntax rules, while segments that originally came from the file entry path shall be interpreted according to Zip path name syntax rules. 
+625:Note: Files whose relative path starts with “META-INF/” are considered to be part of the OpenDocument package rather than of the content stored within the package. Therefore, different rules regarding the resolution of relative IRIs may apply.
+629:Unless a document is encrypted, package producers should generate a preview image of the document that is contained in the package. It should be a representation of the first page, first sheet, etc. of the document. For maximum re-usability of the preview images they shall be generated without any effects, surrounding frames, or borders.
+639:Encrypted documents are intended to be unreadable for unauthorized users and package producers shall not generate preview images for such documents. They may include a preview image that is independent of the contents of the document. Such preview images should not be encrypted.
+643:An OpenDocument Package Producer that both encrypts files in the package and applies digital signatures to files in the package should either first encrypt (per section 3.4) and then apply the digital signatures (per section 5) or first apply the digital signatures and then encrypt.
+647:If the files in the package are encrypted after applying the digital signatures, the digital signature files shall be encrypted.
+661:The <manifest:manifest> element is the root element of the manifest file. It contains <manifest:file-entry> child elements 4.3, each of which specifies information for a file or directory in the package.
+671:The <manifest:file-entry> element specifies the media type of a single file or sub document within the package.  It may also specify the data required to decrypt a file.
+831:•The implementation-defined IRI of an alternative algorithm as specified in §5.1 of [xmlenc-core]. Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+863:•The implementation-defined IRI of an alternative algorithm as specified in §5.1 of [xmlenc-core]. Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+877:The manifest:full-path attribute describes the location of a file or directory within the package. It's value is the name of a file or folder within the Zip file for which the manifest entry defines additional information, including its relative path in the package. The notation is the same as for the “filename” fields of the Zip file's central directory.
+879:The attribute value "/" denotes a manifest entry for the package itself.
+905:•The implementation-defined IRI of an alternative algorithm as specified in §5.1 of [xmlenc-core] Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+949:•The implementation-defined IRI of an implementation-defined alternative algorithm. Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+1021:The manifest:version attribute identifies the version of OpenDocument specification that defines the schema and interpretation of the package manifest. The value of the manifest:version attribute shall be "1.4".
+1051:In particular, consumers may require that a digital signature references all files contained in a package.
+1073:1.A <ds:Reference> element which has a Type attribute value of "http://docs.oasis-open.org/office/v1.2/OS/OpenDocument-v1.2.odt" shall refer to a file in the same package in the accordance with the procedure for resolving IRIs 3.7, except that the file entry path shall be the name of the signature file with its relative path omitted.  
+1121:Metadata manifest files (see 3.6) have the file name “manifest.rdf”. The metadata manifest file for a document (see 3.1) shall be stored in the root of the package. The metadata manifest file for a sub documents shall be stored in the sub document's directory.
+1135:A file in an OpenDocument package is represented by an instance of class pkg:File or by one of its subclasses, for example pkg:MetadataFile.
+1139:The relationship between a file and a package is expressed using the property pkg:hasPart 6.6.
+1151:The pkg:Element class describes an XML element contained in a file within an OpenDocument package.
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Normal" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="115%"/>
+      <style:text-properties fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.18cm" fo:margin-bottom="0.12cm"/>
+      <style:text-properties fo:font-size="11pt" fo:font-weight="bold"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:print-orientation="portrait" fo:margin-top="1.5cm" fo:margin-bottom="1.5cm" fo:margin-left="1.5cm" fo:margin-right="1.5cm"/>
+    </style:page-layout>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="HeaderCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" fo:background-color="#d9e8fb" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="GrayCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" fo:background-color="#e5e5e5" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="3.1cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="3.3cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="Col5" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="Col6" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="Col7" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="Col8" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="ThreeA" style:family="table-column">
+      <style:table-column-properties style:column-width="10cm"/>
+    </style:style>
+    <style:style style:name="ThreeB" style:family="table-column">
+      <style:table-column-properties style:column-width="3.5cm"/>
+    </style:style>
+    <style:style style:name="ThreeC" style:family="table-column">
+      <style:table-column-properties style:column-width="4.9cm"/>
+    </style:style>
+    <style:style style:name="AppA" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="AppB" style:family="table-column">
+      <style:table-column-properties style:column-width="7.95cm"/>
+    </style:style>
+    <style:style style:name="AppC" style:family="table-column">
+      <style:table-column-properties style:column-width="7.95cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <table:table table:name="기본정보">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-column table:style-name="Col6"/>
+        <table:table-column table:style-name="Col7"/>
+        <table:table-column table:style-name="Col8"/>
+        <table:table-row>
+          <table:table-cell table:style-name="HeaderCell" table:number-columns-spanned="8"><text:p text:style-name="Title">통계기반정책예비평가 요청서</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>법령명칭</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="7"/>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>관련법령</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="7"><text:p>제·개정 내용과 관련된 타 법령 기재</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>국정과제</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="7"><text:p>제·개정 내용과 관련된 국정과제 명(번호) 기재</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>법령종류</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>법률</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>대통령령</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>총리령</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>부령</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>입안유형</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>제정</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>개정</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="4"><text:p>법령(정책)<br/>소관기관</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>기관명</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"/>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>총괄부서<br/>(통계책임관부서)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="Center">부서명</text:p><text:p>담당자 직·성명/전화번호</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"/>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>사업부서<br/>(집행부서)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="Center">부서명</text:p><text:p>담당자 직·성명/전화번호</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"/>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>입법일정<br/>(예정)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>관계기관 협의　　20　.　.　.　~　20　.　.　.　(　　일간)</text:p><text:p>입법예고　　　　20　.　.　.　~　20　.　.　.　(　　일간)</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>첨부자료</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>법령자료</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>법령 제·개정안 및 조문별 제·개정 이유서, 신·구조문대비표</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>정책자료</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>정책관련 참고(설명) 자료</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>통계자료</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>통계지표 목록(지표명, 생산기관, 지표내용, 출처 등)</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>작 성 자</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>기관명</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>부서명</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>직 급</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>성 명</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>전화번호</text:p></table:table-cell><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"/><table:covered-table-cell/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"/><table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p>※ ‘평가대상 제외법령’은 예비평가 요청서를 작성하지 않음</text:p>
+      <text:p>☞ 제외법령 목록: 통계청 홈페이지 &gt; 정책정보 &gt; 통계기반정책평가 제도</text:p>
+      <text:p text:style-name="Section">① 정책 포함성 (※ 주요 제·개정 내용이 복수인 경우 별지에 추가 작성)</text:p>
+      <table:table table:name="정책포함성">
+        <table:table-column table:style-name="ThreeA"/><table:table-column table:style-name="ThreeB"/><table:table-column table:style-name="ThreeC"/>
+        <table:table-row><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">검토 항목</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">해당 여부</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">설명 자료</text:p></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>1-1. 제·개정 내용이 신규 또는 기존 정책*을 포함하고 있습니까?</text:p><text:p>* 정책대상(고객)의 현재 상태를 변화시키기 위해 정책수단을 사용하는 활동</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>정책명칭　</text:p><text:p>정책구분　 □ 신규　□ 기존</text:p><text:p>정책목표</text:p><text:p>정책대상(고객)</text:p><text:p>정책수단</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>1-2. 제·개정 내용이 재정부담(예산)을 수반합니까?</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p><text:p>□ 모르겠음</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>소요예산:　 ______백만원</text:p><text:p>※ 관련 비용추계서 등을 첨부자료로 제출</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageStart"/>
+      <text:p>1-3. 제·개정 내용이 해당되는 사항을 모두 체크하시오</text:p>
+      <table:table table:name="정책항목">
+        <table:table-column table:style-name="ThreeA"/><table:table-column table:style-name="ThreeB"/><table:table-column table:style-name="ThreeC"/>
+        <table:table-row><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">검토 항목</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">해당 여부</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">주요 내용</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>가. 행정조직의 운영에 관한 사항</text:p><text:p>①위원회, 기구 등 조직의 명칭 변경</text:p><text:p>②구성원 자격과 업무 정비　③운영절차 변경　④기타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>나. 행정기관 또는 민간기관 등에 위임·위탁</text:p><text:p>①기존 상부기관의 권한, 업무 등을 하부기관이나 소속단체 등에 위임·위탁　②기타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>다. 행정절차 또는 행정서식의 변경</text:p><text:p>①행정처리 과정(자료제출, 예고통보, 사전협의, 보고의무, 청문제도 등)의 일부 보완 및 정비</text:p><text:p>②행정처분에 대한 현장점검 등 집행사항의 변경</text:p><text:p>③행정서식(신청서, 제출서류 등)의 경미한 수정</text:p><text:p>④기타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>라. 행정정보의 수집·관리에 관한 사항</text:p><text:p>①행정정보 수집 및 정보시스템 구축</text:p><text:p>②행정정보 공개 및 제공 절차　③기타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>마. 재정지원 또는 규제정책의 일부 변경</text:p><text:p>①지원대상과 조건 일부, 지원금액(비율), 적용기간 등의 변경</text:p><text:p>②규제범위와 요건 등의 변경　③정책내용, 대상범위 등의 구체화(명확화)　④기타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>바. 위반행위에 대한 처벌 규정의 일부 변경</text:p><text:p>①자격상실, 자격정지 기준과 내용 변경　②벌금, 구류, 과태료 기준과 내용 변경　③기타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>사. 법률용어 순화, 단순한 용어 정비 등</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>아. 인용조항 변경, 조항의 상향 규정 등</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 ➜</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Section">② 통계 필요성 (※ 주요 제·개정 내용이 복수인 경우 별지에 추가 작성)</text:p>
+      <table:table table:name="통계필요성">
+        <table:table-column table:style-name="ThreeA"/><table:table-column table:style-name="ThreeB"/><table:table-column table:style-name="ThreeC"/>
+        <table:table-row><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">검토 항목</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">필요 여부</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">판단 근거</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>2. 제·개정 내용에 포함된 정책의 집행과 평가 등을 위해서 통계지표가 필요합니까?</text:p><text:p>* 통계 활용 또는 활용 필요성이 있는 경우</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예</text:p><text:p>□ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="Section">③ 통계 구비성 (※ 주요 제·개정 내용이 복수인 경우 별지에 추가 작성)</text:p>
+      <table:table table:name="통계구비성">
+        <table:table-column table:style-name="ThreeA"/><table:table-column table:style-name="ThreeB"/><table:table-column table:style-name="ThreeC"/>
+        <table:table-row><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">검토 항목</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">구비 유무</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">설명 자료</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>3-1. 제·개정 내용에 포함된 정책을 집행하는 과정에서 생산 또는 관리되는 통계지표가 있습니까?</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 있음　 ➜</text:p><text:p>□ 없음</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>명칭</text:p><text:p>종류　 □ 국가승인통계　□ 행정자료　□ 기타(　　　　)</text:p><text:p>작성 내용</text:p><text:p>출처</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>3-2. 제·개정 내용에 포함된 정책의 수립 또는 평가에 활용되는 통계지표가 있습니까?</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 있음　 ➜</text:p><text:p>□ 없음</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>명칭</text:p><text:p>종류　 □ 국가승인통계　□ 행정자료　□ 기타(　　　　)</text:p><text:p>작성 내용</text:p><text:p>출처</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Section">④ 통계 개발성 (※ 주요 제·개정 내용이 복수인 경우 설명자료 추가 첨부)</text:p>
+      <table:table table:name="통계개발성">
+        <table:table-column table:style-name="ThreeA"/><table:table-column table:style-name="ThreeB"/><table:table-column table:style-name="ThreeC"/>
+        <table:table-row><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">검토 항목</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">필요 여부</text:p></table:table-cell><table:table-cell table:style-name="GrayCell"><text:p text:style-name="Center">설명 자료</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>4-1. 제·개정 내용과 관련하여 통계지표의 개선이 필요합니까?</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 필요</text:p><text:p>□ 불필요</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>개선 계획: □ 있음　□ 없음</text:p><text:p>※ 통계지표 개선 계획이 있는 경우, 설명자료를 첨부로 제출</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>4-2. 제·개정 내용과 관련하여 통계지표의 개발이 필요합니까?</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 필요</text:p><text:p>□ 불필요</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>개발 계획: □ 있음　□ 없음</text:p><text:p>※ 통계지표 개발 계획이 있는 경우, 설명자료를 첨부로 제출</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table table:name="소관기관의견">
+        <table:table-column table:style-name="ThreeB"/><table:table-column table:style-name="ThreeA"/>
+        <table:table-row><table:table-cell table:style-name="GrayCell"><text:p>예비평가에 대한 소관기관 의견</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="Title">※ 별지: 필요시 추가 작성 (문1, 문2, 문3)</text:p>
+      <text:p text:style-name="Section">① 정책 포함성</text:p>
+      <table:table table:name="별지정책포함성">
+        <table:table-column table:style-name="AppA"/><table:table-column table:style-name="AppB"/><table:table-column table:style-name="AppC"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>정책명칭</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>정책구분</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 신규　 □ 기존</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 신규　 □ 기존</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>정책목표</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>정책대상<br/>(고객)</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>정책수단</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Section">② 통계 필요성</text:p>
+      <table:table table:name="별지통계필요성">
+        <table:table-column table:style-name="AppA"/><table:table-column table:style-name="AppB"/><table:table-column table:style-name="AppC"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>정책내용</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>필요여부</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 □ 아니오</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 예　 □ 아니오</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>검토사유</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Section">③ 통계 구비성</text:p>
+      <text:p text:style-name="Section">(3-1) 생산 또는 관리되는 통계지표</text:p>
+      <table:table table:name="별지통계생산관리">
+        <table:table-column table:style-name="AppA"/><table:table-column table:style-name="AppB"/><table:table-column table:style-name="AppB"/><table:table-column table:style-name="AppB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>명칭</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>종류</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 국가승인통계</text:p><text:p>□ 행정자료</text:p><text:p>□ 기타(　　　　)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 국가승인통계</text:p><text:p>□ 행정자료</text:p><text:p>□ 기타(　　　　)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 국가승인통계</text:p><text:p>□ 행정자료</text:p><text:p>□ 기타(　　　　)</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>작성<br/>내용</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>출처</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Section">(3-2) 수립 또는 평가에 활용되는 통계지표</text:p>
+      <table:table table:name="별지통계활용">
+        <table:table-column table:style-name="AppA"/><table:table-column table:style-name="AppB"/><table:table-column table:style-name="AppB"/><table:table-column table:style-name="AppB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>명칭</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>종류</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 국가승인통계</text:p><text:p>□ 행정자료</text:p><text:p>□ 기타(　　　　)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 국가승인통계</text:p><text:p>□ 행정자료</text:p><text:p>□ 기타(　　　　)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 국가승인통계</text:p><text:p>□ 행정자료</text:p><text:p>□ 기타(　　　　)</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>작성<br/>내용</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>출처</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+49,906

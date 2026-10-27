@@ -1,0 +1,900 @@
+mn">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:border-bottom">
+        <rng:ref name="string"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:border-left">
+        <rng:ref name="string"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:border-right">
+        <rng:ref name="string"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-border-line-width-attlist">
+    <rng:optional>
+      <rng:attribute name="style:border-line-width">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-top">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-bottom">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-left">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+
+exec
+/usr/bin/zsh -lc "sed -n '7665,7710p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8270,8325p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12245,12380p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12430,12525p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12680,12830p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '1285,1310p' odf_spec/OpenDocument-v1.4-schema.rng; grep -n -E 'The (style:style|style:paragraph-properties|style:text-properties|style:table-cell-properties|style:table-column-properties|style:table-row-properties|style:table-properties) element|fo:break-before attribute is usable|style:page-width attribute|fo:margin-top attribute is usable|fo:text-align attribute is usable|fo:border attribute is usable|style:vertical-align attribute is usable' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_0or8qxbe
+ succeeded in 0ms:
+  </rng:define>
+  <rng:define name="office-annotation-end-attlist">
+    <rng:ref name="common-office-annotation-name-attlist"/>
+  </rng:define>
+  <rng:define name="office-automatic-styles">
+    <rng:optional>
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body">
+    <rng:element name="office:body">
+      <rng:ref name="office-body-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body-content">
+    <rng:choice>
+      <rng:element name="office:text">
+        <rng:ref name="office-text-attlist"/>
+        <rng:ref name="office-text-content-prelude"/>
+        <rng:ref name="office-text-content-main"/>
+        <rng:ref name="office-text-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:drawing">
+        <rng:ref name="office-drawing-attlist"/>
+        <rng:ref name="office-drawing-content-prelude"/>
+        <rng:ref name="office-drawing-content-main"/>
+        <rng:ref name="office-drawing-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:presentation">
+        <rng:ref name="office-presentation-attlist"/>
+        <rng:ref name="office-presentation-content-prelude"/>
+        <rng:ref name="office-presentation-content-main"/>
+        <rng:ref name="office-presentation-content-epilogue"/>
+      </rng:element>
+  </rng:define>
+  <rng:define name="office-spreadsheet-content-prelude">
+    <rng:optional>
+      <rng:ref name="table-tracked-changes"/>
+    </rng:optional>
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-opacity"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-page-order">
+          <rng:choice>
+            <rng:value>ttb</rng:value>
+            <rng:value>ltr</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:first-page-number">
+          <rng:choice>
+            <!-- https://issues.oasis-open.org/browse/OFFICE-3953 -->
+            <rng:ref name="integer"/>
+            <rng:value>continue</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:choice>
+        <rng:optional>
+          <rng:attribute name="style:scale-to">
+            <rng:ref name="percent"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+          <rng:attribute name="style:scale-to-pages">
+            <rng:ref name="positiveInteger"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:group>
+          <rng:optional>
+            <rng:attribute name="style:scale-to-X">
+              <rng:ref name="positiveInteger"/>
+            </rng:attribute>
+          </rng:optional>
+          <rng:optional>
+            <rng:attribute name="style:scale-to-Y">
+              <rng:ref name="positiveInteger"/>
+            </rng:attribute>
+          </rng:optional>
+        </rng:group>
+      </rng:choice>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3857 -->
+      <rng:optional>
+        <rng:attribute name="style:table-centering">
+          <rng:choice>
+            <rng:value>horizontal</rng:value>
+            <rng:value>vertical</rng:value>
+            <rng:value>both</rng:value>
+            <rng:value>none</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:footnote-max-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-mode">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-snap-to">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-content-strict">
+    <rng:ref name="style-page-layout-properties-attlist"/>
+    <rng:ref name="style-page-layout-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <rng:ref name="style-columns"/>
+      <rng:ref name="style-footnote-sep"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+          <rng:choice>
+            <rng:value>start</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>justify</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:justify-single-word">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:keep-together">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>always</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:widows">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:orphans">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:tab-stop-distance">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+    <rng:element name="style:region-right">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties">
+    <rng:element name="style:ruby-properties">
+      <rng:ref name="style-ruby-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:ruby-position">
+          <rng:choice>
+            <rng:value>above</rng:value>
+            <rng:value>below</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:ruby-align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>distribute-letter</rng:value>
+            <rng:value>distribute-space</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-ruby-properties-content-strict">
+    <rng:ref name="style-ruby-properties-attlist"/>
+    <rng:ref name="style-ruby-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-ruby-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-section-properties">
+    <rng:element name="style:section-properties">
+      <rng:ref name="style-section-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-section-properties-attlist">
+    <rng:interleave>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-editable-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:dont-balance-text-columns">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-section-properties-content-strict">
+    <rng:ref name="style-section-properties-attlist"/>
+    <rng:ref name="style-section-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-section-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+      <rng:ref name="style-columns"/>
+      <rng:zeroOrMore>
+        <rng:ref name="text-notes-configuration"/>
+      </rng:zeroOrMore>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style">
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+      <rng:attribute name="style:border-line-width-left">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+23815:The style:vertical-align attribute is usable with the following element: <style:column-sep> 17.14.
+37511:The fo:border attribute is usable with the following elements: <style:graphic-properties> 17.21, <style:header-footer-properties> 17.5, <style:page-layout-properties> 17.2, <style:paragraph-properties> 17.6 and <style:table-cell-properties> 17.18.
+37563:The fo:break-before attribute is usable with the following elements: <style:paragraph-properties> 17.6, <style:table-column-properties> 17.16, <style:table-properties> 17.15 and <style:table-row-properties> 17.17.
+37847:The fo:margin-top attribute is usable with the following elements: <style:graphic-properties> 17.21, <style:header-footer-properties> 17.5, <style:page-layout-properties> 17.2, <style:paragraph-properties> 17.6 and <style:table-properties> 17.15.
+37979:The fo:text-align attribute is usable with the following elements: <style:list-level-properties> 17.19 and <style:paragraph-properties> 17.6.
+37989:The fo:text-align attribute is usable with the following element: <style:paragraph-properties> 17.6.
+38015:The fo:text-align attribute is usable with the following element: <style:list-level-properties> 17.19.
+40884:The style:vertical-align attribute is usable with the following element: <style:paragraph-properties> 17.6.
+40902:The style:vertical-align attribute is usable with the following element: <style:table-cell-properties> 17.18.
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Default" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+    </style:style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="120%" fo:margin-top="0cm" fo:margin-bottom="0.55cm"/>
+      <style:text-properties fo:font-size="14pt" style:font-name="serif"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="8pt" style:font-name="serif"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:print-orientation="portrait" fo:margin-top="0.7cm" fo:margin-bottom="0.7cm" fo:margin-left="0.6cm" fo:margin-right="0.6cm"/>
+    </style:page-layout>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="0.9cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="7.2cm"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="1.5cm"/>
+    </style:style>
+    <style:style style:name="ColE" style:family="table-column">
+      <style:table-column-properties style:column-width="6.5cm"/>
+    </style:style>
+    <style:style style:name="HalfCol" style:family="table-column">
+      <style:table-column-properties style:column-width="4.65cm"/>
+    </style:style>
+    <style:style style:name="BorderCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="TightCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="NoBorderCell" style:family="table-cell">
+      <style:table-cell-properties fo:padding="0.02cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="NoBorderTable" style:family="table">
+      <style:table-properties table:align="margins"/>
+    </style:style>
+    <style:style style:name="BorderTable" style:family="table">
+      <style:table-properties table:align="margins"/>
+    </style:style>
+    <style:style style:name="TableParagraph" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+    </style:style>
+    <style:style style:name="CellSmall" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="100%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="8pt" style:font-name="serif"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="Title">マイナンバーカードの健康保険証利用登録の解除申請書</text:p>
+      <text:p text:style-name="Body">麻績村長　宛</text:p>
+      <text:p text:style-name="Right">（申請日）令和　　年　　月　　日</text:p>
+      <table:table table:name="Applicant" table:style-name="BorderTable">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-rows-spanned="2"><text:p text:style-name="TableParagraph"/></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">フリガナ</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph"/></table:table-cell>
+          <table:table-cell table:style-name="BorderCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">生年<br/>月日</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph">大正・昭和</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">氏　名</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph"/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph">平成・令和　　　年　　月　　日</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph"/></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">住　所</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell" table:number-columns-spanned="2"><text:p text:style-name="TableParagraph">麻績村</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">電話番号<br/>（ＦＡＸ）</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="InsuranceNumbers" table:style-name="BorderTable">
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-rows-spanned="2"><text:p text:style-name="TableParagraph">被保険者等記号・番号<br/>※枝番を含め、全て正確に記載してください。</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">被保険者等記号</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">枝番</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">麻績</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph"/></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph"/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="Request" table:style-name="BorderTable">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">解<br/>除<br/>申<br/>請<br/>者</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph">マイナンバーカードの健康保険証利用登録の解除について</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell" table:number-columns-spanned="3"><text:p text:style-name="TableParagraph">□マイナンバーカードの健康保険証利用登録の解除を申請します。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph"/></table:table-cell>
+          <table:table-cell table:style-name="BorderCell" table:number-columns-spanned="3">
+            <text:p text:style-name="TableParagraph">※利用登録を解除すると、マイナンバーカードによりオンライン資格確認を行うことはできなくなります。</text:p>
+            <text:p text:style-name="TableParagraph">※利用登録の解除を申請した方には、麻績村から資格確認書を交付します。解除後、医療機関・薬局を受診等される際には資格確認書の持参が必要です。</text:p>
+            <text:p text:style-name="TableParagraph">※利用登録の解除を申請した方には、麻績村から資格確認書を交付します。解除後、</text:p>
+            <text:p text:style-name="TableParagraph">医療機関・薬局を受診等される際には資格確認書の持参が必要です。</text:p>
+            <text:p text:style-name="TableParagraph">※利用登録解除後、マイナポータル上の「健康保険証利用登録の申込状況」画面に反映されるまで、１～２か月程度時間がかかる場合があります。</text:p>
+            <text:p text:style-name="TableParagraph">※解除申請後から解除がなされるまでの間に、別の医療保険者等に異動した場合は、異動後の医療保険者等に対し、自身が以前に加入していた医療保険者等（麻績村）で解除申請を行った旨を申し出るとともに、資格確認書の申請を行うようにしてください。</text:p>
+            <text:p text:style-name="Right">署名：________________________________</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="Reason" table:style-name="BorderTable">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-columns-spanned="5"><text:p text:style-name="TableParagraph">（解除を希望する理由）</text:p><text:p text:style-name="TableParagraph"/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-columns-spanned="5">
+            <text:p text:style-name="TableParagraph">※マイナンバーカードにより医療機関等を受診することで、ご本人の同意に基づき、自身の過去の健康・医療情報のデータに基づいたよりよい医療を受けることができます。</text:p>
+            <text:p text:style-name="TableParagraph">※マイナンバーカードの健康保険証利用登録により、ご本人の医療情報の漏洩等セキュリティ上のリスクが生じることはありません。</text:p>
+            <text:p text:style-name="TableParagraph">※なお、健康保険証の利用登録を解除した後も、再度利用登録の手続を行うことは可能です。健康保険証の利用登録は、マイナポータルやセブン銀行ＡＴＭのほか、医療機関・薬局の受付に設置されている顔認証付きカードリーダーから行うことができます。</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">代理人により申請する場合は、以下の欄も記入してください。</text:p>
+      <table:table table:name="Agent" table:style-name="BorderTable">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-rows-spanned="2"><text:p text:style-name="CellCenter">代理申請者</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell" table:number-columns-spanned="2"><text:p text:style-name="TableParagraph">□申請者と同じ</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">電話番号</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph"/></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="CellCenter">続柄</text:p></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p text:style-name="TableParagraph"/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Right">※住民票上別世帯の方が代理申請する場合は、委任状が必要です。</text:p>
+      <text:p text:style-name="Small">市町村使用欄</text:p>
+      <table:table table:name="MunicipalUse" table:style-name="BorderTable">
+        <table:table-column table:style-name="HalfCol"/>
+        <table:table-column table:style-name="HalfCol"/>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-columns-spanned="2"><text:p text:style-name="TableParagraph">本人確認：個・免・在カ・その他（　　　　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+33,936

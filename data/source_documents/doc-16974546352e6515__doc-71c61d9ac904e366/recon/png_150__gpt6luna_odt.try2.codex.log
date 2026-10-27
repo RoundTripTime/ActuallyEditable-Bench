@@ -1,0 +1,812 @@
+  </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+      <rng:ref name="table-table-row-group-attlist"/>
+      <rng:ref name="table-rows-and-groups"/>
+    </rng:element>
+
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+OASIS Standard
+
+6 October 2025
+
+This stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.pdf
+
+Previous stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+
+Latest stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.pdf
+
+Technical Committee:
+
+OASIS Open Document Format for Office Applications (OpenDocument) TC
+
+Chairs:
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Editors:
+
+Francis Cave (francis@franciscave.com), Individual
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Michael Stahl (michael.stahl@allotropia.de), allotropia software GmbH
+
+Additional artifacts:
+
+This prose specification is one component of a Work Product which includes:
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 1: Introduction. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part1-introduction/OpenDocument-v1.4-os-part1-introduction.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. (this part) https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 4: Recalculated Formula (OpenFormula) Format. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html. 
+
+•XML/RNG schemas and OWL ontologies. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/. 
+
+Related work:
+
+This specification replaces or supersedes:
+
+•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4.  27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html. 
+
+Declared XML namespaces:
+
+urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+
+urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+
+http://docs.oasis-open.org/ns/office/1.2/meta/pkg#
+
+Abstract:
+
+This document is Part 2 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification and defines a package format for OpenDocument documents, the digital signing of such documents, along with metadata that may be supplied with them.
+
+Status:
+
+This document was last revised or approved by the OASIS Open Document Format for Office Applications (OpenDocument) TC on the above date. The level of approval is also listed above. Check the "Latest stage" location noted above for possible later revisions of this document. Any other numbered Versions and other technical work produced by the Technical Committee (TC) are listed at https://groups.oasis-open.org/communities/tc-community-home2?CommunityKey=4bf06d41-79ad-4c58-9e8e-018dc7d05da8#technical.
+
+TC members should send comments on this specification to the TC's email list. Others should send comments to the TC's public comment list at Technical-Committee-Comments@oasis-open.org.
+
+This specification is provided under the RF on Limited Terms Mode of the OASIS IPR Policy, the mode chosen when the Technical Committee was established. For information on whether any patents have been disclosed that may be essential to implementing this specification, and any offers of patent licensing terms, please refer to the Intellectual Property Rights section of the TC's web page (https://www.oasis-open.org/committees/office/ipr.php).
+
+Note that any machine-readable content (Computer Language Definitions) declared Normative for this Work Product is provided in separate plain text files. In the event of a discrepancy between any such plain text file and display content in the Work Product's prose narrative document(s), the content in the separate plain text file prevails.
+
+Citation format:
+
+When referencing this specification the following citation format should be used:
+
+[OpenDocument-v1.4-part2]
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. Latest stage: https://docs.oasis-open.org/office/v1.4/OpenDocument-v1.4-part2-packages.html.
+
+Notices
+
+Copyright © OASIS Open 2025. All Rights Reserved.
+
+All capitalized terms in the following text have the meanings assigned to them in the OASIS Intellectual Property Rights Policy (the "OASIS IPR Policy"). The full Policy may be found at the OASIS website.
+
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published, and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and this section are included on all such copies and derivative works. However, this document itself may not be modified in any way, including by removing the copyright notice or references to OASIS, except as needed for the purpose of developing any document or deliverable produced by an OASIS Technical Committee (in which case the rules applicable to copyrights, as set forth in the OASIS IPR Policy, must be followed) or as required to translate it into languages other than English.
+
+The limited permissions granted above are perpetual and will not be revoked by OASIS or its successors or assigns.
+
+This document and the information contained herein is provided on an "AS IS" basis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY OWNERSHIP RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+As stated in the OASIS IPR Policy, the following three paragraphs in brackets apply to OASIS Standards Final Deliverable documents (Committee Specification, OASIS Standard, or Approved Errata).
+
+[OASIS requests that any OASIS Party or any other party that believes it has patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable, to notify OASIS TC Administrator and provide an indication of its willingness to grant patent licenses to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this deliverable.]
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.06cm" fo:line-height="115%"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:default-style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PL1">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.7cm" fo:margin-bottom="1.5cm" fo:margin-left="1.7cm" fo:margin-right="1.7cm"/>
+    </style:page-layout>
+    <style:style style:name="PTitle" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.2cm" fo:margin-bottom="0.2cm"/>
+      <style:text-properties fo:font-size="20pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="PRight" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right"/>
+    </style:style>
+    <style:style style:name="PBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="PSection" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:background-color="#d9d9d9" fo:border-top="0.06cm solid #888888" fo:border-bottom="0.02cm solid #999999" fo:padding="0.12cm"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="T1" style:family="table">
+      <style:table-properties style:width="17.6cm" table:align="margins"/>
+    </style:style>
+    <style:style style:name="C1" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.02cm solid #999999" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="CGray" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.02cm solid #999999" fo:padding="0.08cm" fo:background-color="#d9d9d9" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="CNo" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0.04cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="CTextCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.02cm solid #999999" fo:padding="0.08cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="2.2cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="5.4cm"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="5.0cm"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="5.0cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PL1"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p>■ 주민등록법 시행규칙 [별지 제15호서식] &lt;개정 2024. 6. 25.&gt;</text:p>
+      <text:p text:style-name="PTitle">전입세대확인서 열람 또는 교부 신청서</text:p>
+      <text:p>※ 뒤쪽의 유의사항을 읽고 작성하시기 바라며, 색상이 어두운 칸은 신청인이 작성하지 않습니다. <text:span>　　　　　　　　　　　　　　(앞쪽)</text:span></text:p>
+      <table:table table:name="접수" table:style-name="T1">
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CGray"><text:p>접수번호</text:p></table:table-cell>
+          <table:table-cell table:style-name="CGray"><text:p>접수일자</text:p></table:table-cell>
+          <table:table-cell table:style-name="CGray"><text:p>처리기간　 즉시</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="신청내용" table:style-name="T1">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CTextCenter"><text:p>신청 내용</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>전입세대확인서 열람</text:p></table:table-cell>
+          <table:table-cell table:style-name="CTextCenter"><text:p>[　　　]</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>전입세대확인서 교부　　　[　　　]</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="개인신청인" table:style-name="T1">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CTextCenter" table:number-rows-spanned="2"><text:p>개인 신청인</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>성명</text:p><text:p text:style-name="PRight">(서명 또는 인)</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p>주민등록번호</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>주소 (시ㆍ도)　　　　　(시ㆍ군ㆍ구)</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p>연락처</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="법인단체신청인" table:style-name="T1">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CTextCenter" table:number-rows-spanned="4"><text:p>법인ㆍ단체</text:p><text:p>신청인</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>명칭</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p>사업자등록번호</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>대표자</text:p><text:p text:style-name="PRight">(서명 또는 인)</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p>연락처</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="3"><text:p>소재지</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p>방문자 성명</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>주민등록번호</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>연락처</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="목적" table:style-name="T1">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="C1" table:number-columns-spanned="4"><text:p>열람 또는 교부 대상 건물 또는 시설의 소재지</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C1" table:number-columns-spanned="4"><text:p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="3"><text:p>말소 또는 거주불명 등록된 사람의 성명과 전입일자 표시 여부</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p>표시됨 □ / 표시되지 않음 □</text:p></table:cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="C1" table:number-columns-spanned="4"><text:p>용도 및 목적</text:p><text:p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p>「주민등록법」 제29조의2제1항, 같은 법 시행령 제49조의2제1항 및 같은 법 시행규칙 제14조제2항에 따라 위와 같이 전입세대확인서의 열람 또는 교부를 신청합니다.</text:p>
+      <text:p text:style-name="PRight">년　　　월　　　일</text:p>
+      <text:p text:style-name="PRight">신청인　　　　　　　　　(서명 또는 인)</text:p>
+      <text:p text:style-name="PTitle">시장ㆍ군수ㆍ구청장 또는 읍ㆍ면ㆍ동장 및 출장소장 귀하</text:p>
+      <text:p>※ 위임장은 위임하여 신청하는 경우에만 작성합니다.</text:p>
+      <text:p text:style-name="PSection">위임장</text:p>
+      <text:p>「주민등록법」 제29조의2제2항제2호에 따라 위 신청인에게 전입세대확인서의 열람 또는 교부 신청을 위임합니다.</text:p>
+      <text:p text:style-name="PRight">년　　　월　　　일</text:p>
+      <table:table table:name="위임장" table:style-name="T1">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="CTextCenter" table:number-rows-spanned="2"><text:p>위임한 자</text:p><text:p>(개인)</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>성명</text:p><text:p text:style-name="PRight">(서명 또는 인)</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p>주민등록번호</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>주소</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p>연락처</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CTextCenter" table:number-rows-spanned="3"><text:p>위임한 자</text:p><text:p>(법인ㆍ단체)</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>명칭</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p>사업자등록번호</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>대표자</text:p><text:p text:style-name="PRight">(서명 또는 인)</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p>연락처</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="C1" table:number-columns-spanned="3"><text:p>소재지</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="PBreak">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　(뒤쪽)</text:p>
+      <table:table table:name="제출서류" table:style-name="T1">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="CTextCenter"><text:p>제출 서류</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>신청인의 신분증명서</text:p><text:p>※ 법인ㆍ단체의 경우에는 대표자의 신분증명서, 법인인감증명서 또는 사용인감계를 제출합니다.</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="CTextCenter"><text:p>수수료</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CTextCenter"><text:p>담당 공무원</text:p><text:p>확인 서류</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>※ 담당 공무원이 행정정보의 공동이용을 통해 확인하는 것에 동의하는 서류 앞의 [　] √ 표시를 합니다.</text:p><text:p>[　　] 1. 신청인이 전입세대확인서의 열람 또는 교부 신청을 할 수 있는 자임을 입증하는 「주민등록법 시행규칙」 별표 2에 따른 서류</text:p><text:p>[　　] 2. 신청인이 「주민등록법 시행규칙」 제18조제1항 각 호의 어느 하나에 해당하는지 여부를 확인할 수 있는 자료</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p>열람: 1건 1회 300원</text:p><text:p>교부: 1통 400원</text:p><text:p>※ 「주민등록법」 제29조의2제2항제3호에 해당하는 경우에는 500원</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="PSection">행정정보의 공동이용 동의서</text:p>
+      <text:p>본인은 이 건 업무 처리를 위해 담당 공무원이 「전자정부법」 제36조제1항에 따른 행정정보의 공동이용(「주택임대차보호법」 제3조의6제2항 후단에 따른 전산처리정보조직의 이용을 포함합니다)을 통해 위의 담당 공무원 확인 서류를 확인하는 것에 동의합니다.</text:p>
+      <text:p>※ 신청인이 행정정보의 공동이용에 동의하지 않거나 행정정보의 공동이용을 통해 확인할 수 있는 서류가 아닌 경우에는 신청인이 직접 해당 서류를 제출하여야 합니다.</text:p>
+      <text:p text:style-name="PRight">신청인　　　　　　　　　(서명 또는 인)</text:p>
+      <text:p text:style-name="PSection">유의사항</text:p>
+      <text:p>1. ‘서명 또는 인’ 란에는 서명을 하거나 도장을 찍어야 하며 지문은 사용할 수 없습니다. 이 경우 서명을 할 때에는 자필로 한글 성명을 써야 합니다.</text:p>
+      <text:p>2. 외국인등록을 한 외국인 또는 국내거소신고를 한 외국국적동포의 경우 「출입국관리법」 제33조제1항에 따른 외국인등록증 또는 「재외동포의 출입국과 법적 지위에 관한 법률」 제7조제1항에 따른 국내거소신고증을 제시해야 하며, 주민등록번호는 외국인등록번호 또는 국내거소신고번호로 갈음할 수 있습니다.</text:p>
+      <text:p>3. 법인ㆍ단체 신청인의 경우에는 ‘대표자’ 란에 대표자가 서명하거나 법인 인감(사용 인감을 포함합니다)을 찍습니다.</text:p>
+      <text:p>4. 동일 신청자가 동일 증명자료에 따라 동일 목적으로 여러 건물 또는 시설의 소재지에 대해 전입세대확인서의 열람 또는 교부를 신청하는 경우에는 「주민등록법 시행규칙」 별지 제15호서식과 별지 제16호서식에 따라 일괄 신청할 수 있습니다. 이 경우 해당 별지 제15호서식과 별지 제16호서식 사이에는 신청인의 확인(간인)이 있어야 합니다.</text:p>
+      <text:p>5. 전입세대확인서의 열람 또는 교부 신청의 위임은 해당 건물 또는 시설의 소유자, 임차인, 임대차계약자 또는 매매계약자 본인만이 할 수 있습니다. 이 경우 위임받아 신청하는 자는 위임장과 본인 및 위임한 자의 신분증명서(법인ㆍ단체의 경우에는 대표자의 신분증명서, 법인인감증명서 또는 사용인감계를 말합니다)를 함께 제출해야 합니다.</text:p>
+      <text:p>6. 다른 사람의 서명 또는 도장 등을 위조하거나 부정하게 사용하는 등의 방법으로 신청서 또는 위임장을 거짓으로 작성하는 경우에는 「형법」에 따라 처벌을 받게 됩니다.</text:p>
+      <text:p>7. 확인하려는 전입세대의 주소가 사실과 다르게 기재된 경우에는 전입세대확인서를 통해 해당 전입세대를 확인할 수 없습니다.</text:p>
+      <text:p>8. 외국인 및 외국국적동포는 세대주 또는 주민등록표 상의 동거인이 될 수 없으므로, 외국인 및 외국국적동포의 세대주 및 동거인 여부는 전입세대확인서를 통해 확인할 수 없습니다.</text:p>
+      <text:p>9. 「주민등록법 시행규칙」 제18조제1항에 따른 전입세대확인서 열람 또는 교부 신청 수수료 면제 대상은 다음과 같습니다.</text:p>
+      <text:p>가. 「주민등록법」 제29조의2제2항제3호에 따라 국가나 지방자치단체가 공무상 필요하여 신청하는 경우</text:p>
+      <text:p>나. 「국민기초생활 보장법」 제2조제2호에 따른 수급자가 신청하는 경우</text:p>
+      <text:p>다. 재해의 발생 등 행정안전부장관, 시ㆍ도지사 또는 시장ㆍ군수ㆍ구청장이 필요하다고 인정하는 경우</text:p>
+      <text:p>라. 관계 법령에서 주민등록자료 제공에 대한 수수료를 면제하도록 한 규정이 있는 경우</text:p>
+      <text:p>마. 「독립유공자예우에 관한 법률」 제6조에 따라 등록된 독립유공자와 그 유족(선순위자만 해당됩니다)이 신청하는 경우</text:p>
+      <text:p>바. 「국가유공자 등 예우 및 지원에 관한 법률」 제6조에 따라 등록된 국가유공자 등과 그 유족(선순위자만 해당하되, 선순위자가 부 또는 모인 경우에는 선순위자가 아닌 모 또는 부를 포함합니다)이 신청하는 경우</text:p>
+      <text:p>사. 「고엽제후유의증 등 환자지원 및 단체설립에 관한 법률」 제4조에 따라 등록된 고엽제후유의증환자 등이 신청하는 경우</text:p>
+      <text:p>아. 「참전유공자 예우 및 단체설립에 관한 법률」 제5조에 따라 등록된 참전유공자가 신청하는 경우</text:p>
+      <text:p>자. 「5ㆍ18민주유공자예우에 관한 법률」 제7조에 따라 등록 결정된 5ㆍ18민주유공자와 그 유족(선순위자만 해당하되, 선순위자가 부 또는 모인 경우에는 선순위자가 아닌 모 또는 부를 포함합니다)이 신청하는 경우</text:p>
+      <text:p>차. 「특수임무유공자 예우 및 단체설립에 관한 법률」 제6조에 따라 등록된 특수임무유공자와 그 유족(선순위자만 해당하되, 선순위자가 부 또는 모인 경우에는 선순위자가 아닌 모 또는 부를 포함합니다)이 신청하는 경우</text:p>
+      <text:p>카. 「한부모가족지원법」 제5조 또는 제5조의2에 따른 보호대상자가 신청하는 경우</text:p>
+      <text:p>타. 지방자치단체가 조례로 정하는 경우</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+28,763

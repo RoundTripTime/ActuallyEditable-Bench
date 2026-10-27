@@ -1,0 +1,823 @@
+rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:min-row-height">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-row-height">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-break-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:keep-together">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>always</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-row-properties-content-strict">
+    <rng:ref name="style-table-row-properties-attlist"/>
+    <rng:ref name="style-table-row-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-row-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-text-properties">
+    <rng:element name="style:text-properties">
+      <rng:ref name="style-text-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-text-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:font-variant">
+          <rng:ref name="fontVariant"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+
+exec
+/usr/bin/zsh -lc "sed -n '1290,1310p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12445,12545p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13030,13105p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13825,13860p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8348,8368p' odf_spec/OpenDocument-v1.4-schema.rng; grep -n -E 'fo:text-align|fo:vertical-align|fo:border-left|fo:border-right' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_ejcq6eg7
+ succeeded in 0ms:
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <rng:ref name="style-columns"/>
+      <rng:ref name="style-footnote-sep"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+          <rng:choice>
+            <rng:value>start</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>justify</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:justify-single-word">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:keep-together">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>always</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:widows">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:orphans">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:tab-stop-distance">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3846 -->
+      <rng:optional>
+        <rng:attribute name="text:relative-tab-stop-position">
+        <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:hyphenation-keep">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>page</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:hyphenation-ladder-count">
+          <rng:choice>
+            <rng:value>no-limit</rng:value>
+            <rng:ref name="positiveInteger"/>
+          </rng:choice>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-table-cell-properties">
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:wrap-option">
+          <rng:choice>
+            <rng:value>no-wrap</rng:value>
+            <rng:value>wrap</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-rotation-angle-attlist"/>
+      <rng:optional>
+        <rng:data type="NCName"/>
+      </rng:zeroOrMore>
+    </rng:list>
+  </rng:define>
+  <rng:define name="styles">
+    <rng:interleave>
+      <rng:zeroOrMore>
+        <rng:ref name="style-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="text-list-style"/>
+      </rng:zeroOrMore>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4108 -->
+      <rng:zeroOrMore>
+        <rng:ref name="number-num-list-format"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-number-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-currency-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-percentage-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-date-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-time-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-boolean-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-text-style"/>
+  </rng:define>
+  <rng:define name="office-text-content-epilogue">
+    <rng:ref name="table-functions"/>
+  </rng:define>
+  <rng:define name="office-text-content-main">
+    <rng:choice>
+      <rng:zeroOrMore>
+        <rng:ref name="text-content"/>
+      </rng:zeroOrMore>
+      <rng:group>
+        <rng:ref name="text-page-sequence"/>
+        <rng:zeroOrMore>
+          <rng:choice>
+            <rng:ref name="shape"/>
+          </rng:choice>
+        </rng:zeroOrMore>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="office-text-content-prelude">
+    <rng:ref name="office-forms"/>
+1258:      <rng:attribute name="fo:border-left">
+1263:      <rng:attribute name="fo:border-right">
+2627:      <rng:attribute name="fo:text-align">
+12490:        <rng:attribute name="fo:text-align-last">
+
+exec
+/usr/bin/zsh -lc "grep -n -E 'Single OpenDocument XML|office:document|mimetype|OpenDocument XML file' odf_spec/OpenDocument-v1.4-os-part2-packages.txt; sed -n '1,140p' odf_spec/OpenDocument-v1.4-os-part2-packages.txt; sed -n '770,810p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '350,410p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_ejcq6eg7
+ succeeded in 0ms:
+448:C)It should contain a file “mimetype”. 
+515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+517:The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+527:If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+533:•the string 'mimetype' beginning at position 30 
+
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+OASIS Standard
+
+6 October 2025
+
+This stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.pdf
+
+Previous stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+
+Latest stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.pdf
+
+Technical Committee:
+
+OASIS Open Document Format for Office Applications (OpenDocument) TC
+
+Chairs:
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Editors:
+
+Francis Cave (francis@franciscave.com), Individual
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Michael Stahl (michael.stahl@allotropia.de), allotropia software GmbH
+
+Additional artifacts:
+
+This prose specification is one component of a Work Product which includes:
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 1: Introduction. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part1-introduction/OpenDocument-v1.4-os-part1-introduction.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. (this part) https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 4: Recalculated Formula (OpenFormula) Format. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html. 
+
+•XML/RNG schemas and OWL ontologies. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/. 
+
+Related work:
+
+This specification replaces or supersedes:
+
+•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4.  27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html. 
+
+Declared XML namespaces:
+
+urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+
+urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+
+http://docs.oasis-open.org/ns/office/1.2/meta/pkg#
+
+Abstract:
+
+This document is Part 2 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification and defines a package format for OpenDocument documents, the digital signing of such documents, along with metadata that may be supplied with them.
+
+Status:
+
+This document was last revised or approved by the OASIS Open Document Format for Office Applications (OpenDocument) TC on the above date. The level of approval is also listed above. Check the "Latest stage" location noted above for possible later revisions of this document. Any other numbered Versions and other technical work produced by the Technical Committee (TC) are listed at https://groups.oasis-open.org/communities/tc-community-home2?CommunityKey=4bf06d41-79ad-4c58-9e8e-018dc7d05da8#technical.
+
+TC members should send comments on this specification to the TC's email list. Others should send comments to the TC's public comment list at Technical-Committee-Comments@oasis-open.org.
+
+This specification is provided under the RF on Limited Terms Mode of the OASIS IPR Policy, the mode chosen when the Technical Committee was established. For information on whether any patents have been disclosed that may be essential to implementing this specification, and any offers of patent licensing terms, please refer to the Intellectual Property Rights section of the TC's web page (https://www.oasis-open.org/committees/office/ipr.php).
+
+Note that any machine-readable content (Computer Language Definitions) declared Normative for this Work Product is provided in separate plain text files. In the event of a discrepancy between any such plain text file and display content in the Work Product's prose narrative document(s), the content in the separate plain text file prevails.
+
+Citation format:
+
+When referencing this specification the following citation format should be used:
+
+[OpenDocument-v1.4-part2]
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. Latest stage: https://docs.oasis-open.org/office/v1.4/OpenDocument-v1.4-part2-packages.html.
+
+Notices
+
+Copyright © OASIS Open 2025. All Rights Reserved.
+
+All capitalized terms in the following text have the meanings assigned to them in the OASIS Intellectual Property Rights Policy (the "OASIS IPR Policy"). The full Policy may be found at the OASIS website.
+
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published, and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and this section are included on all such copies and derivative works. However, this document itself may not be modified in any way, including by removing the copyright notice or references to OASIS, except as needed for the purpose of developing any document or deliverable produced by an OASIS Technical Committee (in which case the rules applicable to copyrights, as set forth in the OASIS IPR Policy, must be followed) or as required to translate it into languages other than English.
+
+The limited permissions granted above are perpetual and will not be revoked by OASIS or its successors or assigns.
+
+This document and the information contained herein is provided on an "AS IS" basis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY OWNERSHIP RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+As stated in the OASIS IPR Policy, the following three paragraphs in brackets apply to OASIS Standards Final Deliverable documents (Committee Specification, OASIS Standard, or Approved Errata).
+
+[OASIS requests that any OASIS Party or any other party that believes it has patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable, to notify OASIS TC Administrator and provide an indication of its willingness to grant patent licenses to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this deliverable.]
+
+[OASIS invites any party to contact the OASIS TC Administrator if it is aware of a claim of ownership of any patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable by a patent holder that is not willing to provide a license to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this OASIS Standards Final Deliverable. OASIS may include such claims on its website, but disclaims any obligation to do so.]
+
+[OASIS takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this OASIS Standards Final Deliverable or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any effort to identify any such rights. Information on OASIS' procedures with respect to rights in any document or deliverable produced by an OASIS Technical Committee can be found on the OASIS website. Copies of claims of rights made available for publication and any assurances of licenses to be made available, or the result of an attempt made to obtain a general license or permission for the use of such proprietary rights by implementers or users of this OASIS Standards Final Deliverable, can be obtained from the OASIS TC Administrator. OASIS makes no representation that any information or list of intellectual property rights will at any time be complete, or that any claims in such list are, in fact, Essential Claims.]
+
+The name "OASIS" is a trademark of OASIS, the owner and developer of this specification, and should be used only to refer to the organization and its official outputs. OASIS welcomes reference to, and implementation and use of, specifications, while reserving the right to enforce its marks against misleading uses. Please see https://www.oasis-open.org/policies-guidelines/trademark/ for above guidance.
+
+Table of Contents
+
+1 Introduction
+
+1.1 Introduction
+
+1.2 Terminology
+
+1.3 Normative References
+
+1.4 Non Normative References
+
+1.5 Namespaces
+
+
+8.13.8 <text:index-entry-link-end>
+
+9 Tables
+
+9.1 Basic Tables
+
+9.1.1 General
+
+9.1.2 <table:table>
+
+9.1.3 <table:table-row>
+
+9.1.4 <table:table-cell>
+
+9.1.5 <table:covered-table-cell>
+
+9.1.6 <table:table-column>
+
+9.1.7 <table:table-header-rows>
+
+9.1.8 <table:table-rows>
+
+9.1.9 <table:table-row-group>
+
+9.1.10 <table:table-column-group>
+
+9.1.11 <table:table-header-columns>
+
+9.1.12 <table:table-columns>
+
+9.1.13 <table:title>
+
+9.1.14 <table:desc>
+
+9.2 Advanced Tables
+
+9.2.1 Referencing Table Cells
+
+9.2.2 Absolute and relative cell addressing
+
+
+5.4.2 <text:section-source>
+
+5.5 Change Tracking
+
+5.5.1 General
+
+5.5.2 <text:tracked-changes>
+
+5.5.3 <text:changed-region>
+
+5.5.4 <text:insertion>
+
+5.5.5 <text:deletion>
+
+5.5.6 <text:format-change>
+
+5.5.7 <office:change-info>
+
+5.5.8 Change Marks
+
+5.5.8.1 General
+
+5.5.8.2 <text:change-start>
+
+5.5.8.3 <text:change-end>
+
+5.5.8.4 <text:change>
+
+5.6 <text:soft-page-break>
+
+5.7 Document Declarations
+
+6 Paragraph Elements Content
+
+6.1 Basic Text Content
+
+6.1.1 General
+
+6.1.2 White Space Characters
+
+6.1.3 <text:s>
+
+6.1.4 <text:tab>
+
+6.1.5 <text:line-break>
+
+6.1.6 Soft Hyphens, Hyphens, and Non-breaking Spaces
+
+6.1.7 <text:span>
+
+6.1.8 <text:a>
+
+6.1.9 <text:meta>
+
+6.1.10 <text:number>
+
+6.2 Bookmarks and References
+
+6.2.1 Bookmarks
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="P" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="120%"/>
+      <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="120%"/>
+      <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt"/>
+    </style:style>
+    <style:style style:name="SmallCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="110%"/>
+      <style:text-properties fo:font-size="11pt" style:font-size-asian="11pt"/>
+    </style:style>
+    <style:style style:name="StartPage" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:text-align="center" fo:line-height="120%"/>
+      <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt"/>
+    </style:style>
+    <style:style style:name="Left" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="start" fo:line-height="120%"/>
+      <style:text-properties fo:font-size="11pt" style:font-size-asian="11pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" style:print-orientation="portrait" fo:margin="2cm"/>
+    </style:page-layout>
+    <style:style style:name="MainTable" style:family="table">
+      <style:table-properties style:width="15.4cm" table:align="center" table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="PageTwoTable" style:family="table">
+      <style:table-properties style:width="15.4cm" table:align="center" table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="Col10" style:family="table-column">
+      <style:table-column-properties style:column-width="1.54cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="7.7cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="ShortRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.45cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="HeaderRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.55cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="BlankMainRow" style:family="table-row">
+      <style:table-row-properties style:row-height="5.6cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="RangeRow" style:family="table-row">
+      <style:table-row-properties style:row-height="2.2cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="FooterRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.75cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="OfficeRow" style:family="table-row">
+      <style:table-row-properties style:row-height="1.05cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="OfficeLocationRow" style:family="table-row">
+      <style:table-row-properties style:row-height="1.05cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="TechRow" style:family="table-row">
+      <style:table-row-properties style:row-height="1.3cm" style:use-optimal-row-height="false"/>
+    </style:style>
+    <style:style style:name="BlankOfficeRow" style:family="table-row">
+      <style:table-row-properties style:row-height="5.8cm" style:use-optimal-row-height="false"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p style:style-name="P">様式第1号（第4条関係）</text:p>
+      <text:p/>
+      <text:p style:style-name="Center">（表）</text:p>
+      <text:p style:style-name="Center">指定給水装置工事事業者指定申請書</text:p>
+      <text:p/>
+      <text:p style:style-name="P">つくばみらい市長　　　　様</text:p>
+      <text:p/>
+      <text:p/>
+      <text:p style:style-name="P">　　　　　　　　　　　　　　　　　　　　　　　　　年　　　月　　　日</text:p>
+      <text:p/>
+      <text:p style:style-name="P">　　　　　　　　　　　　　　　　　申請者　氏名又は名称　　　　　　　　　　印</text:p>
+      <text:p style:style-name="P">　　　　　　　　　　　　　　　　　　　　　住　　　所</text:p>
+      <text:p/>
+      <text:p style:style-name="P">　　　　　　　　　　　　　　　　　　　　　代表者氏名</text:p>
+      <text:p style:style-name="P">　　　　　　　　　　　　　　　　　　　　　　電話番号</text:p>
+      <text:p/>
+      <text:p style:style-name="P">水道法第16条の2第1項の規定による指定給水装置工事事業者の指定を受けたいので、同</text:p>
+      <text:p style:style-name="P">法第25条の2第1項の規定に基づき次のとおり申請します。</text:p>
+      <table:table table:name="申請書表面" table:style-name="MainTable">
+        <table:table-column table:style-name="Col10" table:number-columns-repeated="10"/>
+        <table:table-row table:style-name="ShortRow">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="10"><text:p style:style-name="Center">役員（業務を執行する社員、取締役又はこれらに準ずる者）の氏名</text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row table:style-name="HeaderRow">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p style:style-name="SmallCenter">フ　リ　ガ　ナ</text:p><text:p style:style-name="SmallCenter">氏　　　名</text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p style:style-name="SmallCenter">フ　リ　ガ　ナ</text:p><text:p style:style-name="SmallCenter">氏　　　名</text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row table:style-name="BlankMainRow">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row table:style-name="RangeRow">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p style:style-name="SmallCenter">事 業 の 範 囲</text:p></table:table-cell><table:covered-table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="8"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row table:style-name="FooterRow">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p style:style-name="SmallCenter">機械器具の名称、性能及び数</text:p></table:table-cell><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p style:style-name="P">別紙のとおり</text:p></table:table-cell><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/><table:covered-table-cell table:style-name="Cell"/>
+        </table:table-row>
+      </table:table>
+      <text:p style:style-name="StartPage">（裏）</text:p>
+      <table:table table:name="事業所等裏面上段" table:style-name="PageTwoTable">
+        <table:table-column table:style-name="Col2" table:number-columns-repeated="2"/>
+        <table:table-row table:style-name="OfficeRow"><table:table-cell table:style-name="Cell"><text:p style:style-name="Left">当該給水区域で給水装置工事の事業を行う事業所の名称</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row table:style-name="OfficeLocationRow"><table:table-cell table:style-name="Cell"><text:p style:style-name="Left">上　記　事　業　所　の　所　在　地</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row table:style-name="TechRow"><table:table-cell table:style-name="Cell"><text:p style:style-name="Left">上記事業所で選任されることとなる給水装置工事主任技術者の氏名</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p style:style-name="Left">給水装置工事主任技術者免状の交付番号</text:p></table:table-cell></table:table-row>
+        <table:table-row table:style-name="BlankOfficeRow"><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p/>
+      <table:table table:name="事業所等裏面下段" table:style-name="PageTwoTable">
+        <table:table-column table:style-name="Col2" table:number-columns-repeated="2"/>
+        <table:table-row table:style-name="OfficeRow"><table:table-cell table:style-name="Cell"><text:p style:style-name="Left">当該給水区域で給水装置工事の事業を行う事業所の名称</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row table:style-name="OfficeLocationRow"><table:table-cell table:style-name="Cell"><text:p style:style-name="Left">上　記　事　業　所　の　所　在　地</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row table:style-name="TechRow"><table:table-cell table:style-name="Cell"><text:p style:style-name="Left">上記事業所で選任されることとなる給水装置工事主任技術者の氏名</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p style:style-name="Left">給水装置工事主任技術者免状の交付番号</text:p></table:table-cell></table:table-row>
+        <table:table-row table:style-name="BlankOfficeRow"><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+51,787

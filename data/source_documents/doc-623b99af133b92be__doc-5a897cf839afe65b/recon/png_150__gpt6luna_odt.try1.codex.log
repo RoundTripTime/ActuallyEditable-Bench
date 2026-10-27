@@ -1,0 +1,1098 @@
+ore>
+          <rng:ref name="presentation-show"/>
+        </rng:zeroOrMore>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="presentation-settings-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="presentation:start-page">
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:display-member-mode">
+        <rng:choice>
+          <rng:value>from-top</rng:value>
+          <rng:value>from-bottom</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-data-pilot-field">
+    <rng:element name="table:data-pilot-field">
+      <rng:ref name="table-data-pilot-field-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-data-pilot-level"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-data-pilot-field-reference"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-data-pilot-groups"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-field-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:source-field-name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:choice>
+        <rng:attribute name="table:orientation">
+          <rng:choice>
+            <rng:value>row</rng:value>
+            <rng:value>column</rng:value>
+            <rng:value>data</rng:value>
+            <rng:value>hidden</rng:value>
+          </rng:choice>
+        </rng:attribute>
+        <rng:group>
+          <rng:attribute name="table:orientation">
+            <rng:value>page</rng:value>
+          </rng:attribute>
+          <rng:attribute name="table:selected-page">
+            <rng:ref name="string"/>
+          </rng:attribute>
+        </rng:group>
+      </rng:choice>
+      <rng:optional>
+        <rng:attribute name="table:is-data-layout-field">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-last-column"/>
+      </rng:optional>
+      <rng:ref name="table-body"/>
+      <rng:optional>
+        <rng:ref name="table-even-rows"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-odd-rows"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-even-columns"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-odd-columns"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-background"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-template-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:first-row-start-column">
+        <rng:ref name="rowOrCol"/>
+      </rng:attribute>
+      <rng:attribute name="table:first-row-end-column">
+        <rng:ref name="rowOrCol"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-start-column">
+        <rng:ref name="rowOrCol"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-end-column">
+        <rng:ref name="rowOrCol"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-target-range-address">
+    <rng:element name="table:target-range-address">
+      <rng:ref name="common-table-range-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-title">
+    <rng:element name="table:title">
+      <rng:text/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-tracked-changes">
+    <rng:element name="table:tracked-changes">
+      <rng:ref name="table-tracked-changes-attlist"/>
+      <rng:zeroOrMore>
+        <rng:choice>
+          <rng:ref name="table-cell-content-change"/>
+          <rng:ref name="table-insertion"/>
+          <rng:ref name="table-deletion"/>
+          <rng:ref name="table-movement"/>
+        </rng:choice>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-tracked-changes-attlist">
+    <rng:optional>
+      <rng:attribute name="table:track-changes">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-validation-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="table:condition">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:base-cell-address">
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:allow-empty-cell">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:display-list">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>unsorted</rng:value>
+            <rng:value>sort-ascending</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-visibility-value">
+    <rng:choice>
+      <rng:value>visible</rng:value>
+      <rng:value>collapse</rng:value>
+      <rng:value>filter</rng:value>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="target-frame">
+    <rng:optional>
+      <rng:attribute name="office:target-frame">
+        <rng:ref name="targetFrameName"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="target-location">
+    <rng:optional>
+      <rng:attribute name="xlink:href">
+        <rng:ref name="anyIRI"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="targetFrameName">
+    <rng:choice>
+      <rng:value>_self</rng:value>
+      <rng:value>_blank</rng:value>
+      <rng:value>_parent</rng:value>
+      <rng:value>_top</rng:value>
+      <rng:ref name="string"/>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="text-a">
+    <rng:element name="text:a">
+      <rng:ref name="text-a-attlist"/>
+      <rng:optional>
+        <rng:ref name="office-event-listeners"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-a-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="office:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="office:title">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="xlink:type">
+        <rng:value>simple</rng:value>
+      </rng:attribute>
+      <rng:attribute name="xlink:href">
+        <rng:ref name="anyIRI"/>
+      </rng:attribute>
+  </rng:define>
+  <rng:define name="text-outline-style">
+    <rng:element name="text:outline-style">
+      <rng:ref name="text-outline-style-attr"/>
+      <rng:oneOrMore>
+        <rng:ref name="text-outline-level-style"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-outline-style-attr">
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-section-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>ruby</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-ruby-properties"/>
+        </rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-page-order">
+          <rng:choice>
+            <rng:value>ttb</rng:value>
+            <rng:value>ltr</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:first-page-number">
+          <rng:choice>
+            <!-- https://issues.oasis-open.org/browse/OFFICE-3953 -->
+            <rng:ref name="integer"/>
+            <rng:value>continue</rng:value>
+          </rng:choice>
+
+exec
+/usr/bin/zsh -lc "sed -n '7660,7686p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7937,7963p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8278,8322p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12757,12820p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13185,13230p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '15939,16035p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16145,16245p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16126,16148p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '17920,17942p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12000,12070p' ./odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_yifzj1_n
+ succeeded in 0ms:
+  </rng:define>
+  <rng:define name="office-annotation-end">
+    <rng:element name="office:annotation-end">
+      <rng:ref name="office-annotation-end-attlist"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-annotation-end-attlist">
+    <rng:ref name="common-office-annotation-name-attlist"/>
+  </rng:define>
+  <rng:define name="office-automatic-styles">
+    <rng:optional>
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body">
+  <rng:define name="office-master-styles">
+    <rng:optional>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta">
+    <rng:optional>
+      <rng:element name="office:meta">
+        <rng:ref name="office-meta-content-strict"/>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta-content-strict">
+    <rng:zeroOrMore>
+      <rng:ref name="office-meta-data"/>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+  <rng:define name="style-style">
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-column-properties-content-strict">
+    <rng:ref name="style-table-column-properties-attlist"/>
+    <rng:ref name="style-table-column-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-table-properties">
+    <rng:element name="style:table-properties">
+      <rng:ref name="style-table-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-width">
+          <rng:ref name="percent"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>margins</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <rng:ref name="common-page-number-attlist"/>
+      <rng:ref name="common-break-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-keep-with-next-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:may-break-between-rows">
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+      <rng:ref name="common-num-format-attlist"/>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4108 -->
+      <rng:ref name="common-num-list-format-name-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:display-levels">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:start-value">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-outline-style">
+    <rng:element name="text:outline-style">
+      <rng:ref name="text-outline-style-attr"/>
+      <rng:oneOrMore>
+        <rng:ref name="text-outline-level-style"/>
+      </rng:oneOrMore>
+    </rng:element>
+        <rng:attribute name="style:dynamic-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-header-footer-properties-content-strict">
+    <rng:ref name="style-header-footer-properties-attlist"/>
+    <rng:ref name="style-header-footer-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-header-footer-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-header-left">
+    <rng:element name="style:header-left">
+      <rng:ref name="common-style-header-footer-attlist"/>
+      <rng:ref name="header-footer-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-header-style">
+    <rng:element name="style:header-style">
+      <rng:optional>
+        <rng:ref name="style-header-footer-properties"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-list-level-label-alignment">
+    <rng:optional>
+      <rng:element name="style:list-level-label-alignment">
+        <rng:ref name="style-list-level-label-alignment-attlist"/>
+        <rng:empty/>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-list-level-label-alignment-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:label-followed-by">
+        <rng:choice>
+          <rng:value>listtab</rng:value>
+          <rng:value>space</rng:value>
+          <rng:value>nothing</rng:value>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:list-tab-stop-position">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:text-indent">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:margin-left">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-list-level-properties">
+    <rng:element name="style:list-level-properties">
+      <rng:ref name="style-list-level-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-list-level-properties-attlist">
+    <rng:interleave>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.15cm" fo:line-height="1.25"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="Header" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="1.1cm" fo:margin-bottom="1.2cm"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="TitleSmall" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.6cm" fo:margin-bottom="0.7cm"/>
+      <style:text-properties fo:font-size="19pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="TitleLarge" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-bottom="1.0cm"/>
+      <style:text-properties fo:font-size="19pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Fields" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0.22cm"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="BodyLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.55cm" fo:margin-bottom="0.55cm" fo:line-height="1.3"/>
+      <style:text-properties fo:font-size="15pt"/>
+    </style:style>
+    <style:style style:name="IndentedLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="1.0cm" fo:margin-top="0.55cm" fo:margin-bottom="0.55cm" fo:line-height="1.3"/>
+      <style:text-properties fo:font-size="15pt"/>
+    </style:style>
+    <style:style style:name="Footer" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="2.4cm" fo:margin-bottom="0.15cm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="FooterLeft" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="BreakPage" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="1.3cm" fo:margin-bottom="1.2cm"/>
+      <style:text-properties fo:font-size="15pt"/>
+    </style:style>
+    <style:style style:name="SignLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="1.4cm" fo:margin-bottom="1.0cm"/>
+      <style:text-properties fo:font-size="15pt"/>
+    </style:style>
+    <style:style style:name="CalloutTitle" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.25cm" fo:margin-bottom="0.45cm"/>
+      <style:text-properties fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="CalloutSection" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.4cm" fo:margin-bottom="0.1cm"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="CalloutLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.5cm" fo:margin-top="0cm" fo:margin-bottom="0.1cm"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="Box" style:family="table">
+      <style:table-properties style:width="16cm" table:align="center"/>
+    </style:style>
+    <style:style style:name="BoxCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.04cm solid #000000" fo:padding="0.3cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" style:print-orientation="portrait" fo:margin-top="2.2cm" fo:margin-bottom="2.0cm" fo:margin-left="2.5cm" fo:margin-right="2.5cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Header">附件六之一：重新召集區分所有權人會議決議成立公告</text:p>
+      <text:p text:style-name="TitleSmall">________公寓大廈（社區）</text:p>
+      <text:p text:style-name="TitleLarge">重新召集區分所有權人會議決議成立公告</text:p>
+      <text:p text:style-name="Fields">公告日期：__年__月__日</text:p>
+      <text:p text:style-name="Fields">公告文號：___字___號</text:p>
+      <text:p text:style-name="BodyLine">1、本公寓大廈（社區）於__年__月__日召集區分所有權人會議因□未達定額</text:p>
+      <text:p text:style-name="IndentedLine">或□未獲致決議，復於__年__月__日依公寓大廈管理條例第三十二條第</text:p>
+      <text:p text:style-name="IndentedLine">一項之規定，就同一議案重新召集區分所有權人會議，經達法定數額作</text:p>
+      <text:p text:style-name="IndentedLine">成決議事項，先予敘明。</text:p>
+      <text:p text:style-name="BodyLine">2、上開會議之會議紀錄，業依同條例第三十四條第一項規定，於會後十五</text:p>
+      <text:p text:style-name="IndentedLine">日(送達日__年__月__日)內送達各區分所有權人並公告之，經逾七日尚</text:p>
+      <text:p text:style-name="IndentedLine">無超過全體區分所有權人及其區分所有權比例合計半數以上，以書面</text:p>
+      <text:p text:style-name="IndentedLine">表示反對意見，該次會議之決議視為成立，特此公告。</text:p>
+      <text:p text:style-name="BodyLine">3、本公告之內容如有不實，概由本人依法負責。</text:p>
+      <text:p text:style-name="Footer">(民)工公寓(區)01-(民)表七-1/2</text:p>
+      <text:p text:style-name="FooterLeft">申請案編碼：5073009 公告期限：9天</text:p>
+      <text:p text:style-name="BreakPage">________公寓大廈管理委員會(管理負責人)</text:p>
+      <text:p text:style-name="SignLine">主任委員(管理負責人)________（簽章）</text:p>
+      <table:table table:name="填寫規範" table:style-name="Box">
+        <table:table-column/>
+        <table:table-row>
+          <table:table-cell table:style-name="BoxCell">
+            <text:p text:style-name="CalloutTitle">附件六之一：重新召集區分所有權人會議決議成立公告</text:p>
+            <text:p text:style-name="CalloutTitle">填寫規範</text:p>
+            <text:p text:style-name="CalloutSection">一、公寓大廈名稱</text:p>
+            <text:p text:style-name="CalloutLine">1.應以全名表示。</text:p>
+            <text:p text:style-name="CalloutLine">2.應與其他報備文件使用相同名稱。</text:p>
+            <text:p text:style-name="CalloutSection">二、公告日期、文號</text:p>
+            <text:p text:style-name="CalloutLine">載明公告日期，編列公告文號。</text:p>
+            <text:p text:style-name="CalloutSection">三、內文應載日期</text:p>
+            <text:p text:style-name="CalloutLine">1.勾選□未達定額或□未獲致決議之情形，並載明該次區分所有權人會</text:p>
+            <text:p text:style-name="CalloutLine">議日期。</text:p>
+            <text:p text:style-name="CalloutLine">2.載明重新召集區分所有權人會議日期。</text:p>
+            <text:p text:style-name="CalloutLine">3.載明重新召集區分所有權人會議會議紀錄的送達及公告日期。</text:p>
+            <text:p text:style-name="CalloutSection">四、管理組織及簽章</text:p>
+            <text:p text:style-name="CalloutLine">1.管理組織應以全名表示。</text:p>
+            <text:p text:style-name="CalloutLine">2.主任委員或管理負責人應簽名或蓋章。</text:p>
+          </table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Footer">(民)工公寓(區)01-(民)表七-2/2</text:p>
+      <text:p text:style-name="FooterLeft">申請案編碼：5073009 公告期限：9天</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+38,388

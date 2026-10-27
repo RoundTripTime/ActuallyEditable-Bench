@@ -1,0 +1,776 @@
+ue>
+          <rng:value>sum</rng:value>
+          <rng:value>var</rng:value>
+          <rng:value>varp</rng:value>
+          <rng:ref name="string"/>
+        </rng:choice>
+      </rng:attribute>
+      <rng:attribute name="table:source-cell-range-addresses">
+        <rng:ref name="cellRangeAddressList"/>
+      </rng:attribute>
+      <rng:attribute name="table:target-cell-address">
+        <rng:ref name="cellAddress"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="table:use-labels">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>row</rng:value>
+            <rng:value>column</rng:value>
+            <rng:value>both</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:link-to-source-data">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-content-validation">
+    <rng:element name="table:content-validation">
+      <rng:ref name="table-validation-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-help-message"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:choice>
+          <rng:ref name="table-error-message"/>
+          <rng:group>
+            <rng:ref name="table-error-macro"/>
+            <rng:ref name="office-event-listeners"/>
+          </rng:group>
+        </rng:choice>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+The <db:table-representations> element has the following child element: <db:table-representation> 12.33.
+
+12.33 <db:table-representation>
+
+A <db:table-representation> element specifies how a consumer displays a table to the user.
+
+The <db:table-representation> element is usable within the following element: <db:table-representations> 12.32.
+
+The <db:table-representation> element has the following attributes: db:catalog-name 19.37, db:default-row-style-name 19.46, db:description 19.48, db:name 19.70, db:schema-name 19.77, db:style-name 19.80 and db:title 19.84.
+
+The <db:table-representation> element has the following child elements: <db:columns> 12.34, <db:filter-statement> 12.30 and <db:order-statement> 12.29.
+
+12.34 <db:columns>
+
+The <db:columns> element is a collection of <db:column> elements.
+
+The <db:columns> element is usable within the following elements: <db:query> 12.28 and <db:table-representation> 12.33.
+
+The <db:columns> element has no attributes.
+
+The <db:columns> element has the following child element: <db:column> 12.35.
+
+12.35 <db:column>
+
+The <db:column> element specifies settings for a column.
+
+The <db:column> element is usable within the following element: <db:columns> 12.34.
+
+The <db:column> element has the following attributes: db:default-cell-style-name 19.45, db:description 19.48, db:name 19.70, db:style-name 19.80, db:title 19.84, db:visible 19.91, office:boolean-value 19.371, office:currency 19.373, office:date-value 19.374, office:string-value 19.383, office:time-value 19.386, office:value 19.388, office:value-type 19.389.
+
+The <db:column> element has no child elements.
+
+12.36 <db:schema-definition>
+
+The <db:schema-definition> element specifies a database schema. 
+
+The <db:schema-definition> element is usable within the following element: <office:database> 12.1.
+
+The <db:schema-definition> element has no attributes.
+
+The <db:schema-definition> element has the following child element: <db:table-definitions> 12.37.
+
+12.37 <db:table-definitions>
+
+The <db:table-definitions> element is a container for multiple <db:table-definition> elements.
+
+The <db:table-definitions> element is usable within the following element: <db:schema-definition> 12.36.
+
+The <db:table-definitions> element has no attributes.
+
+The <db:table-definitions> element has the following child element: <db:table-definition> 12.38.
+
+12.38 <db:table-definition>
+
+The <db:table-definition> element specifies the schema of a single table.
+
+The <db:table-definition> element is usable within the following element: <db:table-definitions> 12.37.
+
+The <db:table-definition> element has the following attributes: db:catalog-name 19.37, db:name 19.70, db:schema-name 19.77 and db:type 19.85.
+
+The <db:table-definition> element has the following child elements: <db:column-definitions> 12.39, <db:indices> 12.45 and <db:keys> 12.41.
+
+12.39 <db:column-definitions>
+
+The <db:column-definitions> element is a container for <db:column-definition> elements.
+
+The <db:column-definitions> element is usable within the following element: <db:table-definition> 12.38.
+
+The <db:column-definitions> element has no attributes.
+
+The <db:column-definitions> element has the following child element: <db:column-definition> 12.40.
+
+12.40 <db:column-definition>
+
+The <db:column-definition> element defines a table column. 
+
+The <db:column-definition> element is usable within the following element: <db:column-definitions> 12.39.
+
+The <db:column-definition> element has the following attributes: db:data-type 19.42, db:is-autoincrement 19.57, db:is-empty-allowed 19.59, db:is-nullable 19.62, db:name 19.70, db:precision 19.65, db:scale 19.76, db:type-name 19.86, office:boolean-value 19.371, office:currency 19.373, office:date-value 19.374, office:string-value 19.383, office:time-value 19.386, office:value 19.388, office:value-type 19.389.
+
+The <db:column-definition> element has no child elements.
+
+12.41 <db:keys>
+
+The <db:keys> element is a container for one or more <db:key> elements.
+
+The <db:keys> element is usable within the following element: <db:table-definition> 12.38.
+
+The <db:keys> element has no attributes.
+
+The <db:keys> element has the following child element: <db:key> 12.42.
+
+12.42 <db:key>
+
+The <db:key> element specifies a key for a table.
+
+The <db:key> element is usable within the following element: <db:keys> 12.41.
+
+The <db:key> element has the following attributes: db:delete-rule 19.47, db:name 19.70, db:referenced-table-name 19.73, db:type 19.85 and db:update-rule 19.87.
+
+The <db:key> element has the following child element: <db:key-columns> 12.43.
+
+12.43 <db:key-columns>
+
+The <db:key-columns> element specifies the columns of a key.
+
+The <db:key-columns> element is usable within the following element: <db:key> 12.42.
+
+The <db:key-columns> element has no attributes.
+
+The <db:key-columns> element has the following child element: <db:key-column> 12.44.
+
+12.44 <db:key-column>
+
+The <db:key-column> element specifies a description of a column of a table key.
+
+
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+OASIS Standard
+
+6 October 2025
+
+This stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.pdf
+
+Previous stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+
+Latest stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.pdf
+
+Technical Committee:
+
+OASIS Open Document Format for Office Applications (OpenDocument) TC
+
+Chairs:
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Editors:
+
+Francis Cave (francis@franciscave.com), Individual
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Michael Stahl (michael.stahl@allotropia.de), allotropia software GmbH
+
+Additional artifacts:
+
+This prose specification is one component of a Work Product which includes:
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 1: Introduction. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part1-introduction/OpenDocument-v1.4-os-part1-introduction.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. (this part) https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 4: Recalculated Formula (OpenFormula) Format. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html. 
+
+•XML/RNG schemas and OWL ontologies. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/. 
+
+Related work:
+
+This specification replaces or supersedes:
+
+•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4.  27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html. 
+
+Declared XML namespaces:
+
+urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+
+urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+
+http://docs.oasis-open.org/ns/office/1.2/meta/pkg#
+
+Abstract:
+
+This document is Part 2 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification and defines a package format for OpenDocument documents, the digital signing of such documents, along with metadata that may be supplied with them.
+
+Status:
+
+This document was last revised or approved by the OASIS Open Document Format for Office Applications (OpenDocument) TC on the above date. The level of approval is also listed above. Check the "Latest stage" location noted above for possible later revisions of this document. Any other numbered Versions and other technical work produced by the Technical Committee (TC) are listed at https://groups.oasis-open.org/communities/tc-community-home2?CommunityKey=4bf06d41-79ad-4c58-9e8e-018dc7d05da8#technical.
+
+TC members should send comments on this specification to the TC's email list. Others should send comments to the TC's public comment list at Technical-Committee-Comments@oasis-open.org.
+
+This specification is provided under the RF on Limited Terms Mode of the OASIS IPR Policy, the mode chosen when the Technical Committee was established. For information on whether any patents have been disclosed that may be essential to implementing this specification, and any offers of patent licensing terms, please refer to the Intellectual Property Rights section of the TC's web page (https://www.oasis-open.org/committees/office/ipr.php).
+
+Note that any machine-readable content (Computer Language Definitions) declared Normative for this Work Product is provided in separate plain text files. In the event of a discrepancy between any such plain text file and display content in the Work Product's prose narrative document(s), the content in the separate plain text file prevails.
+
+Citation format:
+
+When referencing this specification the following citation format should be used:
+
+[OpenDocument-v1.4-part2]
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. Latest stage: https://docs.oasis-open.org/office/v1.4/OpenDocument-v1.4-part2-packages.html.
+
+Notices
+
+Copyright © OASIS Open 2025. All Rights Reserved.
+
+All capitalized terms in the following text have the meanings assigned to them in the OASIS Intellectual Property Rights Policy (the "OASIS IPR Policy"). The full Policy may be found at the OASIS website.
+
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published, and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and this section are included on all such copies and derivative works. However, this document itself may not be modified in any way, including by removing the copyright notice or references to OASIS, except as needed for the purpose of developing any document or deliverable produced by an OASIS Technical Committee (in which case the rules applicable to copyrights, as set forth in the OASIS IPR Policy, must be followed) or as required to translate it into languages other than English.
+
+The limited permissions granted above are perpetual and will not be revoked by OASIS or its successors or assigns.
+
+This document and the information contained herein is provided on an "AS IS" basis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY OWNERSHIP RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+As stated in the OASIS IPR Policy, the following three paragraphs in brackets apply to OASIS Standards Final Deliverable documents (Committee Specification, OASIS Standard, or Approved Errata).
+
+[OASIS requests that any OASIS Party or any other party that believes it has patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable, to notify OASIS TC Administrator and provide an indication of its willingness to grant patent licenses to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this deliverable.]
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Normal" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="Serif"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph" style:parent-style-name="Normal">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="BoldCenter" style:family="paragraph" style:parent-style-name="Center">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph" style:parent-style-name="BoldCenter">
+      <style:text-properties fo:font-size="15pt"/>
+    </style:style>
+    <style:style style:name="PageTwo" style:family="paragraph" style:parent-style-name="Normal">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="table-cell" style:parent-style-name="Cell">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="CellBold" style:family="table-cell" style:parent-style-name="CellCenter">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="NoBorder" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0.04cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1cm" fo:margin-bottom="1cm" fo:margin-left="1cm" fo:margin-right="1cm"/>
+    </style:page-layout>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="1.5cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="5cm"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="1.6cm"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="1.4cm"/>
+    </style:style>
+    <style:style style:name="ColE" style:family="table-column">
+      <style:table-column-properties style:column-width="1.8cm"/>
+    </style:style>
+    <style:style style:name="ColF" style:family="table-column">
+      <style:table-column-properties style:column-width="8.7cm"/>
+    </style:style>
+    <style:style style:name="PageTwoColA" style:family="table-column">
+      <style:table-column-properties style:column-width="3.2cm"/>
+    </style:style>
+    <style:style style:name="PageTwoColB" style:family="table-column">
+      <style:table-column-properties style:column-width="9cm"/>
+    </style:style>
+    <style:style style:name="PageTwoColC" style:family="table-column">
+      <style:table-column-properties style:column-width="3cm"/>
+    </style:style>
+    <style:style style:name="PageTwoColD" style:family="table-column">
+      <style:table-column-properties style:column-width="4.8cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Center">避難者カード【ベトナム</text:p>
+      <text:p text:style-name="Title">Phiếu Người Sơ tán (mặt trước)　【Mẫu - 7】</text:p>
+      <text:p text:style-name="Center"><text:span text:style-name="BoldCenter">Ngày điền</text:span>　Ngày　 tháng　 năm　　 Điền vào mẫu cho từng hộ gia đình</text:p>
+      <table:table table:name="FrontForm">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-column table:style-name="ColF"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Ngày Giờ</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p>Ngày　 tháng　 năm　 khoảng　 giờ</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>Nhóm - No cư trú</text:p><text:p text:style-name="Center">－</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Địa điểm Sơ tán</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p>Trung tâm Sơ tán / Nhà / Khác / (　　　　　　　)</text:p><text:p text:style-name="Center">※Nếu đi tản bằng xe, hãy cho biết vị trí đậu xe</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Hội Tự trị</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p>Hội tự trị khu</text:p><text:p>※Nếu gia đình chưa là thành viên viết là "chưa tham gia".</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Khoanh tròn nếu ở TT Sơ tán</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellBold"><text:p>Họ Tên</text:p><text:p>(cùng với chữ Katakana)</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellBold"><text:p>Tuổi</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellBold"><text:p>Giới tính</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellBold"><text:p>Quan hệ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellBold"><text:p>Ghi chú *Viết con số và những điều lưu ý cho những người cần xem xét đặc biệt.</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>(Người đại diện)</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>　</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>Nam　▪　Nữ　▪　Khác</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>　</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>Nam　▪　Nữ　▪　Khác</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>　</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>Nam　▪　Nữ　▪　Khác</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>　</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>Nam　▪　Nữ　▪　Khác</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>　</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>Nam　▪　Nữ　▪　Khác</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Địa chỉ</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p>〒</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Số điện thoại Người đại diện</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p>（　　　　　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Thú cưng</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p>Có　▪　Không　　※Nếu “Có”, điền vào phiếu đăng ký con vật nuôi.</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Người cần xem xét</text:p><text:p>*Viết con số vào cột ghi chú</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p>1 Phụ nữ có thai　　 2 Trẻ sơ sinh　　 3 Người khuyết tật（　　　　　　　　）</text:p><text:p>4 Người cần chăm sóc　　 5 Người dùng thiết bị y tế（　　　　　　　　）</text:p><text:p>6 Dị ứng（　　　　　　　　）　 7 Người nước ngoài（Quốc tịch　　　　　　　　）</text:p><text:p>8 Khác（　　　　　　　　　　　　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p>※Những người cần được xem xét đặc biệt trong cuộc sống sơ tán như phụ nữ có thai, trẻ sơ sinh và người khuyết tật v.v.</text:p>
+      <text:p text:style-name="PageTwo"/>
+      <text:p text:style-name="Title">Phiếu Người Sơ tán (mặt sau)　【Mẫu - 7】</text:p>
+      <text:p text:style-name="BoldCenter">Về những mục ở mặt sau bạn có thể viết sau khi tình hình đã ổn định.</text:p>
+      <table:table table:name="BackForm">
+        <table:table-column table:style-name="PageTwoColA"/>
+        <table:table-column table:style-name="PageTwoColB"/>
+        <table:table-column table:style-name="PageTwoColC"/>
+        <table:table-column table:style-name="PageTwoColD"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p>Công bố thông tin để xác nhận người sơ tán an toàn (khoanh tròn " muốn" hoặc "không muốn".</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>Bạn có muốn thông tin người sơ tán được công bố trên trang web hoặc qua phương tiện truyền thông không?</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p>Muốn　▪　Không muốn</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>Bạn có muốn chúng tôi cung cấp thông tin người sơ tán đáp ứng yêu cầu từ người gia đình, ở cùng nhà và người quen của bạn về sự an toàn của người sơ tán không?</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p>Muốn　▪　Không muốn</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold" table:number-rows-spanned="3"><text:p>Thiệt hại nhà ở</text:p><text:p>※Khoanh tròn các mục áp dụng cho tình huống của bạn</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>Có　▪　Không　　※Nếu “Có”, mô tả chi tiết tình hình hư hỏng của ngôi nhà</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>※Ví dụ về miêu tả tình huống</text:p><text:p>▪Nhà ở đã sập; không có thể sống ở đó được.</text:p><text:p>▪Có thể trở về nhà lại nếu dọn dẹp sắp xếp lại phòng</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>Cúp điện　　 Cúp nước　　 Cúp gas　　 Sập đường dây điện thoại</text:p><text:p>Khác（　　　　　　　　　　　　　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold" table:number-columns-spanned="4"><text:p>Thông tin nạn nhân</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p>Viết tên và tình trạng cụ thể chấn thương hoặc bệnh tật.</text:p><text:p/><text:p/><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold" table:number-columns-spanned="1"><text:p>Nơi điều trị</text:p><text:p>(Nơi chuyển đến)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Thông tin nơi điều trị</text:p><text:p>(Địa chỉ)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold" table:number-columns-spanned="4"><text:p>Các ghi chú đặc biệt khác (Nếu ai có đủ tư cách và có thể hợp tác, viết tên và nội dung hợp tác.)</text:p><text:p/><text:p/><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="BoldCenter">＜Khung để Ủy ban quản lý trung tâm sơ tán ghi vào＞</text:p>
+      <table:table table:name="CenterUse">
+        <table:table-column table:style-name="PageTwoColA"/>
+        <table:table-column table:style-name="PageTwoColB"/>
+        <table:table-column table:style-name="PageTwoColC"/>
+        <table:table-column table:style-name="PageTwoColD"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p/><text:p/><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Rời trung tâm</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>Năm　 tháng　 ngày</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellBold"><text:p>Nơi cư trú</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>ĐT</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p>※Để đảm bảo việc vận hành nơi sơ tán được thuận lợi, chúng tôi mong tất cả những người sơ tán</text:p>
+      <text:p>(bao gồm cả người sơ tán tại nhà và người sơ tán trong xe) hợp tác tham gia vận hành nơi sơ tán</text:p>
+      <text:p>trong phạm vi có thể.</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+36,048

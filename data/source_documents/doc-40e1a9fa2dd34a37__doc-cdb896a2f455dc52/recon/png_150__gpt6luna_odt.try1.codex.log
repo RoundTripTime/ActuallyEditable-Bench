@@ -1,0 +1,603 @@
+st 20.317, style:line-spacing 20.318, style:page-number 20.328, style:punctuation-wrap 20.335, style:register-true 20.336, style:shadow 20.359, style:snap-to-layout-grid 20.361, style:tab-stop-distance 20.362, style:text-autospace 20.365, style:vertical-align 20.396, style:writing-mode 20.404, style:writing-mode-automatic 20.405, text:line-number 20.430, text:number-lines 20.434 and text:relative-tab-stop-position 20.440.
+14395:The <style:table-properties> element has the following attributes: fo:background-color 20.182, fo:break-after 20.184, fo:break-before 20.185, fo:keep-with-next 20.201, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, style:may-break-between-rows 20.319, style:page-number 20.328, style:rel-width 20.340, style:shadow 20.359, style:width 20.399, style:writing-mode 20.404, table:align 20.414, table:border-model 20.415, table:display 20.416 and table:tab-color 20.442.
+14405:The <style:table-column-properties> element has the following attributes: fo:break-after 20.184, fo:break-before 20.185, style:column-width 20.254, style:rel-column-width 20.338 and style:use-optimal-column-width 20.393.
+14415:The <style:table-row-properties> element has the following attributes: fo:background-color 20.182, fo:break-after 20.184, fo:break-before 20.185, fo:keep-together 20.200, style:min-row-height 20.320, style:row-height 20.348 and style:use-optimal-row-height 20.394.
+14435:The <style:list-level-properties> element has the following attributes: fo:height 20.194, fo:text-align 20.223, fo:width 20.229, style:font-name 20.277, style:vertical-pos 20.397, style:vertical-rel 20.398, svg:y 20.412, text:list-level-position-and-space-mode 20.431, text:min-label-distance 20.432, text:min-label-width 20.433 and text:space-before 20.435.
+30977:A soft page break is a page break that has been included in a document by a page-oriented consumer at a position where the document itself does not include a page break as defined by fo:break-after 20.184 or fo:break-before 20.185. 
+37557:20.185 fo:break-before
+37561:In the OpenDocument XSL-compatible namespace, the fo:break-before attribute does not support the value inherit. 
+37563:The fo:break-before attribute is usable with the following elements: <style:paragraph-properties> 17.6, <style:table-column-properties> 17.16, <style:table-properties> 17.15 and <style:table-row-properties> 17.17.
+37565:The values of the fo:break-before attribute are auto, column, page, even-page or odd-page.
+37603:20.189 fo:font-family
+37607:The fo:font-family attribute is evaluated for any [UNICODE] character whose script type is latin. 20.358
+37611:The fo:font-family attribute is usable with the following element: <style:text-properties> 16.29.29.
+37613:The fo:font-family attribute has the data type string 18.2.
+37615:20.190 fo:font-size
+37625:In the OpenDocument XSL-compatible namespace, the fo:font-size attribute does not support absolute-size, inherit and relative-size values. 
+37627:The fo:font-size attribute is usable with the following element: <style:text-properties> 16.29.29.
+37629:The values of the fo:font-size attribute are a value of type positiveLength 18.3.27 or a value of type percent 18.3.24.
+37971:20.223 fo:text-align
+37975:If there are no values specified for the fo:text-align and style:justify-single-word 20.301 attributes within the same formatting properties element, the values of those attributes is set to start and false respectively.
+37977:In the OpenDocument XSL-compatible namespace, the fo:text-align attribute does not support the inherit, inside, outside, or string values.
+37979:The fo:text-align attribute is usable with the following elements: <style:list-level-properties> 17.19 and <style:paragraph-properties> 17.6.
+37981:The values of the fo:text-align attribute are start, end, left, right, center or justify.
+37985:The fo:text-align attribute when used with the <style:paragraph-properties> 17.6 element specifies the alignment of text in a paragraph. 
+
+exec
+/usr/bin/zsh -lc "sed -n '8405,8428p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '1290,1305p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12830,12970p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13350,13525p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12475,12505p' odf_spec/OpenDocument-v1.4-schema.rng; grep -nE 'table:number-columns-spanned|table:number-rows-spanned|<table:covered-table-cell>|style:page-layout-properties' odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -35" in /tmp/fb_codex_odt_472inpzv
+ succeeded in 0ms:
+  <rng:define name="paragraph-content">
+    <rng:choice>
+      <rng:text/>
+      <rng:element name="text:s">
+        <rng:optional>
+          <rng:attribute name="text:c">
+            <rng:ref name="nonNegativeInteger"/>
+          </rng:attribute>
+        </rng:optional>
+      </rng:element>
+      <rng:element name="text:tab">
+        <rng:ref name="text-tab-attr"/>
+      </rng:element>
+      <rng:element name="text:line-break">
+        <rng:empty/>
+      </rng:element>
+      <rng:ref name="text-soft-page-break"/>
+      <rng:element name="text:span">
+        <rng:optional>
+          <rng:attribute name="text:style-name">
+            <rng:ref name="styleNameRef"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-section-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>ruby</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-ruby-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-column</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-column-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-row</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-row-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-cell</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-cell-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:choice>
+            <rng:value>graphic</rng:value>
+            <rng:value>presentation</rng:value>
+          </rng:choice>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-graphic-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>drawing-page</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-drawing-page-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>chart</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-chart-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-graphic-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="style-tab-stop">
+    <rng:element name="style:tab-stop">
+      <rng:ref name="style-tab-stop-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-tab-stop-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:position">
+        <rng:ref name="length"/>
+      </rng:attribute>
+      <rng:choice>
+        <rng:optional>
+          <rng:attribute name="style:type">
+            <rng:choice>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-style">
+          <rng:ref name="lineStyle"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-width">
+          <rng:ref name="lineWidth"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-color">
+          <rng:choice>
+            <rng:value>font-color</rng:value>
+            <rng:ref name="color"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-text">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-text-style">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-position">
+          <rng:list>
+            <rng:choice>
+              <rng:ref name="percent"/>
+              <rng:value>super</rng:value>
+              <rng:value>sub</rng:value>
+            </rng:choice>
+            <rng:optional>
+              <rng:ref name="percent"/>
+            </rng:optional>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-name-asian">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-name-complex">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:font-family">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-family-asian">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-family-complex">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-family-generic">
+          <rng:ref name="fontFamilyGeneric"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-family-generic-asian">
+          <rng:ref name="fontFamilyGeneric"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-family-generic-complex">
+          <rng:ref name="fontFamilyGeneric"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-style-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-style-name-asian">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-style-name-complex">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-pitch">
+          <rng:ref name="fontPitch"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-pitch-asian">
+          <rng:ref name="fontPitch"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-pitch-complex">
+          <rng:ref name="fontPitch"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-charset">
+          <rng:ref name="textEncoding"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-charset-asian">
+          <rng:ref name="textEncoding"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-charset-complex">
+          <rng:ref name="textEncoding"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:font-size">
+          <rng:choice>
+            <rng:ref name="positiveLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-size-asian">
+          <rng:choice>
+            <rng:ref name="positiveLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-size-complex">
+          <rng:choice>
+            <rng:ref name="positiveLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-size-rel">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-size-rel-asian">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-size-rel-complex">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:script-type">
+          <rng:choice>
+            <rng:value>latin</rng:value>
+            <rng:value>asian</rng:value>
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+          <rng:choice>
+            <rng:value>start</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>justify</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:justify-single-word">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:keep-together">
+          <rng:choice>
+785:9.1.5 <table:covered-table-cell>
+1695:17.2 <style:page-layout-properties>
+3809:19.679.2 <table:covered-table-cell>
+3815:19.680 table:number-columns-spanned
+3819:19.682 table:number-rows-spanned
+3867:19.700.2 <table:covered-table-cell>
+3941:19.730.4 <table:covered-table-cell>
+5601:20.404.3 <style:page-layout-properties>
+7029:The <text:h> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7039:The <text:p> element is usable within the following elements: <chart:data-label> 11.15, <chart:equation> 11.19, <chart:footer> 11.2.3, <chart:label-separator> 17.24, <chart:legend> 11.4, <chart:subtitle> 11.2.2, <chart:title> 11.2.1, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <form:textarea> 13.5.3, <office:annotation> 14.1, <office:change-info> 5.5.7, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <style:region-center> 16.17, <style:region-left> 16.16, <style:region-right> 16.18, <table:change-track-table-cell> 9.9.16, <table:covered-table-cell> 9.1.5, <table:error-message> 9.4.7, <table:help-message> 9.4.6, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7081:The <text:list> element is usable within the following elements: <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <office:annotation> 14.1, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4 and <text:section> 5.4.
+7147:The <text:numbered-paragraph> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+7179:The <text:section> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+7293:The <text:change-start> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+7303:The <text:change-end> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+7313:The <text:change> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+7325:The <text:soft-page-break> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <table:covered-table-cell> 9.1.5, <table:table> 9.1.2, <table:table-cell> 9.1.4, <table:table-header-rows> 9.1.7, <table:table-row-group> 9.1.9, <table:table-rows> 9.1.8, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+9018:The <text:table-of-content> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9052:The <text:illustration-index> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9084:The <text:table-index> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9116:The <text:object-index> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9156:The <text:user-index> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9190:The <text:alphabetical-index> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9234:The <text:bibliography> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9396:The <table:table> element is usable within the following elements: <chart:chart> 11.1, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <office:spreadsheet> 3.7, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:dde-link> 14.7.4, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9410:The <table:table-row> element has the following child elements: <table:covered-table-cell> 9.1.5 and <table:table-cell> 9.1.4.
+9418:The <table:table-cell> element has the following attributes: office:boolean-value 19.371, office:currency 19.373, office:date-value 19.374, office:string-value 19.383, office:time-value 19.386, office:value 19.388, office:value-type 19.389, table:content-validation-name 19.605, table:formula 19.646, table:number-columns-repeated 19.679, table:number-columns-spanned 19.680, table:number-matrix-columns-spanned 19.683, table:number-matrix-rows-spanned 19.684, table:number-rows-spanned 19.682, table:protect 19.699, table:protected 19.700, table:style-name 19.730, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+9422:9.1.5 <table:covered-table-cell>
+9424:The <table:covered-table-cell> element represents cells that are covered by a <table:table-cell> 9.1.4 element that spans multiple columns or rows. The <table:covered-table-cell> elements occupy the same position in document order as the cells spanned. There is one <table:covered-table-cell> element for each cell that is spanned. 
+9426:The <table:covered-table-cell> is often used by spreadsheet applications, where covered cells contain content.
+9428:The <table:covered-table-cell> element is usable within the following element: <table:table-row> 9.1.3.
+9430:The <table:covered-table-cell> element has the following attributes: office:boolean-value 19.371, office:currency 19.373, office:date-value 19.374, office:string-value 19.383, office:time-value 19.386, office:value 19.388, office:value-type 19.389, table:content-validation-name 19.605, table:formula 19.646, table:number-columns-repeated 19.679, table:protect 19.699, table:protected 19.700, table:style-name 19.730, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+9432:The <table:covered-table-cell> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:annotation> 14.1, <table:cell-range-source> 9.3.1, <table:detective> 9.3.2, <table:table> 9.1.2, <text:alphabetical-index> 8.8, <text:bibliography> 8.9, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:h> 5.1.2, <text:illustration-index> 8.4, <text:list> 5.3.1, <text:numbered-paragraph> 5.3.6, <text:object-index> 8.6, <text:p> 5.1.3, <text:section> 5.4, <text:soft-page-break> 5.6, <text:table-index> 8.5, <text:table-of-content> 8.3 and <text:user-index> 8.7.
+9654:The <table:cell-range-source> element is usable within the following elements: <table:covered-table-cell> 9.1.5 and <table:table-cell> 9.1.4.
+9664:The <table:detective> element is usable within the following elements: <table:covered-table-cell> 9.1.5 and <table:table-cell> 9.1.4.
+grep: write error: Broken pipe
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Title" style:family="paragraph" style:master-page-name="Default">
+      <style:paragraph-properties fo:margin="0cm" fo:margin-bottom="0.4cm" fo:line-height="1.05"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" style:font-family-asian="Noto Sans CJK TC" fo:font-size="20pt" style:font-size-asian="20pt"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph" style:master-page-name="Default">
+      <style:paragraph-properties fo:break-before="page" fo:margin="0cm" fo:line-height="0.01cm"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" style:font-family-asian="Noto Sans CJK TC" fo:font-size="1pt" style:font-size-asian="1pt"/>
+    </style:style>
+    <style:style style:name="HeadingCellP" style:family="paragraph">
+      <style:paragraph-properties fo:margin="0cm" fo:line-height="1.05"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" style:font-family-asian="Noto Sans CJK TC" fo:font-size="13pt" style:font-size-asian="13pt"/>
+    </style:style>
+    <style:style style:name="BodyCellP" style:family="paragraph">
+      <style:paragraph-properties fo:margin="0cm" fo:line-height="1.05"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" style:font-family-asian="Noto Sans CJK TC" fo:font-size="13pt" style:font-size-asian="13pt"/>
+    </style:style>
+    <style:style style:name="SignP" style:family="paragraph">
+      <style:paragraph-properties fo:margin="0cm" fo:line-height="1.05"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" style:font-family-asian="Noto Sans CJK TC" fo:font-size="14pt" style:font-size-asian="14pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="29.7cm" fo:page-height="21cm" style:print-orientation="landscape" fo:margin-left="1.5cm" fo:margin-right="1.5cm" fo:margin-top="2.3cm" fo:margin-bottom="1.5cm"/>
+    </style:page-layout>
+    <style:style style:name="Grid" style:family="table">
+      <style:table-properties style:width="26.7cm" table:align="left" table:border-model="collapsing" style:may-break-between-rows="false"/>
+    </style:style>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="3.25cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="1.9cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="3.2cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="2.9cm"/>
+    </style:style>
+    <style:style style:name="Col5" style:family="table-column">
+      <style:table-column-properties style:column-width="3.5cm"/>
+    </style:style>
+    <style:style style:name="Col6" style:family="table-column">
+      <style:table-column-properties style:column-width="4.2cm"/>
+    </style:style>
+    <style:style style:name="Col7" style:family="table-column">
+      <style:table-column-properties style:column-width="7.75cm"/>
+    </style:style>
+    <style:style style:name="HeadRow" style:family="table-row">
+      <style:table-row-properties style:row-height="3cm"/>
+    </style:style>
+    <style:style style:name="DataRow" style:family="table-row">
+      <style:table-row-properties style:row-height="13cm"/>
+    </style:style>
+    <style:style style:name="ShortRow" style:family="table-row">
+      <style:table-row-properties style:row-height="1.1cm"/>
+    </style:style>
+    <style:style style:name="GridCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="GridBottomCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="SignatureCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="SignRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.8cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Title" fo:break-before="page">( 機關全銜 ) 107 年度聘僱計畫檢討報告表</text:p>
+      <table:table table:name="FormPage1" table:style-name="Grid">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-column table:style-name="Col6"/>
+        <table:table-column table:style-name="Col7"/>
+        <table:table-row table:style-name="HeadRow">
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="HeadingCellP">工作內容</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="HeadingCellP">聘僱計<text:line-break/>畫初次<text:line-break/>日期</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="HeadingCellP">人員姓名及<text:line-break/>初次聘<text:line-break/>（僱）用日<text:line-break/>期</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="HeadingCellP">業務性質</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="HeadingCellP">辦理經常性<text:line-break/>業務原因</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="HeadingCellP">聘僱用人數年限<text:line-break/>超過<text:line-break/>5%5 年原因</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="HeadingCellP">研提改進措施</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="DataRow">
+          <table:table-cell table:style-name="GridBottomCell"/>
+          <table:table-cell table:style-name="GridBottomCell"/>
+          <table:table-cell table:style-name="GridBottomCell"/>
+          <table:table-cell table:style-name="GridBottomCell"><text:p text:style-name="BodyCellP">( ) 經常性</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridBottomCell"/>
+          <table:table-cell table:style-name="GridBottomCell"/>
+          <table:table-cell table:style-name="GridBottomCell"/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="PageStart"/>
+      <table:table table:name="FormPage2Continuation" table:style-name="Grid">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-column table:style-name="Col6"/>
+        <table:table-column table:style-name="Col7"/>
+        <table:table-row table:style-name="ShortRow">
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="BodyCellP">( ) 臨時性</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="Signatures" table:style-name="Grid">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-column table:style-name="Col6"/>
+        <table:table-column table:style-name="Col7"/>
+        <table:table-row table:style-name="SignRow">
+          <table:table-cell table:style-name="SignatureCell"><text:p text:style-name="SignP">承辦人：</text:p></table:table-cell>
+          <table:table-cell table:style-name="SignatureCell"><text:p text:style-name="SignP">單位主管：</text:p></table:table-cell>
+          <table:table-cell table:style-name="SignatureCell"><text:p text:style-name="SignP">機關首長：</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+64,703

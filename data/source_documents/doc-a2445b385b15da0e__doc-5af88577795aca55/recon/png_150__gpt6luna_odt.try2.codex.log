@@ -1,0 +1,435 @@
+g.
+
+This specification is provided under the RF on Limited Terms Mode of the OASIS IPR Policy, the mode chosen when the Technical Committee was established. For information on whether any patents have been disclosed that may be essential to implementing this specification, and any offers of patent licensing terms, please refer to the Intellectual Property Rights section of the TC's web page (https://www.oasis-open.org/committees/office/ipr.php).
+
+Note that any machine-readable content (Computer Language Definitions) declared Normative for this Work Product is provided in separate plain text files. In the event of a discrepancy between any such plain text file and display content in the Work Product's prose narrative document(s), the content in the separate plain text file prevails.
+
+Citation format:
+
+When referencing this specification the following citation format should be used:
+
+[OpenDocument-v1.4-part2]
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. Latest stage: https://docs.oasis-open.org/office/v1.4/OpenDocument-v1.4-part2-packages.html.
+
+Notices
+
+Copyright © OASIS Open 2025. All Rights Reserved.
+
+All capitalized terms in the following text have the meanings assigned to them in the OASIS Intellectual Property Rights Policy (the "OASIS IPR Policy"). The full Policy may be found at the OASIS website.
+
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published, and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and this section are included on all such copies and derivative works. However, this document itself may not be modified in any way, including by removing the copyright notice or references to OASIS, except as needed for the purpose of developing any document or deliverable produced by an OASIS Technical Committee (in which case the rules applicable to copyrights, as set forth in the OASIS IPR Policy, must be followed) or as required to translate it into languages other than English.
+
+The limited permissions granted above are perpetual and will not be revoked by OASIS or its successors or assigns.
+
+This document and the information contained herein is provided on an "AS IS" basis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY OWNERSHIP RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+As stated in the OASIS IPR Policy, the following three paragraphs in brackets apply to OASIS Standards Final Deliverable documents (Committee Specification, OASIS Standard, or Approved Errata).
+
+[OASIS requests that any OASIS Party or any other party that believes it has patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable, to notify OASIS TC Administrator and provide an indication of its willingness to grant patent licenses to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this deliverable.]
+
+[OASIS invites any party to contact the OASIS TC Administrator if it is aware of a claim of ownership of any patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable by a patent holder that is not willing to provide a license to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this OASIS Standards Final Deliverable. OASIS may include such claims on its website, but disclaims any obligation to do so.]
+
+[OASIS takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this OASIS Standards Final Deliverable or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any effort to identify any such rights. Information on OASIS' procedures with respect to rights in any document or deliverable produced by an OASIS Technical Committee can be found on the OASIS website. Copies of claims of rights made available for publication and any assurances of licenses to be made available, or the result of an attempt made to obtain a general license or permission for the use of such proprietary rights by implementers or users of this OASIS Standards Final Deliverable, can be obtained from the OASIS TC Administrator. OASIS makes no representation that any information or list of intellectual property rights will at any time be complete, or that any claims in such list are, in fact, Essential Claims.]
+
+The name "OASIS" is a trademark of OASIS, the owner and developer of this specification, and should be used only to refer to the organization and its official outputs. OASIS welcomes reference to, and implementation and use of, specifications, while reserving the right to enforce its marks against misleading uses. Please see https://www.oasis-open.org/policies-guidelines/trademark/ for above guidance.
+
+Table of Contents
+
+1 Introduction
+
+1.1 Introduction
+
+1.2 Terminology
+
+1.3 Normative References
+
+1.4 Non Normative References
+
+1.5 Namespaces
+
+2 Packages, Package Consumers and Package Producers
+
+2.1 Introduction
+
+2.2 Package Conformance
+
+2.2.1 OpenDocument Package
+
+2.2.2 OpenDocument Extended Package
+
+2.3 Producers
+
+2.3.1 OpenDocument Package Producer
+
+2.3.2 OpenDocument Package Extended Producer
+
+2.4 OpenDocument Package Consumer
+
+3 Packages
+
+3.1 General
+
+3.2 Manifest
+
+3.3 MIME Media Type
+
+3.4 Encryption
+
+3.4.1 General
+
+3.4.2 Encryption Process
+
+3.5 Digital Signatures
+
+3.6 Metadata
+
+3.7 Usage of IRIs Within Packages
+
+3.8 Preview Image
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     Open Document Format for Office Applications (OpenDocument) Version 1.4
+     OASIS Standard
+     6 October 2025
+     Copyright (c) OASIS Open 2025. All Rights Reserved.
+     Source: https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/
+     Latest stage of specification: https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part1-introduction.html
+     TC IPR Statement: https://www.oasis-open.org/committees/office/ipr.php 
+
+        Open Document Format for Office Applications (OpenDocument) Version 1.4
+        Relax-NG Schema
+        OpenDocument-v1.4-schema.rng
+-->
+<!-- https://issues.oasis-open.org/browse/OFFICE-2153 -->
+<!-- https://issues.oasis-open.org/browse/OFFICE-4126 -->
+
+<rng:grammar xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:db="urn:oasis:names:tc:opendocument:xmlns:database:1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:smil="urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <rng:start>
+    <rng:choice>
+      <rng:ref name="office-document"/>
+      <rng:ref name="office-document-content"/>
+      <rng:ref name="office-document-styles"/>
+      <rng:ref name="office-document-meta"/>
+      <rng:ref name="office-document-settings"/>
+    </rng:choice>
+  </rng:start>
+  <rng:define name="CURIE">
+    <rng:data type="string">
+      <rng:param name="pattern">(([\i-[:]][\c-[:]]*)?:)?.+</rng:param>
+      <rng:param name="minLength">1</rng:param>
+    </rng:data>
+  </rng:define>
+  <rng:define name="CURIEs">
+    <rng:list>
+      <rng:oneOrMore>
+        <rng:ref name="CURIE"/>
+      </rng:oneOrMore>
+    </rng:list>
+  </rng:define>
+  <rng:define name="ID">
+    <rng:data type="ID"/>
+  </rng:define>
+  <rng:define name="IDREF">
+    <rng:data type="IDREF"/>
+  </rng:define>
+  <rng:define name="IDREFS">
+    <rng:data type="IDREFS"/>
+  </rng:define>
+  <rng:define name="NCName">
+    <rng:data type="NCName"/>
+  </rng:define>
+  <rng:define name="SafeCURIE">
+    <rng:data type="string">
+      <rng:param name="pattern">\[(([\i-[:]][\c-[:]]*)?:)?.+\]</rng:param>
+      <rng:param name="minLength">3</rng:param>
+    </rng:data>
+  </rng:define>
+  <rng:define name="URIorSafeCURIE">
+    <rng:choice>
+      <rng:ref name="anyURI"/>
+      <rng:ref name="SafeCURIE"/>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="angle">
+    <rng:data type="string"/>
+  </rng:define>
+  <rng:define name="anim-animate-color-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="anim:color-interpolation">
+          <rng:choice>
+            <rng:value>rgb</rng:value>
+            <rng:value>hsl</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="anim:color-interpolation-direction">
+          <rng:choice>
+            <rng:value>clockwise</rng:value>
+            <rng:value>counter-clockwise</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="anim-animate-motion-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="svg:path">
+          <rng:ref name="pathData"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="svg:origin">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+
+exec
+/usr/bin/zsh -lc "grep -n -E 'office-document-attlist|office-document"'$|style-page-layout-attlist|style-page-layout$|style-master-page-attlist|table-table-attlist|table-table-column-attlist|table-table-row-attlist|table-table-cell-attlist|text-p-attlist|style-paragraph-properties-attlist|style-table-cell-properties-attlist|style-table-column-properties-attlist|style-table-row-properties-attlist|style-text-properties-attlist'"' odf_spec/OpenDocument-v1.4-schema.rng; grep -n -E 'fo:break-before|table:number-columns-spanned|table:number-rows-spanned|table:covered-table-cell|office:mimetype|office:version|fo:page-width|fo:margin' odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -35" in /tmp/fb_codex_odt__yyry2_g
+ succeeded in 0ms:
+12142:      <rng:ref name="style-master-page-attlist"/>
+12180:  <rng:define name="style-master-page-attlist">
+12214:      <rng:ref name="style-page-layout-attlist"/>
+12218:  <rng:define name="style-page-layout-attlist">
+12456:  <rng:define name="style-paragraph-properties-attlist">
+12642:    <rng:ref name="style-paragraph-properties-attlist"/>
+13038:  <rng:define name="style-table-cell-properties-attlist">
+13154:    <rng:ref name="style-table-cell-properties-attlist"/>
+13167:  <rng:define name="style-table-column-properties-attlist">
+13188:    <rng:ref name="style-table-column-properties-attlist"/>
+13270:  <rng:define name="style-table-row-properties-attlist">
+13300:    <rng:ref name="style-table-row-properties-attlist"/>
+13313:  <rng:define name="style-text-properties-attlist">
+13807:    <rng:ref name="style-text-properties-attlist"/>
+14300:      <rng:ref name="table-table-cell-attlist"/>
+15941:      <rng:ref name="table-table-attlist"/>
+15970:  <rng:define name="table-table-attlist">
+16054:      <rng:ref name="table-table-cell-attlist"/>
+16055:      <rng:ref name="table-table-cell-attlist-extra"/>
+16059:  <rng:define name="table-table-cell-attlist">
+16102:  <rng:define name="table-table-cell-attlist-extra">
+16155:      <rng:ref name="table-table-column-attlist"/>
+16159:  <rng:define name="table-table-column-attlist">
+16225:      <rng:ref name="table-table-row-attlist"/>
+16234:  <rng:define name="table-table-row-attlist">
+785:9.1.5 <table:covered-table-cell>
+2555:19.237 fo:margin-left
+2911:19.379 office:mimetype
+2951:19.390 office:version
+3809:19.679.2 <table:covered-table-cell>
+3815:19.680 table:number-columns-spanned
+3819:19.682 table:number-rows-spanned
+3867:19.700.2 <table:covered-table-cell>
+3941:19.730.4 <table:covered-table-cell>
+5129:20.185 fo:break-before
+5169:20.205 fo:margin
+5171:20.206 fo:margin-bottom
+5173:20.207 fo:margin-left
+5175:20.208 fo:margin-right
+5177:20.209 fo:margin-top
+5195:20.216 fo:page-width
+6168:A)The <office:document> 3.1.2 element shall have an office:mimetype 3.1.2 attribute with one of these values: "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.text-master" or "application/vnd.oasis.opendocument.text-master-template". 
+6178:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.spreadsheet" or "application/vnd.oasis.opendocument.spreadsheet-template". 
+6192:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.graphics" or "application/vnd.oasis.opendocument.graphics-template". 
+6202:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.presentation" or "application/vnd.oasis.opendocument.presentation-template". 
+6212:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.chart" or "application/vnd.oasis.opendocument.chart-template". 
+6222:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.image" or "application/vnd.oasis.opendocument.image-template". 
+6240:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with the value "application/vnd.oasis.opendocument.base".  
+6303:The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+6321:The <office:document-content> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+6331:The <office:document-styles> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+6341:The <office:document-meta> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+6351:The <office:document-settings> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+7029:The <text:h> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7039:The <text:p> element is usable within the following elements: <chart:data-label> 11.15, <chart:equation> 11.19, <chart:footer> 11.2.3, <chart:label-separator> 17.24, <chart:legend> 11.4, <chart:subtitle> 11.2.2, <chart:title> 11.2.1, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <form:textarea> 13.5.3, <office:annotation> 14.1, <office:change-info> 5.5.7, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <style:region-center> 16.17, <style:region-left> 16.16, <style:region-right> 16.18, <table:change-track-table-cell> 9.9.16, <table:covered-table-cell> 9.1.5, <table:error-message> 9.4.7, <table:help-message> 9.4.6, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7081:The <text:list> element is usable within the following elements: <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <office:annotation> 14.1, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4 and <text:section> 5.4.
+7147:The <text:numbered-paragraph> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+7179:The <text:section> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+7293:The <text:change-start> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+7303:The <text:change-end> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+grep: write error: Broken pipe
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:font-size="10pt" fo:line-height="110%"/>
+      <style:text-properties style:font-name="Noto Serif CJK JP" fo:font-size="10pt"/>
+    </style:default-style>
+    <style:style style:name="pCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="pTitle" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="10mm" fo:margin-bottom="5mm"/>
+      <style:text-properties fo:font-size="15pt"/>
+    </style:style>
+    <style:style style:name="pBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="pSection" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="3mm" fo:margin-bottom="1mm"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="1mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="cellCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="1mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="col" style:family="table-column"/>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="pageLayout">
+      <style:page-layout-properties fo:page-width="210mm" fo:page-height="297mm" fo:print-orientation="portrait" fo:margin-top="18mm" fo:margin-bottom="18mm" fo:margin-left="17mm" fo:margin-right="17mm"/>
+    </style:page-layout>
+    <style:style style:name="T1" style:family="table"/>
+    <style:style style:name="T2" style:family="table"/>
+    <style:style style:name="C1" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="1mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="C2" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="1mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="2.6cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="2.4cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="5.3cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="6.4cm"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="2.7cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="3.8cm"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="4.8cm"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="5.4cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="pageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p>別記様式第１号（第４条関係）　　　　　　　　　（表面）</text:p>
+      <text:p text:style-name="pTitle">深川市高齢者等ごみ出し支援事業利用申請書</text:p>
+      <text:p>深川市長　様</text:p>
+      <text:p text:style-name="pCenter">年　　　月　　　日</text:p>
+      <table:table table:name="Application" table:style-name="T1">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-row>
+          <table:table-cell table:style-name="C1" table:number-rows-spanned="4"><text:p>申請者</text:p><text:p>※利用希望者本人の場合は記載不要</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>フリガナ</text:p><text:p>氏　名</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>　　　　　　　　　　　　　　　　　　㊞</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>利用者との関係　□親族（　　　　）　□ケアマネジャー</text:p><text:p>□相談支援専門員　□その他（　　　　　　）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1"><text:p>住　所</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>〒</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1"><text:p>電話番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>①（　　　　）　　　　　－　　　　　②（　　　　）　　　　　－</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1"><text:p>利用希望者（世帯）について</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>□①　世帯の全員が要件に合致（要介護者、身体障害１～２、精神障害１級、知的障害Ａ）</text:p><text:p>□②　①に該当しないが特に認められるもの（理由：　　　　　　　　　　　　　　　　　）</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="C1"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1" table:number-rows-spanned="6"><text:p>利用希望者</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>フリガナ</text:p><text:p>氏　名</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>　　　　　　　　　㊞</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>男・女　生年月日　　年　　月　　日（　　歳）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1"><text:p>住　所</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="3"><text:p>〒</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1"><text:p>電話番号</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="3"><text:p>（　　　　　　　　　）</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1"><text:p>介護認定区分</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="3"><text:p>□要介護１　　□要介護２　　□要介護３　　□要介護４</text:p><text:p>□要介護５　　□要支援１　　□要支援２</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1"><text:p>障害等級</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="3"><text:p>□身体障害１級　　□身体障害２級</text:p><text:p>□精神障害１級　　□知的障害Ａ</text:p><text:p>□その他</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1"><text:p>同居者の有無</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="3"><text:p>有り（　　　人）　・　無し　※「有り」の場合は、下記に同居者を記載</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1" table:number-rows-spanned="3"><text:p>同居者①</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>フリガナ</text:p><text:p>氏　名</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>男・女　生年月日　　年　　月　　日（　　歳）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="C1"><text:p>介護認定区分</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>□要介護１　　□要介護２　　□要介護３　　□要介護４</text:p><text:p>□要介護５　　□要支援１　　□要支援２</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C1"><text:p>障害等級</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>□身体障害１級　　□身体障害２級</text:p><text:p>□精神障害１級　　□知的障害Ａ</text:p><text:p>□その他</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="C1" table:number-rows-spanned="3"><text:p>同居者②</text:p></table:table-cell>
+          <table:table-cell table:style-name="C1"><text:p>フリガナ</text:p><text:p>氏　名</text:p></table:table-cell><table:table-cell table:style-name="C1"><text:p/></table:table-cell><table:table-cell table:style-name="C1"><text:p>男・女　生年月日　　年　　月　　日（　　歳）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="C1"><text:p>介護認定区分</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>□要介護１　　□要介護２　　□要介護３　　□要介護４</text:p><text:p>□要介護５　　□要支援１　　□要支援２</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C1"><text:p>障害等級</text:p></table:table-cell><table:table-cell table:style-name="C1" table:number-columns-spanned="2"><text:p>□身体障害１級　　□身体障害２級</text:p><text:p>□精神障害１級　　□知的障害Ａ</text:p><text:p>□その他</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="C1"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="pBreak"/>
+      <text:p text:style-name="pCenter">（裏面）</text:p>
+      <text:p text:style-name="pSection">○ごみ収集に関する事項</text:p>
+      <table:table table:name="Collection" table:style-name="T2">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>開始希望日</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p>年　　　　　月　　　　　日ころ</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2" table:number-rows-spanned="2"><text:p>住居形態</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p>□戸建て</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>□集合住宅（　　　階）</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p>エレベーター　□有り　　□なし</text:p><text:p>オートロック　□有り　　□なし</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2" table:number-rows-spanned="2"><text:p>管理者</text:p><text:p>※賃貸の場合</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p>□個人　氏　名：　　　　　　　　　　　　　　　　連絡先：</text:p><text:p>□企業　会社名：　　　　　　　　　　　　　　　　連絡先：</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p/></table:cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p/></table:cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>他に利用しているサービス</text:p><text:p>※週に１回以上受けているもの</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p>□介護サービス　（内容：　　　　　　　　　　　　　　　　　　　　　　　　　）</text:p><text:p>□障害福祉サービス（内容：　　　　　　　　　　　　　　　　　　　　　　　　）</text:p><text:p>□その他（民間の安否確認など）（内容：　　　　　　　　　　　　　　　　　）</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>近隣との関係</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p>町内会への加入　　□加入している　　□加入していない</text:p><text:p>（近隣住人との関係や、近くに住む親族の情報などを具体的にお書きください）</text:p><text:p>　　　　　　　　　</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>特記事項</text:p><text:p>（伝えておきたいこと）</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="pSection">○緊急時等の連絡先</text:p>
+      <table:table table:name="Contacts" table:style-name="T2">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="C2" table:number-rows-spanned="3"><text:p>連絡先１</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p>フリガナ</text:p><text:p>氏　名</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p/></table:table-cell><table:table-cell table:style-name="C2"><text:p>利用者との関係　□親族（　　　　）□ケアマネジャー</text:p><text:p>□相談支援専門員　□その他（　　　　　　）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>住　所　〒</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>電話番号　①（　　　　　）　　－　　②（　　　　　）　　－</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2" table:number-rows-spanned="3"><text:p>連絡先２</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p>フリガナ</text:p><text:p>氏　名</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p/></table:table-cell><table:table-cell table:style-name="C2"><text:p>利用者との関係　□親族（　　　　）□ケアマネジャー</text:p><text:p>□相談支援専門員　□その他（　　　　　　）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>住　所　〒</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>電話番号　①（　　　　　）　　－　　②（　　　　　）　　－</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2" table:number-rows-spanned="3"><text:p>連絡先３</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p>フリガナ</text:p><text:p>氏　名</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p/></table:table-cell><table:table-cell table:style-name="C2"><text:p>利用者との関係　□親族（　　　　）□ケアマネジャー</text:p><text:p>□相談支援専門員　□その他（　　　　　　）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>住　所　〒</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>電話番号　①（　　　　　）　　－　　②（　　　　　）　　－</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p>※市記入欄</text:p>
+      <table:table table:name="OfficeSection" table:style-name="T2">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="C2" table:number-rows-spanned="3"><text:p>受　付</text:p></table:table-cell><table:table-cell table:style-name="C2"><text:p>該　当　要　件</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="2"><text:p>支　援　方　法</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>□要介護者</text:p><text:p>□障がい者</text:p><text:p>□その他</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="2"><text:p>□戸別収集</text:p><text:p>□地域の協力団体</text:p><text:p>（　　　　　　　　　　　　　　　　　）</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2"><text:p>審　査　結　果</text:p></table:table-cell><table:table-cell table:style-name="C2" table:number-columns-spanned="2"><text:p>□該当</text:p><text:p>□非該当（理由：　　　　　　　　　　）</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="C2" table:number-columns-spanned="4"><text:p>（特記事項）</text:p><text:p>　　　　　　　　　</text:p><text:p>　　　　　　　　　</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+37,293

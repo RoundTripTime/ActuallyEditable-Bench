@@ -1,0 +1,857 @@
+. 
+1074:Note: Consequently, an IRI-Reference consisting entirely of "#" followed by an ifragment (§2.2 of [RFC3987]) refers to the ID of an XML element within the same XML document containing this <ds:signature> element. 
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     Open Document Format for Office Applications (OpenDocument) Version 1.4
+     OASIS Standard
+     6 October 2025
+     Copyright (c) OASIS Open 2025. All Rights Reserved.
+     Source: https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/
+     Latest stage of specification: https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part1-introduction.html
+     TC IPR Statement: https://www.oasis-open.org/committees/office/ipr.php 
+
+        Open Document Format for Office Applications (OpenDocument) Version 1.4
+        Relax-NG Schema
+        OpenDocument-v1.4-schema.rng
+-->
+<!-- https://issues.oasis-open.org/browse/OFFICE-2153 -->
+<!-- https://issues.oasis-open.org/browse/OFFICE-4126 -->
+
+<rng:grammar xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:db="urn:oasis:names:tc:opendocument:xmlns:database:1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:smil="urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <rng:start>
+    <rng:choice>
+      <rng:ref name="office-document"/>
+      <rng:ref name="office-document-content"/>
+      <rng:ref name="office-document-styles"/>
+      <rng:ref name="office-document-meta"/>
+      <rng:ref name="office-document-settings"/>
+    </rng:choice>
+  </rng:start>
+  <rng:define name="CURIE">
+    <rng:data type="string">
+      <rng:param name="pattern">(([\i-[:]][\c-[:]]*)?:)?.+</rng:param>
+      <rng:param name="minLength">1</rng:param>
+    </rng:data>
+  </rng:define>
+  <rng:define name="CURIEs">
+    <rng:list>
+      <rng:oneOrMore>
+        <rng:ref name="CURIE"/>
+      </rng:oneOrMore>
+    </rng:list>
+  </rng:define>
+  <rng:define name="ID">
+    <rng:data type="ID"/>
+  </rng:define>
+  <rng:define name="IDREF">
+    <rng:data type="IDREF"/>
+  </rng:define>
+  <rng:define name="IDREFS">
+    <rng:data type="IDREFS"/>
+  </rng:define>
+  <rng:define name="NCName">
+    <rng:data type="NCName"/>
+  </rng:define>
+  <rng:define name="SafeCURIE">
+    <rng:data type="string">
+      <rng:param name="pattern">\[(([\i-[:]][\c-[:]]*)?:)?.+\]</rng:param>
+      <rng:param name="minLength">3</rng:param>
+    </rng:data>
+  </rng:define>
+  <rng:define name="URIorSafeCURIE">
+    <rng:choice>
+      <rng:ref name="anyURI"/>
+      <rng:ref name="SafeCURIE"/>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="angle">
+    <rng:data type="string"/>
+  </rng:define>
+  <rng:define name="anim-animate-color-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="anim:color-interpolation">
+          <rng:choice>
+            <rng:value>rgb</rng:value>
+            <rng:value>hsl</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="anim:color-interpolation-direction">
+          <rng:choice>
+            <rng:value>clockwise</rng:value>
+            <rng:value>counter-clockwise</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="anim-animate-motion-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="svg:path">
+          <rng:ref name="pathData"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="svg:origin">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="smil:calcMode">
+          <rng:choice>
+            <rng:value>discrete</rng:value>
+            <rng:value>linear</rng:value>
+            <rng:value>paced</rng:value>
+            <rng:value>spline</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="anim-animate-transform-attlist">
+    <rng:attribute name="svg:type">
+      <rng:choice>
+        <rng:value>translate</rng:value>
+        <rng:value>scale</rng:value>
+        <rng:value>rotate</rng:value>
+        <rng:value>skewX</rng:value>
+        <rng:value>skewY</rng:value>
+      </rng:choice>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="anim-audio-attlist">
+    <rng:interleave>
+      <rng:optional>
+
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+OASIS Standard
+
+6 October 2025
+
+This stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.pdf
+
+Previous stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+
+Latest stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.pdf
+
+Technical Committee:
+
+OASIS Open Document Format for Office Applications (OpenDocument) TC
+
+Chairs:
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Editors:
+
+Francis Cave (francis@franciscave.com), Individual
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Michael Stahl (michael.stahl@allotropia.de), allotropia software GmbH
+
+Additional artifacts:
+
+This prose specification is one component of a Work Product which includes:
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 1: Introduction. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part1-introduction/OpenDocument-v1.4-os-part1-introduction.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. (this part) https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 4: Recalculated Formula (OpenFormula) Format. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html. 
+
+•XML/RNG schemas and OWL ontologies. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/. 
+
+Related work:
+
+This specification replaces or supersedes:
+
+•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4.  27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html. 
+
+Declared XML namespaces:
+
+urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+
+urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+
+http://docs.oasis-open.org/ns/office/1.2/meta/pkg#
+
+Abstract:
+
+This document is Part 2 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification and defines a package format for OpenDocument documents, the digital signing of such documents, along with metadata that may be supplied with them.
+
+Status:
+
+This document was last revised or approved by the OASIS Open Document Format for Office Applications (OpenDocument) TC on the above date. The level of approval is also listed above. Check the "Latest stage" location noted above for possible later revisions of this document. Any other numbered Versions and other technical work produced by the Technical Committee (TC) are listed at https://groups.oasis-open.org/communities/tc-community-home2?CommunityKey=4bf06d41-79ad-4c58-9e8e-018dc7d05da8#technical.
+
+TC members should send comments on this specification to the TC's email list. Others should send comments to the TC's public comment list at Technical-Committee-Comments@oasis-open.org.
+
+This specification is provided under the RF on Limited Terms Mode of the OASIS IPR Policy, the mode chosen when the Technical Committee was established. For information on whether any patents have been disclosed that may be essential to implementing this specification, and any offers of patent licensing terms, please refer to the Intellectual Property Rights section of the TC's web page (https://www.oasis-open.org/committees/office/ipr.php).
+
+Note that any machine-readable content (Computer Language Definitions) declared Normative for this Work Product is provided in separate plain text files. In the event of a discrepancy between any such plain text file and display content in the Work Product's prose narrative document(s), the content in the separate plain text file prevails.
+
+Citation format:
+
+When referencing this specification the following citation format should be used:
+
+[OpenDocument-v1.4-part2]
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. Latest stage: https://docs.oasis-open.org/office/v1.4/OpenDocument-v1.4-part2-packages.html.
+
+Notices
+
+Copyright © OASIS Open 2025. All Rights Reserved.
+
+All capitalized terms in the following text have the meanings assigned to them in the OASIS Intellectual Property Rights Policy (the "OASIS IPR Policy"). The full Policy may be found at the OASIS website.
+
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published, and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and this section are included on all such copies and derivative works. However, this document itself may not be modified in any way, including by removing the copyright notice or references to OASIS, except as needed for the purpose of developing any document or deliverable produced by an OASIS Technical Committee (in which case the rules applicable to copyrights, as set forth in the OASIS IPR Policy, must be followed) or as required to translate it into languages other than English.
+
+The limited permissions granted above are perpetual and will not be revoked by OASIS or its successors or assigns.
+
+This document and the information contained herein is provided on an "AS IS" basis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY OWNERSHIP RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+As stated in the OASIS IPR Policy, the following three paragraphs in brackets apply to OASIS Standards Final Deliverable documents (Committee Specification, OASIS Standard, or Approved Errata).
+
+[OASIS requests that any OASIS Party or any other party that believes it has patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable, to notify OASIS TC Administrator and provide an indication of its willingness to grant patent licenses to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this deliverable.]
+
+
+exec
+/usr/bin/zsh -lc "sed -n '435,470p' odf_spec/OpenDocument-v1.4-os-part2-packages.txt; sed -n '1475,1505p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1690,1735p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '5110,5140p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '5190,5225p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_f5j_wf1t
+ succeeded in 0ms:
+2.2.1 OpenDocument Package
+
+An OpenDocument Package shall meet the following requirements:
+
+A)It shall be a Zip file, as defined by [ZIP]. All files contained in the Zip file shall be non compressed (STORED) or compressed using the “deflate” (DEFLATED) algorithm. 
+
+B)It shall contain a file “META-INF/manifest.xml”. This file shall meet the following requirements: 
+B.1)The file shall be a well formed XML document in accordance with the [XML1.0] specification. 
+
+B.2)The XML root element of the file shall be a <manifest:manifest> element 4.2. 
+
+B.3)The XML file shall be valid with respect to the manifest schema defined in appendix A.1 OpenDocument Manifest Schema. 
+
+C)It should contain a file “mimetype”. 
+
+D)It may contain files whose relative paths begin with “META-INF/” and whose names contain the string “signatures”. These file shall meet the following requirements: 
+D.1)The files shall be well-formed XML files in accordance with [XML1.0]. 
+
+D.2)The XML root element of each file shall be a <dsig:document-signatures> element 5.2. 
+
+D.3)The files shall be valid with respect to the digital signature schema defined in appendix A.2 OpenDocument Digital Signature Schema. 
+
+E)It shall not contain other files whose relative path begins with “META-INF/” other than those listed in B) and D), nor shall the META-INF/manifest.xml contain any implementation-defined IRIs as alternative identifications.  
+
+F)The files listed in (B) and (D) meet the following requirements: 
+F.1)They shall be namespace-well-formed with regard to the XML Namespaces specification [xml-names]. 
+
+F.2)They shall conform to the xml-id specification [XML-ID]. 
+
+2.2.2 OpenDocument Extended Package
+
+G)An OpenDocument Extended Package shall meet all requirements of a conforming package except item E) of 2.2.1. 
+
+2.3 Producers
+
+2.3.1 OpenDocument Package Producer
+16.3 <style:map>
+
+16.4 <style:default-style>
+
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+16.14 <style:header-left>
+
+16.15 <style:footer-left>
+
+16.16 <style:region-left>
+
+16.17 <style:region-center>
+
+16.18 <style:region-right>
+
+17 Formatting Properties Elements
+
+17.1 General
+
+17.2 <style:page-layout-properties>
+
+17.3 <style:background-image>
+
+17.4 <style:footnote-sep>
+
+17.5 <style:header-footer-properties>
+
+17.6 <style:paragraph-properties>
+
+17.7 <style:tab-stops>
+
+17.8 <style:tab-stop>
+
+17.9 <style:drop-cap>
+
+17.10 <style:ruby-properties>
+
+17.11 <style:section-properties>
+
+17.12 <style:columns>
+
+17.13 <style:column>
+
+17.14 <style:column-sep>
+
+17.15 <style:table-properties>
+
+17.16 <style:table-column-properties>
+
+17.17 <style:table-row-properties>
+
+17.18 <style:table-cell-properties>
+
+17.19 <style:list-level-properties>
+
+17.20 <style:list-level-label-alignment>
+
+17.21 <style:graphic-properties>
+
+17.22 <style:chart-properties>
+
+20.182 fo:background-color
+
+20.183 fo Border Properties
+
+20.183.1 General
+
+20.183.2 fo:border
+
+20.183.3 fo:border-bottom
+
+20.183.4 fo:border-left
+
+20.183.5 fo:border-right
+
+20.183.6 fo:border-top
+
+20.184 fo:break-after
+
+20.185 fo:break-before
+
+20.186 fo:clip
+
+20.187 fo:color
+
+20.188 fo:country
+
+20.189 fo:font-family
+
+20.190 fo:font-size
+
+
+20.214 fo:orphans
+
+20.215 fo:page-height
+
+20.216 fo:page-width
+
+20.217 fo:padding
+
+20.218 fo:padding-bottom
+
+20.219 fo:padding-left
+
+20.220 fo:padding-right
+
+20.221 fo:padding-top
+
+20.222 fo:script
+
+20.223 fo:text-align
+
+20.223.1 <style:paragraph-properties>
+
+20.223.2 <style:list-level-properties>
+
+20.224 fo:text-align-last
+
+20.225 fo:text-indent
+
+20.226 fo:text-shadow
+
+20.227 fo:text-transform
+
+20.228 fo:widows
+
+20.229 fo:width
+
+exec
+/usr/bin/zsh -lc "grep -n -E 'define name=\"style-footer\"|define name=\"style-paragraph-properties-content-strict\"|define name=\"style-text-properties-content-strict\"|define name=\"style-style\"|define name=\"text-p\"|define name=\"office-text-content-main\"|define name=\"style-page-layout-properties-content-strict\"|define name=\"style-table-properties-content-strict\"|define name=\"style-table-column-properties-content-strict\"' odf_spec/OpenDocument-v1.4-schema.rng; grep -n -E '3.4 <office:text>|16.12 <style:footer>|17.2 <style:page-layout-properties>|17.6 <style:paragraph-properties>|17.18 <style:table-cell-properties>' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_f5j_wf1t
+ succeeded in 0ms:
+8352:  <rng:define name="office-text-content-main">
+10843:  <rng:define name="style-footer">
+12440:  <rng:define name="style-page-layout-properties-content-strict">
+12641:  <rng:define name="style-paragraph-properties-content-strict">
+12757:  <rng:define name="style-style">
+13187:  <rng:define name="style-table-column-properties-content-strict">
+13256:  <rng:define name="style-table-properties-content-strict">
+13806:  <rng:define name="style-text-properties-content-strict">
+17949:  <rng:define name="text-p">
+197:3.4 <office:text>
+1493:16.12 <style:footer>
+1695:17.2 <style:page-layout-properties>
+1703:17.6 <style:paragraph-properties>
+1727:17.18 <style:table-cell-properties>
+6447:3.4 <office:text>
+13259:16.12 <style:footer>
+14253:17.2 <style:page-layout-properties>
+14297:17.6 <style:paragraph-properties>
+14419:17.18 <style:table-cell-properties>
+
+exec
+/usr/bin/zsh -lc "sed -n '8348,8380p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '10840,10870p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12438,12465p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12638,12675p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12755,12815p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '17945,17980p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '14245,14275p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_f5j_wf1t
+ succeeded in 0ms:
+  </rng:define>
+  <rng:define name="office-text-content-epilogue">
+    <rng:ref name="table-functions"/>
+  </rng:define>
+  <rng:define name="office-text-content-main">
+    <rng:choice>
+      <rng:zeroOrMore>
+        <rng:ref name="text-content"/>
+      </rng:zeroOrMore>
+      <rng:group>
+        <rng:ref name="text-page-sequence"/>
+        <rng:zeroOrMore>
+          <rng:choice>
+            <rng:ref name="shape"/>
+          </rng:choice>
+        </rng:zeroOrMore>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="office-text-content-prelude">
+    <rng:ref name="office-forms"/>
+    <rng:ref name="text-tracked-changes"/>
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="paragraph-attrs">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-footer">
+    <rng:element name="style:footer">
+      <rng:ref name="common-style-header-footer-attlist"/>
+      <rng:ref name="header-footer-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-footer-first">
+    <rng:element name="style:footer-first">
+      <rng:ref name="common-style-header-footer-attlist"/>
+      <rng:ref name="header-footer-content"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-footer-left">
+    <rng:element name="style:footer-left">
+      <rng:ref name="common-style-header-footer-attlist"/>
+      <rng:ref name="header-footer-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-footer-style">
+    <rng:element name="style:footer-style">
+      <rng:optional>
+        <rng:ref name="style-header-footer-properties"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-footnote-sep">
+    <rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-content-strict">
+    <rng:ref name="style-page-layout-properties-attlist"/>
+    <rng:ref name="style-page-layout-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <rng:ref name="style-columns"/>
+      <rng:ref name="style-footnote-sep"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+      <rng:ref name="common-background-transparency-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-content-strict">
+    <rng:ref name="style-paragraph-properties-attlist"/>
+    <rng:ref name="style-paragraph-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-tab-stops"/>
+      <rng:ref name="style-drop-cap"/>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-presentation-page-layout">
+    <rng:element name="style:presentation-page-layout">
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="presentation-placeholder"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-center">
+    <rng:element name="style:region-center">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-left">
+    <rng:element name="style:region-left">
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style">
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-page-continuation-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:select-page">
+        <rng:choice>
+          <rng:value>previous</rng:value>
+          <rng:value>next</rng:value>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:string-value">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+Chart styles may define paragraph and text properties. These are applied to paragraphs contained in chart elements unless they are over-ridden by paragraph styles that are specified by the paragraph elements themselves. 
+
+17 Formatting Properties Elements
+
+17.1 General
+
+The elements described in this chapter, which are child elements of style elements defined in chapter 16, together with their attributes, define formatting properties.
+
+17.2 <style:page-layout-properties>
+
+The <style:page-layout-properties> element acts as a container for attributes and elements that define a page layout.
+
+The <style:page-layout-properties> element is usable within the following elements: <style:default-page-layout> 16.8 and <style:page-layout> 16.5.
+
+The <style:page-layout-properties> element has the following attributes: fo:background-color 20.182, fo:border 20.183.2, fo:border-bottom 20.183.3, fo:border-left 20.183.4, fo:border-right 20.183.5, fo:border-top 20.183.6, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, fo:padding 20.217, fo:padding-bottom 20.218, fo:padding-left 20.219, fo:padding-right 20.220, fo:padding-top 20.221, fo:page-height 20.215, fo:page-width 20.216, style:border-line-width 20.248, style:border-line-width-bottom 20.249, style:border-line-width-left 20.250, style:border-line-width-right 20.251, style:border-line-width-top 20.252, style:first-page-number 20.266, style:footnote-max-height 20.296, style:layout-grid-base-height 20.304, style:layout-grid-base-width 20.305, style:layout-grid-color 20.306, style:layout-grid-display 20.307, style:layout-grid-lines 20.308, style:layout-grid-mode 20.309, style:layout-grid-print 20.310, style:layout-grid-ruby-below 20.311, style:layout-grid-ruby-height 20.312, style:layout-grid-snap-to 20.313, style:layout-grid-standard-mode 20.314, style:margin-gutter 20.439, style:num-format 20.322, style:num-letter-sync 20.323, style:num-prefix 20.324, style:num-suffix 20.325, style:paper-tray-name 20.329, style:print 20.330, style:print-orientation 20.333, style:print-page-order 20.332, style:register-truth-ref-style-name 20.337, style:scale-to 20.352, style:scale-to-X 20.354, style:scale-to-Y 20.355, style:scale-to-pages 20.353, style:shadow 20.359, style:table-centering 20.363 and style:writing-mode 20.404.
+
+The <style:page-layout-properties> element has the following child elements: <style:background-image> 17.3, <style:columns> 17.12 and <style:footnote-sep> 17.4.
+
+17.3 <style:background-image>
+
+The <style:background-image> element specifies an image as a background.
+
+If the <style:background-image> element is empty and if there is no color specified by an fo:background-color element in the same formatting properties element, the background color is set to transparent.
+
+Note: The fo:background-color property also sets a background attribute.
+
+The <style:background-image> element is usable within the following elements: <style:graphic-properties> 17.21, <style:header-footer-properties> 17.5, <style:page-layout-properties> 17.2, <style:paragraph-properties> 17.6, <style:section-properties> 17.11, <style:table-cell-properties> 17.18, <style:table-properties> 17.15 and <style:table-row-properties> 17.17.
+
+The <style:background-image> element has the following attributes: draw:opacity 19.202, style:filter-name 19.481, style:position 19.512, style:repeat 19.515, xlink:actuate 19.915, xlink:href 19.916, xlink:show 19.917 and xlink:type 19.919.
+
+The <style:background-image> element has the following child element: <office:binary-data> 10.4.5.
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:line-height="120%" fo:margin-top="0cm" fo:margin-bottom="0.12cm"/>
+      <style:text-properties fo:font-family="sans-serif" fo:font-size="12pt" fo:color="#263f39"/>
+    </style:default-style>
+    <style:style style:name="Kicker" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0.35cm"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0.32cm"/>
+      <style:text-properties fo:font-size="32pt" fo:font-weight="normal"/>
+    </style:style>
+    <style:style style:name="Subtitle" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0.32cm"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="BodyLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="BlockEnd" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0.32cm"/>
+    </style:style>
+    <style:style style:name="SectionHead" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.27cm" fo:margin-bottom="0.28cm"/>
+      <style:text-properties fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="GuideHead" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.25cm" fo:margin-bottom="0.24cm"/>
+      <style:text-properties fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="ListLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.27cm"/>
+    </style:style>
+    <style:style style:name="FooterText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:print-orientation="portrait" fo:margin="1.7cm"/>
+    </style:page-layout>
+    <style:style style:name="InvoiceTable" style:family="table">
+      <style:table-properties table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="ColDescription" style:family="table-column">
+      <style:table-column-properties style:column-width="8.9cm"/>
+    </style:style>
+    <style:style style:name="ColQuantity" style:family="table-column">
+      <style:table-column-properties style:column-width="2.95cm"/>
+    </style:style>
+    <style:style style:name="ColPrice" style:family="table-column">
+      <style:table-column-properties style:column-width="2.9cm"/>
+    </style:style>
+    <style:style style:name="ColTotal" style:family="table-column">
+      <style:table-column-properties style:column-width="2.85cm"/>
+    </style:style>
+    <style:style style:name="HeaderCell" style:family="table-cell">
+      <style:table-cell-properties fo:background-color="#e9eeea" fo:border="0.5pt solid #222222" fo:padding="0.18cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="DataCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #222222" fo:padding="0.18cm" style:vertical-align="middle"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout">
+      <style:footer>
+        <text:p text:style-name="FooterText">Ostro templates  ·  1</text:p>
+      </style:footer>
+    </style:master-page>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Kicker">OSTRO / WORKING TEMPLATES</text:p>
+      <text:p text:style-name="Title">Agency invoice</text:p>
+      <text:p text:style-name="Subtitle">Editable template · replace every bracketed field before use</text:p>
+      <text:p text:style-name="BodyLine">From: [your billing name and address]</text:p>
+      <text:p text:style-name="BodyLine">Bill to: [client billing name and address]</text:p>
+      <text:p text:style-name="BlockEnd">Business / tax identifiers: [add where required]</text:p>
+      <text:p text:style-name="BodyLine">Invoice: [unique reference]</text:p>
+      <text:p text:style-name="BodyLine">Issued: [date]</text:p>
+      <text:p text:style-name="BodyLine">Due: [agreed due date]</text:p>
+      <text:p text:style-name="BlockEnd">Currency: [currency code]</text:p>
+      <table:table table:name="InvoiceLines" table:style-name="InvoiceTable">
+        <table:table-column table:style-name="ColDescription"/>
+        <table:table-column table:style-name="ColQuantity"/>
+        <table:table-column table:style-name="ColPrice"/>
+        <table:table-column table:style-name="ColTotal"/>
+        <table:table-row>
+          <table:table-cell table:style-name="HeaderCell"><text:p>Description</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>Quantity</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>Unit price</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>Line total</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="DataCell"><text:p>Campaign creative and design</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[quantity]</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[price]</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[amount]</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="DataCell"><text:p>Landing-page copywriting</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[quantity]</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[price]</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[amount]</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="DataCell"><text:p>Approved external illustration cost</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[quantity]</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[price]</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p>[amount]</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="BodyLine">Subtotal: [amount]</text:p>
+      <text:p text:style-name="BodyLine">Discount, if agreed: [amount]</text:p>
+      <text:p text:style-name="BodyLine">Tax, if applicable: [rate and amount]</text:p>
+      <text:p text:style-name="BodyLine">Total: [amount]</text:p>
+      <text:p text:style-name="BodyLine">Paid: [amount]</text:p>
+      <text:p text:style-name="BlockEnd">Balance due: [amount]</text:p>
+      <text:p text:style-name="SectionHead">Payment instructions</text:p>
+      <text:p text:style-name="BlockEnd">[Enter the exact receiving instructions and payment reference for your agreed route.]</text:p>
+      <text:p text:style-name="SectionHead">Notes and terms</text:p>
+      <text:p text:style-name="BlockEnd">[Add your agreed payment terms and any invoice notes.]</text:p>
+      <text:p text:style-name="GuideHead">Editing guidance — remove before sending</text:p>
+      <text:p text:style-name="BodyLine">Word totals are entered manually. Check all arithmetic, applicable tax details and the agreed payment terms.</text:p>
+      <text:p text:style-name="BlockEnd">For automatic calculations, use the Ostro invoice generator.</text:p>
+      <text:p text:style-name="GuideHead">Before sending — remove this checklist</text:p>
+      <text:p text:style-name="ListLine">• Check each workstream against the approved quote.</text:p>
+      <text:p text:style-name="ListLine">• Avoid double-counting costs already included in a project fee.</text:p>
+      <text:p text:style-name="ListLine">• Include the billing contact and any required supplier reference.</text:p>
+      <text:p text:style-name="BlockEnd">Template and example: https://tryostro.com/templates/agency-invoice/</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+37,397

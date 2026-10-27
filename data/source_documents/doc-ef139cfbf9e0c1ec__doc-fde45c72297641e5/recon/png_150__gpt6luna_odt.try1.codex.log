@@ -1,0 +1,577 @@
+properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-section-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>ruby</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-ruby-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-column</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-column-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-row</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-row-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-cell</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-cell-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+
+codex
+The schema confirms the requested single-document structure, page-layout/master-page elements, page-break styling, and table span/cell elements are valid in their specified locations. I’m using those verified structures for the editable form.
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="P" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.15cm" fo:margin-bottom="0.15cm"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Head" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.12cm" fo:margin-bottom="0.1cm"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" fo:font-size="1pt"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.06cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="CellHead" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.06cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-family="Noto Sans CJK TC" fo:font-size="10pt" fo:font-weight="bold"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PL">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin="1.5cm" style:print-orientation="portrait"/>
+    </style:page-layout>
+    <style:style style:name="C1" style:family="table-column"><style:table-column-properties style:column-width="4.5cm"/></style:style>
+    <style:style style:name="C2" style:family="table-column"><style:table-column-properties style:column-width="5.2cm"/></style:style>
+    <style:style style:name="C3" style:family="table-column"><style:table-column-properties style:column-width="7.2cm"/></style:style>
+    <style:style style:name="C4" style:family="table-column"><style:table-column-properties style:column-width="1.2cm"/></style:style>
+    <style:style style:name="C5" style:family="table-column"><style:table-column-properties style:column-width="1.2cm"/></style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PL"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="P">附件一之ㄧ：申請報備檢查表</text:p>
+      <text:p text:style-name="Title">＿＿公寓大廈（社區）申請報備檢查表</text:p>
+      <text:p text:style-name="Head">一、基本資料：</text:p>
+      <table:table table:name="基本資料">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/>
+        <table:table-row><table:table-cell table:style-name="CellHead" table:number-columns-spanned="3"><text:p>申 請 人 資 料</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="CellHead" table:number-columns-spanned="2"><text:p>※檢查欄</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>公寓大廈（社區）名稱</text:p></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>區分所有權人總數</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>有</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>無</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>主任委員或管理負責人</text:p></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>國民身分證統一編號</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>住址</text:p></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>簽章</text:p></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>電話</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>傳真</text:p></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellHead"><text:p>公寓大廈基本資料</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區檢備文件</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區自主檢查重點</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>有</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>無</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>區分所有權的基本資料</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□建築物使用執照(影本)或建築物合法證明文件。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□執照文件是否完整並註記「與正本相同」。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>區分所有權人名冊</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□區分所有權人名冊【(民)表三】</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□區分所有權人名冊之序號數、區分所有單位數，使用執照記載之戶數是否相同。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Head">二、本次申請報備事項：</text:p>
+      <text:p text:style-name="P">□（一）管理組織報備（公寓大廈管理條例第二十六條、第二十八條、第五十三條或第五十五條）</text:p>
+      <table:table table:name="管理組織報備">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/>
+        <table:table-row><table:table-cell table:style-name="CellHead"><text:p>報備事項</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>成立、推選或變更方式</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區檢備文件</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區自主檢查重點</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>※檢查欄 有 無</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□第一次管理委員會報備</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□依規約規定選任主任委員及管理委員</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□規約(內容包含選任相關規定)</text:p><text:p>□其他選任之紀錄文件(非於區分所有權人會議選任者)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.管理委員及主任委員選任方式是否符合規約規定方式。</text:p><text:p>□2.選任之紀錄文件應清楚顯示選任結果。</text:p><text:p>□3.主任委員、財務管理、監察業務之委員是否違反連任限制。（無違反連任限制）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□變更主任委員</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□依區分所有權人會議選任主任委員及管理委員</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□區分所有權人會議紀錄【(民)表四】</text:p><text:p>□區分所有權人會議出席人員名冊(簽到簿)【(民)表五】</text:p><text:p>□委託書</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.規約是否未另訂定選任規定。</text:p><text:p>□2.區分所有權人會議紀錄記載事項是否符合會議程序，並清楚顯示選任結果。</text:p><text:p>□3.主任委員、財務管理、監察業務之委員是否違反連任限制。（無違反連任限制）</text:p><text:p>□4.受託出席區分所有權人會議之人員是否為區分所有權人之配偶、有行為能力之直系血親、其他區分所有權人或承租人。</text:p><text:p>□5.區分所有權人會議紀錄是否包含出席人員名冊（簽到簿）及委託書。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p><text:p>□ □</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□第一次管理負責人報備</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□依規約規定推選管理負責人(規約另有規定推選方式者)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□規約(相關規定)</text:p><text:p>□其他推選方式紀錄</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.管理負責人推選方式是否符合規約規定方式。</text:p><text:p>□2.推選之紀錄文件應清楚顯示推選結果。</text:p><text:p>□3.推選之管理負責人是否未違反連任之限制。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□依本條例施行細則第七條規定推選</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□推選公告【(民)表六】</text:p><text:p>□其他推選公告（無其他被推選人公告時則免附）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.推選公告日數是否符合本條例施行細則第七條規定。</text:p><text:p>□2.推選過程中如有另外之被推選人公告，應符合本條例施行細則第七條第二項規定。</text:p><text:p>□3.推選之管理負責人是否未違反連任之限制。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□變更管理負責人</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□互推召集人或指定臨時召集人</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□規約(相關規定)</text:p><text:p>□其他推選方式紀錄</text:p><text:p>□推選召集人公告</text:p><text:p>□其他推選公告（無其他被推選人公告時則免附）</text:p><text:p>□指定臨時召集人文件（依互推或指定方式決定檢附文件）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.規約如訂有召集人推選方式，應檢附規約相關規定及其推選方式紀錄，並檢視是否符合規約規定方式。</text:p><text:p>□2.規約未規定召集人推選方式時，應檢附推選召集人公告，並檢視是否符合本條例施行細則第七條規定。</text:p><text:p>□3.如係經主管機關指定臨時召集人者，則應檢附指定臨時召集人文件。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p><text:p>□ □</text:p><text:p>□ □</text:p></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□主管機關指定管理負責人</text:p></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□主管機關指定文件</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□如係依本條例第二十九條第六項規定經主管機關指定住戶一人為管理負責人，應檢附主管機關指定文件。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageStart"> </text:p>
+      <table:table table:name="管理組織報備續">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/>
+        <table:table-row><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□依區分所有權人會議選任管理委員，依管理委員會會議選任主任委員</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□區分所有權人會議紀錄【(民)表四】</text:p><text:p>□區分所有權人會議出席人員名冊(簽到簿)【(民)表五】</text:p><text:p>□委託書</text:p><text:p>□管理委員會會議紀錄</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.規約是否未另訂定選任規定。</text:p><text:p>□2.區分所有權人會議紀錄記載事項是否符合會議程序，並清楚顯示選任結果。</text:p><text:p>□3.管理委員會會議紀錄記載事項是否符合規約規定，並清楚顯示選任結果。</text:p><text:p>□4.主任委員、財務管理、監察業務之委員是否違反連任限制。（無違反連任限制）</text:p><text:p>□5.受託出席區分所有權人會議之人員是否為區分所有權人之配偶、有行為能力之直系血親、其他區分所有權人或承租人。</text:p><text:p>□6.區分所有權人會議紀錄是否包含出席人員名冊（簽到簿）及委託書。</text:p></table:cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p><text:p>□ □</text:p><text:p>□ □</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□依規約規定推選管理負責人（規約另有規定推選方式者）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□規約(相關規定)</text:p><text:p>□其他推選方式紀錄</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.規約是否未另訂定選任規定。</text:p><text:p>□2.區分所有權人會議紀錄記載事項是否符合會議程序，並清楚顯示選任結果。</text:p><text:p>□3.管理委員會會議紀錄記載事項是否符合規約規定，並清楚顯示選任結果。</text:p><text:p>□4.主任委員、財務管理、監察業務之委員是否違反連任限制。（無違反連任限制）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p><text:p>□ □</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□依本條例施行細則第七條規定推選</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□推選公告【(民)表六】</text:p><text:p>□其他推選公告（無其他被推選人公告時則免附）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.推選公告日數是否符合本條例施行細則第七條規定。</text:p><text:p>□2.推選過程中如有另外之被推選人公告，應符合本條例施行細則第七條第二項規定。</text:p><text:p>□3.推選之管理負責人是否未違反連任之限制。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□互推召集人或指定臨時召集人</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□規約(相關規定)</text:p><text:p>□其他推選方式紀錄</text:p><text:p>□推選召集人公告</text:p><text:p>□其他推選公告（無其他被推選人公告時則免附）</text:p><text:p>□指定臨時召集人文件（依互推或指定方式決定檢附文件）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.規約如訂有召集人推選方式，應檢附規約相關規定及其推選方式紀錄，並檢視是否符合規約規定方式。</text:p><text:p>□2.規約未規定召集人推選方式時，應檢附推選召集人公告，並檢視是否符合本條例施行細則第七條規定。</text:p><text:p>□3.如係經主管機關指定臨時召集人者，則應檢附指定臨時召集人文件。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p><text:p>□ □</text:p><text:p>□ □</text:p></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□主管機關指定管理負責人</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□主管機關指定文件</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□如係依本條例第二十九條第六項規定經主管機關指定住戶一人為管理負責人，應檢附主管機關指定文件。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Head">□（二）本處理原則第三點第二款報備事項（公寓大廈周圍上下、外牆面、樓頂平臺及不屬專有部分之防空避難設備，其變更構造、顏色、設置廣告物、鐵鋁窗或其他類似之行為，該公寓大廈規約另有規定或區分所有權人會議已有決議）</text:p>
+      <table:table table:name="處理原則報備事項">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/>
+        <table:table-row><table:table-cell table:style-name="CellHead"><text:p>報備事項</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區檢備文件</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區自主檢查重點</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>※檢查欄 有</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>無</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□本社區規約另有規定報備事項第一次報備</text:p><text:p>□本社區規約另有規定報備事項變更報備</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□規約</text:p><text:p>□區分所有權人會議紀錄【(民)表四】</text:p><text:p>□區分所有權人會議出席人員名冊(簽到簿)【(民)表五】</text:p><text:p>□委託書</text:p><text:p>□公寓大廈共用部分變更或設置限制規定【(民)表九】</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.限制是否未違反相關法令。</text:p><text:p>□2.以規約限制是否與區分所有權人會議紀錄所載相同。</text:p><text:p>□3.區分所有權人會議決議程序是否符合規定。</text:p><text:p>□4.決議事項是否符合條例第8條規定範圍。</text:p><text:p>□5.以規約限制報備有案者，如以區分所有權人會議決議變更限制規定時，應以修正規約為之。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p></table:table-cell></table:table>
+
+      <text:p text:style-name="PageStart"> </text:p>
+      <table:table table:name="重新召集情形">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/>
+        <table:table-row><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□6.受託出席區分所有權人會議之人員是否為區分所有權人之配偶、有行為能力之直系血親、其他區分所有權人或承租人。</text:p><text:p>□7.區分所有權人會議紀錄是否包含出席人員名冊（簽到簿）及委託書。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Head">三、本次報備事項係以本條例第三十二條規定重新召集區分所有權人會議所得決議者，除重開議之區分所有權人會議紀錄外，須再檢備下列文件：</text:p>
+      <table:table table:name="重新召集">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/>
+        <table:table-row><table:table-cell table:style-name="CellHead"><text:p>重新召集情形</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區再檢備文件</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區自主檢查重點</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>※檢查欄 有</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>無</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□區分所有權人會議出席未達本條例第三十一條規定定額之情形</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□未達定額之出席人員名冊（簽到簿）【(民)表五】</text:p><text:p>□委託書</text:p><text:p>□開會通知或公告</text:p><text:p>□重新召集區分所有權人會議決議成立公告【(民)表七】</text:p><text:p>□重新召集區分所有權人會議決議反對意見統計表【(民)表八】</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.簽到簿出席人員是否未達規定門檻。</text:p><text:p>□2.受託出席區分所有權人會議之人員是否為區分所有權人之配偶、有行為能力之直系血親、其他區分所有權人或承租人。</text:p><text:p>□3.區分所有權人會議紀錄是否包含出席人員名冊（簽到簿）及委託書。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>□依本條例第三十一條規定召開之區分所有權人會議，未獲致決議之情形</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□未獲致決議之出席人員名冊（簽到簿）【(民)表五】</text:p><text:p>□委託書</text:p><text:p>□未獲致決議之區分所有權人會議紀錄</text:p><text:p>□開會通知或公告</text:p><text:p>□重新召集區分所有權人會議決議成立公告【(民)表七】</text:p><text:p>□重新召集區分所有權人會議決議反對意見統計表【(民)表八】</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.第一次會議紀錄是否未獲決議。</text:p><text:p>□2.出席人員名冊（簽到簿）數是否與會議紀錄載相符。</text:p><text:p>□3.送達及公告期限是否符合規定。</text:p><text:p>□4.決議是否成立。</text:p><text:p>□5.受託出席區分所有權人會議之人員是否為區分所有權人之配偶、有行為能力之直系血親、其他區分所有權人或承租人。</text:p><text:p>□6.區分所有權人會議紀錄是否包含出席人員名冊（簽到簿）及委託書。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p><text:p>□</text:p></table:table-row>
+      </table:table>
+      <text:p text:style-name="Head">四、申請報備方式：</text:p>
+      <table:table table:name="申請報備方式">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/>
+        <table:table-row><table:table-cell table:style-name="CellHead"><text:p>報備方式</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區檢備文件</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>社區自主檢查重點</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>※檢查欄 有</text:p></table:table-cell><table:table-cell table:style-name="CellHead"><text:p>無</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>線上報備</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□申請報備書【(民)表一】</text:p><text:p>□已完成線上報備系統申報證明</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.登錄資料及附檔文件是否齊全。</text:p><text:p>□2.是否上傳，並列印完成線上報備系統申報證明。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>電子檔報備</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□申請報備書【(民)表一】</text:p><text:p>□申請報備檢查表【(民)表二】</text:p><text:p>□線上報備系統申報電子檔</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.登錄資料及附檔文件是否齊全。</text:p><text:p>□2.登錄資料及附檔文件是否與檢附文件相同。</text:p><text:p>□3.電子檔是否以線上報備系統匯出。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>書面報備</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□申請報備書【(民)表一】</text:p><text:p>□申請報備檢查表【(民)表二】</text:p><text:p>□其他應備文件</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□1.本報備方式有無先經受理報備機關同意。</text:p><text:p>□2.相關書件是否齊全。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ □</text:p><text:p>□ □</text:p></table:table-row>
+      </table:table>
+      <text:p text:style-name="P">附註：</text:p>
+      <text:p text:style-name="P">1. 有※記號之各欄位申請人請勿填寫。</text:p>
+      <text:p text:style-name="P">2. 依內政部104年7月15日內授營建管字第1040811235號函：受理報備機關僅作形式檢查，檢視申請人是否已依「社區自主檢查重點」欄進行自主檢查並勾選，如未勾選之情形者，受理報備機關應依上開「檢查欄」作為缺失補正之附件通知申請人。</text:p>
+      <text:p text:style-name="P">社區自主檢查人：____________（簽</text:p>
+
+      <text:p text:style-name="PageStart"> </text:p>
+      <text:p text:style-name="P">(民)工公寓(區)01-(民)表二-1/3</text:p>
+      <text:p text:style-name="P">申請案編碼：5073009 公告期限：9天</text:p>
+      <text:p text:style-name="P">(民)工公寓(區)01-(民)表二-2/3</text:p>
+      <text:p text:style-name="P">申請案編碼：5073009 公告期限：9天</text:p>
+      <text:p text:style-name="P">(民)工公寓(區)01-(民)表二-3/3</text:p>
+      <text:p text:style-name="P">申請案編碼：5073009 公告期限：9天</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+47,378

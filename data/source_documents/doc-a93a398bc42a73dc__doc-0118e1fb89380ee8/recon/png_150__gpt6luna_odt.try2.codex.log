@@ -1,0 +1,426 @@
+
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="presentation-placeholder"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-center">
+    <rng:element name="style:region-center">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-left">
+    <rng:element name="style:region-left">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-right">
+    <rng:element name="style:region-right">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties">
+    <rng:element name="style:ruby-properties">
+      <rng:ref name="style-ruby-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:ruby-position">
+          <rng:choice>
+            <rng:value>above</rng:value>
+            <rng:value>below</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:ruby-align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>distribute-letter</rng:value>
+            <rng:value>distribute-space</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-ruby-properties-content-strict">
+    <rng:ref name="style-ruby-properties-attlist"/>
+    <rng:ref name="style-ruby-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-ruby-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-section-properties">
+    <rng:element name="style:section-properties">
+      <rng:ref name="style-section-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-section-properties-attlist">
+    <rng:interleave>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-editable-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:dont-balance-text-columns">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-section-properties-content-strict">
+    <rng:ref name="style-section-properties-attlist"/>
+    <rng:ref name="style-section-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-section-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+      <rng:ref name="table-table-row-group-attlist"/>
+      <rng:ref name="table-rows-and-groups"/>
+    </rng:element>
+    <rng:optional>
+      <rng:attribute name="text:outline-level">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="text-outline-level-style">
+    <rng:element name="text:outline-level-style">
+      <rng:ref name="text-outline-level-style-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-list-level-properties"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-text-properties"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-outline-level-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:level">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4118
+        <rng:ref name="positiveInteger"/>
+        -->
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-num-format-attlist"/>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4108 -->
+      <rng:ref name="common-num-list-format-name-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:display-levels">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:start-value">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-outline-style">
+    <rng:element name="text:outline-style">
+      <rng:ref name="text-outline-style-attr"/>
+      <rng:oneOrMore>
+        <rng:ref name="text-outline-level-style"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-outline-style-attr">
+    <rng:attribute name="style:name">
+177:3.1.2 <office:document>(Single OpenDocument XML Files)
+237:3.15.3 <office:automatic-styles>
+785:9.1.5 <table:covered-table-cell>
+3809:19.679.2 <table:covered-table-cell>
+3815:19.680 table:number-columns-spanned
+3867:19.700.2 <table:covered-table-cell>
+3941:19.730.4 <table:covered-table-cell>
+5129:20.185 fo:break-before
+6295:3.1.2 <office:document>(Single OpenDocument XML Files)
+6305:The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+6323:The <office:document-content> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14 and <office:scripts> 3.12.
+6333:The <office:document-styles> element has the following child elements: <office:automatic-styles> 3.15.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4 and <office:styles> 3.15.2.
+6373:<office:automatic-styles>
+6637:3.15.3 <office:automatic-styles>
+6639:The <office:automatic-styles> element contains automatic styles used in a document. 
+6645:The <office:automatic-styles> element is usable within the following elements: <office:document> 3.1.2, <office:document-content> 3.1.3.2 and <office:document-styles> 3.1.3.3.
+6647:The <office:automatic-styles> element has no attributes.
+6649:The <office:automatic-styles> element has the following child elements: <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:page-layout> 16.5, <style:style> 16.2 and <text:list-style> 16.32.
+7029:The <text:h> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7039:The <text:p> element is usable within the following elements: <chart:data-label> 11.15, <chart:equation> 11.19, <chart:footer> 11.2.3, <chart:label-separator> 17.24, <chart:legend> 11.4, <chart:subtitle> 11.2.2, <chart:title> 11.2.1, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <form:textarea> 13.5.3, <office:annotation> 14.1, <office:change-info> 5.5.7, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <style:region-center> 16.17, <style:region-left> 16.16, <style:region-right> 16.18, <table:change-track-table-cell> 9.9.16, <table:covered-table-cell> 9.1.5, <table:error-message> 9.4.7, <table:help-message> 9.4.6, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7081:The <text:list> element is usable within the following elements: <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <office:annotation> 14.1, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4 and <text:section> 5.4.
+7147:The <text:numbered-paragraph> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+7179:The <text:section> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+7293:The <text:change-start> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+7303:The <text:change-end> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+7313:The <text:change> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+7325:The <text:soft-page-break> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <table:covered-table-cell> 9.1.5, <table:table> 9.1.2, <table:table-cell> 9.1.4, <table:table-header-rows> 9.1.7, <table:table-row-group> 9.1.9, <table:table-rows> 9.1.8, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+9018:The <text:table-of-content> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9052:The <text:illustration-index> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+9084:The <text:table-index> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:177:3.1.2 <office:document>(Single OpenDocument XML Files)
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6168:A)The <office:document> 3.1.2 element shall have an office:mimetype 3.1.2 attribute with one of these values: "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.text-master" or "application/vnd.oasis.opendocument.text-master-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6178:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.spreadsheet" or "application/vnd.oasis.opendocument.spreadsheet-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6192:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.graphics" or "application/vnd.oasis.opendocument.graphics-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6202:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.presentation" or "application/vnd.oasis.opendocument.presentation-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6212:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.chart" or "application/vnd.oasis.opendocument.chart-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6222:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.image" or "application/vnd.oasis.opendocument.image-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6240:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with the value "application/vnd.oasis.opendocument.base".  
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6295:3.1.2 <office:document>(Single OpenDocument XML Files)
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6303:The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="8pt" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+    </style:default-style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PL1">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:print-orientation="portrait" fo:margin-left="1.7cm" fo:margin-right="1.7cm" fo:margin-top="1.5cm" fo:margin-bottom="1.5cm"/>
+    </style:page-layout>
+    <style:style style:name="P" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="8pt" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+    </style:style>
+    <style:style style:name="Break" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="8pt" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.2cm" fo:margin-bottom="0.1cm"/>
+      <style:text-properties fo:font-size="19pt" fo:font-weight="bold" style:font-size-asian="19pt" style:font-weight-asian="bold" style:font-size-complex="19pt" style:font-weight-complex="bold"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="end"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="95%"/>
+      <style:text-properties fo:font-size="7pt" style:font-size-asian="7pt" style:font-size-complex="7pt"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #777777" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Gray" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #777777" fo:padding="0.08cm" fo:background-color="#b8b8b8" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="2.2cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="4.0cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="7.1cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="4.3cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PL1"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="P">■ 병역법 시행규칙 [별지 제103호의2서식] &lt;개정 2023. 12. 21.&gt;</text:p>
+      <text:p text:style-name="Title">병역이행일 등 연기신청서</text:p>
+      <text:p text:style-name="P">※ 작성방법 및 유의사항을 읽고 작성하여 주시기 바라며, [　]에는 해당되는 경우 √표를 합니다.　　　　　　　　　　　 (앞쪽)</text:p>
+      <table:table table:name="처리기간">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:style-name="Gray"><text:p text:style-name="Center">처리기간</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Gray"><text:p>병역판정검사ㆍ입영판정검사ㆍ재병역판정검사일 연기: 즉시</text:p><text:p>입영ㆍ소집일 연기: 2일</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <table:table table:name="구분">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">구 분</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>[　]병역판정검사ㆍ입영판정검사ㆍ재병역판정검사일 연기</text:p><text:p>[　]입영ㆍ소집일 연기</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <table:table table:name="병역의무자">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:number-rows-spanned="5" table:style-name="Cell"><text:p text:style-name="Center">병역</text:p><text:p text:style-name="Center">의무자</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>성명</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>생년월일</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>전화번호</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>휴대전화번호</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>전자우편주소</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>주소</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>통지서 수령인</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>본인과의 관계</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table table:name="병역사항">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">병역사항</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>[　]병역판정검사ㆍ입영판정검사ㆍ재병역판정검사 대상자</text:p><text:p>[　]현역병(상근예비역 포함)입영 대상자　[　]현역 모집병(육군, 해군, 해병, 공군)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>[　]사회복무요원소집 대상자　[　]승선근무예비역ㆍ전문연구요원ㆍ산업기능요원 군사교육소집 대상자</text:p><text:p>[　]예비군(병력동원훈련소집 대상자)</text:p><text:p>[　]대체복무요원소집 대상자　[　]예비군대체복무소집 대상자　[　]기타 (　　　)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <table:table table:name="병역판정검사일 연기">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">[　]</text:p><text:p text:style-name="Center">병역판정검사</text:p><text:p text:style-name="Center">ㆍ입영판정검사</text:p><text:p text:style-name="Center">ㆍ재병역판정</text:p><text:p text:style-name="Center">검사일 연기</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>병역판정검사ㆍ입영판정검사ㆍ재병역판정검사일</text:p><text:p text:style-name="Center">년　　　월　　　일</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>연기 후 희망일</text:p><text:p text:style-name="Center">년　　　월　　　일</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center"/></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>연기 사유</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <table:table table:name="입영 소집일 연기">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">[　]</text:p><text:p text:style-name="Center">입영</text:p><text:p text:style-name="Center">ㆍ소집일</text:p><text:p text:style-name="Center">연기</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>입영ㆍ소집일</text:p><text:p text:style-name="Center">년　　　월　　　일</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>입영부대(복무기관)</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">ㆍ소집일</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>연기 사유</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>재입영희망일(모집병만 작성)</text:p><text:p text:style-name="Center">년　　　월　　　일</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="P">「병역법」 제14조의3제6항, 제61조 및 같은 법 시행령 제18조의6, 제129조, 제129조의2에 따라 위와 같이 신청합니다.</text:p>
+      <text:p text:style-name="Right">년　　　월　　　일</text:p>
+      <text:p text:style-name="Right">신청인　　　　　　　　　　　　　　　 (서명 또는 인)</text:p>
+      <text:p text:style-name="Right">의무자와의 관계</text:p>
+      <text:p text:style-name="P">경남지방병무청장 귀하</text:p>
+      <text:p text:style-name="P">신청서 제출 시 별도의 수수료는 없습니다.</text:p>
+      <text:p text:style-name="Right">210mm×297mm[백상지 80g/㎡]</text:p>
+      <text:p text:style-name="Break">（뒤쪽）</text:p>
+      <table:table table:name="첨부서류">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="4" table:style-name="Gray"><text:p text:style-name="Center">첨부서류</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">구분</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">신청인(대표자) 제출서류</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">담당 공무원 확인사항</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-rows-spanned="8" table:style-name="Cell"><text:p text:style-name="Center">병역판정검사ㆍ</text:p><text:p text:style-name="Center">입영판정검사ㆍ</text:p><text:p text:style-name="Center">재병역판정검사ㆍ</text:p><text:p text:style-name="Center">입영ㆍ소집일자</text:p><text:p text:style-name="Center">연기</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>질병 또는 심신장애로 병역의무 이행이 어려운 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>병무용 진단서(모집병은 일반진단서)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>국외 출국을 기다리는 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>여권발급 정보</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>직계 존속, 배우자, 형제자매 등의 위독ㆍ사망</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>그 사실을 증명할 수 있는 서류</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>주민등록등(초)본</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>천재지변, 그 밖의 재난을 당하여 본인이 아니면 이를 처리하기 어려운 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>그 사실을 증명할 수 있는 서류</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>각급 학교 입학시험에 응시하려는 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>졸업ㆍ수료(예정)증명서, 수학능력시험 접수증 등 그 사실을 증명할 수 있는 서류</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>5명 이상의 사업장에서 「근로기준법」상의 통상 근로자로 근무 중인 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>재직증명서, 사업자등록증 등 그 사실을 증명할 수 있는 서류</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>국가, 지방자치단체 및 공공기관(공공단체 포함)에서 시행하는 채용시험에 접수한 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>시험접수증(수험표) 사본</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>시험응시 여부 또는 1차 시험 결과</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>그 밖의 부득이한 사유로 병역의무 이행이 어려운 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>그 사실을 증명할 수 있는 서류</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-rows-spanned="9" table:style-name="Cell"><text:p text:style-name="Center">예비군 병력동원</text:p><text:p text:style-name="Center">훈련ㆍ예비군</text:p><text:p text:style-name="Center">대체복무 소집</text:p><text:p text:style-name="Center">일자 연기</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>질병 또는 심신장애로 입영이 어려운 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>일반진단서</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>재감</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>경찰관서 또는 교도소장 발행 사실확인서</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>공무원, 공공단체 채용 및 면허ㆍ자격시험, 승진시험</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>응시원서 접수증(합격증) 사본</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>국가기관, 공공단체, 주요 기관 산업체 교육 중인 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>교육 인사 명령서 사본</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>시설 직업훈련기관 교육 중인 사람</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>재원 사실 확인서</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>방송통신대학 출석수업</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>재학증명서 및 학사일정 등 시험을 증명할 수 있는 서류</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>본인 결혼ㆍ부모 회갑 또는 배우자의 출산</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>청첩장, 초청장 또는 의료기관 (일반)진단서</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>주요 운동경기, 기능경기 또는 콩쿠르 참가자</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>참가 확인서</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>주요 업무 수행</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>주요 업무 수행확인서</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>없음</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table table:name="행정정보 공동이용 동의서">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="4" table:style-name="Gray"><text:p text:style-name="Center">행정정보 공동이용 동의서</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="P">본인은 이 건 업무처리와 관련하여 담당 공무원이 「전자정부법」 제36조제1항에 따른 행정정보의 공동이용을 통하여 위의 담당 공무원 확인사항을 확인하는 것에 동의합니다.</text:p>
+      <text:p text:style-name="P">* 이용수수료는 없으며 동의하지 않는 경우 신청인이 직접 관련 서류를 제출해야 합니다.</text:p>
+      <text:p text:style-name="Right">신청인　　　　　　　　　　　　　　　　　　　　　 (서명 또는 인)</text:p>
+      <table:table table:name="작성방법 및 유의 사항">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="4" table:style-name="Gray"><text:p text:style-name="Center">작성방법 및 유의 사항</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="P">1. 구분란의 해당사항에 √표시를 한 후 병역의무자란과 병역사항을 적습니다.</text:p>
+      <text:p text:style-name="P">2. 병역판정검사ㆍ입영판정검사ㆍ재병역판정검사 대상자는 병역판정검사ㆍ입영판정검사ㆍ재병역판정검사일 연기란에 √표시를 한 후 그 내용을 적습니다.</text:p>
+      <text:p text:style-name="P">3. 입영ㆍ소집대상자는 입영ㆍ소집일 연기란에 √표시를 한 후 입영ㆍ소집일, 입영부대(복무기관), 연기 사유, 재입영희망일(모집병만 작성)란에 그 내용을 적습니다.</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+33,862

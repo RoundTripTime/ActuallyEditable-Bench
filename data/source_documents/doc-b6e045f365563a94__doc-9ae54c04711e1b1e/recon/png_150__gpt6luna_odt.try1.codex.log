@@ -1,0 +1,806 @@
+rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-page-order">
+          <rng:choice>
+            <rng:value>ttb</rng:value>
+            <rng:value>ltr</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:first-page-number">
+          <rng:choice>
+            <!-- https://issues.oasis-open.org/browse/OFFICE-3953 -->
+            <rng:ref name="integer"/>
+            <rng:value>continue</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:choice>
+        <rng:optional>
+          <rng:attribute name="style:scale-to">
+            <rng:ref name="percent"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+          <rng:attribute name="style:scale-to-pages">
+            <rng:ref name="positiveInteger"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:group>
+          <rng:optional>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-opacity"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="style-presentation-page-layout"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="table-table-template"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-text-attlist">
+odf_spec/OpenDocument-v1.4-os-part2-packages.txt:448:C)It should contain a file “mimetype”. 
+odf_spec/OpenDocument-v1.4-os-part2-packages.txt:515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+odf_spec/OpenDocument-v1.4-os-part2-packages.txt:517:The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+odf_spec/OpenDocument-v1.4-os-part2-packages.txt:519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+odf_spec/OpenDocument-v1.4-os-part2-packages.txt:523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+odf_spec/OpenDocument-v1.4-os-part2-packages.txt:525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+odf_spec/OpenDocument-v1.4-os-part2-packages.txt:527:If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+odf_spec/OpenDocument-v1.4-os-part2-packages.txt:533:•the string 'mimetype' beginning at position 30 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:177:3.1.2 <office:document>(Single OpenDocument XML Files)
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:183:3.1.3.2 <office:document-content>
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:185:3.1.3.3 <office:document-styles>
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:187:3.1.3.4 <office:document-meta>
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:189:3.1.3.5 <office:document-settings>
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:237:3.15.3 <office:automatic-styles>
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:239:3.15.4 <office:master-styles>
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:2911:19.379 office:mimetype
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6122:B.2.1)<office:document-content> 3.1.3.2 or <math:math> 14.6 for files named content.xml, 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6124:B.2.2)<office:document-styles> 3.1.3.3 for files named styles.xml, 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6126:B.2.3)<office:document-meta> 3.1.3.4 for files named meta.xml, 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6128:B.2.4)<office:document-settings> 3.1.3.5 for files named settings.xml. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6130:B.3)If the XML root element of a file is <office:document-content>, <office:document-styles>, <office:document-meta> or <office:document-settings>, then the XML file shall be valid with respect to the schema defined in appendix A. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6137:C.2)the XML root element of the file shall be <office:document>. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6157:B.1)If the XML root element of a file is <office:document-content> 3.1.3.2, <office:document-styles> 3.1.3.3, <office:document-meta> 3.1.3.4 or <office:document-settings> 3.1.3.5, then the XML file shall be valid with respect to the schema defined in appendix A, after the following processing of foreign elements has taken place: 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6168:A)The <office:document> 3.1.2 element shall have an office:mimetype 3.1.2 attribute with one of these values: "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.text-master" or "application/vnd.oasis.opendocument.text-master-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6170:B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.text-master" or "application/vnd.oasis.opendocument.text-master-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6178:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.spreadsheet" or "application/vnd.oasis.opendocument.spreadsheet-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6180:B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.spreadsheet" or "application/vnd.oasis.opendocument.spreadsheet-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6192:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.graphics" or "application/vnd.oasis.opendocument.graphics-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6194:B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.graphics" or "application/vnd.oasis.opendocument.graphics-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6202:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.presentation" or "application/vnd.oasis.opendocument.presentation-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6204:B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.presentation" or "application/vnd.oasis.opendocument.presentation-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6212:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.chart" or "application/vnd.oasis.opendocument.chart-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6214:B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.chart" or "application/vnd.oasis.opendocument.chart-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6222:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.image" or "application/vnd.oasis.opendocument.image-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6224:B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.image" or "application/vnd.oasis.opendocument.image-template". 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6232:A)If the document is an OpenDocument package, the package shall contain a file named mimetype with content being the string "application/vnd.oasis.opendocument.formula".  
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6240:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with the value "application/vnd.oasis.opendocument.base".  
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6242:B)If the document is an OpenDocument package then it shall contain a file named mimetype containing the string " application/vnd.oasis.opendocument.base".  
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6295:3.1.2 <office:document>(Single OpenDocument XML Files)
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6297:The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6299:The <office:document> element is a root element.
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6301:The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6303:The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6305:The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6315:3.1.3.2 <office:document-content>
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6317:The <office:document-content> root element contains document content and automatic styles used in a document. The file within a package for the <office:document-content> element is content.xml. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6319:The <office:document-content> element is a root element.
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6321:The <office:document-content> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6323:The <office:document-content> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14 and <office:scripts> 3.12.
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6325:3.1.3.3 <office:document-styles>
+
+15.4 Animation Timing
+
+15.4.1 General
+
+15.4.2 <anim:par>
+
+15.4.3 <anim:seq>
+
+15.4.4 <anim:iterate>
+
+15.5 <anim:audio>
+
+15.6 Animation Command Elements
+
+15.6.1 <anim:command>
+
+15.6.2 <anim:param>
+
+16 Styles
+
+16.1 General
+
+16.2 <style:style>
+
+16.3 <style:map>
+
+16.4 <style:default-style>
+
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+16.14 <style:header-left>
+
+16.15 <style:footer-left>
+
+16.16 <style:region-left>
+
+16.17 <style:region-center>
+
+16.18 <style:region-right>
+
+17 Formatting Properties Elements
+
+17.1 General
+
+17.2 <style:page-layout-properties>
+
+17.3 <style:background-image>
+
+17.4 <style:footnote-sep>
+
+17.5 <style:header-footer-properties>
+
+17.6 <style:paragraph-properties>
+
+17.7 <style:tab-stops>
+
+17.8 <style:tab-stop>
+
+17.9 <style:drop-cap>
+
+17.10 <style:ruby-properties>
+
+17.11 <style:section-properties>
+
+17.12 <style:columns>
+
+17.13 <style:column>
+
+17.14 <style:column-sep>
+
+17.15 <style:table-properties>
+
+17.16 <style:table-column-properties>
+
+17.17 <style:table-row-properties>
+
+17.18 <style:table-cell-properties>
+
+17.19 <style:list-level-properties>
+
+17.20 <style:list-level-label-alignment>
+
+17.21 <style:graphic-properties>
+
+17.22 <style:chart-properties>
+
+exec
+/usr/bin/zsh -lc "rg -n 'define name=\"styles\"|define name=\"style-style\"|define name=\"style-default-style\"|define name=\"table-table\"|define name=\"office-master-styles\"|define name=\"office-text-content-main\"|define name=\"common-break-attlist\"' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12690,12770p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '15980,16055p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7930,7965p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8460,8510p' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_x6_5qhz3
+ succeeded in 0ms:
+1295:  <rng:define name="common-break-attlist">
+7937:  <rng:define name="office-master-styles">
+8352:  <rng:define name="office-text-content-main">
+10412:  <rng:define name="style-default-style">
+12757:  <rng:define name="style-style">
+13829:  <rng:define name="styles">
+15939:  <rng:define name="table-table">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:ruby-position">
+          <rng:choice>
+            <rng:value>above</rng:value>
+            <rng:value>below</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:ruby-align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>distribute-letter</rng:value>
+            <rng:value>distribute-space</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-ruby-properties-content-strict">
+    <rng:ref name="style-ruby-properties-attlist"/>
+    <rng:ref name="style-ruby-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-ruby-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-section-properties">
+    <rng:element name="style:section-properties">
+      <rng:ref name="style-section-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-section-properties-attlist">
+    <rng:interleave>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-editable-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:dont-balance-text-columns">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-section-properties-content-strict">
+    <rng:ref name="style-section-properties-attlist"/>
+    <rng:ref name="style-section-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-section-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+      <rng:ref name="style-columns"/>
+      <rng:zeroOrMore>
+        <rng:ref name="text-notes-configuration"/>
+      </rng:zeroOrMore>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style">
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+  </rng:define>
+  <rng:define name="office-image-content-main">
+    <rng:ref name="draw-frame"/>
+  </rng:define>
+  <rng:define name="office-image-content-prelude">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="office-master-styles">
+    <rng:optional>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta">
+    <rng:optional>
+      <rng:element name="office:meta">
+        <rng:ref name="office-meta-content-strict"/>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta-content-strict">
+    <rng:zeroOrMore>
+      <rng:ref name="office-meta-data"/>
+    </rng:zeroOrMore>
+  </rng:define>
+          <rng:attribute name="text:name">
+            <rng:ref name="string"/>
+          </rng:attribute>
+        </rng:element>
+      </rng:choice>
+      <rng:element name="text:note">
+        <rng:ref name="text-note-class"/>
+        <rng:optional>
+          <rng:attribute name="text:id">
+            <rng:ref name="string"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:element name="text:note-citation">
+          <rng:optional>
+            <rng:attribute name="text:label">
+              <rng:ref name="string"/>
+            </rng:attribute>
+          </rng:optional>
+          <rng:text/>
+        </rng:element>
+        <rng:element name="text:note-body">
+          <rng:zeroOrMore>
+            <rng:ref name="text-content"/>
+          </rng:zeroOrMore>
+        </rng:element>
+      </rng:element>
+      <rng:element name="text:ruby">
+        <rng:optional>
+          <rng:attribute name="text:style-name">
+            <rng:ref name="styleNameRef"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:element name="text:ruby-base">
+          <rng:zeroOrMore>
+            <rng:ref name="paragraph-content-or-hyperlink"/>
+          </rng:zeroOrMore>
+        </rng:element>
+        <rng:element name="text:ruby-text">
+          <rng:optional>
+            <rng:attribute name="text:style-name">
+              <rng:ref name="styleNameRef"/>
+            </rng:attribute>
+          </rng:optional>
+          <rng:text/>
+        </rng:element>
+      </rng:element>
+      <rng:choice>
+        <rng:ref name="office-annotation"/>
+        <rng:ref name="office-annotation-end"/>
+      </rng:choice>
+      <rng:ref name="change-marks"/>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0pt" fo:margin-bottom="0pt"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:default-style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" fo:print-orientation="portrait" fo:margin-top="0.35in" fo:margin-bottom="0.35in" fo:margin-left="0.35in" fo:margin-right="0.35in"/>
+    </style:page-layout>
+    <style:style style:name="Normal" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0pt" fo:margin-bottom="0pt" fo:line-height="1.25"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="Stars" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.45in" fo:margin-bottom="0.45in"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-bottom="0.08in"/>
+      <style:text-properties fo:font-size="22pt"/>
+    </style:style>
+    <style:style style:name="Intro" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0.15in" fo:line-height="1.4"/>
+      <style:text-properties fo:font-size="15pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="FormLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.55in" fo:margin-bottom="0.12in" fo:line-height="1.25"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="SubFormLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.95in" fo:margin-bottom="0.12in" fo:line-height="1.25"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="NoteLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.08in" fo:margin-bottom="0.04in"/>
+      <style:text-properties fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="CellText" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="13pt"/>
+    </style:style>
+    <style:style style:name="Declaration" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.25in" fo:margin-bottom="0.2in" fo:line-height="1.5"/>
+      <style:text-properties fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="FieldLine" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.15in" fo:margin-top="0.16in" fo:margin-bottom="0.16in"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="DateLine" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.28in" fo:margin-bottom="0.2in"/>
+      <style:text-properties fo:font-size="16pt"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-bottom="0.55in"/>
+    </style:style>
+    <style:style style:name="FrameTable" style:family="table">
+      <style:table-properties style:width="100%" table:align="center"/>
+    </style:style>
+    <style:style style:name="GridTable" style:family="table">
+      <style:table-properties style:width="100%" table:align="center"/>
+    </style:style>
+    <style:style style:name="LocTable" style:family="table">
+      <style:table-properties style:width="100%" table:align="center"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="1.5in"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="1.58in"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="1.37in"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="1.48in"/>
+    </style:style>
+    <style:style style:name="ColE" style:family="table-column">
+      <style:table-column-properties style:column-width="1.48in"/>
+    </style:style>
+    <style:style style:name="LocColA" style:family="table-column">
+      <style:table-column-properties style:column-width="1.5in"/>
+    </style:style>
+    <style:style style:name="LocColRest" style:family="table-column">
+      <style:table-column-properties style:column-width="1.48in"/>
+    </style:style>
+    <style:style style:name="OneCol" style:family="table-column">
+      <style:table-column-properties style:column-width="7.41in"/>
+    </style:style>
+    <style:style style:name="FrameCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.8pt solid #000000" fo:padding="0.1in" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="GridCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.7pt solid #000000" fo:padding="0.05in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="HeaderCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.7pt solid #000000" fo:padding="0.05in" fo:background-color="#eeeeee" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="LocationLabel" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.7pt solid #000000" fo:padding="0.12in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="LocationBlank" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.7pt solid #000000" fo:padding="0.12in" style:vertical-align="middle"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Stars">★★</text:p>
+      <table:table table:name="FormFrame" table:style-name="FrameTable">
+        <table:table-column table:style-name="OneCol"/>
+        <table:table-row>
+          <table:table-cell table:style-name="FrameCell">
+            <text:p text:style-name="Title">委 任 書</text:p>
+            <text:p text:style-name="Intro">委任人因故無法親自辦理下列事項，特委託受任人代為申請。茲聲明本委任授權屬實，如有虛偽不實之情事，願負一切法律責任。</text:p>
+            <text:p text:style-name="FormLine">□查調____年綜稅所得資料各__份</text:p>
+            <text:p text:style-name="FormLine">□查調本人全國財產稅總歸戶清單__份</text:p>
+            <text:p text:style-name="FormLine">□查調未成年子女(姓名列如委任人欄位；併請檢附未成年子女戶口名簿影本)</text:p>
+            <text:p text:style-name="SubFormLine">□全國財產稅總歸戶清單__份　□___年綜稅所得資料各__份</text:p>
+            <text:p text:style-name="FormLine">□土地增值稅享用自住用地稅率查詢</text:p>
+            <text:p text:style-name="FormLine">□欠稅查詢　□補發___稅繳款書</text:p>
+            <text:p text:style-name="FormLine">□房屋稅稅籍證明</text:p>
+            <text:p text:style-name="FormLine">□___年___稅課稅明細表各__份</text:p>
+            <text:p text:style-name="FormLine">□___年___稅繳納證明各___份</text:p>
+            <text:p text:style-name="FormLine">□其他</text:p>
+            <text:p text:style-name="NoteLine">※如係查調房屋稅稅籍證明、課稅明細表或繳納證明等，請填房屋坐落欄位。　________________</text:p>
+            <table:table table:name="HouseLocation" table:style-name="LocTable">
+              <table:table-column table:style-name="LocColA"/>
+              <table:table-column table:style-name="LocColRest" table:number-columns-repeated="4"/>
+              <table:table-row>
+                <table:table-cell table:style-name="LocationLabel"><text:p text:style-name="CellText">房屋坐落</text:p></table:table-cell>
+                <table:table-cell table:style-name="LocationBlank" table:number-columns-spanned="4"><text:p/></table:table-cell>
+                <table:covered-table-cell/>
+                <table:covered-table-cell/>
+                <table:covered-table-cell/>
+              </table:table-row>
+            </table:table>
+            <text:p text:style-name="Declaration">委任人（請附身分證影本並切結「與正本相符」）<text:line-break/>※若查調未成年子女資料者，請檢附法定代理人（或監護人）身分證正反面影本；若父母離異者，另請檢附載有監護權記事之戶口名簿影本。並由法定代理人（或監護人）一併簽章。</text:p>
+            <table:table table:name="PrincipalInfo" table:style-name="GridTable">
+              <table:table-column table:style-name="ColA"/>
+              <table:table-column table:style-name="ColB"/>
+              <table:table-column table:style-name="ColC"/>
+              <table:table-column table:style-name="ColD"/>
+              <table:table-column table:style-name="ColE"/>
+              <table:table-row>
+                <table:table-cell table:style-name="HeaderCell"><text:p text:style-name="CellText">委任人姓名</text:p></table:table-cell>
+                <table:table-cell table:style-name="HeaderCell"><text:p text:style-name="CellText">身分證字號</text:p></table:table-cell>
+                <table:table-cell table:style-name="HeaderCell"><text:p text:style-name="CellText">聯絡電話</text:p></table:table-cell>
+                <table:table-cell table:style-name="HeaderCell"><text:p text:style-name="CellText">簽名或蓋章</text:p></table:table-cell>
+                <table:table-cell table:style-name="HeaderCell"><text:p text:style-name="CellText">備註</text:p></table:table-cell>
+              </table:table-row>
+              <table:table-row>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+              </table:table-row>
+              <table:table-row>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+              </table:table-row>
+              <table:table-row>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+                <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+              </table:table-row>
+            </table:table>
+          </table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="PageBreak"/>
+      <table:table table:name="PrincipalInfoContinuation" table:style-name="GridTable">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-column table:style-name="ColE"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Declaration">受任人（請出示身分證正本）聲明並保證係經委任人授權臨櫃辦理申辦查調事宜，所檢附之證件與相關資料均與正本相符且未經塗改變造，並有權代理委任人辦理上開事項範圍。若有未經合法授權或資料有冒偽情事致他人或機關受有損害，受任人願自負一切民刑事責任。</text:p>
+      <text:p text:style-name="FieldLine">受任人姓名：____________________　身分證字號：____________________　簽名或蓋章：__</text:p>
+      <text:p text:style-name="FieldLine">聯絡電話：____________________</text:p>
+      <text:p text:style-name="DateLine">中 華 民 國　年　月　日</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+54,357

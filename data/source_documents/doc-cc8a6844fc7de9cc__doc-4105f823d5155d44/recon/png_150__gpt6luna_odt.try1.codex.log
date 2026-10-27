@@ -1,0 +1,735 @@
+>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:display-member-mode">
+        <rng:choice>
+          <rng:value>from-top</rng:value>
+          <rng:value>from-bottom</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-data-pilot-field">
+    <rng:element name="table:data-pilot-field">
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+3.1.3.2 <office:document-content>
+
+3.1.3.3 <office:document-styles>
+
+3.1.3.4 <office:document-meta>
+
+3.1.3.5 <office:document-settings>
+
+3.1.4 Summary of Document Representation
+
+3.2 <office:meta>
+
+3.3 <office:body>
+
+3.4 <office:text>
+
+3.5 <office:drawing>
+
+3.6 <office:presentation>
+
+3.7 <office:spreadsheet>
+
+3.8 <office:chart>
+235:3.15.2 <office:styles>
+237:3.15.3 <office:automatic-styles>
+239:3.15.4 <office:master-styles>
+781:9.1.3 <table:table-row>
+783:9.1.4 <table:table-cell>
+6627:3.15.2 <office:styles>
+6637:3.15.3 <office:automatic-styles>
+6651:3.15.4 <office:master-styles>
+9402:9.1.3 <table:table-row>
+9412:9.1.4 <table:table-cell>
+448:C)It should contain a file “mimetype”. 
+515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+517:The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+527:If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+533:•the string 'mimetype' beginning at position 30 
+
+exec
+/usr/bin/zsh -lc "sed -n '6627,6665p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '9400,9455p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '12790,12865p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12995,13195p' odf_spec/OpenDocument-v1.4-schema.rng; rg -n \"The fo:(page-width|page-height|margin|border|font-size|font-weight|text-align) attribute is usable|style:column-width attribute is usable|style:row-height attribute is usable|table:style-name attribute is usable|table:name attribute is usable|text:style-name attribute is usable\" odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -40; rg -n \"office:body|office:text\" odf_spec/OpenDocument-v1.4-schema.rng | head -15" in /tmp/fb_codex_odt_8wea7z9i
+ succeeded in 0ms:
+3.15.2 <office:styles>
+
+The <office:styles> element contains common styles used in a document. A common style is a style chosen by a user for a document or portion thereof.
+
+The <office:styles> element is usable within the following elements: <office:document> 3.1.2 and <office:document-styles> 3.1.3.3.
+
+The <office:styles> element has no attributes.
+
+The <office:styles> element has the following child elements: <draw:fill-image> 16.42.6, <draw:gradient> 16.42.1, <draw:hatch> 16.42.5, <draw:marker> 16.42.8, <draw:opacity> 16.42.7, <draw:stroke-dash> 16.42.9, <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:default-page-layout> 16.8, <style:default-style> 16.4, <style:presentation-page-layout> 16.43, <style:style> 16.2, <svg:linearGradient> 16.42.2, <svg:radialGradient> 16.42.3, <table:table-template> 16.20, <text:bibliography-configuration> 16.31.6, <text:linenumbering-configuration> 16.31.1, <text:list-style> 16.32, <text:notes-configuration> 16.31.3 and <text:outline-style> 16.36.
+
+3.15.3 <office:automatic-styles>
+
+The <office:automatic-styles> element contains automatic styles used in a document. 
+
+An automatic style is a set of formatting properties treated as properties of the object to which the style is assigned. 
+
+Note: Common and automatic styles behave differently in OpenDocument editing consumers. Common styles present to a user as a named set of formatting properties. The formatting properties of an automatic style present to a user as properties of the object to which the style is applied. 
+
+The <office:automatic-styles> element is usable within the following elements: <office:document> 3.1.2, <office:document-content> 3.1.3.2 and <office:document-styles> 3.1.3.3.
+
+The <office:automatic-styles> element has no attributes.
+
+The <office:automatic-styles> element has the following child elements: <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:page-layout> 16.5, <style:style> 16.2 and <text:list-style> 16.32.
+
+3.15.4 <office:master-styles>
+
+The <office:master-styles> element contains master styles that are used in a document. A master style contains formatting and other content that is displayed with document content when the style is used. 
+
+The <office:master-styles> element is usable within the following elements: <office:document> 3.1.2 and <office:document-styles> 3.1.3.3.
+
+The <office:master-styles> element has no attributes.
+
+The <office:master-styles> element has the following child elements: <draw:layer-set> 10.2.2, <style:handout-master> 10.2.1 and <style:master-page> 16.9.
+
+3.16 Document Signatures
+
+An OpenDocument document that is stored in a package may have one or more digital signatures applied to the package.
+
+Document signatures are stored in a file called META-INF/documentsignatures.xml in the package as described in section 3.5 of the OpenDocument specification Part2. Document signatures shall contain a <ds:Reference> element for each file within the package, with the exception that <ds:Reference> elements for the META-INF/documentsignatures.xml file containing the signature, and any files contained in the package whose relative path starts with "external-data/" should be omitted.
+The <table:table> element has the following child elements: <office:dde-source> 14.7.5, <office:forms> 13.2, <table:desc> 9.1.14, <table:named-expressions> 9.4.11, <table:scenario> 9.2.7, <table:shapes> 9.2.8, <table:table-column> 9.1.6, <table:table-column-group> 9.1.10, <table:table-columns> 9.1.12, <table:table-header-columns> 9.1.11, <table:table-header-rows> 9.1.7, <table:table-row> 9.1.3, <table:table-row-group> 9.1.9, <table:table-rows> 9.1.8, <table:table-source> 9.2.6, <table:title> 9.1.13, <text:soft-page-break> 5.6.
+
+9.1.3 <table:table-row>
+
+The <table:table-row> element represents a row in a table. It contains elements that specify the cells of the table row.
+
+The <table:table-row> element is usable within the following elements: <table:table> 9.1.2, <table:table-header-rows> 9.1.7, <table:table-row-group> 9.1.9 and <table:table-rows> 9.1.8.
+
+The <table:table-row> element has the following attributes: table:default-cell-style-name 19.619, table:number-rows-repeated 19.681, table:style-name 19.730, table:visibility 19.754 and xml:id 19.920.
+
+The <table:table-row> element has the following child elements: <table:covered-table-cell> 9.1.5 and <table:table-cell> 9.1.4.
+
+9.1.4 <table:table-cell>
+
+The <table:table-cell> element represents a table cell. It is contained in a table row element. A table cell can contain paragraphs and other text content as well as nested tables. Table cells may span multiple columns and rows. Table cells may be empty.
+
+The <table:table-cell> element is usable within the following element: <table:table-row> 9.1.3.
+
+The <table:table-cell> element has the following attributes: office:boolean-value 19.371, office:currency 19.373, office:date-value 19.374, office:string-value 19.383, office:time-value 19.386, office:value 19.388, office:value-type 19.389, table:content-validation-name 19.605, table:formula 19.646, table:number-columns-repeated 19.679, table:number-columns-spanned 19.680, table:number-matrix-columns-spanned 19.683, table:number-matrix-rows-spanned 19.684, table:number-rows-spanned 19.682, table:protect 19.699, table:protected 19.700, table:style-name 19.730, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+
+The <table:table-cell> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:annotation> 14.1, <table:cell-range-source> 9.3.1, <table:detective> 9.3.2, <table:table> 9.1.2, <text:alphabetical-index> 8.8, <text:bibliography> 8.9, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:h> 5.1.2, <text:illustration-index> 8.4, <text:list> 5.3.1, <text:numbered-paragraph> 5.3.6, <text:object-index> 8.6, <text:p> 5.1.3, <text:section> 5.4, <text:soft-page-break> 5.6, <text:table-index> 8.5, <text:table-of-content> 8.3 and <text:user-index> 8.7.
+
+9.1.5 <table:covered-table-cell>
+
+The <table:covered-table-cell> element represents cells that are covered by a <table:table-cell> 9.1.4 element that spans multiple columns or rows. The <table:covered-table-cell> elements occupy the same position in document order as the cells spanned. There is one <table:covered-table-cell> element for each cell that is spanned. 
+
+The <table:covered-table-cell> is often used by spreadsheet applications, where covered cells contain content.
+
+The <table:covered-table-cell> element is usable within the following element: <table:table-row> 9.1.3.
+
+The <table:covered-table-cell> element has the following attributes: office:boolean-value 19.371, office:currency 19.373, office:date-value 19.374, office:string-value 19.383, office:time-value 19.386, office:value 19.388, office:value-type 19.389, table:content-validation-name 19.605, table:formula 19.646, table:number-columns-repeated 19.679, table:protect 19.699, table:protected 19.700, table:style-name 19.730, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+
+The <table:covered-table-cell> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:annotation> 14.1, <table:cell-range-source> 9.3.1, <table:detective> 9.3.2, <table:table> 9.1.2, <text:alphabetical-index> 8.8, <text:bibliography> 8.9, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:h> 5.1.2, <text:illustration-index> 8.4, <text:list> 5.3.1, <text:numbered-paragraph> 5.3.6, <text:object-index> 8.6, <text:p> 5.1.3, <text:section> 5.4, <text:soft-page-break> 5.6, <text:table-index> 8.5, <text:table-of-content> 8.3 and <text:user-index> 8.7.
+
+9.1.6 <table:table-column>
+
+The <table:table-column> element specifies properties for one or more adjacent columns in a table. 
+
+The <table:table-column> element is usable within the following elements: <table:table> 9.1.2, <table:table-column-group> 9.1.10, <table:table-columns> 9.1.12 and <table:table-header-columns> 9.1.11.
+
+The <table:table-column> element has the following attributes: table:default-cell-style-name 19.619, table:number-columns-repeated 19.679, table:style-name 19.730, table:visibility 19.754 and xml:id 19.920.
+
+The <table:table-column> element has no child elements.
+
+9.1.7 <table:table-header-rows>
+
+The <table:table-header-rows> element represents header rows in a table. It is composed of adjacent <table:table-row> 9.1.3 elements. 
+
+Note: Use of the <table:table-header-rows> element increases accessibility. The use of styles to designate row headers diminishes accessibility. 
+
+If a table does not fit on a single page, table rows that are included in a <table:table-header-rows> element are automatically repeated on every page. 
+
+A table shall not contain more than one <table:table-header-rows> element, except that the table contains grouped rows defined by one or more <table:table-row-group> 9.1.9 elements. In this case, the table and each distinct group may contain one <table:table-header-rows> element, if and only if the table rows contained in the <table:table-header-rows> elements are adjacent.
+
+Consumers that do not support header rows shall process header rows as non-header rows.
+
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-section-properties"/>
+        </rng:optional>
+      </rng:group>
+        <rng:attribute name="style:leader-width">
+          <rng:ref name="lineWidth"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:leader-color">
+          <rng:choice>
+            <rng:value>font-color</rng:value>
+            <rng:ref name="color"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:leader-text">
+          <rng:ref name="character"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:leader-text-style">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-tab-stop-char-attlist">
+    <rng:attribute name="style:char">
+      <rng:ref name="character"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="style-tab-stops">
+    <rng:optional>
+      <rng:element name="style:tab-stops">
+        <rng:zeroOrMore>
+          <rng:ref name="style-tab-stop"/>
+        </rng:zeroOrMore>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-table-cell-properties">
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:wrap-option">
+          <rng:choice>
+            <rng:value>no-wrap</rng:value>
+            <rng:value>wrap</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-rotation-angle-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:rotation-align">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>top</rng:value>
+            <rng:value>center</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:cell-protect">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>hidden-and-protected</rng:value>
+            <rng:list>
+              <rng:oneOrMore>
+                <rng:choice>
+                  <rng:value>protected</rng:value>
+                  <rng:value>formula-hidden</rng:value>
+                </rng:choice>
+              </rng:oneOrMore>
+            </rng:list>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:decimal-places">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:repeat-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:shrink-to-fit">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-content-strict">
+    <rng:ref name="style-table-cell-properties-attlist"/>
+    <rng:ref name="style-table-cell-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties">
+    <rng:element name="style:table-column-properties">
+      <rng:ref name="style-table-column-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-column-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:column-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-column-width">
+          <rng:ref name="relativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-column-width">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-break-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-column-properties-content-strict">
+    <rng:ref name="style-table-column-properties-attlist"/>
+    <rng:ref name="style-table-column-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-table-properties">
+    <rng:element name="style:table-properties">
+26348:The table:name attribute is usable with the following element: <table:cell-range-source> 9.3.1.
+26356:The table:name attribute is usable with the following element: <table:content-validation> 9.4.5.
+26364:The table:name attribute is usable with the following element: <table:data-pilot-group> 9.6.18.
+26372:The table:name attribute is usable with the following element: <table:data-pilot-group-member> 9.6.19.
+26380:The table:name attribute is usable with the following element: <table:data-pilot-member> 9.6.12.
+26388:The table:name attribute is usable with the following element: <table:data-pilot-table> 9.6.3.
+26396:The table:name attribute is usable with the following element: <table:database-range> 9.4.15.
+26404:The table:name attribute is usable with the following element: <table:named-expression> 9.4.13.
+26412:The table:name attribute is usable with the following element: <table:named-range> 9.4.12.
+26434:The table:name attribute is usable with the following element: <table:operation> 9.3.3.
+26442:The table:name attribute is usable with the following element: <table:source-cell-range> 9.6.5.
+26450:The table:name attribute is usable with the following element: <table:source-service> 9.6.6.
+26458:The table:name attribute is usable with the following element: <table:table> 9.1.2.
+26466:The table:name attribute is usable with the following element: <table:table-template> 16.20.
+27262:The table:style-name attribute is usable with the following element: <table:background> 16.22.
+27270:The table:style-name attribute is usable with the following element: <table:body> 16.21.6.
+27280:The table:style-name attribute is usable with the following element: <table:covered-table-cell> 9.1.5.
+27288:The table:style-name attribute is usable with the following element: <table:even-columns> 16.21.9.
+27296:The table:style-name attribute is usable with the following element: <table:even-rows> 16.21.7.
+27304:The table:style-name attribute is usable with the following element: <table:first-column> 16.21.4.
+27312:The table:style-name attribute is usable with the following element: <table:first-row> 16.21.2.
+27320:The table:style-name attribute is usable with the following element: <table:last-column> 16.21.5.
+27328:The table:style-name attribute is usable with the following element: <table:last-row> 16.21.3.
+27336:The table:style-name attribute is usable with the following element: <table:odd-columns> 16.21.10.
+27344:The table:style-name attribute is usable with the following element: <table:odd-rows> 16.21.8.
+27354:The table:style-name attribute is usable with the following element: <table:table-cell> 9.1.4.
+27362:The table:style-name attribute is usable with the following element: <table:table-column> 9.1.6.
+27370:The table:style-name attribute is usable with the following element: <table:table-row> 9.1.3.
+27378:The table:style-name attribute is usable with the following element: <table:table> 9.1.2.
+30351:The text:style-name attribute is usable with the following element: <text:a> 6.1.8.
+30359:The text:style-name attribute is usable with the following element: <text:alphabetical-index> 8.8.
+30367:The text:style-name attribute is usable with the following element: <text:alphabetical-index-entry-template> 8.8.4.
+30375:The text:style-name attribute is usable with the following element: <text:bibliography> 8.9.
+30383:The text:style-name attribute is usable with the following element: <text:bibliography-entry-template> 8.9.3.
+30393:The text:style-name attribute is usable with the following element: <text:h> 5.1.2.
+30401:The text:style-name attribute is usable with the following element: <text:illustration-index> 8.4.
+30409:The text:style-name attribute is usable with the following element: <text:illustration-index-entry-template> 8.4.3.
+30417:The text:style-name attribute is usable with the following element: <text:index-entry-bibliography> 8.13.5.
+30425:The text:style-name attribute is usable with the following element: <text:index-entry-chapter> 8.13.1.
+30433:The text:style-name attribute is usable with the following element: <text:index-entry-link-end> 8.13.8.
+7687:    <rng:element name="office:body">
+7693:      <rng:element name="office:text">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="10pt" fo:margin-top="0mm" fo:margin-bottom="1mm" fo:line-height="120%"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Caption" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="8pt" fo:margin-top="0mm" fo:margin-bottom="8mm"/>
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0mm" fo:margin-bottom="5mm"/>
+      <style:text-properties fo:font-size="18pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Centered" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0mm" fo:margin-bottom="0mm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="RightAligned" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:margin-top="0mm" fo:margin-bottom="0mm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="NoteText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0mm" fo:margin-bottom="2mm" fo:line-height="150%"/>
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="Blue" style:family="text">
+      <style:text-properties fo:color="#0000ff"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="210mm" fo:page-height="297mm" fo:print-orientation="portrait" fo:margin-left="20mm" fo:margin-right="20mm" fo:margin-top="21mm" fo:margin-bottom="21mm"/>
+    </style:page-layout>
+    <style:style style:name="Col17" style:family="table-column">
+      <style:table-column-properties style:column-width="17mm"/>
+    </style:style>
+    <style:style style:name="Col88" style:family="table-column">
+      <style:table-column-properties style:column-width="88mm"/>
+    </style:style>
+    <style:style style:name="Col65" style:family="table-column">
+      <style:table-column-properties style:column-width="65mm"/>
+    </style:style>
+    <style:style style:name="Col84" style:family="table-column">
+      <style:table-column-properties style:column-width="84mm"/>
+    </style:style>
+    <style:style style:name="Col52" style:family="table-column">
+      <style:table-column-properties style:column-width="52mm"/>
+    </style:style>
+    <style:style style:name="GridCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #999999" fo:padding="2mm" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="GridCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #999999" fo:padding="2mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="StrongCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.75pt solid #555555" fo:padding="2mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="GrayCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.75pt solid #999999" fo:padding="2mm" fo:background-color="#cccccc" style:vertical-align="middle"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Caption">■ 민원 처리에 관한 법률 시행규칙 [별지 제3호서식] <text:span text:style-name="Blue">&lt;개정 2023. 3. 30.&gt;</text:span></text:p>
+      <text:p text:style-name="Title">위 임 장</text:p>
+
+      <table:table table:name="위임하는 사람">
+        <table:table-column table:style-name="Col17"/>
+        <table:table-column table:style-name="Col88"/>
+        <table:table-column table:style-name="Col65"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCenter" table:number-rows-spanned="2"><text:p text:style-name="Centered">위임하는 사람</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p>이름</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p>생년월일</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p>주소</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p>전화번호</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <table:table table:name="위임받는 사람">
+        <table:table-column table:style-name="Col17"/>
+        <table:table-column table:style-name="Col88"/>
+        <table:table-column table:style-name="Col65"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCenter" table:number-rows-spanned="3"><text:p text:style-name="Centered">위임받는 사람</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell">
+            <text:p>이름</text:p>
+            <text:p text:style-name="RightAligned"><text:span> (서명 또는 인)</text:span></text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p>생년월일</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p>위임하는 사람과의 관계</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p>전화번호</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p>주소</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+
+      <table:table table:name="민원사항">
+        <table:table-column table:style-name="Col17"/>
+        <table:table-column table:style-name="Col84"/>
+        <table:table-column table:style-name="Col17"/>
+        <table:table-column table:style-name="Col52"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCenter" table:number-rows-spanned="2"><text:p text:style-name="Centered">민원사항</text:p></table:table-cell>
+          <table:table-cell table:style-name="StrongCell"><text:p text:style-name="Centered">민 원 명</text:p></table:table-cell>
+          <table:table-cell table:style-name="StrongCell"><text:p text:style-name="Centered">발급통수</text:p></table:table-cell>
+          <table:table-cell table:style-name="StrongCell"><text:p text:style-name="Centered">용 도</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Body">위 위임하는 사람은 위 위임받는 사람에게 위 민원사항에 대한 신청 및 교부에 관한 모든 권한을 위임합니다.</text:p>
+      <text:p text:style-name="RightAligned">년<text:s text:c="5"/>월<text:s text:c="5"/>일</text:p>
+      <text:p text:style-name="Centered">위임하는 사람<text:s text:c="20"/>(서명 또는 인)</text:p>
+
+      <table:table table:name="유의사항">
+        <table:table-column table:style-name="Col17"/>
+        <table:table-column table:style-name="Col84"/>
+        <table:table-column table:style-name="Col17"/>
+        <table:table-column table:style-name="Col52"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GrayCell" table:number-columns-spanned="4"><text:p text:style-name="Centered">유의사항</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="4">
+            <text:p text:style-name="NoteText">1. 위임받는 사람의 신분증(주민등록증, 여권, 운전면허증 등)을 제시해야 합니다.</text:p>
+            <text:p text:style-name="NoteText">2. 민원사항(출입국사실증명, 외국인등록사실증명, 국내거소신고 사실증명, 납세증명, 지방세 납세증명 등)에 따라서는 위임하는 사람과 위임받는 사람의 신분증 사본을 구비서류로 제출해야 합니다.</text:p>
+            <text:p text:style-name="NoteText">3. 다른 사람의 인장 도용 등 허위로 위임장을 작성하여 신청한 경우에는 「형법」 제231조와 제232조에 따라 사문서 위조ㆍ변조죄로 5년 이하의 징역 또는 1천만원 이하의 벌금에 처하게 됩니다.</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="RightAligned">210mm×297mm[백상지 80g/㎡]</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+35,146

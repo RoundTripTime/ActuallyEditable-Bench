@@ -1,0 +1,578 @@
+     <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+
+exec
+/usr/bin/zsh -lc "grep -nE 'Single XML|office:document|ZIP|zip|document.xml' odf_spec/OpenDocument-v1.4-os-part2-packages.txt" in /tmp/fb_codex_odt_d73iv1dg
+ succeeded in 0ms:
+77:urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+79:urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+363:[ZIP] PKWARE Inc. Zip APPNOTE Version 6.2.0, http://www.pkware.com/support/application-note-archives, 2004
+391:urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+397:urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+439:A)It shall be a Zip file, as defined by [ZIP]. All files contained in the Zip file shall be non compressed (STORED) or compressed using the “deflate” (DEFLATED) algorithm. 
+499:OpenDocument defines a package file to store the XML content of a document as separate parts together with associated binary data as file entries in a single package file. These file entries may be compressed to further reduce the storage taken by the package. This package is a Zip file [ZIP], whose structure is described in Appendix C. OpenDocument Packages impose additional structure on the Zip file to accomplish the representation of OpenDocument Format documents.
+525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+531:•the string 'PK' at position 0 of all zip files 
+829:•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#blowfish: The same algorithm as identified by Blowfish CFB. 
+833:•Package producers that support encryption shall support the value Blowfish CFB. Package consumers that support encryption shall support the values Blowfish CFB and urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#blowfish. 
+857:•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha1-1k: The same as SHA1/1K. 
+859:•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k: SHA256 algorithm (see [RFC3174]) applied to first 1024 bytes of the compressed unencrypted file. 
+865:Package producers should use the SHA1/1K value and method when compatibility with older versions of consumers is important. In other cases, producers that support encryption should use the urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k value and method. 
+869:Package consumers that support encryption shall support the values SHA1/1K, urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha1-1k and urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k.
+947:•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#pbkdf2: The same algorithms as identified by PBKDF2. 
+953:Package producers that support encryption shall support the value PBKDF2. Package consumers that support encryption shall support the values PBKDF2 and urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#pbkdf2.
+955:If the value of this attribute is PBKDF2 or urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#pbkdf2 the <manifest:encryption-data> 4.4 shall contain a <manifest:start-key-generation> 4.6 child element that specifies the start key for the PBKDF2 algorithm.
+1215:For more details about the Zip file format, see [ZIP].
+
+exec
+/usr/bin/zsh -lc "grep -nE '"'^  <rng:define name="style-(paragraph-properties|table-cell-properties|table-column-properties|table-properties|text-properties|page-layout-properties-attlist)|''^  <rng:define name="office-automatic-styles"|''^  <rng:define name="styles"'"' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_d73iv1dg
+ succeeded in 0ms:
+7669:  <rng:define name="office-automatic-styles">
+12252:  <rng:define name="style-page-layout-properties-attlist">
+12451:  <rng:define name="style-paragraph-properties">
+12456:  <rng:define name="style-paragraph-properties-attlist">
+12641:  <rng:define name="style-paragraph-properties-content-strict">
+12645:  <rng:define name="style-paragraph-properties-elements">
+13033:  <rng:define name="style-table-cell-properties">
+13038:  <rng:define name="style-table-cell-properties-attlist">
+13153:  <rng:define name="style-table-cell-properties-content-strict">
+13157:  <rng:define name="style-table-cell-properties-elements">
+13162:  <rng:define name="style-table-column-properties">
+13167:  <rng:define name="style-table-column-properties-attlist">
+13187:  <rng:define name="style-table-column-properties-content-strict">
+13191:  <rng:define name="style-table-column-properties-elements">
+13194:  <rng:define name="style-table-properties">
+13199:  <rng:define name="style-table-properties-attlist">
+13256:  <rng:define name="style-table-properties-content-strict">
+13260:  <rng:define name="style-table-properties-elements">
+13308:  <rng:define name="style-text-properties">
+13313:  <rng:define name="style-text-properties-attlist">
+13806:  <rng:define name="style-text-properties-content-strict">
+13810:  <rng:define name="style-text-properties-elements">
+13829:  <rng:define name="styles">
+
+exec
+/usr/bin/zsh -lc "sed -n '12451,12492p;13033,13125p;13162,13222p;13308,13375p;13829,13855p' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_d73iv1dg
+ succeeded in 0ms:
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+          <rng:choice>
+            <rng:value>start</rng:value>
+  <rng:define name="style-table-cell-properties">
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:wrap-option">
+          <rng:choice>
+            <rng:value>no-wrap</rng:value>
+            <rng:value>wrap</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-rotation-angle-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:rotation-align">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>top</rng:value>
+            <rng:value>center</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:cell-protect">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>hidden-and-protected</rng:value>
+            <rng:list>
+              <rng:oneOrMore>
+                <rng:choice>
+                  <rng:value>protected</rng:value>
+                  <rng:value>formula-hidden</rng:value>
+                </rng:choice>
+  <rng:define name="style-table-column-properties">
+    <rng:element name="style:table-column-properties">
+      <rng:ref name="style-table-column-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-column-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:column-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-column-width">
+          <rng:ref name="relativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-column-width">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-break-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-column-properties-content-strict">
+    <rng:ref name="style-table-column-properties-attlist"/>
+    <rng:ref name="style-table-column-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-table-properties">
+    <rng:element name="style:table-properties">
+      <rng:ref name="style-table-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-width">
+          <rng:ref name="percent"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>margins</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+  <rng:define name="style-text-properties">
+    <rng:element name="style:text-properties">
+      <rng:ref name="style-text-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-text-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:font-variant">
+          <rng:ref name="fontVariant"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:text-transform">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>lowercase</rng:value>
+            <rng:value>uppercase</rng:value>
+            <rng:value>capitalize</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-window-font-color">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-outline">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-type">
+          <rng:ref name="lineType"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-style">
+          <rng:ref name="lineStyle"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-width">
+          <rng:ref name="lineWidth"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-color">
+          <rng:choice>
+            <rng:value>font-color</rng:value>
+            <rng:ref name="color"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-text">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-text-style">
+          <rng:ref name="styleNameRef"/>
+  <rng:define name="styles">
+    <rng:interleave>
+      <rng:zeroOrMore>
+        <rng:ref name="style-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="text-list-style"/>
+      </rng:zeroOrMore>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4108 -->
+      <rng:zeroOrMore>
+        <rng:ref name="number-num-list-format"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-number-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-currency-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-percentage-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-date-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-time-style"/>
+      </rng:zeroOrMore>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="P" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.04in" fo:margin-bottom="0.04in"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.12in" fo:margin-bottom="0.12in"/>
+      <style:text-properties fo:font-size="20pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right"/>
+    </style:style>
+    <style:style style:name="Break" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Big" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="18pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Label" style:family="table-cell">
+      <style:table-cell-properties fo:background-color="#dce6f5" fo:border="0.6pt solid #000000" fo:padding="0.06in" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="10pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.6pt solid #000000" fo:padding="0.06in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Gray" style:family="text">
+      <style:text-properties fo:color="#888888"/>
+    </style:style>
+    <style:style style:name="Red" style:family="text">
+      <style:text-properties fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:name="Blue" style:family="text">
+      <style:text-properties fo:color="#0000ff"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="Page">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" fo:margin-top="0.55in" fo:margin-bottom="0.55in" fo:margin-left="0.55in" fo:margin-right="0.55in"/>
+    </style:page-layout>
+    <style:style style:name="C1" style:family="table-column">
+      <style:table-column-properties style:column-width="1.0in"/>
+    </style:style>
+    <style:style style:name="C2" style:family="table-column">
+      <style:table-column-properties style:column-width="1.0in"/>
+    </style:style>
+    <style:style style:name="C3" style:family="table-column">
+      <style:table-column-properties style:column-width="1.0in"/>
+    </style:style>
+    <style:style style:name="C4" style:family="table-column">
+      <style:table-column-properties style:column-width="1.0in"/>
+    </style:style>
+    <style:style style:name="C5" style:family="table-column">
+      <style:table-column-properties style:column-width="1.0in"/>
+    </style:style>
+    <style:style style:name="C6" style:family="table-column">
+      <style:table-column-properties style:column-width="2.15in"/>
+    </style:style>
+    <style:style style:name="T" style:family="table">
+      <style:table-properties style:width="7.15in" table:align="center"/>
+    </style:style>
+    <style:style style:name="Master" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="Page"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="P">[유치부 · 초등 저학년부] 서식 1</text:p>
+      <text:p text:style-name="Title">2026 AI로 만드는 나만의 네컷만화 공모전 참가신청서</text:p>
+      <table:table table:name="신청서1" table:style-name="T">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/><table:table-column table:style-name="C6"/>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2"><text:p>접수번호</text:p><text:p><text:span text:style-name="Red">※ 신청은 작성하지 마세요</text:span></text:p></table:table-cell><table:covered-table-cell/><table:table-cell/><table:table-cell table:style-name="Label">팀명</table:table-cell><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2"><text:p>참가 학생</text:p><text:p>출생년도</text:p></table:table-cell><table:covered-table-cell/><table:table-cell/><table:table-cell table:style-name="Label">참가 자격</table:table-cell><table:table-cell table:number-columns-spanned="2"><text:p>□ 서초구 거주</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2"><text:p>대표자</text:p></table:table-cell><table:covered-table-cell/><table:table-cell/><table:table-cell/><table:table-cell table:number-columns-spanned="2"><text:p>□ 서초구 소재 어린이집·유치원·초등학교 재원·재학</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label">대표자</table:table-cell><table:table-cell table:style-name="Label">성명</table:table-cell><table:table-cell/><table:table-cell table:style-name="Label">휴대폰</table:table-cell><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="2"><text:p>연락가능한</text:p><text:p>가족(보호자)</text:p><text:p>중 1인</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Label">주소</table:table-cell><table:table-cell table:number-columns-spanned="3"/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="Label">이메일</table:table-cell><table:table-cell table:number-columns-spanned="3"/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="5"><text:p>팀원</text:p><text:p>정보</text:p></table:table-cell><table:table-cell table:style-name="Label" table:number-columns-spanned="2">성명</table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Label" table:number-columns-spanned="2">휴대폰 번호</table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Label">이메일주소</table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"><text:p><text:span text:style-name="Gray">없을 경우 미기재</text:span></text:p></table:table-cell><table:covered-table-cell/><table:table-cell><text:p><text:span text:style-name="Gray">없을 경우 미기재</text:span></text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/><table:table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/><table:table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/><table:table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="2"><text:p>만화내용</text:p><text:p>요약문</text:p></table:table-cell><table:table-cell table:style-name="Label" table:number-columns-spanned="2">만화 제목</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3"/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Label" table:number-columns-spanned="2">스토리텔링</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3"><text:p><text:span text:style-name="Gray">※ 만화 줄거리, 만화소개 등 설명 자유 기재 (1,000자 내외)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="2">활용 AI 툴</table:table-cell><table:table-cell table:style-name="Label" table:number-columns-spanned="2">활용 AI 이름</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3"/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Label" table:number-columns-spanned="2">사용한 명령어<br/>(프롬프트)</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3"><text:p><text:span text:style-name="Gray">※ 입력했던 명령어 요약 기재 (1,000자 내외)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="2">준수사항 동의</table:table-cell><table:table-cell table:number-columns-spanned="5"><text:p>본인은 ‘2026 AI로 만드는 나만의 네컷만화 공모전’의 유의사항과 준수사항 등 제반규정을 숙지하였으며, 이를 준수하여 성실히 참가할 것에 동의합니다.</text:p><text:p text:style-name="Center">동의함 □　 동의하지 않음 □</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="5"><text:p text:style-name="Center">2026　년　　월　　일</text:p><text:p text:style-name="Center">신청인 (대표자) : 성명　　　　　(서명)</text:p><text:p text:style-name="Right">서초1동주민자치위원장 귀하</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p><text:span text:style-name="Red">※ 공모전 참가신청서는 최대 2페이지를 넘지 않게 작성</text:span></text:p>
+      <text:p text:style-name="Center">- 1 -</text:p>
+
+      <text:p text:style-name="Break"/>
+      <text:p>[초등 고학년부 · 시니어부] 서식 1</text:p>
+      <text:p text:style-name="Title">2026 AI로 만드는 나만의 네컷만화 공모전 참가신청서</text:p>
+      <table:table table:name="신청서2" table:style-name="T">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/><table:table-column table:style-name="C6"/>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2"><text:p>접수번호</text:p><text:p><text:span text:style-name="Red">※ 신청은 작성하지 마세요</text:span></text:p></table:table-cell><table:covered-table-cell/><table:table-cell/><table:table-cell table:style-name="Label">참가 자격</table:table-cell><table:table-cell table:number-columns-spanned="2"><text:p>□ 서초구 거주</text:p><text:p>□ 서초구 소재 초등학교 재학</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="3">참가자 정보</table:table-cell><table:table-cell table:style-name="Label">성명</table:table-cell><table:table-cell/><table:table-cell table:style-name="Label">휴대폰</table:table-cell><table:table-cell table:number-columns-spanned="2"/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Label">주소</table:table-cell><table:table-cell table:number-columns-spanned="4"/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Label">이메일</table:table-cell><table:table-cell table:number-columns-spanned="4"/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="2">만화내용 요약문</table:table-cell><table:table-cell table:style-name="Label" table:number-columns-spanned="2">스토리 제목</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3"/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Label" table:number-columns-spanned="2">스토리텔링</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3"><text:p><text:span text:style-name="Gray">※ 만화 줄거리, 만화소개 등 설명 자유 기재 (1,000자 내외)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="2">활용 AI 툴</table:table-cell><table:table-cell table:style-name="Label" table:number-columns-spanned="2">활용 AI 이름</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3"/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Label" table:number-columns-spanned="2">사용한 명령어 (프롬프트)</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="3"><text:p><text:span text:style-name="Gray">※ 입력했던 명령어 요약 기재 (1,000자 내외)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-rows-spanned="2">준수사항 동의</table:table-cell><table:table-cell table:number-columns-spanned="5"><text:p>본인은 ‘2026 AI로 만드는 나만의 네컷만화 공모전’의 유의사항과 준수사항 등 제반규정을 숙지하였으며, 이를 준수하여 성실히 참가할 것에 동의합니다.</text:p><text:p text:style-name="Center">동의함 □　 동의하지 않음 □</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="5"><text:p text:style-name="Center">2026　년　　월　　일</text:p><text:p text:style-name="Center">신청인　:　성명　　　　　(서명)</text:p><text:p text:style-name="Right">서초1동주민자치위원장 귀하</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p><text:span text:style-name="Red">※ 공모전 참가신청서는 최대 2페이지를 넘지 않게 작성</text:span></text:p>
+      <text:p text:style-name="Center">- 2 -</text:p>
+
+      <text:p text:style-name="Break"/>
+      <text:p>[공통] 서식 2</text:p>
+      <text:p text:style-name="Big">개인정보 수집 · 이용 동의서</text:p>
+      <text:p><text:span text:style-name="Red">※ 공모 신청자(대표자)가 팀원 전원의 개인정보 수집·이용 동의서를 각각 작성하여 제출</text:span></text:p>
+      <table:table table:name="개인정보동의" table:style-name="T">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/><table:table-column table:style-name="C6"/>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2">성　 명</table:table-cell><table:covered-table-cell/><table:table-cell/><table:table-cell table:style-name="Label" table:number-columns-spanned="2">생년월일</table:table-cell><table:covered-table-cell/><table:table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2">주　 소</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="4"/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2">연락처<br/>(휴대전화번호)</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="4"/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="6"><text:p>□ 개인정보 수집·이용 내역</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2">항목</table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Label" table:number-columns-spanned="2">수집·이용 목적</table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Label" table:number-columns-spanned="2">보유 및 이용기간</table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2">성명, 생년월일, 주소, 연락처<br/>보호자(법정대리인)의 성명 및 연락처</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2">공모전 접수, 심사, 발표, 상장 수여</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2">응모신청서 접수일로부터 <text:span text:style-name="Blue">1년</text:span></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="6"><text:p>※ 개인정보의 수집·이용에 대한 동의를 거부할 수 있으며, 동의하지 않을 경우 심사 및 선정에서 제외됩니다.</text:p><text:p>☞ 위와 같이 개인정보를 수집·이용하는데 동의하십니까?　　동의　□　　미동의　□</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="6"><text:p>□ 법정대리인 동의서　 <text:span text:style-name="Red">※ 개인정보 주체가 미성년자인 경우, 추가로 기재</text:span></text:p><text:p>본인은 미성년자의 법정대리인으로 위의 개인정보 수집·이용에 동의합니다.</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2">법정대리인 성명</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="4"><text:p text:style-name="Center">(서명 또는 인)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2">법정대리인 연락처</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="4"/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label" table:number-columns-spanned="2">대상자와의 관계</table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="4"/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p>상기 본인은 「개인정보보호법」 제15조 제1항(개인정보의 수집·이용)에 의거하여</text:p>
+      <text:p>위와 같이 개인정보 수집 및 이용에 동의합니다.</text:p>
+      <text:p text:style-name="Center">2026년　　월　　일</text:p>
+      <text:p text:style-name="Center">성명 :　　　　　　　　(서명 또는 인)</text:p>
+      <text:p text:style-name="Big">서초1동주민자치위원장 귀하</text:p>
+      <text:p text:style-name="Center">- 3 -</text:p>
+
+      <text:p text:style-name="Break"/>
+      <text:p>[공통] 서식 3</text:p>
+      <text:p text:style-name="Big">2026 AI로 만드는 나만의 네컷만화 공모전</text:p>
+      <text:p text:style-name="Big">저작권 귀속 및 이용에 관한 동의서</text:p>
+      <table:table table:name="저작권동의" table:style-name="T">
+        <table:table-column table:style-name="C1"/><table:table-column table:style-name="C2"/><table:table-column table:style-name="C3"/><table:table-column table:style-name="C4"/><table:table-column table:style-name="C5"/><table:table-column table:style-name="C6"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="6"><text:p>■ 제3자 저작권 등 관련</text:p><text:p>- 본인이 제출한 창작물은 타 공모전에 접수되지 않은 본인 순수저작물이며, 이미 발표되거나 모방 또는 차용하지 않았음을 확인합니다.</text:p><text:p>- 응모자는 창작물이 제3자의 저작권을 침해하지 않도록 주의의무를 다하여야 하며, 창작물에 사용한 이미지, 아이디어 등으로 제3자와 각종 지적재산권 및 기타 권리에 대한 분쟁이 발생되는 경우 이와 관련된 모든 민·형사상의 책임은 제안자 본인에게 있음을 확인합니다.</text:p><text:p>- 시상 이후에도 본인이 제출한 창작물이 부정한 방법에 의해 입상한 것으로 확인되는 경우에 입상결정은 무효이며, 지급받은 상장 부당이득을 반환할 것에 동의합니다.</text:p><text:p>■ 저작권 귀속 및 저작물 이용</text:p><text:p>- 본 공모전 입상작은 별도의 권리 이전 절차 없이 지적재산권 일체 및 공표권, 원저작물을 각색, 변형할 수 있는 2차 저작물 작성권 등이 서초1동주민자치위원회에 귀속됩니다.</text:p><text:p>- 입상작은 공모전 종료 후 2차 저작물로 작성·복제·배포되어 향후 서초1동주민자치위원회 관련 SNS, 홍보물 제작 및 서울교육대학교 담장 갤러리 등 전시에 활용됩니다.</text:p><text:p>공모 신청자는 상기 내용에 대하여 거부할 권리가 있습니다. 단, 동의를 거부할 경우 본 공모전 심사 대상에서 제외될 수 있습니다.</text:p><text:p text:style-name="Center">상기 내용에 동의합니다.</text:p><text:p text:style-name="Center">□ 동의　　□ 동의하지 않음</text:p><text:p text:style-name="Center">2026　년　　월　　일</text:p><text:p text:style-name="Right">동의자 :　　　　　　　　　(서명 또는 인)</text:p><text:p text:style-name="Big">서초1동주민자치위원장 귀하</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Center">- 4 -</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+45,288

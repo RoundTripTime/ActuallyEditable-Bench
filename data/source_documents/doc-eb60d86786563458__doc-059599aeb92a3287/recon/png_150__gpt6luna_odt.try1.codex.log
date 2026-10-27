@@ -1,0 +1,789 @@
+ocument-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-body"/>
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+      <rng:attribute name="style:border-line-width-bottom">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-left">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+
+[OpenDocument-v1.4-part2]
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. Latest stage: https://docs.oasis-open.org/office/v1.4/OpenDocument-v1.4-part2-packages.html.
+
+Notices
+
+Copyright © OASIS Open 2025. All Rights Reserved.
+
+All capitalized terms in the following text have the meanings assigned to them in the OASIS Intellectual Property Rights Policy (the "OASIS IPR Policy"). The full Policy may be found at the OASIS website.
+
+This document and translations of it may be copied and furnished to others, and derivative works that comment on or otherwise explain it or assist in its implementation may be prepared, copied, published, and distributed, in whole or in part, without restriction of any kind, provided that the above copyright notice and this section are included on all such copies and derivative works. However, this document itself may not be modified in any way, including by removing the copyright notice or references to OASIS, except as needed for the purpose of developing any document or deliverable produced by an OASIS Technical Committee (in which case the rules applicable to copyrights, as set forth in the OASIS IPR Policy, must be followed) or as required to translate it into languages other than English.
+
+The limited permissions granted above are perpetual and will not be revoked by OASIS or its successors or assigns.
+
+This document and the information contained herein is provided on an "AS IS" basis and OASIS DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY OWNERSHIP RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+As stated in the OASIS IPR Policy, the following three paragraphs in brackets apply to OASIS Standards Final Deliverable documents (Committee Specification, OASIS Standard, or Approved Errata).
+
+[OASIS requests that any OASIS Party or any other party that believes it has patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable, to notify OASIS TC Administrator and provide an indication of its willingness to grant patent licenses to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this deliverable.]
+
+[OASIS invites any party to contact the OASIS TC Administrator if it is aware of a claim of ownership of any patent claims that would necessarily be infringed by implementations of this OASIS Standards Final Deliverable by a patent holder that is not willing to provide a license to such patent claims in a manner consistent with the IPR Mode of the OASIS Technical Committee that produced this OASIS Standards Final Deliverable. OASIS may include such claims on its website, but disclaims any obligation to do so.]
+
+[OASIS takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this OASIS Standards Final Deliverable or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any effort to identify any such rights. Information on OASIS' procedures with respect to rights in any document or deliverable produced by an OASIS Technical Committee can be found on the OASIS website. Copies of claims of rights made available for publication and any assurances of licenses to be made available, or the result of an attempt made to obtain a general license or permission for the use of such proprietary rights by implementers or users of this OASIS Standards Final Deliverable, can be obtained from the OASIS TC Administrator. OASIS makes no representation that any information or list of intellectual property rights will at any time be complete, or that any claims in such list are, in fact, Essential Claims.]
+
+The name "OASIS" is a trademark of OASIS, the owner and developer of this specification, and should be used only to refer to the organization and its official outputs. OASIS welcomes reference to, and implementation and use of, specifications, while reserving the right to enforce its marks against misleading uses. Please see https://www.oasis-open.org/policies-guidelines/trademark/ for above guidance.
+
+Table of Contents
+
+1 Introduction
+
+1.1 Introduction
+
+1.2 Terminology
+
+1.3 Normative References
+
+1.4 Non Normative References
+
+1.5 Namespaces
+
+2 Packages, Package Consumers and Package Producers
+
+2.1 Introduction
+
+2.2 Package Conformance
+
+2.2.1 OpenDocument Package
+
+2.2.2 OpenDocument Extended Package
+
+2.3 Producers
+
+2.3.1 OpenDocument Package Producer
+
+2.3.2 OpenDocument Package Extended Producer
+
+2.4 OpenDocument Package Consumer
+
+3 Packages
+
+3.1 General
+
+3.2 Manifest
+
+3.3 MIME Media Type
+
+3.4 Encryption
+
+3.4.1 General
+
+3.4.2 Encryption Process
+
+3.5 Digital Signatures
+
+3.6 Metadata
+
+3.7 Usage of IRIs Within Packages
+
+3.8 Preview Image
+
+3.9 Interactions Between Encryption and Digital Signatures
+
+4 Manifest File
+
+4.1 Introduction
+
+4.2 <manifest:manifest>
+
+4.3 <manifest:file-entry>
+
+4.4 <manifest:encryption-data>
+
+4.5 <manifest:algorithm>
+
+4.6 <manifest:start-key-generation>
+
+4.7 <manifest:key-derivation>
+
+4.8 <manifest:encrypted-key>
+
+4.9 <manifest:encryption-method>
+
+4.10 <manifest:keyinfo>
+
+4.11 <manifest:PGPData>
+
+4.12 <manifest:PGPKeyID>
+
+4.13 <manifest:PGPKeyPacket>
+
+4.14 <manifest:CipherData>
+
+4.15 <manifest:CipherValue>
+
+4.16 Manifest Attributes
+
+4.16.1 manifest:algorithm-name
+
+4.16.2 manifest:checksum
+
+4.16.3 manifest:checksum-type
+
+4.16.4 manifest:full-path
+
+4.16.5 manifest:initialisation-vector
+
+4.16.6 manifest:start-key-generation-name
+
+4.16.7 manifest:key-size
+
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+3.1.3.2 <office:document-content>
+
+3.1.3.3 <office:document-styles>
+
+3.1.3.4 <office:document-meta>
+
+3.1.3.5 <office:document-settings>
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="Noto Sans CJK JP"/>
+    </style:default-style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0.15cm"/>
+      <style:text-properties fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0.12cm"/>
+      <style:text-properties fo:font-size="13pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Subhead" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-bottom="0.12cm"/>
+      <style:text-properties fo:font-size="13pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="paragraph">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.4cm" fo:margin-bottom="1.2cm" fo:margin-left="1.4cm" fo:margin-right="1.4cm"/>
+    </style:page-layout>
+    <style:style style:name="Table" style:family="table">
+      <style:table-properties table:border-model="collapsing" style:width="18.2cm" style:rel-width="100%"/>
+    </style:style>
+    <style:style style:name="TableNarrow" style:family="table">
+      <style:table-properties table:border-model="collapsing" style:width="18.2cm"/>
+    </style:style>
+    <style:style style:name="C1" style:family="table-column"><style:table-column-properties style:column-width="2.8cm"/></style:style>
+    <style:style style:name="C2" style:family="table-column"><style:table-column-properties style:column-width="11.8cm"/></style:style>
+    <style:style style:name="C3" style:family="table-column"><style:table-column-properties style:column-width="3.6cm"/></style:style>
+    <style:style style:name="P1" style:family="table-column"><style:table-column-properties style:column-width="1.5cm"/></style:style>
+    <style:style style:name="P2" style:family="table-column"><style:table-column-properties style:column-width="5.6cm"/></style:style>
+    <style:style style:name="P3" style:family="table-column"><style:table-column-properties style:column-width="1.8cm"/></style:style>
+    <style:style style:name="P4" style:family="table-column"><style:table-column-properties style:column-width="1.2cm"/></style:style>
+    <style:style style:name="P5" style:family="table-column"><style:table-column-properties style:column-width="1.8cm"/></style:style>
+    <style:style style:name="P6" style:family="table-column"><style:table-column-properties style:column-width="6.3cm"/></style:style>
+    <style:style style:name="L1" style:family="table-column"><style:table-column-properties style:column-width="2.8cm"/></style:style>
+    <style:style style:name="L2" style:family="table-column"><style:table-column-properties style:column-width="15.4cm"/></style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="0.06cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="ThickCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="1.5pt solid #111111" fo:padding="0.07cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="NoBorder" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0.04cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="RowTall" style:family="table-row">
+      <style:table-row-properties style:min-row-height="2.2cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="PageStart">避難者カード(表面)</text:p>
+      <text:p text:style-name="Body">【様式－７】</text:p>
+      <text:p text:style-name="Body"><text:span text:style-name="Bold">記入日</text:span>　　　年　　　月　　　日　　世帯ごとに記載してください。</text:p>
+      <table:table table:name="FrontTop" table:style-name="Table">
+        <table:table-column table:style-name="C1"/>
+        <table:table-column table:style-name="C2"/>
+        <table:table-column table:style-name="C3"/>
+        <table:table-row>
+          <table:table-cell table:style-name="ThickCell"><text:p text:style-name="Center"><text:span text:style-name="Bold">避難日時</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">年　　　月　　　日　　　時ごろ</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">居住組－　No</text:p><text:p text:style-name="Center">－</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="ThickCell"><text:p text:style-name="Center"><text:span text:style-name="Bold">避難場所</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">避難所 ・ 在宅 ・ その他 （　　　　　　　　　　　　　　　　）</text:p><text:p text:style-name="Small">※車中泊避難者は駐車場所も記載してください。</text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="ThickCell"><text:p text:style-name="Center"><text:span text:style-name="Bold">自治会名</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body">※自治会未加入の方は、「未加入」と記載</text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="Cell"/>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="Household" table:style-name="Table">
+        <table:table-column table:style-name="P1"/>
+        <table:table-column table:style-name="P2"/>
+        <table:table-column table:style-name="P3"/>
+        <table:table-column table:style-name="P4"/>
+        <table:table-column table:style-name="P5"/>
+        <table:table-column table:style-name="P6"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">避難所にいる方に○</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">フリガナ</text:span></text:p><text:p text:style-name="Center"><text:span text:style-name="Bold">氏　名</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">年齢</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">性別</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">続柄</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">備考※要配慮者の番号と特に配慮を要することを記載</text:span></text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">(代表者)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">歳</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">男・女・他</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">歳</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">男・女・他</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">歳</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">男・女・他</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">歳</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">男・女・他</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">歳</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">男・女・他</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="FrontDetails" table:style-name="Table">
+        <table:table-column table:style-name="L1"/><table:table-column table:style-name="L2"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">住　所</text:span></text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">〒</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">代表者</text:span></text:p><text:p text:style-name="Center"><text:span text:style-name="Bold">電話番号</text:span></text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">（　　　　　　　　　　　　　　）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">ペットの有無</text:span></text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">有　　　・　　　無　　　※「有」の場合はペット登録票も記載してください。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">要配慮者</span></text:p><text:p text:style-name="Small">※該当する方は、備考欄に番号を記載</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">1 妊産婦　　2 乳幼児　　3 障害者（　　　　　　）</text:p><text:p text:style-name="Body">4 要介護者　　5 医療機器利用者（　　　　　　）</text:p><text:p text:style-name="Body">6 アレルギー（　　　　　　）　　7 外国人（国籍　　　　　　　　）</text:p><text:p text:style-name="Body">8 その他（　　　　　　　　　　　　　　　　　　　　　　　　　）</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Small">※　要配慮者とは、妊産婦、乳幼児、障害者など避難生活に特別な配慮が必要な方を指します。</text:p>
+      <text:p text:style-name="Center">1</text:p>
+      <text:p text:style-name="PageStart">避難者カード(裏面)</text:p>
+      <text:p text:style-name="Body">【様式－７】</text:p>
+      <text:p text:style-name="Subhead">裏面の記載は、状況が落ち着いてからでかまいません。</text:p>
+      <table:table table:name="BackDisclosure" table:style-name="Table">
+        <table:table-column table:style-name="L1"/><table:table-column table:style-name="L2"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="ThickCell"><text:p text:style-name="Center"><text:span text:style-name="Bold">安否確認のための情報開示（「希望する」「希望しない」のどちらかに○をつけてください。）</text:span></text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">ホームページや報道機関などを通じた避難者情報の公開を希望しますか？</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">希望する・希望しない</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">親族・同居者・知人からの安否の問い合わせに対して避難者情報の提供を希望しますか？</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">希望する・希望しない</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table table:name="BackDamage" table:style-name="Table">
+        <table:table-column table:style-name="L1"/><table:table-column table:style-name="L2"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">住居被害</text:span></text:p><text:p text:style-name="Small">※該当するものに○をつけてください。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">有　・　無　　※「有」の場合は住居の被害状況を詳細に記載してください。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body">※記載例</text:p><text:p text:style-name="Body">・住居が倒壊しており、当分住める状況にない。</text:p><text:p text:style-name="Body">・室内を片付ければ住居に戻れる。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">停電　　　断水　　　ガス停止　　　電話不通</text:p><text:p text:style-name="Body">その他（　　　　　　　　　　　　　　　　）</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table:table xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0"/>
+      <table:table table:name="BackHealth" table:style-name="Table">
+        <table:table-column table:style-name="L1"/><table:table-column table:style-name="L2"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="ThickCell"><text:p text:style-name="Body"><text:span text:style-name="Bold">傷病者情報</text:span></text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Body">名前と具体的な負傷･疾病の状況を記載してください。</text:p><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body"> </text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">収容場所</text:p><text:p text:style-name="Center">（移送先）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">収容場所情報</text:p><text:p text:style-name="Center">（移送先住所）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="ThickCell"><text:p text:style-name="Body"><text:span text:style-name="Bold">その他特記事項　（資格などをお持ちで協力できる方は、氏名と内容を記載してください。）</text:span></text:p><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body"> </text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">＜避難所運営委員会記入欄＞</text:p>
+      <table:table table:name="Committee" table:style-name="Table">
+        <table:table-column table:style-name="L1"/><table:table-column table:style-name="L2"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body"> </text:p><text:p text:style-name="Body"> </text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">退所年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">年　　　月　　　日</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Center">退　所　先</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Body">　　　　　　　　　　　　　　電話</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Small">※避難所の円滑な運営のため、避難者（在宅避難・車中泊避難含む）の皆様にも、可能な範囲で避難所運営にご協力いただくこととしております。</text:p>
+      <text:p text:style-name="Center">2</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+34,641

@@ -1,0 +1,901 @@
+ties"/>
+        </rng:optional>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="style-tab-stop">
+    <rng:element name="style:tab-stop">
+      <rng:ref name="style-tab-stop-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-tab-stop-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:position">
+        <rng:ref name="length"/>
+      </rng:attribute>
+      <rng:choice>
+        <rng:optional>
+          <rng:attribute name="style:type">
+            <rng:choice>
+              <rng:value>left</rng:value>
+              <rng:value>center</rng:value>
+              <rng:value>right</rng:value>
+            </rng:choice>
+          </rng:attribute>
+        </rng:optional>
+        <rng:group>
+          <rng:attribute name="style:type">
+            <rng:value>char</rng:value>
+          </rng:attribute>
+          <rng:ref name="style-tab-stop-char-attlist"/>
+        </rng:group>
+      </rng:choice>
+      <rng:optional>
+        <rng:attribute name="style:leader-type">
+          <rng:ref name="lineType"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:leader-style">
+          <rng:ref name="lineStyle"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:leader-width">
+          <rng:ref name="lineWidth"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:leader-color">
+          <rng:choice>
+            <rng:value>font-color</rng:value>
+            <rng:ref name="color"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:leader-text">
+          <rng:ref name="character"/>
+        </rng:attribute>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:display-member-mode">
+        <rng:choice>
+          <rng:value>from-top</rng:value>
+          <rng:value>from-bottom</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-data-pilot-field">
+    <rng:element name="table:data-pilot-field">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-page-order">
+          <rng:choice>
+            <rng:value>ttb</rng:value>
+            <rng:value>ltr</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:first-page-number">
+
+exec
+/usr/bin/zsh -lc "sed -n '7660,7690p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8270,8305p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7930,7960p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '15935,15980p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '14295,14315p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '17945,17975p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13030,13295p' odf_spec/OpenDocument-v1.4-schema.rng | rg -n \"fo:border|fo:padding|fo:vertical-align|style:column-width|fo:break-before|fo:text-align|fo:font-size|fo:font-family|fo:margin-top|fo:margin-bottom|style:row-height|fo:keep-together|style:width\"" in /tmp/fb_codex_odt_34j5_m3n
+ succeeded in 0ms:
+  </rng:define>
+  <rng:define name="office-annotation-end">
+    <rng:element name="office:annotation-end">
+      <rng:ref name="office-annotation-end-attlist"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-annotation-end-attlist">
+    <rng:ref name="common-office-annotation-name-attlist"/>
+  </rng:define>
+  <rng:define name="office-automatic-styles">
+    <rng:optional>
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body">
+    <rng:element name="office:body">
+      <rng:ref name="office-body-content"/>
+    </rng:element>
+  </rng:define>
+  </rng:define>
+  <rng:define name="office-spreadsheet-content-prelude">
+    <rng:optional>
+      <rng:ref name="table-tracked-changes"/>
+    </rng:optional>
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+  </rng:define>
+  <rng:define name="office-image-content-main">
+    <rng:ref name="draw-frame"/>
+  </rng:define>
+  <rng:define name="office-image-content-prelude">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="office-master-styles">
+    <rng:optional>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta">
+    <rng:optional>
+      <rng:element name="office:meta">
+        <rng:ref name="office-meta-content-strict"/>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-page-continuation-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:select-page">
+        <rng:choice>
+          <rng:value>previous</rng:value>
+          <rng:value>next</rng:value>
+        </rng:choice>
+      </rng:attribute>
+141:        <rng:attribute name="style:column-width">
+173:        <rng:attribute name="style:width">
+244:        <rng:attribute name="style:row-height">
+261:        <rng:attribute name="fo:keep-together">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Normal" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.08in" fo:margin-bottom="0.08in"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="12pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" style:print-orientation="portrait" fo:margin-left="0.65in" fo:margin-right="0.65in" fo:margin-top="0.55in" fo:margin-bottom="0.55in"/>
+    </style:page-layout>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.45in" fo:margin-bottom="0.45in"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PageTitle" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:break-before="page" fo:margin-top="0.35in" fo:margin-bottom="0.45in"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.08in" fo:margin-bottom="0.08in"/>
+    </style:style>
+    <style:style style:name="Indent" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.15in" fo:margin-top="0.06in" fo:margin-bottom="0.06in"/>
+    </style:style>
+    <style:style style:name="BreakStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04in" fo:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin-top="0in" fo:margin-bottom="0in"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04in" fo:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0in" fo:margin-bottom="0in"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="CellRight" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04in" fo:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="right" fo:margin-top="0in" fo:margin-bottom="0in"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="RoleCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04in" fo:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0in" fo:margin-bottom="0in"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="ColRole" style:family="table-column">
+      <style:table-column-properties style:column-width="1.08in"/>
+    </style:style>
+    <style:style style:name="ColLabel" style:family="table-column">
+      <style:table-column-properties style:column-width="0.92in"/>
+    </style:style>
+    <style:style style:name="ColEntry" style:family="table-column">
+      <style:table-column-properties style:column-width="4.95in"/>
+    </style:style>
+    <style:style style:name="ColLand1" style:family="table-column">
+      <style:table-column-properties style:column-width="0.70in"/>
+    </style:style>
+    <style:style style:name="ColLand2" style:family="table-column">
+      <style:table-column-properties style:column-width="0.76in"/>
+    </style:style>
+    <style:style style:name="ColLand3" style:family="table-column">
+      <style:table-column-properties style:column-width="0.66in"/>
+    </style:style>
+    <style:style style:name="ColLand4" style:family="table-column">
+      <style:table-column-properties style:column-width="0.58in"/>
+    </style:style>
+    <style:style style:name="ColLand5" style:family="table-column">
+      <style:table-column-properties style:column-width="0.62in"/>
+    </style:style>
+    <style:style style:name="ColUse1" style:family="table-column">
+      <style:table-column-properties style:column-width="0.76in"/>
+    </style:style>
+    <style:style style:name="ColUse2" style:family="table-column">
+      <style:table-column-properties style:column-width="0.82in"/>
+    </style:style>
+    <style:style style:name="ColUse3" style:family="table-column">
+      <style:table-column-properties style:column-width="0.90in"/>
+    </style:style>
+    <style:style style:name="ColLaw" style:family="table-column">
+      <style:table-column-properties style:column-width="1.08in"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Title">農地法第 18 条第 6 項の規定による通知書</text:p>
+      <text:p>大宜味村農業委員会会長　殿</text:p>
+      <text:p text:style-name="CellRight">令和　　年　　月　　日</text:p>
+      <table:table table:name="通知書当事者">
+        <table:table-column table:style-name="ColRole"/>
+        <table:table-column table:style-name="ColLabel"/>
+        <table:table-column table:style-name="ColEntry"/>
+        <table:table-row>
+          <table:table-cell table:style-name="RoleCell" table:number-rows-spanned="3"><text:p>所有者<br/>（貸人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>連絡先</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="RoleCell" table:number-rows-spanned="3"><text:p>耕作者<br/>（借人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>連絡先</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+      </table:table>
+      <text:p>下記の農地について貸借の解約をしたので、農地法第 18 条第 6 項の規定に</text:p>
+      <text:p>より通知します。</text:p>
+      <text:p text:style-name="Center">記</text:p>
+      <text:p>1．土地の所在地・地番・地目・面積及び利用権の内容</text:p>
+      <table:table table:name="通知書土地">
+        <table:table-column table:style-name="ColLand1"/>
+        <table:table-column table:style-name="ColLand2"/>
+        <table:table-column table:style-name="ColLand3"/>
+        <table:table-column table:style-name="ColLand4"/>
+        <table:table-column table:style-name="ColLand5"/>
+        <table:table-column table:style-name="ColUse1"/>
+        <table:table-column table:style-name="ColUse2"/>
+        <table:table-column table:style-name="ColUse3"/>
+        <table:table-column table:style-name="ColLaw"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="5"><text:p>土地</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="3"><text:p>利　　　用　　　権</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-rows-spanned="2"><text:p>当事者の法律関係</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>大　字</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>小　字</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>地　番</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>地　目</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>面　積（m²）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>種　類</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>始　期</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>終　期</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p/>
+      <text:p>1．解約の理由　：</text:p>
+      <text:p>2．合意解約の合意が成立した日　　　　　　　　令和　　年　　月　　日</text:p>
+      <text:p>3．合意による解約をした日　　　　　　　　　　令和　　年　　月　　日</text:p>
+      <text:p>4．土地の引渡の時期　　　　　　　　　　　　　令和　　年　　月　　日</text:p>
+      <text:p>5．その他参考となるべき事項　：　無し</text:p>
+      <text:p/>
+      <text:p>※添付書類：合意解約書の写し、農地利用集積計画の写し</text:p>
+
+      <text:p text:style-name="PageTitle">合意解約書</text:p>
+      <text:p>下記表示の農地は　　　　の所有であり　　　　はこれを耕作目</text:p>
+      <text:p>的で貸借し農地として供してきたが、この度合意により解約が成立しました。</text:p>
+      <text:p>当事者間とも異議なく承諾し土地の引き渡しを行ない、この解約について</text:p>
+      <text:p>紛争等は一切ありません。</text:p>
+      <text:p text:style-name="Center">記</text:p>
+      <text:p>1．土地の所在地・地番・地目・面積及び利用権の内容</text:p>
+      <table:table table:name="合意書土地">
+        <table:table-column table:style-name="ColLand1"/>
+        <table:table-column table:style-name="ColLand2"/>
+        <table:table-column table:style-name="ColLand3"/>
+        <table:table-column table:style-name="ColLand4"/>
+        <table:table-column table:style-name="ColLand5"/>
+        <table:table-column table:style-name="ColUse1"/>
+        <table:table-column table:style-name="ColUse2"/>
+        <table:table-column table:style-name="ColUse3"/>
+        <table:table-column table:style-name="ColLaw"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="5"><text:p>土地</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="3"><text:p>利　　　用　　　権</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-rows-spanned="2"><text:p>当事者の法律関係</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>大　字</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>小　字</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>地　番</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>地　目</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>面　積（m²）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>種　類</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>始　期</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>終　期</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>農業経営基盤強化促進法</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p/>
+      <text:p>2．所有者および耕作者</text:p>
+      <table:table table:name="合意書当事者">
+        <table:table-column table:style-name="ColRole"/>
+        <table:table-column table:style-name="ColLabel"/>
+        <table:table-column table:style-name="ColEntry"/>
+        <table:table-row>
+          <table:table-cell table:style-name="RoleCell" table:number-rows-spanned="3"><text:p>所有者<br/>（貸人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellRight"><text:p>印</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>連絡先</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="RoleCell" table:number-rows-spanned="3"><text:p>耕作者<br/>（借人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellRight"><text:p>印</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>連絡先</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+      </table:table>
+      <text:p/>
+      <text:p>令和　　年　　月　　日</text:p>
+      <text:p/>
+      <text:p>なお、後日の証として本書を２部作成し、賃貸人、賃借人各１部を保持し、その写しを。</text:p>
+      <text:p>農業委員会に提出する。</text:p>
+
+      <text:p text:style-name="PageTitle">合意解約書</text:p>
+      <text:p>下記表示の農地は　　　　の所有であり　　　　はこれを耕作目</text:p>
+      <text:p>的で貸借し農地として供してきたが、この度合意により解約が成立しました。</text:p>
+      <text:p>当事者間とも異議なく承諾し土地の引き渡しを行ない、この解約について</text:p>
+      <text:p>紛争等は一切ありません。</text:p>
+      <text:p text:style-name="Center">記</text:p>
+      <text:p>1．土地の所在地・地番・地目・面積及び利用権の内容</text:p>
+      <table:table table:name="合意書土地（控）">
+        <table:table-column table:style-name="ColLand1"/>
+        <table:table-column table:style-name="ColLand2"/>
+        <table:table-column table:style-name="ColLand3"/>
+        <table:table-column table:style-name="ColLand4"/>
+        <table:table-column table:style-name="ColLand5"/>
+        <table:table-column table:style-name="ColUse1"/>
+        <table:table-column table:style-name="ColUse2"/>
+        <table:table-column table:style-name="ColUse3"/>
+        <table:table-column table:style-name="ColLaw"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="5"><text:p>土地</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="3"><text:p>利　　　用　　　権</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-rows-spanned="2"><text:p>当事者の法律関係</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>大　字</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>小　字</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>地　番</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>地　目</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>面　積（m²）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>種　類</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>始　期</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>終　期</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>農業経営基盤強化促進法</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:table-cell table:style-name="Cell"/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p/>
+      <text:p>2．所有者および耕作者</text:p>
+      <table:table table:name="合意書当事者（控）">
+        <table:table-column table:style-name="ColRole"/>
+        <table:table-column table:style-name="ColLabel"/>
+        <table:table-column table:style-name="ColEntry"/>
+        <table:table-row>
+          <table:table-cell table:style-name="RoleCell" table:number-rows-spanned="3"><text:p>所有者<br/>（貸人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellRight"><text:p>印</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>連絡先</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="RoleCell" table:number-rows-spanned="3"><text:p>耕作者<br/>（借人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellRight"><text:p>印</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>連絡先</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"/>
+        </table:table-row>
+      </table:table>
+      <text:p/>
+      <text:p>令和　　年　　月　　日</text:p>
+      <text:p/>
+      <text:p>なお、後日の証として本書を２部作成し、賃貸人、賃借人各１部を保持し、その写しを。</text:p>
+      <text:p>農業委員会に提出する。</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+68,280

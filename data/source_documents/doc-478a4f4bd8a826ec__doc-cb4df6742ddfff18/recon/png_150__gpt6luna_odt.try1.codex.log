@@ -1,0 +1,974 @@
+     <rng:optional>
+7948-            <rng:ref name="draw-layer-set"/>
+7949-          </rng:optional>
+7950-        </rng:interleave>
+7951-      </rng:element>
+7952-    </rng:optional>
+7953-  </rng:define>
+7954-  <rng:define name="office-meta">
+7955-    <rng:optional>
+7956-      <rng:element name="office:meta">
+7957-        <rng:ref name="office-meta-content-strict"/>
+7958-      </rng:element>
+7959-    </rng:optional>
+7960-  </rng:define>
+7961-  <rng:define name="office-meta-content-strict">
+7962-    <rng:zeroOrMore>
+7963-      <rng:ref name="office-meta-data"/>
+7964-    </rng:zeroOrMore>
+7965-  </rng:define>
+7966-  <rng:define name="office-meta-data">
+7967-    <rng:choice>
+7968-      <rng:element name="meta:generator">
+7969-        <rng:ref name="string"/>
+7970-      </rng:element>
+7971-      <rng:element name="dc:title">
+7972-        <rng:ref name="string"/>
+7973-      </rng:element>
+7974-      <rng:element name="dc:description">
+7975-        <rng:ref name="string"/>
+7976-      </rng:element>
+7977-      <rng:element name="dc:subject">
+7978-        <rng:ref name="string"/>
+7979-      </rng:element>
+7980-      <rng:element name="meta:keyword">
+7981-        <rng:ref name="string"/>
+7982-      </rng:element>
+7983-      <rng:element name="meta:initial-creator">
+7984-        <rng:ref name="string"/>
+7985-      </rng:element>
+7986-      <rng:ref name="dc-creator"/>
+7987-      <rng:element name="meta:printed-by">
+7988-        <rng:ref name="string"/>
+7989-      </rng:element>
+7990-      <rng:element name="meta:creation-date">
+7991-        <rng:ref name="dateTime"/>
+7992-      </rng:element>
+--
+8278:  <rng:define name="office-styles">
+8279-    <rng:optional>
+8280-      <rng:element name="office:styles">
+8281-        <rng:interleave>
+8282-          <rng:ref name="styles"/>
+8283-          <rng:zeroOrMore>
+8284-            <rng:ref name="style-default-style"/>
+8285-          </rng:zeroOrMore>
+8286-          <rng:optional>
+8287-            <rng:ref name="style-default-page-layout"/>
+8288-          </rng:optional>
+8289-          <rng:optional>
+8290-            <rng:ref name="text-outline-style"/>
+8291-          </rng:optional>
+8292-          <rng:zeroOrMore>
+8293-            <rng:ref name="text-notes-configuration"/>
+8294-          </rng:zeroOrMore>
+8295-          <rng:optional>
+8296-            <rng:ref name="text-bibliography-configuration"/>
+8297-          </rng:optional>
+8298-          <rng:optional>
+8299-            <rng:ref name="text-linenumbering-configuration"/>
+8300-          </rng:optional>
+8301-          <rng:zeroOrMore>
+8302-            <rng:ref name="draw-gradient"/>
+8303-          </rng:zeroOrMore>
+8304-          <rng:zeroOrMore>
+8305-            <rng:ref name="svg-linearGradient"/>
+8306-          </rng:zeroOrMore>
+8307-          <rng:zeroOrMore>
+8308-            <rng:ref name="svg-radialGradient"/>
+8309-          </rng:zeroOrMore>
+8310-          <rng:zeroOrMore>
+8311-            <rng:ref name="draw-hatch"/>
+8312-          </rng:zeroOrMore>
+8313-          <rng:zeroOrMore>
+8314-            <rng:ref name="draw-fill-image"/>
+8315-          </rng:zeroOrMore>
+8316-          <rng:zeroOrMore>
+8317-            <rng:ref name="draw-marker"/>
+8318-          </rng:zeroOrMore>
+8319-          <rng:zeroOrMore>
+8320-            <rng:ref name="draw-stroke-dash"/>
+8321-          </rng:zeroOrMore>
+8322-          <rng:zeroOrMore>
+8323-            <rng:ref name="draw-opacity"/>
+8324-          </rng:zeroOrMore>
+8325-          <rng:zeroOrMore>
+8326-            <rng:ref name="style-presentation-page-layout"/>
+8327-          </rng:zeroOrMore>
+8328-          <rng:zeroOrMore>
+8329-            <rng:ref name="table-table-template"/>
+8330-          </rng:zeroOrMore>
+8331-        </rng:interleave>
+8332-      </rng:element>
+8333-    </rng:optional>
+--
+8352:  <rng:define name="office-text-content-main">
+8353-    <rng:choice>
+8354-      <rng:zeroOrMore>
+8355-        <rng:ref name="text-content"/>
+8356-      </rng:zeroOrMore>
+8357-      <rng:group>
+8358-        <rng:ref name="text-page-sequence"/>
+8359-        <rng:zeroOrMore>
+8360-          <rng:choice>
+8361-            <rng:ref name="shape"/>
+8362-          </rng:choice>
+8363-        </rng:zeroOrMore>
+8364-      </rng:group>
+8365-    </rng:choice>
+8366-  </rng:define>
+8367:  <rng:define name="office-text-content-prelude">
+8368-    <rng:ref name="office-forms"/>
+8369-    <rng:ref name="text-tracked-changes"/>
+8370-    <rng:ref name="text-decls"/>
+8371-    <rng:ref name="table-decls"/>
+8372-  </rng:define>
+8373-  <rng:define name="paragraph-attrs">
+8374-    <rng:interleave>
+8375-      <rng:optional>
+8376-        <rng:attribute name="text:style-name">
+8377-          <rng:ref name="styleNameRef"/>
+8378-        </rng:attribute>
+8379-      </rng:optional>
+8380-      <rng:optional>
+8381-        <rng:attribute name="text:class-names">
+8382-          <rng:ref name="styleNameRefs"/>
+8383-        </rng:attribute>
+8384-      </rng:optional>
+8385-      <rng:optional>
+8386-        <rng:attribute name="text:cond-style-name">
+8387-          <rng:ref name="styleNameRef"/>
+8388-        </rng:attribute>
+8389-      </rng:optional>
+8390-      <rng:optional>
+8391-        <rng:group>
+8392-          <rng:ref name="xml-id"/>
+8393-          <rng:optional>
+8394-            <rng:attribute name="text:id">
+8395-              <rng:ref name="NCName"/>
+8396-            </rng:attribute>
+8397-          </rng:optional>
+8398-        </rng:group>
+8399-      </rng:optional>
+8400-      <rng:optional>
+8401-        <rng:ref name="common-in-content-meta-attlist"/>
+8402-      </rng:optional>
+8403-    </rng:interleave>
+8404-  </rng:define>
+8405-  <rng:define name="paragraph-content">
+8406-    <rng:choice>
+8407-      <rng:text/>
+8408-      <rng:element name="text:s">
+8409-        <rng:optional>
+8410-          <rng:attribute name="text:c">
+8411-            <rng:ref name="nonNegativeInteger"/>
+8412-          </rng:attribute>
+8413-        </rng:optional>
+8414-      </rng:element>
+8415-      <rng:element name="text:tab">
+8416-        <rng:ref name="text-tab-attr"/>
+8417-      </rng:element>
+8418-      <rng:element name="text:line-break">
+8419-        <rng:empty/>
+8420-      </rng:element>
+8421-      <rng:ref name="text-soft-page-break"/>
+8422-      <rng:element name="text:span">
+--
+12180:  <rng:define name="style-master-page-attlist">
+12181-    <rng:interleave>
+12182-      <rng:attribute name="style:name">
+12183-        <rng:ref name="styleName"/>
+12184-      </rng:attribute>
+12185-      <rng:optional>
+12186-        <rng:attribute name="style:display-name">
+12187-          <rng:ref name="string"/>
+12188-        </rng:attribute>
+12189-      </rng:optional>
+12190-      <rng:attribute name="style:page-layout-name">
+12191-        <rng:ref name="styleNameRef"/>
+12192-      </rng:attribute>
+12193-      <rng:optional>
+12194-        <rng:attribute name="draw:style-name">
+12195-          <rng:ref name="styleNameRef"/>
+12196-        </rng:attribute>
+12197-      </rng:optional>
+12198-      <rng:optional>
+12199-        <rng:attribute name="style:next-style-name">
+12200-          <rng:ref name="styleNameRef"/>
+12201-        </rng:attribute>
+12202-      </rng:optional>
+12203-    </rng:interleave>
+12204-  </rng:define>
+12205-  <rng:define name="style-num-letter-sync-attlist">
+12206-    <rng:optional>
+12207-      <rng:attribute name="style:num-letter-sync">
+12208-        <rng:ref name="boolean"/>
+12209-      </rng:attribute>
+12210-    </rng:optional>
+12211-  </rng:define>
+12212-  <rng:define name="style-page-layout">
+12213-    <rng:element name="style:page-layout">
+12214-      <rng:ref name="style-page-layout-attlist"/>
+12215-      <rng:ref name="style-page-layout-content"/>
+12216-    </rng:element>
+12217-  </rng:define>
+12218-  <rng:define name="style-page-layout-attlist">
+12219-    <rng:interleave>
+12220-      <rng:attribute name="style:name">
+12221-        <rng:ref name="styleName"/>
+12222-      </rng:attribute>
+12223-      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+12224-      <rng:optional>
+12225-        <rng:attribute name="style:page-usage">
+12226-          <rng:choice>
+12227-            <rng:value>all</rng:value>
+12228-            <rng:value>left</rng:value>
+12229-            <rng:value>right</rng:value>
+12230-            <rng:value>mirrored</rng:value>
+12231-          </rng:choice>
+12232-        </rng:attribute>
+12233-      </rng:optional>
+12234-    </rng:interleave>
+12235-  </rng:define>
+--
+12252:  <rng:define name="style-page-layout-properties-attlist">
+12253-    <rng:interleave>
+12254-      <rng:optional>
+12255-        <rng:attribute name="fo:page-width">
+12256-          <rng:ref name="length"/>
+12257-        </rng:attribute>
+12258-      </rng:optional>
+12259-      <rng:optional>
+12260-        <rng:attribute name="fo:page-height">
+12261-          <rng:ref name="length"/>
+12262-        </rng:attribute>
+12263-      </rng:optional>
+12264-      <rng:optional>
+12265-        <rng:ref name="common-num-format-attlist"/>
+12266-      </rng:optional>
+12267-      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+12268-      <rng:optional>
+12269-        <rng:attribute name="style:paper-tray-name">
+12270-          <rng:choice>
+12271-            <rng:value>default</rng:value>
+12272-            <rng:ref name="string"/>
+12273-          </rng:choice>
+12274-        </rng:attribute>
+12275-      </rng:optional>
+12276-      <rng:optional>
+12277-        <rng:attribute name="style:print-orientation">
+12278-          <rng:choice>
+12279-            <rng:value>portrait</rng:value>
+12280-            <rng:value>landscape</rng:value>
+12281-          </rng:choice>
+12282-        </rng:attribute>
+12283-      </rng:optional>
+12284-      <rng:ref name="common-horizontal-margin-attlist"/>
+12285-      <rng:ref name="common-vertical-margin-attlist"/>
+12286-      <rng:ref name="common-margin-attlist"/>
+12287-      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+12288-      <rng:optional>
+12289-        <rng:attribute name="style:margin-gutter">
+12290-         <rng:ref name="nonNegativeLength"/>
+12291-        </rng:attribute>
+12292-      </rng:optional>
+12293-      <rng:ref name="common-border-attlist"/>
+12294-      <rng:ref name="common-border-line-width-attlist"/>
+12295-      <rng:ref name="common-padding-attlist"/>
+12296-      <rng:ref name="common-shadow-attlist"/>
+12297-      <rng:ref name="common-background-color-attlist"/>
+12298-      <rng:optional>
+12299-        <rng:attribute name="style:register-truth-ref-style-name">
+12300-          <rng:ref name="styleNameRef"/>
+12301-        </rng:attribute>
+12302-      </rng:optional>
+12303-      <rng:optional>
+12304-        <rng:attribute name="style:print">
+12305-          <rng:list>
+12306-            <rng:zeroOrMore>
+12307-              <rng:choice>
+--
+12456:  <rng:define name="style-paragraph-properties-attlist">
+12457-    <rng:interleave>
+12458-      <rng:optional>
+12459-        <rng:attribute name="style:contextual-spacing">
+12460-          <rng:ref name="boolean"/>
+12461-        </rng:attribute>
+12462-      </rng:optional>
+12463-      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+12464-      <rng:optional>
+12465-        <rng:attribute name="fo:line-height">
+12466-          <rng:choice>
+12467-            <rng:value>normal</rng:value>
+12468-            <rng:ref name="nonNegativeLength"/>
+12469-            <rng:ref name="percent"/>
+12470-          </rng:choice>
+12471-        </rng:attribute>
+12472-      </rng:optional>
+12473-      <rng:optional>
+12474-        <rng:attribute name="style:line-height-at-least">
+12475-          <rng:ref name="nonNegativeLength"/>
+12476-        </rng:attribute>
+12477-      </rng:optional>
+12478-      <rng:optional>
+12479-        <rng:attribute name="style:line-spacing">
+12480-          <rng:ref name="length"/>
+12481-        </rng:attribute>
+12482-      </rng:optional>
+12483-      <rng:optional>
+12484-        <rng:attribute name="style:font-independent-line-spacing">
+12485-          <rng:ref name="boolean"/>
+12486-        </rng:attribute>
+12487-      </rng:optional>
+12488-      <rng:ref name="common-text-align"/>
+12489-      <rng:optional>
+12490-        <rng:attribute name="fo:text-align-last">
+12491-          <rng:choice>
+12492-            <rng:value>start</rng:value>
+12493-            <rng:value>center</rng:value>
+12494-            <rng:value>justify</rng:value>
+12495-          </rng:choice>
+12496-        </rng:attribute>
+12497-      </rng:optional>
+12498-      <rng:optional>
+12499-        <rng:attribute name="style:justify-single-word">
+12500-          <rng:ref name="boolean"/>
+12501-        </rng:attribute>
+12502-      </rng:optional>
+12503-      <rng:optional>
+12504-        <rng:attribute name="fo:keep-together">
+12505-          <rng:choice>
+12506-            <rng:value>auto</rng:value>
+12507-            <rng:value>always</rng:value>
+12508-          </rng:choice>
+12509-        </rng:attribute>
+12510-      </rng:optional>
+12511-      <rng:optional>
+--
+13313:  <rng:define name="style-text-properties-attlist">
+13314-    <rng:interleave>
+13315-      <rng:optional>
+13316-        <rng:attribute name="fo:font-variant">
+13317-          <rng:ref name="fontVariant"/>
+13318-        </rng:attribute>
+13319-      </rng:optional>
+13320-      <rng:optional>
+13321-        <rng:attribute name="fo:text-transform">
+13322-          <rng:choice>
+13323-            <rng:value>none</rng:value>
+13324-            <rng:value>lowercase</rng:value>
+13325-            <rng:value>uppercase</rng:value>
+13326-            <rng:value>capitalize</rng:value>
+13327-          </rng:choice>
+13328-        </rng:attribute>
+13329-      </rng:optional>
+13330-      <rng:optional>
+13331-        <rng:attribute name="fo:color">
+13332-          <rng:ref name="color"/>
+13333-        </rng:attribute>
+13334-      </rng:optional>
+13335-      <rng:optional>
+13336-        <rng:attribute name="style:use-window-font-color">
+13337-          <rng:ref name="boolean"/>
+13338-        </rng:attribute>
+13339-      </rng:optional>
+13340-      <rng:optional>
+13341-        <rng:attribute name="style:text-outline">
+13342-          <rng:ref name="boolean"/>
+13343-        </rng:attribute>
+13344-      </rng:optional>
+13345-      <rng:optional>
+13346-        <rng:attribute name="style:text-line-through-type">
+13347-          <rng:ref name="lineType"/>
+13348-        </rng:attribute>
+13349-      </rng:optional>
+13350-      <rng:optional>
+13351-        <rng:attribute name="style:text-line-through-style">
+13352-          <rng:ref name="lineStyle"/>
+13353-        </rng:attribute>
+13354-      </rng:optional>
+13355-      <rng:optional>
+13356-        <rng:attribute name="style:text-line-through-width">
+13357-          <rng:ref name="lineWidth"/>
+13358-        </rng:attribute>
+13359-      </rng:optional>
+13360-      <rng:optional>
+13361-        <rng:attribute name="style:text-line-through-color">
+13362-          <rng:choice>
+13363-            <rng:value>font-color</rng:value>
+13364-            <rng:ref name="color"/>
+13365-          </rng:choice>
+13366-        </rng:attribute>
+13367-      </rng:optional>
+13368-      <rng:optional>
+--
+17949:  <rng:define name="text-p">
+17950-    <rng:element name="text:p">
+17951-      <rng:ref name="paragraph-attrs"/>
+17952-      <rng:zeroOrMore>
+17953-        <rng:ref name="paragraph-content-or-hyperlink"/>
+17954-      </rng:zeroOrMore>
+17955-    </rng:element>
+17956-  </rng:define>
+17957-  <rng:define name="text-page">
+17958-    <rng:element name="text:page">
+17959-      <rng:ref name="text-page-attlist"/>
+17960-      <rng:empty/>
+17961-    </rng:element>
+17962-  </rng:define>
+17963-  <rng:define name="text-page-attlist">
+17964-    <rng:attribute name="text:master-page-name">
+17965-      <rng:ref name="styleNameRef"/>
+17966-    </rng:attribute>
+17967-  </rng:define>
+17968-  <rng:define name="text-page-continuation-attlist">
+17969-    <rng:interleave>
+17970-      <rng:attribute name="text:select-page">
+17971-        <rng:choice>
+17972-          <rng:value>previous</rng:value>
+17973-          <rng:value>next</rng:value>
+17974-        </rng:choice>
+17975-      </rng:attribute>
+17976-      <rng:optional>
+17977-        <rng:attribute name="text:string-value">
+17978-          <rng:ref name="string"/>
+17979-        </rng:attribute>
+17980-      </rng:optional>
+17981-    </rng:interleave>
+17982-  </rng:define>
+17983-  <rng:define name="text-page-number-attlist">
+17984-    <rng:interleave>
+17985-      <rng:interleave>
+17986-        <rng:ref name="common-field-num-format-attlist"/>
+17987-        <rng:ref name="common-field-fixed-attlist"/>
+17988-      </rng:interleave>
+17989-      <rng:optional>
+17990-        <rng:attribute name="text:page-adjust">
+17991-          <rng:ref name="integer"/>
+17992-        </rng:attribute>
+17993-      </rng:optional>
+17994-      <rng:optional>
+17995-        <rng:attribute name="text:select-page">
+17996-          <rng:choice>
+17997-            <rng:value>previous</rng:value>
+17998-            <rng:value>current</rng:value>
+17999-            <rng:value>next</rng:value>
+18000-          </rng:choice>
+18001-        </rng:attribute>
+18002-      </rng:optional>
+18003-    </rng:interleave>
+18004-  </rng:define>
+
+exec
+/usr/bin/zsh -lc "rg -n -A140 'define name=\"style-text-properties-attlist\"' odf_spec/OpenDocument-v1.4-schema.rng; rg -n -A40 'define name=\"common-text-align\"|define name=\"common-break-attlist\"|define name=\"style-page-layout-content\"|define name=\"office-text-attlist\"' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_c549g6y3
+ succeeded in 0ms:
+13313:  <rng:define name="style-text-properties-attlist">
+13314-    <rng:interleave>
+13315-      <rng:optional>
+13316-        <rng:attribute name="fo:font-variant">
+13317-          <rng:ref name="fontVariant"/>
+13318-        </rng:attribute>
+13319-      </rng:optional>
+13320-      <rng:optional>
+13321-        <rng:attribute name="fo:text-transform">
+13322-          <rng:choice>
+13323-            <rng:value>none</rng:value>
+13324-            <rng:value>lowercase</rng:value>
+13325-            <rng:value>uppercase</rng:value>
+13326-            <rng:value>capitalize</rng:value>
+13327-          </rng:choice>
+13328-        </rng:attribute>
+13329-      </rng:optional>
+13330-      <rng:optional>
+13331-        <rng:attribute name="fo:color">
+13332-          <rng:ref name="color"/>
+13333-        </rng:attribute>
+13334-      </rng:optional>
+13335-      <rng:optional>
+13336-        <rng:attribute name="style:use-window-font-color">
+13337-          <rng:ref name="boolean"/>
+13338-        </rng:attribute>
+13339-      </rng:optional>
+13340-      <rng:optional>
+13341-        <rng:attribute name="style:text-outline">
+13342-          <rng:ref name="boolean"/>
+13343-        </rng:attribute>
+13344-      </rng:optional>
+13345-      <rng:optional>
+13346-        <rng:attribute name="style:text-line-through-type">
+13347-          <rng:ref name="lineType"/>
+13348-        </rng:attribute>
+13349-      </rng:optional>
+13350-      <rng:optional>
+13351-        <rng:attribute name="style:text-line-through-style">
+13352-          <rng:ref name="lineStyle"/>
+13353-        </rng:attribute>
+13354-      </rng:optional>
+13355-      <rng:optional>
+13356-        <rng:attribute name="style:text-line-through-width">
+13357-          <rng:ref name="lineWidth"/>
+13358-        </rng:attribute>
+13359-      </rng:optional>
+13360-      <rng:optional>
+13361-        <rng:attribute name="style:text-line-through-color">
+13362-          <rng:choice>
+13363-            <rng:value>font-color</rng:value>
+13364-            <rng:ref name="color"/>
+13365-          </rng:choice>
+13366-        </rng:attribute>
+13367-      </rng:optional>
+13368-      <rng:optional>
+13369-        <rng:attribute name="style:text-line-through-text">
+13370-          <rng:ref name="string"/>
+13371-        </rng:attribute>
+13372-      </rng:optional>
+13373-      <rng:optional>
+13374-        <rng:attribute name="style:text-line-through-text-style">
+13375-          <rng:ref name="styleNameRef"/>
+13376-        </rng:attribute>
+13377-      </rng:optional>
+13378-      <rng:optional>
+13379-        <rng:attribute name="style:text-position">
+13380-          <rng:list>
+13381-            <rng:choice>
+13382-              <rng:ref name="percent"/>
+13383-              <rng:value>super</rng:value>
+13384-              <rng:value>sub</rng:value>
+13385-            </rng:choice>
+13386-            <rng:optional>
+13387-              <rng:ref name="percent"/>
+13388-            </rng:optional>
+13389-          </rng:list>
+13390-        </rng:attribute>
+13391-      </rng:optional>
+13392-      <rng:optional>
+13393-        <rng:attribute name="style:font-name">
+13394-          <rng:ref name="string"/>
+13395-        </rng:attribute>
+13396-      </rng:optional>
+13397-      <rng:optional>
+13398-        <rng:attribute name="style:font-name-asian">
+13399-          <rng:ref name="string"/>
+13400-        </rng:attribute>
+13401-      </rng:optional>
+13402-      <rng:optional>
+13403-        <rng:attribute name="style:font-name-complex">
+13404-          <rng:ref name="string"/>
+13405-        </rng:attribute>
+13406-      </rng:optional>
+13407-      <rng:optional>
+13408-        <rng:attribute name="fo:font-family">
+13409-          <rng:ref name="string"/>
+13410-        </rng:attribute>
+13411-      </rng:optional>
+13412-      <rng:optional>
+13413-        <rng:attribute name="style:font-family-asian">
+13414-          <rng:ref name="string"/>
+13415-        </rng:attribute>
+13416-      </rng:optional>
+13417-      <rng:optional>
+13418-        <rng:attribute name="style:font-family-complex">
+13419-          <rng:ref name="string"/>
+13420-        </rng:attribute>
+13421-      </rng:optional>
+13422-      <rng:optional>
+13423-        <rng:attribute name="style:font-family-generic">
+13424-          <rng:ref name="fontFamilyGeneric"/>
+13425-        </rng:attribute>
+13426-      </rng:optional>
+13427-      <rng:optional>
+13428-        <rng:attribute name="style:font-family-generic-asian">
+13429-          <rng:ref name="fontFamilyGeneric"/>
+13430-        </rng:attribute>
+13431-      </rng:optional>
+13432-      <rng:optional>
+13433-        <rng:attribute name="style:font-family-generic-complex">
+13434-          <rng:ref name="fontFamilyGeneric"/>
+13435-        </rng:attribute>
+13436-      </rng:optional>
+13437-      <rng:optional>
+13438-        <rng:attribute name="style:font-style-name">
+13439-          <rng:ref name="string"/>
+13440-        </rng:attribute>
+13441-      </rng:optional>
+13442-      <rng:optional>
+13443-        <rng:attribute name="style:font-style-name-asian">
+13444-          <rng:ref name="string"/>
+13445-        </rng:attribute>
+13446-      </rng:optional>
+13447-      <rng:optional>
+13448-        <rng:attribute name="style:font-style-name-complex">
+13449-          <rng:ref name="string"/>
+13450-        </rng:attribute>
+13451-      </rng:optional>
+13452-      <rng:optional>
+13453-        <rng:attribute name="style:font-pitch">
+1295:  <rng:define name="common-break-attlist">
+1296-    <rng:optional>
+1297-      <rng:attribute name="fo:break-before">
+1298-        <rng:choice>
+1299-          <rng:value>auto</rng:value>
+1300-          <rng:value>column</rng:value>
+1301-          <rng:value>page</rng:value>
+1302-          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+1303-          <rng:value>even-page</rng:value>
+1304-          <rng:value>odd-page</rng:value>
+1305-        </rng:choice>
+1306-      </rng:attribute>
+1307-    </rng:optional>
+1308-    <rng:optional>
+1309-      <rng:attribute name="fo:break-after">
+1310-        <rng:choice>
+1311-          <rng:value>auto</rng:value>
+1312-          <rng:value>column</rng:value>
+1313-          <rng:value>page</rng:value>
+1314-          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+1315-          <rng:value>even-page</rng:value>
+1316-          <rng:value>odd-page</rng:value>
+1317-        </rng:choice>
+1318-      </rng:attribute>
+1319-    </rng:optional>
+1320-  </rng:define>
+1321-  <rng:define name="common-calendar-attlist">
+1322-    <rng:optional>
+1323-      <rng:attribute name="number:calendar">
+1324-        <rng:choice>
+1325-          <rng:value>gregorian</rng:value>
+1326-          <rng:value>gengou</rng:value>
+1327-          <rng:value>ROC</rng:value>
+1328-          <rng:value>hanja_yoil</rng:value>
+1329-          <rng:value>hanja</rng:value>
+1330-          <rng:value>hijri</rng:value>
+1331-          <rng:value>jewish</rng:value>
+1332-          <rng:value>buddhist</rng:value>
+1333-          <rng:ref name="string"/>
+1334-        </rng:choice>
+1335-      </rng:attribute>
+--
+2625:  <rng:define name="common-text-align">
+2626-    <rng:optional>
+2627-      <rng:attribute name="fo:text-align">
+2628-        <rng:choice>
+2629-          <rng:value>start</rng:value>
+2630-          <rng:value>end</rng:value>
+2631-          <rng:value>left</rng:value>
+2632-          <rng:value>right</rng:value>
+2633-          <rng:value>center</rng:value>
+2634-          <rng:value>justify</rng:value>
+2635-        </rng:choice>
+2636-      </rng:attribute>
+2637-    </rng:optional>
+2638-  </rng:define>
+2639-  <rng:define name="common-text-anchor-attlist">
+2640-    <rng:interleave>
+2641-      <rng:optional>
+2642-        <rng:attribute name="text:anchor-type">
+2643-          <rng:choice>
+2644-            <rng:value>page</rng:value>
+2645-            <rng:value>frame</rng:value>
+2646-            <rng:value>paragraph</rng:value>
+2647-            <rng:value>char</rng:value>
+2648-            <rng:value>as-char</rng:value>
+2649-          </rng:choice>
+2650-        </rng:attribute>
+2651-      </rng:optional>
+2652-      <rng:optional>
+2653-        <rng:attribute name="text:anchor-page-number">
+2654-          <rng:ref name="positiveInteger"/>
+2655-        </rng:attribute>
+2656-      </rng:optional>
+2657-    </rng:interleave>
+2658-  </rng:define>
+2659-  <rng:define name="common-text-spreadsheet-shape-attlist">
+2660-    <rng:interleave>
+2661-      <rng:optional>
+2662-        <rng:attribute name="table:end-cell-address">
+2663-          <rng:ref name="cellAddress"/>
+2664-        </rng:attribute>
+2665-      </rng:optional>
+--
+8335:  <rng:define name="office-text-attlist">
+8336-    <rng:interleave>
+8337-      <rng:optional>
+8338-        <rng:attribute name="text:global">
+8339-          <rng:ref name="boolean"/>
+8340-        </rng:attribute>
+8341-      </rng:optional>
+8342-      <rng:optional>
+8343-        <rng:attribute name="text:use-soft-page-breaks">
+8344-          <rng:ref name="boolean"/>
+8345-        </rng:attribute>
+8346-      </rng:optional>
+8347-    </rng:interleave>
+8348-  </rng:define>
+8349-  <rng:define name="office-text-content-epilogue">
+8350-    <rng:ref name="table-functions"/>
+8351-  </rng:define>
+8352-  <rng:define name="office-text-content-main">
+8353-    <rng:choice>
+8354-      <rng:zeroOrMore>
+8355-        <rng:ref name="text-content"/>
+8356-      </rng:zeroOrMore>
+8357-      <rng:group>
+8358-        <rng:ref name="text-page-sequence"/>
+8359-        <rng:zeroOrMore>
+8360-          <rng:choice>
+8361-            <rng:ref name="shape"/>
+8362-          </rng:choice>
+8363-        </rng:zeroOrMore>
+8364-      </rng:group>
+8365-    </rng:choice>
+8366-  </rng:define>
+8367-  <rng:define name="office-text-content-prelude">
+8368-    <rng:ref name="office-forms"/>
+8369-    <rng:ref name="text-tracked-changes"/>
+8370-    <rng:ref name="text-decls"/>
+8371-    <rng:ref name="table-decls"/>
+8372-  </rng:define>
+8373-  <rng:define name="paragraph-attrs">
+8374-    <rng:interleave>
+8375-      <rng:optional>
+--
+12236:  <rng:define name="style-page-layout-content">
+12237-    <rng:optional>
+12238-      <rng:ref name="style-page-layout-properties"/>
+12239-    </rng:optional>
+12240-    <rng:optional>
+12241-      <rng:ref name="style-header-style"/>
+12242-    </rng:optional>
+12243-    <rng:optional>
+12244-      <rng:ref name="style-footer-style"/>
+12245-    </rng:optional>
+12246-  </rng:define>
+12247-  <rng:define name="style-page-layout-properties">
+12248-    <rng:element name="style:page-layout-properties">
+12249-      <rng:ref name="style-page-layout-properties-content-strict"/>
+12250-    </rng:element>
+12251-  </rng:define>
+12252-  <rng:define name="style-page-layout-properties-attlist">
+12253-    <rng:interleave>
+12254-      <rng:optional>
+12255-        <rng:attribute name="fo:page-width">
+12256-          <rng:ref name="length"/>
+12257-        </rng:attribute>
+12258-      </rng:optional>
+12259-      <rng:optional>
+12260-        <rng:attribute name="fo:page-height">
+12261-          <rng:ref name="length"/>
+12262-        </rng:attribute>
+12263-      </rng:optional>
+12264-      <rng:optional>
+12265-        <rng:ref name="common-num-format-attlist"/>
+12266-      </rng:optional>
+12267-      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+12268-      <rng:optional>
+12269-        <rng:attribute name="style:paper-tray-name">
+12270-          <rng:choice>
+12271-            <rng:value>default</rng:value>
+12272-            <rng:ref name="string"/>
+12273-          </rng:choice>
+12274-        </rng:attribute>
+12275-      </rng:optional>
+12276-      <rng:optional>
+
+exec
+/usr/bin/zsh -lc "rg -n -A160 'define name=\"style-text-properties-attlist\"' odf_spec/OpenDocument-v1.4-schema.rng | rg -n -C3 'underline|font-weight|font-size|letter-spacing' ; rg -n -A40 'define name=\"style-default-style\"|define name=\"styles\"|define name=\"style-style-content\"' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_c549g6y3
+ succeeded in 0ms:
+10412:  <rng:define name="style-default-style">
+10413-    <rng:element name="style:default-style">
+10414-      <rng:ref name="style-style-content"/>
+10415-    </rng:element>
+10416-  </rng:define>
+10417-  <rng:define name="style-drawing-page-properties">
+10418-    <rng:element name="style:drawing-page-properties">
+10419-      <rng:ref name="style-drawing-page-properties-content-strict"/>
+10420-    </rng:element>
+10421-  </rng:define>
+10422-  <rng:define name="style-drawing-page-properties-attlist">
+10423-    <rng:interleave>
+10424-      <rng:optional>
+10425-        <rng:attribute name="presentation:transition-type">
+10426-          <rng:choice>
+10427-            <rng:value>manual</rng:value>
+10428-            <rng:value>automatic</rng:value>
+10429-            <rng:value>semi-automatic</rng:value>
+10430-          </rng:choice>
+10431-        </rng:attribute>
+10432-      </rng:optional>
+10433-      <rng:optional>
+10434-        <rng:attribute name="presentation:transition-style">
+10435-          <rng:choice>
+10436-            <rng:value>none</rng:value>
+10437-            <rng:value>fade-from-left</rng:value>
+10438-            <rng:value>fade-from-top</rng:value>
+10439-            <rng:value>fade-from-right</rng:value>
+10440-            <rng:value>fade-from-bottom</rng:value>
+10441-            <rng:value>fade-from-upperleft</rng:value>
+10442-            <rng:value>fade-from-upperright</rng:value>
+10443-            <rng:value>fade-from-lowerleft</rng:value>
+10444-            <rng:value>fade-from-lowerright</rng:value>
+10445-            <rng:value>move-from-left</rng:value>
+10446-            <rng:value>move-from-top</rng:value>
+10447-            <rng:value>move-from-right</rng:value>
+10448-            <rng:value>move-from-bottom</rng:value>
+10449-            <rng:value>move-from-upperleft</rng:value>
+10450-            <rng:value>move-from-upperright</rng:value>
+10451-            <rng:value>move-from-lowerleft</rng:value>
+10452-            <rng:value>move-from-lowerright</rng:value>
+--
+12837:  <rng:define name="style-style-content">
+12838-    <rng:choice>
+12839-      <rng:group>
+12840-        <rng:attribute name="style:family">
+12841-          <rng:value>text</rng:value>
+12842-        </rng:attribute>
+12843-        <rng:optional>
+12844-          <rng:ref name="style-text-properties"/>
+12845-        </rng:optional>
+12846-      </rng:group>
+12847-      <rng:group>
+12848-        <rng:attribute name="style:family">
+12849-          <rng:value>paragraph</rng:value>
+12850-        </rng:attribute>
+12851-        <rng:optional>
+12852-          <rng:ref name="style-paragraph-properties"/>
+12853-        </rng:optional>
+12854-        <rng:optional>
+12855-          <rng:ref name="style-text-properties"/>
+12856-        </rng:optional>
+12857-      </rng:group>
+12858-      <rng:group>
+12859-        <rng:attribute name="style:family">
+12860-          <rng:value>section</rng:value>
+12861-        </rng:attribute>
+12862-        <rng:optional>
+12863-          <rng:ref name="style-section-properties"/>
+12864-        </rng:optional>
+12865-      </rng:group>
+12866-      <rng:group>
+12867-        <rng:attribute name="style:family">
+12868-          <rng:value>ruby</rng:value>
+12869-        </rng:attribute>
+12870-        <rng:optional>
+12871-          <rng:ref name="style-ruby-properties"/>
+12872-        </rng:optional>
+12873-      </rng:group>
+12874-      <rng:group>
+12875-        <rng:attribute name="style:family">
+12876-          <rng:value>table</rng:value>
+12877-        </rng:attribute>
+--
+13829:  <rng:define name="styles">
+13830-    <rng:interleave>
+13831-      <rng:zeroOrMore>
+13832-        <rng:ref name="style-style"/>
+13833-      </rng:zeroOrMore>
+13834-      <rng:zeroOrMore>
+13835-        <rng:ref name="text-list-style"/>
+13836-      </rng:zeroOrMore>
+13837-      <!-- https://issues.oasis-open.org/browse/OFFICE-4108 -->
+13838-      <rng:zeroOrMore>
+13839-        <rng:ref name="number-num-list-format"/>
+13840-      </rng:zeroOrMore>
+13841-      <rng:zeroOrMore>
+13842-        <rng:ref name="number-number-style"/>
+13843-      </rng:zeroOrMore>
+13844-      <rng:zeroOrMore>
+13845-        <rng:ref name="number-currency-style"/>
+13846-      </rng:zeroOrMore>
+13847-      <rng:zeroOrMore>
+13848-        <rng:ref name="number-percentage-style"/>
+13849-      </rng:zeroOrMore>
+13850-      <rng:zeroOrMore>
+13851-        <rng:ref name="number-date-style"/>
+13852-      </rng:zeroOrMore>
+13853-      <rng:zeroOrMore>
+13854-        <rng:ref name="number-time-style"/>
+13855-      </rng:zeroOrMore>
+13856-      <rng:zeroOrMore>
+13857-        <rng:ref name="number-boolean-style"/>
+13858-      </rng:zeroOrMore>
+13859-      <rng:zeroOrMore>
+13860-        <rng:ref name="number-text-style"/>
+13861-      </rng:zeroOrMore>
+13862-    </rng:interleave>
+13863-  </rng:define>
+13864-  <rng:define name="svg-definition-src">
+13865-    <rng:element name="svg:definition-src">
+13866-      <rng:ref name="common-svg-font-face-xlink-attlist"/>
+13867-      <rng:empty/>
+13868-    </rng:element>
+13869-  </rng:define>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:line-height="30pt"/>
+      <style:text-properties fo:font-family="Liberation Serif" fo:font-size="18pt"/>
+    </style:default-style>
+    <style:style style:name="Body" style:family="paragraph" style:master-page-name="Page">
+      <style:paragraph-properties fo:line-height="30pt" fo:margin-top="0pt" fo:margin-bottom="0pt"/>
+    </style:style>
+    <style:style style:name="Attachment" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:line-height="30pt" fo:margin-bottom="18pt"/>
+      <style:text-properties fo:font-family="sans-serif" fo:font-size="16pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="30pt" fo:margin-bottom="52pt"/>
+      <style:text-properties fo:font-size="20pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="BodyLine" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:line-height="30pt"/>
+    </style:style>
+    <style:style style:name="Witness" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="56pt" fo:margin-bottom="30pt"/>
+    </style:style>
+    <style:style style:name="DateLine" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-bottom="74pt"/>
+    </style:style>
+    <style:style style:name="SignatureLine" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:line-height="30pt"/>
+      <style:text-properties fo:font-weight="bold" style:text-underline-style="solid"/>
+    </style:style>
+    <style:style style:name="PageNumber" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="160pt"/>
+      <style:text-properties fo:font-family="sans-serif" fo:font-size="12pt" fo:color="#777777"/>
+    </style:style>
+    <style:style style:name="Emphasis" style:family="text">
+      <style:text-properties fo:font-weight="bold" style:text-underline-style="solid"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" style:print-orientation="portrait" fo:margin-top="0.49in" fo:margin-bottom="0.49in" fo:margin-left="1.18in" fo:margin-right="1.18in"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Page" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Attachment">附件一</text:p>
+      <text:p text:style-name="Title">POWER OF ATTORNEY</text:p>
+      <text:p text:style-name="BodyLine">We, <text:span text:style-name="Emphasis">name of the company</text:span>, a company organized and existing under the laws</text:p>
+      <text:p text:style-name="BodyLine">of <text:span text:style-name="Emphasis">name of the country or area</text:span>, having its head office at <text:span text:style-name="Emphasis">address of the</text:span></text:p>
+      <text:p text:style-name="BodyLine"><text:span text:style-name="Emphasis">company</text:span>, and has no fixed place of business in the Republic of China, hereby</text:p>
+      <text:p text:style-name="BodyLine">appoint <text:span text:style-name="Emphasis">name of the agent</text:span>, Taiwan, Republic of China, to act jointly and/or</text:p>
+      <text:p text:style-name="BodyLine">severally, as our attorney-in-fact in the Republic of China, to file and</text:p>
+      <text:p text:style-name="BodyLine">prosecute on our behalf all applications for the deemed profit basis which is</text:p>
+      <text:p text:style-name="BodyLine">based on Article 25 of the Income Tax Law for <text:span text:style-name="Emphasis">name of the project or kinds</text:span></text:p>
+      <text:p text:style-name="BodyLine"><text:span text:style-name="Emphasis">of activities</text:span> provided to <text:span text:style-name="Emphasis">name of Taiwan customer.</text:span></text:p>
+      <text:p text:style-name="Witness">IN WITNESS WHEREOF,</text:p>
+      <text:p text:style-name="DateLine">We have executed this power-of-attorney on <text:span text:style-name="Emphasis">date/month/year.</text:span></text:p>
+      <text:p text:style-name="SignatureLine">Name of the company<text:tab/>(type)</text:p>
+      <text:p text:style-name="SignatureLine">____________________________________________(signature)</text:p>
+      <text:p text:style-name="SignatureLine">Name of the authorized signature<text:tab/>(type)</text:p>
+      <text:p text:style-name="SignatureLine">Job title<text:tab/>(type)</text:p>
+      <text:p text:style-name="PageNumber">第1頁</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+38,759
