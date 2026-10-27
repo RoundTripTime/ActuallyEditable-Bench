@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "formbench"
+version = "0.1.0"
+description = "Form-to-Editable-HWPX benchmark: deterministic minimum form completion cost"
+requires-python = ">=3.10"
+dependencies = [
+  "lxml>=5", "pyyaml>=6", "click>=8", "requests>=2.31", "jsonschema>=4.21", "numpy>=1.26",
+  "scipy>=1.11", "pillow>=10", "pymupdf>=1.24", "opencv-python-headless>=4.8", "olefile>=0.46",
+  "python-docx>=1.1", "odfpy>=1.4", "beautifulsoup4>=4.12", "scikit-image>=0.22", "psutil>=5.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "hypothesis>=6", "ruff>=0.5", "pytest-timeout"]
+ocr = ["rapidocr>=3", "onnxruntime>=1.17"]
+b3 = ["pdf2docx>=0.5.8"]
+vlm = ["torch", "transformers>=4.49", "accelerate"]
+capture = ["websocket-client>=1.8"]
+
+[project.scripts]
+formbench = "formbench.cli:run"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+formbench = ["formats/skeleton/*", "formats/skeleton/*/*", "contracts/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -p no:cacheprovider"
+timeout = 600
+markers = ["network: needs network access", "slow: long-running", "external: needs optional external tool"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501", "B008", "B905", "UP007", "E741", "B023"]

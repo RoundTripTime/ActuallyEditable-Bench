@@ -1,0 +1,936 @@
+# Editor behaviour facts, each quoted verbatim (briefly) from an official source in sources.yaml.
+# `formbench kb verify` checks every quote against the hashed snapshot of its source (NFKC, whitespace-insensitive).
+# concept: the abstract action the fact is about; the operator contract (edit_operators.yaml v2) admits an action into
+#          the common subset only when every editor has a verified fact for the concept and the effects agree
+#          (or the contract states the condition under which they agree).
+# effect_detail: what differs between editors, if anything (used to derive common-subset conditions).
+# ui_action: the action in a normalized vocabulary (key:<chord> | mouse:<gesture> | command:<name> | input:typing);
+#          alternatives separated by '|'. A concept is common only if all three editors share one ui_action.
+kb_version: '1.0'
+editors: [hangul, word, writer]
+facts:
+  # ------------------------------------------------------------------ table navigation
+  - id: hangul.tab_next_cell
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: tab_next_cell
+    context: caret inside a table
+    action: {keys: Tab}
+    ui_action: 'key:Tab'
+    effect: moves to another cell (forward)
+    quote: '표 안에서 다른 셀로 이동(정방향) Tab'
+  - id: hangul.tab_next_cell.caret
+    editor: hangul
+    source: hancom_table_edit
+    concept: tab_next_cell
+    context: caret inside a table
+    action: {keys: Tab}
+    ui_action: 'key:Tab'
+    effect: caret at the first character of the next cell
+    effect_detail: no selection of the cell content
+    quote: '<Tab>,<Alt+→> 다음 셀의 가장 첫 번째 글자로 커서가 이동합니다.'
+  - id: word.tab_next_cell
+    editor: word
+    source: word_shortcuts
+    concept: tab_next_cell
+    context: caret inside a table (Windows)
+    action: {keys: Tab}
+    ui_action: 'key:Tab'
+    effect: moves to the next cell in the row and selects its content
+    effect_detail: content of the next cell is selected (typing replaces it)
+    quote: 'Move to the next cell in the row and select its content. Tab key'
+  - id: writer.tab_next_cell
+    editor: writer
+    source: writer_tables_262
+    concept: tab_next_cell
+    context: caret inside a table
+    action: {keys: Tab}
+    ui_action: 'key:Tab'
+    effect: moves directly to the next cell; in the last cell creates a new row
+    effect_detail: selection of the next cell's content not stated
+    quote: 'The Tab key moves directly to the next cell and, if the cursor is in the last cell in the table, creates a new row.'
+  - id: hangul.shift_tab_prev_cell
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: shift_tab_prev_cell
+    context: caret inside a table
+    action: {keys: Shift+Tab}
+    ui_action: 'key:Shift+Tab'
+    effect: moves to another cell (backward)
+    quote: '표 안에서 다른 셀로 이동(역방향) Shift+Tab'
+  - id: hangul.shift_tab_prev_cell.caret
+    editor: hangul
+    source: hancom_table_edit
+    concept: shift_tab_prev_cell
+    context: caret inside a table
+    action: {keys: Shift+Tab}
+    ui_action: 'key:Shift+Tab'
+    effect: caret after the last character of the previous cell
+    quote: '<Shift+Tab>,<Alt+←> 이전 셀의 맨 마지막 글자 뒤로 커서가 이동합니다.'
+  - id: word.shift_tab_prev_cell
+    editor: word
+    source: word_shortcuts
+    concept: shift_tab_prev_cell
+    context: caret inside a table (Windows)
+    action: {keys: Shift+Tab}
+    ui_action: 'key:Shift+Tab'
+    effect: moves to the previous cell in the row and selects its content
+    effect_detail: content of the previous cell is selected
+    quote: 'Move to the previous cell in the row and select its content. Shift+Tab'
+  - id: writer.shift_tab_prev_cell
+    editor: writer
+    source: writer_tables_262
+    concept: shift_tab_prev_cell
+    context: caret inside a table
+    action: {keys: Shift+Tab}
+    ui_action: 'key:Shift+Tab'
+    effect: moves the cursor back a cell
+    quote: 'Pressing Shift+Tab moves the cursor back a cell.'
+  - id: hangul.last_cell_tab_adds_row
+    editor: hangul
+    source: hancom_table_insert
+    concept: last_cell_tab_adds_row
+    context: caret in the last cell of a table
+    action: {keys: Tab}
+    ui_action: 'key:Tab'
+    effect: a row is added below
+    quote: '표의 마지막 셀에서 <Tab>을 누르면 아래쪽에 줄이 추가됩니다.'
+  - id: word.last_cell_tab_adds_row
+    editor: word
+    source: ms_blog_tables_keyboard
+    concept: last_cell_tab_adds_row
+    context: insertion point in the last cell of a table
+    action: {keys: Tab}
+    ui_action: 'key:Tab'
+    effect: another row is inserted
+    quote: 'When the insertion point is in the last cell of a table, the Tab key inserts another row.'
+  - id: writer.last_cell_tab_adds_row
+    editor: writer
+    source: writer_tables_262
+    concept: last_cell_tab_adds_row
+    context: cursor in the last cell of a table
+    action: {keys: Tab}
+    ui_action: 'key:Tab'
+    effect: creates a new row
+    quote: 'if the cursor is in the last cell in the table, creates a new row.'
+  - id: writer.arrow_keys_in_table
+    editor: writer
+    source: writer_tables_262
+    concept: arrow_keys_in_table
+    context: caret inside a table
+    action: {keys: Arrow}
+    ui_action: 'key:Arrow'
+    effect: one character at a time; from an empty cell to the adjacent cell
+    quote: 'The arrow keys move the cursor one text character left or right at a time. If a cell is empty, pressing the arrow key moves the cursor to the adjacent cell.'
+  - id: hangul.arrow_keys_in_table
+    editor: hangul
+    source: hancom_table_edit
+    concept: arrow_keys_in_table
+    context: caret inside a table
+    action: {keys: Arrow}
+    ui_action: 'key:Arrow'
+    effect: arrow keys move between cells in a new empty table; Tab recommended once content exists
+    quote: '새로 만들어 아무 내용도 써넣지 않은 표에서는 화살표 방향키로도 셀을 옮겨 다닐 수 있지만'
+  # ------------------------------------------------------------------ table structure
+  - id: hangul.insert_row.ctrl_enter
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: insert_row
+    context: caret inside a table
+    action: {keys: Ctrl+Enter}
+    ui_action: 'key:Ctrl+Enter'
+    effect: adds a row (below the current row per legacy help)
+    quote: '줄 추가하기 Ctrl+Enter'
+  - id: hangul.insert_row.below
+    editor: hangul
+    source: hancom_table_insert
+    concept: insert_row
+    context: caret inside a table
+    action: {keys: Ctrl+Enter}
+    ui_action: 'key:Ctrl+Enter'
+    effect: a row is added below the current row
+    quote: '표 안에서 <Ctrl+Enter>를 눌러도 현재 줄의 아래쪽에 줄이 추가됩니다.'
+  - id: hangul.insert_row.menu
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: insert_row
+    context: caret inside a table
+    action: {keys: Alt+Insert, menu: '(빠른 메뉴) 줄/칸 추가하기'}
+    ui_action: 'command:insert_row_below'
+    effect: opens the add rows/columns command
+    quote: '줄/칸 추가하기 Alt+Insert (빠른 메뉴)줄/칸 추가하기'
+  - id: word.insert_row
+    editor: word
+    source: word_table_edit
+    concept: insert_row
+    context: click in a cell above or below the new row
+    action: {menu: 'Table Layout > Insert Below'}
+    ui_action: 'command:insert_row_below'
+    effect: adds a row below the cell
+    quote: 'To add a row below the cell, select Insert Below in the Rows and Columns group.'
+  - id: writer.insert_row
+    editor: writer
+    source: writer_tables_262
+    concept: insert_row
+    context: cursor in a cell
+    action: {menu: 'context menu > Insert > Rows Above/Below'}
+    ui_action: 'command:insert_row_below'
+    effect: inserts a row above / below
+    quote: 'Right-click and choose Insert > Rows Above/Below or Insert > Columns Before/After in the context menu.'
+  - id: hangul.delete_row
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: delete_row
+    context: caret inside a table
+    action: {keys: Ctrl+BackSpace}
+    ui_action: 'key:Ctrl+BackSpace'
+    effect: deletes the row
+    quote: '줄 지우기 Ctrl+BackSpace'
+  - id: word.delete_row
+    editor: word
+    source: word_delete_rows
+    concept: delete_row
+    context: caret in the row (page states Word for the web)
+    action: {menu: 'Table Layout > Delete > Delete Row'}
+    ui_action: 'command:delete_row'
+    effect: deletes the row
+    effect_detail: page applicability is Word for the web
+    quote: 'Under Table Layout , select Delete , and then click either Delete Row or Delete Column .'
+  - id: writer.delete_row
+    editor: writer
+    source: writer_tables_262
+    concept: delete_row
+    context: cursor in the row
+    action: {menu: 'context menu > Delete > Rows'}
+    ui_action: 'command:delete_row'
+    effect: deletes the row
+    quote: 'Right-click and choose Delete > Rows or Delete > Columns .'
+  - id: hangul.select_cells
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: select_cells
+    context: caret inside a table
+    action: {keys: Shift+F5}
+    ui_action: 'key:Shift+F5'
+    effect: current cell selected; arrow keys extend the cell block
+    quote: '현재 셀 선택(방향키 누르면 셀 블록 확장) Shift+F5'
+  - id: word.select_cells
+    editor: word
+    source: word_shortcuts
+    concept: select_cells
+    context: caret inside a table (Windows)
+    action: {keys: Shift+Arrow keys}
+    ui_action: 'key:Shift+Arrow'
+    effect: extends a selection to adjacent cells
+    quote: 'Extend a selection to adjacent cells. Shift+Arrow keys'
+  - id: hangul.merge_cells
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: merge_cells
+    context: cell block selected
+    action: {keys: M, menu: '(빠른 메뉴) 셀 합치기'}
+    ui_action: 'command:merge_cells'
+    effect: merges the selected cells
+    quote: '셀 합치기 M (빠른 메뉴)셀 합치기'
+  - id: word.merge_cells
+    editor: word
+    source: word_merge_split
+    concept: merge_cells
+    context: multiple adjacent cells selected (desktop Word)
+    action: {menu: 'Table Layout > Merge Cells'}
+    ui_action: 'command:merge_cells'
+    effect: combines the selected cells into one
+    quote: 'Select the cells that you want to merge. Select Table Layout > Merge Cells .'
+  - id: writer.merge_cells
+    editor: writer
+    source: writer_tables_262
+    concept: merge_cells
+    context: cells selected
+    action: {menu: 'context menu > Merge Cells'}
+    ui_action: 'command:merge_cells'
+    effect: merges the selected cells
+    quote: 'Select the cells to merge. Right-click and choose Merge Cells in the context menu'
+  - id: hangul.split_cell
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: split_cell
+    context: cell block selected
+    action: {keys: S, menu: '(빠른 메뉴) 셀 나누기'}
+    ui_action: 'command:split_cell'
+    effect: opens split cells
+    quote: '셀 나누기 S (빠른 메뉴)셀 나누기'
+  - id: word.split_cell
+    editor: word
+    source: word_merge_split
+    concept: split_cell
+    context: one or more cells selected (desktop Word)
+    action: {menu: 'Table Layout > Split Cells'}
+    ui_action: 'command:split_cell'
+    effect: dialog asks for the number of columns / rows
+    quote: 'Select one or more cells to split. Select Table Layout > Split Cells .'
+  - id: writer.split_cell
+    editor: writer
+    source: writer_tables_262
+    concept: split_cell
+    context: cursor inside the cell
+    action: {menu: 'context menu > Split Cells'}
+    ui_action: 'command:split_cell'
+    effect: dialog selects how to split
+    quote: 'Position the cursor inside the cell. Right-click and choose Split Cells in the context menu'
+  # ------------------------------------------------------------------ text inside cells / paragraphs
+  - id: hangul.enter_new_paragraph
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: enter_new_paragraph
+    context: caret in text
+    action: {keys: Enter}
+    ui_action: 'key:Enter'
+    effect: splits the paragraph
+    quote: '문단 나누기 Enter'
+  - id: word.enter_new_paragraph_in_cell
+    editor: word
+    source: word_shortcuts
+    concept: enter_new_paragraph
+    context: caret in a table cell (Windows)
+    action: {keys: Enter}
+    ui_action: 'key:Enter'
+    effect: inserts a new paragraph in the cell
+    quote: 'Insert a new paragraph in a cell. Enter'
+  - id: hangul.tab_char_in_cell
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: tab_char_in_cell
+    context: caret inside a table
+    action: {keys: Ctrl+Tab}
+    ui_action: 'key:Ctrl+Tab'
+    effect: inserts a tab inside the table
+    quote: '표 안에 탭 삽입 Ctrl+Tab'
+  - id: word.tab_char_in_cell
+    editor: word
+    source: word_shortcuts
+    concept: tab_char_in_cell
+    context: caret in a table cell (Windows)
+    action: {keys: Ctrl+Tab}
+    ui_action: 'key:Ctrl+Tab'
+    effect: inserts a tab character in the cell
+    quote: 'Insert a tab character in a cell. Ctrl+Tab'
+  - id: writer.tab_char_in_cell
+    editor: writer
+    source: writer_tables_262
+    concept: tab_char_in_cell
+    context: caret in a table cell
+    action: {keys: Ctrl+Tab}
+    ui_action: 'key:Ctrl+Tab'
+    effect: enters a tab character as text of the cell
+    quote: 'To enter a Tab character as part of the text of the cell, press the Ctrl and Tab keys at the same time.'
+  - id: hangul.cell_grows_with_text
+    editor: hangul
+    source: hancom_table_edit
+    concept: cell_overflow
+    context: typing in a table cell
+    action: {keys: typing}
+    ui_action: 'input:typing'
+    effect: text stays in the cell; the cell grows downward
+    quote: '표의 어느 한 셀에 글을 입력하면 글이 본문이나 다른 셀로 넘어가지 않고 그 셀이 자동으로 아래쪽으로 늘어납니다.'
+  # ------------------------------------------------------------------ selection, deletion, formatting, undo
+  - id: hangul.select_shift_arrow
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: select_extend_keys
+    context: caret in text
+    action: {keys: 'Shift+←/→'}
+    ui_action: 'key:Shift+Arrow'
+    effect: block as far as wanted
+    quote: '원하는 만큼 블록 설정 Shift+←/→'
+  - id: word.select_shift_arrow
+    editor: word
+    source: word_shortcuts
+    concept: select_extend_keys
+    context: caret in text (Windows)
+    action: {keys: Shift+Arrow keys}
+    ui_action: 'key:Shift+Arrow'
+    effect: selects text
+    quote: 'Select text. Shift+Arrow keys'
+  - id: writer.select_shift_arrow
+    editor: writer
+    source: writer_shortcuts_262
+    concept: select_extend_keys
+    context: caret in text
+    action: {keys: Shift+Arrow Right}
+    ui_action: 'key:Shift+Arrow'
+    effect: moves the cursor with selection
+    quote: 'Move cursor with selection to the right Shift + Arrow Right'
+  - id: hangul.delete_keys
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: delete_char
+    context: caret in text
+    action: {keys: Delete / BackSpace}
+    ui_action: 'key:Delete|key:BackSpace'
+    effect: deletes the next / previous character
+    quote: '뒷글자 지우기 Delete - 앞글자 지우기 BackSpace'
+  - id: hangul.bold
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: bold
+    context: characters selected as a block
+    action: {keys: Ctrl+B}
+    ui_action: 'key:Ctrl+B'
+    effect: bold
+    quote: '진하게 Alt+Shift+B/Ctrl+B'
+  - id: word.bold
+    editor: word
+    source: word_shortcuts
+    concept: bold
+    context: text selected (Windows)
+    action: {keys: Ctrl+B}
+    ui_action: 'key:Ctrl+B'
+    effect: bold
+    quote: 'Apply bold formatting to text. Ctrl+B'
+  - id: hangul.undo
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: undo
+    context: any
+    action: {keys: Ctrl+Z}
+    ui_action: 'key:Ctrl+Z'
+    effect: undo
+    quote: '되돌리기 Ctrl+Z 편집-되돌리기'
+  - id: word.undo
+    editor: word
+    source: word_shortcuts
+    concept: undo
+    context: any (Windows)
+    action: {keys: Ctrl+Z}
+    ui_action: 'key:Ctrl+Z'
+    effect: undo the previous action
+    quote: 'Undo the previous action. Ctrl+Z'
+  - id: writer.undo
+    editor: writer
+    source: writer_shortcuts_262
+    concept: undo
+    context: any
+    action: {keys: Ctrl+Z}
+    ui_action: 'key:Ctrl+Z'
+    effect: undo last action
+    quote: 'Undo last action Ctrl + Z'
+  - id: hangul.line_home_end
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: line_home_end
+    context: caret in text
+    action: {keys: Home / End}
+    ui_action: 'key:Home|key:End'
+    effect: start / end of the line
+    quote: '줄 처음으로 Home - 줄 끝으로 End'
+  # ------------------------------------------------------------------ text boxes and objects
+  - id: hangul.textbox_autogrow
+    editor: hangul
+    source: hancom_textbox
+    concept: textbox_overflow
+    context: typing in a text box
+    action: {keys: typing}
+    ui_action: 'input:typing'
+    effect: the text box height grows automatically when the content exceeds its size
+    quote: '글상자의 크기보다 많은 내용을 입력하면 글상자의 높이가 자동으로 늘어납니다.'
+  - id: hangul.textbox_exit_click
+    editor: hangul
+    source: hancom_textbox
+    concept: textbox_exit
+    context: caret inside a text box
+    action: {mouse: click outside the box in the editing area}
+    ui_action: 'mouse:click_outside'
+    effect: leaves the text box
+    quote: '마우스 포인터를 글상자 바깥의 편집 영역 아무 곳에나 놓고, 마우스 왼쪽 단추를 한 번 누르면 글상자에서 빠져나옵니다.'
+  - id: hangul.textbox_edit_enter
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: textbox_text_entry
+    context: text box selected as an object
+    action: {keys: Enter}
+    ui_action: 'key:Enter'
+    effect: starts editing the text box
+    quote: '글상자를 선택한 상태에서 기능 단축키 메뉴 경로 글상자 편집 Enter'
+  - id: word.textbox_text_entry
+    editor: word
+    source: word_textbox
+    concept: textbox_text_entry
+    context: text box in the document
+    action: {mouse: select inside the box}
+    ui_action: 'mouse:click_inside'
+    effect: type or paste text into the box
+    quote: 'To add text, select inside the box and type or your paste text.'
+  - id: word.textbox_move_drag
+    editor: word
+    source: word_textbox
+    concept: object_move_drag
+    context: text box
+    action: {mouse: click, then drag}
+    ui_action: 'mouse:drag_object'
+    effect: text box moved
+    quote: 'To position the text box, click it, and then when the pointer becomes a , drag the text box to a new location.'
+  - id: hangul.object_move_keys
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: object_move_keys
+    context: object selected
+    action: {keys: Arrow keys}
+    ui_action: 'key:Arrow'
+    effect: moves the object
+    quote: '개체 이동 방향키(↑←↓→)'
+  - id: hangul.object_resize_keys
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: object_resize_keys
+    context: object selected
+    action: {keys: Shift+Arrow keys}
+    ui_action: 'key:Shift+Arrow'
+    effect: resizes the object
+    quote: '개체 크기 조정 Shift+방향키'
+  # ------------------------------------------------------------------ batch 2 (2026-10-16): mouse selection, frames, objects
+  - id: word.mouse_double_click_word
+    editor: word
+    source: word_select_text
+    concept: mouse_select_word
+    context: pointer over a word
+    action: {mouse: double-click}
+    ui_action: 'mouse:double_click'
+    effect: selects the word
+    quote: 'Double-click a word to select it.'
+  - id: writer.mouse_double_click_word
+    editor: writer
+    source: writer_text_basics_262
+    concept: mouse_select_word
+    context: pointer over a word
+    action: {mouse: double-click}
+    ui_action: 'mouse:double_click'
+    effect: selects the word
+    quote: 'use multiple clicks to select a word (double-click), sentence (triple-click), or paragraph (quadruple-click).'
+  - id: word.mouse_triple_click
+    editor: word
+    source: word_select_text
+    concept: mouse_triple_click
+    context: pointer over text
+    action: {mouse: triple-click}
+    ui_action: 'mouse:triple_click'
+    effect: selects the paragraph
+    effect_detail: triple-click selects a paragraph in Word but a sentence in Writer
+    quote: 'Triple-click a paragraph to select it.'
+  - id: writer.mouse_triple_click
+    editor: writer
+    source: writer_text_basics_262
+    concept: mouse_triple_click
+    context: pointer over text
+    action: {mouse: triple-click}
+    ui_action: 'mouse:triple_click'
+    effect: selects the sentence (paragraph needs a quadruple click)
+    effect_detail: triple-click selects a sentence in Writer
+    quote: 'sentence (triple-click), or paragraph (quadruple-click).'
+  - id: word.mouse_drag_select
+    editor: word
+    source: word_select_text
+    concept: mouse_drag_select
+    context: pointer in text
+    action: {mouse: click and drag}
+    ui_action: 'mouse:drag_text'
+    effect: selects the dragged-over content
+    quote: 'Use your mouse to click and drag to select specific content.'
+  - id: writer.mouse_drag_select
+    editor: writer
+    source: writer_text_basics_262
+    concept: mouse_drag_select
+    context: pointer in text
+    action: {mouse: swipe (drag) over text}
+    ui_action: 'mouse:drag_text'
+    effect: selects the text
+    quote: 'can swipe the mouse pointer over text'
+  - id: writer.frame_text_entry
+    editor: writer
+    source: writer_pages_advanced_262
+    concept: textbox_text_entry
+    context: text frame, frame not selected
+    action: {mouse: click inside the frame}
+    ui_action: 'mouse:click_inside'
+    effect: text cursor placed inside the frame
+    effect_detail: a selected frame must first be deselected by clicking elsewhere
+    quote: 'Then, click inside the frame to place the text cursor there.'
+  - id: writer.frame_deselect_first
+    editor: writer
+    source: writer_pages_advanced_262
+    concept: textbox_text_entry
+    context: text frame selected as an object
+    action: {mouse: click in empty space}
+    ui_action: 'mouse:click_outside'
+    effect: frame deselected (precondition for clicking inside)
+    quote: 'To add content to a frame, first deselect the frame by clicking in an empty space somewhere else on the page.'
+  - id: writer.frame_exit
+    editor: writer
+    source: writer_pages_advanced_262
+    concept: textbox_exit
+    context: cursor inside a frame
+    action: {mouse: deselect}
+    ui_action: 'mouse:click_outside'
+    effect: leave the frame
+    quote: 'When you are done, deselect the frame.'
+  - id: word.textbox_exit_esc
+    editor: word
+    source: word_textbox
+    concept: textbox_exit
+    context: typing in a text box (keyboard path)
+    action: {keys: Esc}
+    ui_action: 'key:Esc'
+    effect: back to editing the document text
+    quote: 'When you are finished typing and want to switch back to editing text in your document, press Esc.'
+  - id: word.shape_autosize_none
+    editor: word
+    source: word_js_shapeautosize
+    concept: textbox_overflow
+    context: shape / text box autosize property (file-dependent)
+    action: {keys: typing}
+    ui_action: 'input:typing'
+    effect: autosize mode is a property of the shape (None / ShapeToFitText / TextToFitShape)
+    effect_detail: whether a Word text box grows depends on the file's autosize property; 'None' means no autosizing
+    quote: 'none = "None" No autosizing.'
+  - id: word.shape_autosize_fit
+    editor: word
+    source: word_js_shapeautosize
+    concept: textbox_overflow
+    context: shape / text box autosize property (file-dependent)
+    action: {keys: typing}
+    ui_action: 'input:typing'
+    effect: with ShapeToFitText the shape is adjusted to fit the text
+    effect_detail: grows only when the file sets ShapeToFitText
+    quote: 'shapeToFitText = "ShapeToFitText" The shape is adjusted to fit the text.'
+  - id: writer.frame_resizes_with_content
+    editor: writer
+    source: writer_pages_advanced_262
+    concept: textbox_overflow
+    context: frame being filled
+    action: {keys: typing}
+    ui_action: 'input:typing'
+    effect: the frame re-sizes automatically for large content (example given for a picture)
+    effect_detail: guide example concerns a large picture; text auto-height depends on frame settings
+    quote: 'the frame will re-size automatically if, for example, you add a large picture to it'
+  - id: writer.frame_move_drag
+    editor: writer
+    source: writer_pages_advanced_262
+    concept: object_move_drag
+    context: frame
+    action: {mouse: drag an edge}
+    ui_action: 'mouse:drag_object'
+    effect: frame moved
+    quote: 'To change the location of the frame using the mouse, drag and drop one of the edges'
+  - id: writer.image_resize_handles
+    editor: writer
+    source: writer_images_graphics_262
+    concept: object_resize_drag
+    context: image selected
+    action: {mouse: drag a sizing handle}
+    ui_action: 'mouse:drag_handle'
+    effect: image resized
+    quote: 'Images may be resized by dragging the image’s sizing handles'
+  - id: hangul.object_click_selects
+    editor: hangul
+    source: hancom_object_select
+    concept: object_click_select
+    context: object not laid out behind text
+    action: {mouse: single left click on the object}
+    ui_action: 'mouse:click_object'
+    effect: the object is selected
+    effect_detail: objects placed behind text (글 뒤로) are not selected by a plain click
+    quote: '[ 글 뒤로 ] 설정되지 않은 개체는 개체 위에서 마우스 왼쪽 단추를 한 번 누르면 개체가 선택됩니다.'
+  - id: hangul.behind_text_needs_select_tool
+    editor: hangul
+    source: hancom_object_select
+    concept: object_click_select
+    context: object laid out behind text
+    action: {mouse: '[개체 선택] tool, then click'}
+    ui_action: 'command:object_select_tool+mouse:click_object'
+    effect: behind-text objects need the object-selection tool
+    quote: '[글 뒤로] 배치된 개체를 선택할 때는 [개체 선택] 아이콘을 누른 후 개체를 선택하여야 합니다.'
+  - id: hangul.shift_click_multi_select
+    editor: hangul
+    source: hancom_object_select
+    concept: object_multi_select
+    context: selecting drawing objects
+    action: {mouse: Shift+click}
+    ui_action: 'mouse:shift_click_object'
+    effect: adds objects to the selection
+    quote: '글자판의 <Shift>를 누른 채로 마우스의 왼쪽 단추를 눌러 개체를 선택합니다.'
+  - id: word.textbox_select_border
+    editor: word
+    source: word_textbox
+    concept: object_click_select
+    context: text box
+    action: {mouse: click the border}
+    ui_action: 'mouse:click_object'
+    effect: the text box object is selected (inside = its text)
+    quote: 'Make sure the pointer is on the border of the text box, not inside it.'
+  - id: hangul.delete_row.menu
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: delete_row
+    context: caret inside a table
+    action: {keys: Alt+Delete, menu: '(빠른 메뉴) 줄/칸 지우기'}
+    ui_action: 'command:delete_row'
+    effect: opens the delete rows/columns command
+    quote: '줄/칸 지우기 Alt+Delete (빠른 메뉴)줄/칸 지우기'
+  # ------------------------------------------------------------------ batch 3: click places the caret, mouse gestures, word deletion
+  - id: hangul.click_places_caret
+    editor: hangul
+    source: hancom_mouse
+    concept: click_place_caret
+    context: pointer over the document text
+    action: {mouse: left click}
+    ui_action: 'mouse:click_text'
+    effect: the cursor moves to the clicked position at once
+    quote: '이동하고 싶은 곳에 마우스 포인터를 가져다 놓고 마우스의 왼쪽 단추를 누릅니다. 커서가 그 위치로 곧바로 옮겨집니다.'
+  - id: word.click_in_cell
+    editor: word
+    source: word_table_edit
+    concept: click_place_caret
+    context: pointer over a table cell
+    action: {mouse: click in a cell}
+    ui_action: 'mouse:click_text'
+    effect: insertion point in the clicked cell (stated as the first step of table commands)
+    effect_detail: stated for table cells; body text not stated on the snapshotted pages
+    quote: 'Click in a cell above or below where you want to add a row.'
+  - id: writer.click_places_caret
+    editor: writer
+    source: writer_images_graphics_262
+    concept: click_place_caret
+    context: pointer over the document text
+    action: {mouse: click}
+    ui_action: 'mouse:click_text'
+    effect: cursor placed at the clicked position
+    quote: 'Click to place the cursor where the image is to be inserted.'
+  - id: hangul.textbox_click_inside
+    editor: hangul
+    source: hancom_mouse
+    concept: textbox_text_entry
+    context: pointer over the text area of a text box
+    action: {mouse: left click}
+    ui_action: 'mouse:click_inside'
+    effect: cursor at the clicked position (general click rule)
+    effect_detail: derived from the general click rule; the help does not name text boxes explicitly
+    quote: '이동하고 싶은 곳에 마우스 포인터를 가져다 놓고 마우스의 왼쪽 단추를 누릅니다.'
+  - id: hangul.double_click_word
+    editor: hangul
+    source: hancom_mouse
+    concept: mouse_select_word
+    context: pointer over a word in body text
+    action: {mouse: double-click}
+    ui_action: 'mouse:double_click'
+    effect: the word becomes a block
+    quote: '본문에서 낱말에 마우스 포인터를 놓고 두 번 누르면 그 낱말이 블록으로 설정됩니다.'
+  - id: hangul.double_click_object
+    editor: hangul
+    source: hancom_mouse
+    concept: object_double_click
+    context: pointer over an object
+    action: {mouse: double-click}
+    ui_action: 'mouse:double_click_object'
+    effect: opens the object properties dialog
+    effect_detail: Hangul opens properties; not a text-entry gesture
+    quote: '개체를 마우스 왼쪽 단추로 두 번 누르면 [개체 속성] 대화 상자가 나타나 개체 속성을 고칠 수 있습니다.'
+  - id: hangul.triple_click_margin
+    editor: hangul
+    source: hancom_mouse
+    concept: mouse_triple_click
+    context: pointer in the left margin
+    action: {mouse: triple-click}
+    ui_action: 'mouse:triple_click_margin'
+    effect: whole document becomes a block
+    effect_detail: stated only for the left margin
+    quote: '마우스 왼쪽 단추를 세 번 누르면, 문서 전체가 블록으로 설정됩니다.'
+  - id: hangul.drag_block_or_resize
+    editor: hangul
+    source: hancom_mouse
+    concept: mouse_drag_select
+    context: pointer in text (block) or on an object handle (resize)
+    action: {mouse: drag}
+    ui_action: 'mouse:drag_text'
+    effect: sets a block, or resizes an object
+    quote: '블록을 설정하거나 개체의 크기를 바꿀 때 사용합니다.'
+  - id: hangul.drag_resize_object
+    editor: hangul
+    source: hancom_mouse
+    concept: object_resize_drag
+    context: pointer on an object
+    action: {mouse: drag}
+    ui_action: 'mouse:drag_handle'
+    effect: resizes the object
+    quote: '블록을 설정하거나 개체의 크기를 바꿀 때 사용합니다.'
+  - id: hangul.drag_drop_object
+    editor: hangul
+    source: hancom_mouse
+    concept: object_move_drag
+    context: pointer on an object
+    action: {mouse: drag and drop}
+    ui_action: 'mouse:drag_object'
+    effect: the object moves
+    quote: '개체를 마우스로 끌어다 놓으면 개체의 위치가 바뀝니다.'
+  - id: hangul.delete_word_left
+    editor: hangul
+    source: hancom_shortcuts_130
+    concept: delete_word_left
+    context: caret in body text
+    action: {keys: Ctrl+BackSpace}
+    ui_action: 'key:Ctrl+BackSpace'
+    effect: deletes the previous word
+    effect_detail: inside a table the same key deletes the row (hangul.delete_row)
+    quote: '앞 단어 지우기 Ctrl+BackSpace'
+  - id: word.delete_word_left
+    editor: word
+    source: word_shortcuts
+    concept: delete_word_left
+    context: caret in text (Windows)
+    action: {keys: Ctrl+Backspace}
+    ui_action: 'key:Ctrl+BackSpace'
+    effect: deletes one word to the left
+    quote: 'Delete one word to the left. Ctrl+Backspace'
+  - id: writer.delete_word_left
+    editor: writer
+    source: writer_shortcuts_262
+    concept: delete_word_left
+    context: caret in text
+    action: {keys: Ctrl+Backspace}
+    ui_action: 'key:Ctrl+BackSpace'
+    effect: deletes text to the beginning of the word
+    quote: 'Delete text to beginning of word In a list: delete an empty paragraph in front of the current paragraph Ctrl + Backspace'
+  - id: writer.bold
+    editor: writer
+    source: lo_general_shortcuts
+    concept: bold
+    context: text selected (or cursor in a word)
+    action: {keys: Ctrl+B}
+    ui_action: 'key:Ctrl+B'
+    effect: bold applied to the selected area
+    quote: 'Ctrl +B The "Bold" attribute is applied to the selected area.'
+  # ------------------------------------------------------------------ batch 4: Hangul block help + empirical probes (Word, Writer)
+  - id: hangul.typing_replaces_block
+    editor: hangul
+    source: hancom_erase
+    concept: typing_replaces_selection
+    context: a block is set
+    action: {keys: typing}
+    ui_action: 'input:typing'
+    effect: the block is deleted and the new text takes its place
+    quote: '블록을 설정한 상태에서 글자판을 눌러 입력을 시작하면, 블록으로 설정된 부분이 지워지면서 그 자리에 새로운 내용이 입력됩니다.'
+  - id: hangul.delete_block_keys
+    editor: hangul
+    source: hancom_erase
+    concept: delete_selection
+    context: a block is set
+    action: {keys: Delete / BackSpace}
+    ui_action: 'key:Delete|key:BackSpace'
+    effect: 'same as [지우기]: the block is deleted'
+    quote: '블록을 설정한 상태에서 <Delete>나 <BackSpace>를 눌러도 [지우기]와 똑같이 동작합니다.'
+  - id: hangul.mouse_drag_block
+    editor: hangul
+    source: hancom_block
+    concept: mouse_drag_select
+    context: pointer in text
+    action: {mouse: press and drag}
+    ui_action: 'mouse:drag_text'
+    effect: block set to where the mouse is released
+    quote: '마우스 왼쪽 단추를 누른 채로 블록으로 설정할 내용의 끝 부분까지 마우스를 끕니다.'
+  - id: hangul.triple_click_paragraph
+    editor: hangul
+    source: hancom_block
+    concept: mouse_triple_click
+    context: pointer over a word in body text
+    action: {mouse: triple-click}
+    ui_action: 'mouse:triple_click'
+    effect: the paragraph becomes a block
+    effect_detail: paragraph in Hangul and Word, sentence in Writer
+    quote: '그리고 세 번 누르면 그 문단이 블록으로 설정됩니다.'
+  - id: hangul.cell_block_f5
+    editor: hangul
+    source: hancom_block
+    concept: select_cells
+    context: caret in a table
+    action: {keys: F5 F5 then arrows}
+    ui_action: 'key:F5,F5+Arrow'
+    effect: cell block extends with the arrow keys
+    quote: '먼저 표 안에서 <F5>를 연속해서 두 번 누른 다음, 각 방향 화살표 키를 누르면'
+  - id: hangul.arrow_one_char
+    editor: hangul
+    source: hancom_mouse
+    concept: arrow_keys_in_text
+    context: caret in text
+    action: {keys: ←}
+    ui_action: 'key:Arrow'
+    effect: one character to the left
+    quote: '← 한 글자 왼쪽으로 움직입니다.'
+  - id: word.line_end_key
+    editor: word
+    source: word_shortcuts
+    concept: line_home_end
+    context: caret in text (Windows)
+    action: {keys: End}
+    ui_action: 'key:Home|key:End'
+    effect: cursor to the end of the current line
+    quote: 'Move the cursor to the end of the current line. End'
+  - id: hangul.delete_char_keys
+    editor: hangul
+    source: hancom_mouse
+    concept: delete_char
+    context: caret in text
+    action: {keys: Delete}
+    ui_action: 'key:Delete|key:BackSpace'
+    effect: deletes one character after the cursor
+    quote: 'Delete 커서 뒤의 글자를 한 자 지웁니다.'
+  # empirical probes (evidence: probe; observed_match is checked against the latest probe run of that editor)
+  - {id: writer.probe.typing_replaces_selection, editor: writer, evidence: probe, probe: typing_replaces_selection, concept: typing_replaces_selection,
+     ui_action: 'input:typing', effect: 'typed text replaces the selection', observed_match: {paragraphs: ['hello X']}}
+  - {id: word.probe.typing_replaces_selection, editor: word, evidence: probe, probe: typing_replaces_selection, concept: typing_replaces_selection,
+     ui_action: 'input:typing', effect: 'typed text replaces the selection (AutoCorrect off; Word option "Typing replaces selected text" at default)', observed_match: {paragraphs: ['hello X']}}
+  - {id: writer.probe.delete_selection, editor: writer, evidence: probe, probe: delete_key_deletes_selection, concept: delete_selection,
+     ui_action: 'key:Delete|key:BackSpace', effect: 'Delete removes the selection', observed_match: {paragraphs: ['hello ']}}
+  - {id: writer.probe.backspace_selection, editor: writer, evidence: probe, probe: backspace_deletes_selection, concept: delete_selection,
+     ui_action: 'key:Delete|key:BackSpace', effect: 'BackSpace removes the selection', observed_match: {paragraphs: ['hello ']}}
+  - {id: word.probe.delete_selection, editor: word, evidence: probe, probe: delete_key_deletes_selection, concept: delete_selection,
+     ui_action: 'key:Delete|key:BackSpace', effect: 'Delete removes the selection', observed_match: {paragraphs: ['hello ']}}
+  - {id: word.probe.backspace_selection, editor: word, evidence: probe, probe: backspace_deletes_selection, concept: delete_selection,
+     ui_action: 'key:Delete|key:BackSpace', effect: 'BackSpace removes the selection', observed_match: {paragraphs: ['hello ']}}
+  - {id: writer.probe.delete_char, editor: writer, evidence: probe, probe: backspace_deletes_char, concept: delete_char,
+     ui_action: 'key:Delete|key:BackSpace', effect: 'BackSpace deletes the previous character', observed_match: {paragraphs: ['ab']}}
+  - {id: word.probe.delete_char, editor: word, evidence: probe, probe: backspace_deletes_char, concept: delete_char,
+     ui_action: 'key:Delete|key:BackSpace', effect: 'BackSpace deletes the previous character', observed_match: {paragraphs: ['ab']}}
+  - {id: writer.probe.enter, editor: writer, evidence: probe, probe: enter_splits_paragraph, concept: enter_new_paragraph,
+     ui_action: 'key:Enter', effect: 'Enter splits the paragraph', observed_match: {paragraphs: ['a', 'b']}}
+  - {id: word.probe.enter, editor: word, evidence: probe, probe: enter_splits_paragraph, concept: enter_new_paragraph,
+     ui_action: 'key:Enter', effect: 'Enter splits the paragraph', observed_match: {paragraphs: ['a', 'b']}}
+  - {id: writer.probe.home_end, editor: writer, evidence: probe, probe: home_end_line, concept: line_home_end,
+     ui_action: 'key:Home|key:End', effect: 'Home / End go to the line start / end', observed_match: {paragraphs: ['XabcY']}}
+  - {id: word.probe.home_end, editor: word, evidence: probe, probe: home_end_line, concept: line_home_end,
+     ui_action: 'key:Home|key:End', effect: 'Home / End go to the line start / end', observed_match: {paragraphs: ['XabcY']}}
+  - {id: writer.probe.arrow, editor: writer, evidence: probe, probe: arrow_moves_one_char, concept: arrow_keys_in_text,
+     ui_action: 'key:Arrow', effect: 'Left moves one character', observed_match: {paragraphs: ['aXb']}}
+  - {id: word.probe.arrow, editor: word, evidence: probe, probe: arrow_moves_one_char, concept: arrow_keys_in_text,
+     ui_action: 'key:Arrow', effect: 'Left moves one character', observed_match: {paragraphs: ['aXb']}}
+  - {id: writer.probe.tab_filled_cell, editor: writer, evidence: probe, probe: tab_into_filled_cell, concept: tab_next_cell,
+     ui_action: 'key:Tab', effect: 'caret at the start of the next cell, content not selected', effect_detail: 'Writer: no selection (typed X precedes old)',
+     observed_match: {cells: {'0,1': 'Xold'}}}
+  - {id: word.probe.tab_filled_cell, editor: word, evidence: probe, probe: tab_into_filled_cell, concept: tab_next_cell,
+     ui_action: 'key:Tab', effect: 'content of the next cell selected; typing replaces it', effect_detail: 'Word: content selected (typed X replaced old)',
+     observed_match: {cells: {'0,1': 'X'}}}
+  - {id: writer.probe.tab_last_cell_caret, editor: writer, evidence: probe, probe: tab_last_cell_adds_row, concept: last_cell_tab_adds_row,
+     ui_action: 'key:Tab', effect: 'row added; caret in the first cell of the new row', observed_match: {rows: 2, cells: {'1,0': 'X'}}}
+  - {id: word.probe.tab_last_cell_caret, editor: word, evidence: probe, probe: tab_last_cell_adds_row, concept: last_cell_tab_adds_row,
+     ui_action: 'key:Tab', effect: 'row added; caret in the first cell of the new row', observed_match: {rows: 2, cells: {'1,0': 'X'}}}
+  - {id: writer.probe.cell_grows, editor: writer, evidence: probe, probe: cell_grows_with_text, concept: cell_overflow,
+     ui_action: 'input:typing', effect: 'a row with automatic height grows with its text', observed_match: {row_grew: true}}
+  - {id: word.probe.cell_grows, editor: word, evidence: probe, probe: cell_grows_with_text, concept: cell_overflow,
+     ui_action: 'input:typing', effect: 'a row with automatic height grows with its text', observed_match: {row_grew: true}}
+  - {id: writer.probe.ctrl_backspace_cell, editor: writer, evidence: probe, probe: ctrl_backspace_in_cell, concept: delete_word_left,
+     ui_action: 'key:Ctrl+BackSpace', effect: 'deletes the word left of the caret inside a cell (rows unchanged)', observed_match: {rows: 2, cells: {'0,0': 'one '}}}
+  - {id: word.probe.ctrl_backspace_cell, editor: word, evidence: probe, probe: ctrl_backspace_in_cell, concept: delete_word_left,
+     ui_action: 'key:Ctrl+BackSpace', effect: 'deletes the word left of the caret inside a cell (rows unchanged)', observed_match: {rows: 2, cells: {'0,0': 'one '}}}
+  - {id: writer.probe.shift_arrow_cells, editor: writer, evidence: probe, probe: shift_arrow_extends_into_cells, concept: select_cells,
+     ui_action: 'key:Shift+Arrow', effect: 'Shift+Right, Shift+Down from the end of A1 select A1:B2 (4 cells)', effect_detail: 'Writer 4 cells, Word 2 cells for the same keys',
+     observed_match: {selected_cells: 4}}
+  - {id: word.probe.shift_arrow_cells, editor: word, evidence: probe, probe: shift_arrow_extends_into_cells, concept: select_cells,
+     ui_action: 'key:Shift+Arrow', effect: 'the same keys select 2 cells', effect_detail: 'Word 2 cells, Writer 4 cells for the same keys',
+     observed_match: {selected_cells: 2}}

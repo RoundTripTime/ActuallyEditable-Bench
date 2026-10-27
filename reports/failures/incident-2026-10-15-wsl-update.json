@@ -1,0 +1,31 @@
+{
+  "incident": "WSL VM stopped during the pair explorer loop",
+  "date": "2026-10-15",
+  "timeline_kst": [
+    "01:16:07 explorer round 21 processing stage (validate/dedupe/pair, 2-4 s CPU each); no memory pressure",
+    "01:16:57 systemd starts an orderly shutdown (timers/services stopped in order); fetch receives SIGTERM (rc=143)",
+    "01:17 C:\\Program Files\\WSL updated (WSL 3.0.3.0, kernel 6.18.40.1 -> 6.18.54.1)",
+    "01:18:03 boot on the new kernel, 01:19:18 orderly shutdown, 01:19:54 boot",
+    "01:46-02:33 WSL boot loop: '/sbin/init failed to start within 10000ms' x2062, dxg ioctl errors, every boot renames the journal as unclean (journal grew to 809 MB and rotated away the logs before 01:46)",
+    "02:33:55 orderly poweroff, 02:36 boot OK"
+  ],
+  "root_cause": "external: automatic WSL package update shut the VM down; the following boot loop is a WSL/Windows-side problem. No OOM, no kernel panic, no formbench process above a few hundred MB.",
+  "evidence": ["/var/log/syslog lines 2026-10-15T01:16:57 ... 01:19:58", "journalctl -b -1 (boot loop counts)", "mtime of C:/Program Files/WSL = 01:17", "data/logs/explore_20261015T011607.status: fetch rc=143"],
+  "weaknesses_found": [
+    "the memory scope can silently become unavailable (seen as 'memory controller not delegated' while the user manager was stopping); heavy commands would then run with only the per-job watchdog",
+    "PairExplorer.reset_stale existed but was never called; a page left 'visiting' by the shutdown would never be visited again",
+    "after the VM restart the loop does not resume by itself; idle rounds re-ran the processing stage every few minutes",
+    "the system journal is not a reliable record across WSL restarts"
+  ],
+  "fixes": [
+    "resources.ensure_memory_scope: heavy commands (benchmark, reconstruct, render, reproduce, experiment, pilot) exit 4 (blocked_by_environment) without a kernel-enforced scope unless FORMBENCH_MEM_GUARD=off; other commands get an in-process tree watchdog at the scope budget",
+    "resources.log_event -> data/logs/resources.jsonl: every CLI start (scope state, limit, MemAvailable, boot_id), scope unavailability, per-job memory kills and host-pressure requeues",
+    "PairExplorer.reset_stale also forgets pages stuck in 'visiting'; `formbench collect explore-pairs --reset-stale`; scripts/explore_loop_v2.sh runs it once at start, holds a flock (one loop), records boot_id and sleeps on idle rounds",
+    "tests: test_heavy_command_does_not_start_without_a_memory_scope, test_light_bookkeeping_falls_back_to_the_in_process_watchdog, test_self_watchdog_ends_a_runaway_process_tree"
+  ],
+  "not_fixable_here": [
+    "journald size cap (SystemMaxUse) needs root; /var/log/journal is 809 MB after the boot loop",
+    "WSL automatic updates / boot loop are controlled on the Windows side"
+  ],
+  "data_integrity": "SQLite integrity_check ok; no explorer query left running; 1 page requeued"
+}

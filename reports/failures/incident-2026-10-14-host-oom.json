@@ -1,0 +1,94 @@
+{
+ "incident_id": "incident-2026-10-14-host-oom",
+ "status": "resolved",
+ "summary": "The WSL2 host froze and was restarted while `formbench benchmark --dataset eval --workers 14` was running; the eval run stopped at 5/39 templates.",
+ "timeline_kst": [
+  [
+   "05:17:52",
+   "eval benchmark started with 14 workers (run eval-exact-100768131b); LibreOffice cross-rendering started in parallel"
+  ],
+  [
+   "05:18-05:24",
+   "soffice.bin aborted on 30/39 H2Orestart imports; WSL wrote a 1.2 GB crash dump for each abort"
+  ],
+  [
+   "05:25:09",
+   "last benchmark artifact written"
+  ],
+  [
+   "05:28-05:30",
+   "systemd-journald: 'Under memory pressure, flushing caches'"
+  ],
+  [
+   "05:50-05:54",
+   "kernel page allocation failures; last journal entry 05:54:52; no OOM-killer entry"
+  ],
+  [
+   "10:36",
+   "VM restarted"
+  ]
+ ],
+ "root_cause": {
+  "primary": "A* open-list entries (planning/search.py) kept a deep-copied document snapshot and a layout view for every generated node (~6-8 MB each). One search held hundreds of nodes, and freed memory was not returned to the OS between the solves of a long-lived worker.",
+  "amplifiers": [
+   "worker count was sized by CPUs only (14)",
+   "vm.overcommit_memory=1 and no memory limit on the process tree: nothing failed before the host did",
+   "results were written in submission order (executor.map): finished templates behind a slow one were lost"
+  ],
+  "same_defect_elsewhere": "planning/proofs.py brute_force_min queued a snapshot per state: the pytest process exceeded 10 GB on tests/integration test_17[field_form-short]"
+ },
+ "evidence": {
+  "measured_with": "one template per process inside `systemd-run --user --scope -p MemoryMax=14G -p MemorySwapMax=0`, peak RSS (ru_maxrss) logged per Planner.solve",
+  "peak_rss_mb_before_after": {
+   "doc-609e445c2d0fac04": [
+    10265,
+    385
+   ],
+   "doc-5e116cca1db4bdca": [
+    2655,
+    229
+   ],
+   "doc-5166b5f8fa97ee40": [
+    1715,
+    260
+   ],
+   "doc-5dfca0d5fb31d6a1": [
+    1133,
+    221
+   ],
+   "doc-4d739a1089019636": [
+    487,
+    208
+   ]
+  },
+  "note": "the 'before' value of doc-609e445c2d0fac04 is a lower bound: the probe was stopped at 10.3 GB with 3 solves left",
+  "brute_force_min_field_form_short_mb_before_after": [
+   ">10240 (killed by the 10 GB test scope)",
+   106
+  ]
+ },
+ "fix": [
+  "search.py / proofs.py: queue entries hold the plan only; the state of a popped node is rebuilt by replaying its plan on the root snapshot (SOLVER_VERSION 1.1)",
+  "search.py: the time limit is also checked between successors of one expansion",
+  "resources.py: CLI re-executes inside a memory-capped systemd scope (MemoryMax, no swap); every job runs in its own process group with an RSS watchdog; worker count bounded by available memory (configs/resources.yaml)",
+  "runner.py: per-row progress files and atomically written per-template checkpoints; a row killed by the guard is recorded as resource_exhausted and the template continues",
+  "util.run_cmd: external tools run with RLIMIT_CORE=1 (no WSL crash dumps) in their own session; the process group is killed on timeout"
+ ],
+ "verification": {
+  "decisions_unchanged": "pilot-train3 (solver 1.0, before the crash) vs pilot-train3-v11 (solver 1.1): results_hash 552861fd40d2f0c4827f0ec61e44a89942476c8f9a37d747f16a80cb1bbb281e in both; 0 of 160 rows differ in status, cost, bounds, exact_minimum, completion_success, replay_ok, expansions, op_counts",
+  "per_solve_probe": "5 eval templates, 417 solves: status and expansion count identical for every solve that did not hit the 180 s time limit; the 2 differing solves are timeouts in both versions",
+  "tests": "tests/unit/test_resources.py (7 tests) and the checkpoint-resume / impossible-memory-cap sections of tests/e2e/test_pipeline.py",
+  "interrupted_eval_rows": "all 264 rows of the interrupted run (solver 1.0) are identical in status, cost, bounds, exact_minimum, completion_success, replay_ok and expansions to the same rows of the re-run eval-exact-05e24dc553 (solver 1.1)",
+  "rerun": "eval-exact-05e24dc553: 39 templates, 2458 rows, 8 workers, 2106 s, peak job RSS about 400 MB, 0 rows resource_exhausted"
+ },
+ "effect_on_experiment": {
+  "interrupted_run": "reports/experiments/eval-exact-100768131b (264 rows, 5 of 39 templates, protocol 282097450c...) is kept as it was and is not used for any reported number",
+  "seen_before_rerun": "partial aggregates of those 5 templates were printed during the interrupted session; no cost, operator, goal or budget setting was changed afterwards",
+  "rerun": "the eval split is recomputed from scratch under protocol hash b91c0d69c22c8314c5086071083446b9a4fa64dd76b2004a46260b958092a9a0 (differs from the old hash only through SOLVER_VERSION)"
+ },
+ "not_fixed": [
+  "H2Orestart still aborts on some hwp2hwpx output (docs/limitations.md section 4, known_issue); only the crash dumps are suppressed",
+  "rows that hit the 180 s solver time limit remain machine dependent (status timeout)"
+ ],
+ "reproduce": "git stash the fix, then: systemd-run --user --scope -p MemoryMax=14G -p MemorySwapMax=0 python -c \"from formbench.experiment import runner; from formbench.util import load_yaml, path; runner._bench_template(('doc-609e445c2d0fac04', load_yaml(path('configs','evaluation.yaml')), 'exact-or-bounded', '/tmp/x', {}, False))\"  # killed by the scope instead of the host"
+}

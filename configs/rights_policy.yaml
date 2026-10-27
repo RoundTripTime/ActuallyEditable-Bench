@@ -1,0 +1,159 @@
+# Source-level access / reuse rules consumed by PolicyGate. No topic- or agency-level pre-blocking:
+# every source is checked for robots.txt (RFC 9309) first, then these terms/rights rules decide what may be
+# fetched and what may be redistributed. `publicly_accessible` != `redistributable`.
+version: "1.0"
+# Project decision 2026-10-14 (research use, requested by the project owner): when robots.txt cannot be retrieved at all
+# (timeout, TLS failure, 5xx), proceed slowly instead of holding (RFC 9309 would treat this as a full disallow). Recorded per
+# document as robots_result=unreachable_allowed_research. 403/429, CAPTCHA, login walls and block pages are respected and
+# never bypassed (explicit Disallow: see robots_disallow below).
+robots_unreachable: allow_research
+robots_unreachable_delay: 8.0
+# Project decision 2026-10-15 (owner: "연구 및 공익 목적 ... 연구적 및 공익적 이용도 명시적으로 막는 곳 아니면 모두 수집"):
+# an explicit robots.txt Disallow no longer blocks a research fetch; it is overridden at >= robots_override_delay seconds per
+# request and recorded as robots_result=disallowed_overridden_research. Unchanged: 403/429, CAPTCHA, login walls and block
+# pages stop the domain; the User-Agent stays the honest research UA; nothing fetched this way is redistributed.
+robots_disallow: override_research
+robots_override_delay: 10.0
+# hosts whose terms explicitly forbid research / public-interest use (exact host or parent domain); add when found
+research_use_forbidden: []
+default:
+  tos_status: unreviewed
+  rights_status: unknown
+  redistribution_allowed: false
+  allow_page_fetch: true          # HTML pages for link discovery (robots permitting)
+  allow_document_fetch: true      # 2026-10-14 project owner: research collection allowed; unclear rights => research cache only, never redistributed
+  crawl_delay: 4.0
+domains:
+  search.lumy.live:                     # public SearXNG instance, fallback search backend only (JSON API enabled by its operator)
+    tos_status: public_instance_low_volume
+    allow_page_fetch: true
+    crawl_delay: 20.0
+    notes: "one request per 20 s at most; paused automatically on 429/403"
+  www.law.go.kr: &law
+    tos_status: reviewed_allow
+    rights_status: kr_statute_form_not_copyrightable   # 저작권법 제7조 제1호·제2호 (법령, 고시·훈령 등)
+    redistribution_allowed: true
+    allow_document_fetch: true
+    license_url: "https://www.law.go.kr/법령/저작권법/제7조"
+    crawl_delay: 2.5
+    notes: "Statutory annex forms (별지 서식) are part of statutes/administrative rules; not protected works."
+  law.go.kr: *law
+  html.duckduckgo.com:
+    tos_status: robots_allowed_low_volume
+    rights_status: not_applicable_search_results
+    allow_document_fetch: false
+    crawl_delay: 6.0
+    notes: "robots.txt of this host allows all paths; low-volume queries only; stop on any challenge page."
+  api.github.com: &gh
+    tos_status: reviewed_allow
+    rights_status: per_repository_license
+    redistribution_allowed: false   # set per file from the repository licence
+    allow_document_fetch: true
+    crawl_delay: 6.5                # unauthenticated search API: 10 req/min
+    license_url: "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service"
+  raw.githubusercontent.com:
+    <<: *gh
+    crawl_delay: 1.0
+  commons.wikimedia.org: &wm
+    tos_status: reviewed_allow
+    rights_status: per_file_license
+    allow_document_fetch: true
+    crawl_delay: 2.0
+    license_url: "https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia"
+  upload.wikimedia.org: *wm
+  archive.org:
+    tos_status: reviewed_allow
+    rights_status: per_item_license
+    allow_document_fetch: true
+    crawl_delay: 3.0
+  www.irs.gov: &usfed
+    tos_status: reviewed_allow
+    rights_status: us_federal_government_work_public_domain   # 17 U.S.C. §105
+    redistribution_allowed: true
+    allow_document_fetch: true
+    license_url: "https://www.usa.gov/government-copyright"
+    crawl_delay: 3.0
+  www.gsa.gov: *usfed
+  www.uscourts.gov: *usfed
+  www.opm.gov: *usfed
+  www.ssa.gov: *usfed
+  www.uscis.gov: *usfed
+  www.gov.uk: &ogl
+    tos_status: reviewed_allow
+    rights_status: uk_open_government_licence_v3        # Crown copyright material published under OGL v3 unless stated otherwise
+    redistribution_allowed: true
+    allow_document_fetch: true
+    license_url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    crawl_delay: 2.0
+    notes: "OGL v3 permits copying, publishing and adapting with attribution; third-party material excepted per page."
+  assets.publishing.service.gov.uk: *ogl
+classes:
+  - name: kr_government
+    patterns: ["*.go.kr"]
+    tos_status: unreviewed_public_institution
+    rights_status: kr_public_institution_license_unverified   # KOGL type must be verified per posting
+    redistribution_allowed: false                             # hashes/metadata/links only
+    allow_document_fetch: true                                # research cache only, never republished
+    crawl_delay: 4.0
+  - name: kr_public_institution_or_kr          # public bodies on .or.kr, listed one by one (not a blanket *.or.kr rule)
+    patterns: ["www.copyright.or.kr", "*.nhis.or.kr", "www.nhis.or.kr", "support.klac.or.kr", "www.klac.or.kr", "www.sisul.or.kr",
+               "smr.or.kr", "www.kosha.or.kr", "oshri.kosha.or.kr", "support.kasfo.or.kr", "www.khepi.or.kr", "www.nps.or.kr"]
+    tos_status: unreviewed_public_institution
+    rights_status: kr_public_institution_license_unverified
+    redistribution_allowed: false                             # hashes/metadata/links only
+    allow_document_fetch: true                                # research cache only, never republished
+    crawl_delay: 4.0
+    notes: "한국저작권위원회, 국민건강보험공단, 대한법률구조공단, 서울시설공단, 성남시상권활성화재단, 안전보건공단, 한국사회보장정보원(사회서비스) — public bodies"
+  - name: jp_government
+    patterns: ["*.go.jp", "*.lg.jp"]
+    tos_status: unreviewed_public_institution
+    rights_status: jp_government_standard_terms_unverified   # 政府標準利用規約 (CC BY 4.0 compatible) must be confirmed per site
+    redistribution_allowed: false
+    allow_document_fetch: true                                # research cache only until the site terms are confirmed
+    crawl_delay: 4.0
+  - name: anz_ie_government
+    patterns: ["*.gov.au", "*.govt.nz", "*.gov.ie", "*.gc.ca", "*.canada.ca", "*.gov.uk"]   # local councils on *.gov.uk: licence per council
+    tos_status: unreviewed_public_institution
+    rights_status: government_licence_unverified             # often CC BY 4.0 / Crown copyright; must be confirmed per site
+    redistribution_allowed: false
+    allow_document_fetch: true                                # research cache only until the licence is confirmed
+    crawl_delay: 4.0
+  - name: asia_government
+    patterns: ["*.gov.tw", "*.gov.sg", "*.gov.hk", "*.gov.mo"]
+    tos_status: unreviewed_public_institution
+    rights_status: government_licence_unverified             # e.g. Taiwan Open Government Data License; confirm per site
+    redistribution_allowed: false
+    allow_document_fetch: true
+    crawl_delay: 4.0
+  - name: europe_us_government
+    patterns: ["*.bayern.de", "*.bund.de", "*.nrw.de", "*.berlin.de", "*.hamburg.de", "*.gv.at", "*.admin.ch", "*.gouv.fr", "*.gob.es",
+               "*.ca.gov", "*.ny.gov", "*.mass.gov", "*.wa.gov", "*.nj.gov", "*.texas.gov", "*.uscourts.gov", "*.nhs.uk", "*.nhs.scot",
+               "*.gov.scot", "*.gov.wales"]
+    tos_status: unreviewed_public_institution
+    rights_status: government_licence_unverified             # US federal works are public domain; others per site
+    redistribution_allowed: false
+    allow_document_fetch: true
+    crawl_delay: 4.0
+  - name: jp_public_bodies                                     # 独立行政法人 / 公的法人 on .or.jp, listed one by one
+    patterns: ["www.sangyokoyo.or.jp", "www.keikenkyo.or.jp", "www.kokuhoren-yamaguchi.or.jp"]
+    tos_status: unreviewed_public_institution
+    rights_status: jp_public_body_terms_unverified
+    redistribution_allowed: false
+    allow_document_fetch: true
+    crawl_delay: 4.0
+  - name: owner_nominated_private_sites      # nominated by the project owner 2026-10-14; research cache only, never redistributed
+    patterns: ["stepkeep.app", "www.resumeadapter.com", "firsthr.app", "www.msofficeforums.com", "cercle-rh.fr", "facturego.ma",
+               "czone.eastsussex.gov.uk"]
+    tos_status: owner_nominated_research_only
+    rights_status: private_site_rights_unverified
+    redistribution_allowed: false
+    allow_document_fetch: true
+    crawl_delay: 6.0
+  - name: commercial_template_sites
+    patterns: ["*bizocean.jp", "*template-free.biz", "*template-sozai.com", "*pikbest.com", "*freeforms.co.kr", "*baroyangsik.com", "*jform.co.kr", "*yesform.com", "*bizforms.co.kr", "*formsite*", "*jotform.com", "*templatelab.com", "*pdffiller.com", "*smartsheet.com", "*template.net"]
+    tos_status: unreviewed_commercial
+    rights_status: commercial_template_rights_unclear
+    redistribution_allowed: false
+    allow_document_fetch: true                                 # research cache only (project owner decision 2026-10-14)
+    notes: "Templates are the site's commercial product; binaries are not downloaded, metadata only."
+takedown: []        # URL patterns removed on request; propagated by `formbench collect takedown`

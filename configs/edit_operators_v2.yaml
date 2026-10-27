@@ -1,0 +1,297 @@
+# Human-action operator contract v2 (metric contract part 1, replaces v1.0 for new experiments; v1.0 stays in
+# configs/edit_operators.yaml for reproducing archived runs). FROZEN before experiments: any change bumps `version`.
+#
+# Decisions (user, 2026-10-16):
+#   * Atomic units imitate what a person actually does in an editor.
+#   * Reference UI = the COMMON SUBSET of Hancom Hangul, Microsoft Word and LibreOffice Writer: an action is admitted
+#     only if every editor performs it with the same gesture and the same effect, as stated by official sources
+#     (configs/knowledge/facts.yaml, verified by `formbench kb verify`). Where effects differ, the action is admitted
+#     only under the stated condition that makes them agree.
+#   * One text input = inserting ONE value given in advance by the task contract into ONE normal editable input
+#     area (counted 1, whatever its length). A value that the structure forces into k containers costs k inputs plus
+#     the actions needed to reach each container and any restructuring.
+#   * Row insertion, cell merge/split, object move/resize and format corrections are independent atomic actions.
+#   * Main cost = number of actions (`actions`); KLM time (`klm_ms`) is auxiliary.
+#
+# admission:
+#   common       all editors: same ui_action, same effect (kb concept status 'common')
+#   conditional  admitted only when `condition` holds in the current state (checked by the executor, see `guard`)
+#   unsupported  no common gesture/effect is established by the knowledge base -> any plan needing it is reported
+#                as unsupported_operation (never silently replaced)
+# Teleporting to a node id, writing XML, pasting the oracle and whole-document replacement do not exist here.
+version: "2.1.0"        # 2.1.0 (2026-10-16): empirical probes (Word 16, Writer 26.2) + Hangul block help admit deletion, overwrite, Enter, Home/End, arrows, cell growth
+reference_ui: common_subset(hangul, word, writer)
+knowledge_base: {sources: configs/knowledge/sources.yaml, facts: configs/knowledge/facts.yaml, probes: configs/knowledge/probes.yaml}
+evidence_classes: [official_source_quote, empirical_probe (Word, Writer only: Hangul is installed on the Windows host but its key-input probes were not run; they need a separate approval)]
+cost_schemes: [actions, klm_ms]
+main_scheme: actions
+klm_constants_ms: {K: 280, P: 1100, H: 400, M: 1350, B: 100, BB: 200}   # Card, Moran & Newell (1980); BB = press+release
+klm_typing: "input_value: M + K per keystroke of the value (Hangul syllables counted as 2-beolsik jamo keystrokes, Latin capitals +1 for Shift)"
+klm_pointing: "mouse actions: P (Fitts estimate is not used: P constant), H when the hand comes from the keyboard"
+forbidden: [replace_whole_document, write_arbitrary_xml, paste_completed_reference, focus_node_id]
+state:
+  view: "rendered pages of the reference renderer (document_ir/layout.py); a point is (page, x_pt, y_pt)"
+  caret: "(paragraph, offset) or unknown; unknown after any command whose caret result the sources do not state"
+  text_selection: "(paragraph, start, end) or none"
+  object_selection: "set of object ids"
+  hand: "keyboard | mouse (for klm_ms only)"
+hit_test: >-
+  A point resolves to the topmost item: objects laid in front of text (and inline objects) > text of a text box /
+  frame > table cell text > body text. Objects laid out behind text are transparent to a plain click
+  (hangul.behind_text_needs_select_tool). A point on an object's border selects the object
+  (word.textbox_select_border); a point on an image or a shape without text selects it (hangul.object_click_selects).
+operators:
+  # ------------------------------------------------------------------ navigation
+  - name: click_text
+    category: navigation
+    concepts: [click_place_caret, textbox_text_entry]
+    admission: conditional
+    condition: "the point hits editable text (body, table cell, or text area of a text box that is not currently object-selected)"
+    guard: [hit_is_text, container_not_protected, textbox_not_object_selected]
+    facts: [hangul.click_places_caret, word.click_in_cell, writer.click_places_caret, hangul.textbox_click_inside,
+            word.textbox_text_entry, writer.frame_text_entry, writer.frame_deselect_first]
+    parameters: {page: int, x: pt, y: pt}
+    state_transition: "caret := hit position; selections cleared"
+    backend: [focus]
+    unit_cost: {actions: 1, klm_ms: "H? + P + BB"}
+    note: "A click on an image / non-text object selects the object instead (click_object); a click on a text box that is
+      object-selected first needs a click elsewhere (Writer frame rule)."
+  - name: key_tab_next_cell
+    category: table_cell_access
+    concepts: [tab_next_cell]
+    admission: conditional
+    condition: "caret in a table cell that is not the last cell, and the next cell is EMPTY (Word selects the next cell's content; with no content all editors end with the caret in that cell)"
+    guard: [caret_in_cell, not_last_cell, next_cell_empty]
+    facts: [hangul.tab_next_cell, hangul.tab_next_cell.caret, word.tab_next_cell, writer.tab_next_cell]
+    parameters: {}
+    state_transition: "caret := start of the next cell (reading order of the table)"
+    backend: [focus_cell]
+    unit_cost: {actions: 1, klm_ms: "H? + K"}
+  - name: key_shift_tab_prev_cell
+    category: table_cell_access
+    concepts: [shift_tab_prev_cell]
+    admission: conditional
+    condition: "caret in a table cell that is not the first cell, and the previous cell is EMPTY"
+    guard: [caret_in_cell, not_first_cell, prev_cell_empty]
+    facts: [hangul.shift_tab_prev_cell, hangul.shift_tab_prev_cell.caret, word.shift_tab_prev_cell, writer.shift_tab_prev_cell]
+    parameters: {}
+    state_transition: "caret := the previous cell"
+    backend: [focus_cell]
+    unit_cost: {actions: 1, klm_ms: "H? + 2K"}
+  # ------------------------------------------------------------------ selection
+  - name: double_click_word
+    category: selection
+    concepts: [mouse_select_word]
+    admission: conditional
+    condition: "the point hits a word of body or table-cell text (Hangul states the gesture for body text; on objects it opens properties)"
+    guard: [hit_is_text, hit_not_in_textbox]
+    facts: [word.mouse_double_click_word, writer.mouse_double_click_word, hangul.double_click_word]
+    parameters: {page: int, x: pt, y: pt}
+    state_transition: "text_selection := the word under the point"
+    backend: [focus, select_range]
+    unit_cost: {actions: 1, klm_ms: "H? + P + 2BB"}
+  - name: drag_select_text
+    category: selection
+    concepts: [mouse_drag_select]
+    admission: conditional
+    condition: "start and end points hit text of the SAME paragraph (selection across containers or cells differs between editors and is not admitted)"
+    guard: [hit_is_text, same_paragraph]
+    facts: [word.mouse_drag_select, writer.mouse_drag_select, hangul.drag_block_or_resize]
+    parameters: {from: [page, x, y], to: [page, x, y]}
+    state_transition: "text_selection := characters between the two hit positions"
+    backend: [focus, select_range]
+    unit_cost: {actions: 1, klm_ms: "H? + P + B + P + B"}
+  - name: key_shift_arrow
+    category: selection
+    concepts: [select_extend_keys]
+    admission: common
+    facts: [hangul.select_shift_arrow, word.select_shift_arrow, writer.select_shift_arrow]
+    parameters: {direction: "left | right", count: "int >= 1 (each key press is one action)"}
+    state_transition: "selection extended by `count` characters within the caret paragraph"
+    backend: [select_range]
+    unit_cost: {actions: "count", klm_ms: "H? + count*K"}
+  # ------------------------------------------------------------------ input and deletion
+  - name: input_value
+    category: input
+    concepts: [typing_replaces_selection, cell_overflow, textbox_overflow]
+    admission: conditional
+    condition: >-
+      caret in a normal editable input area (paragraph of body, table cell, text box or form field; never an image,
+      protected region or generated text); an active text selection is replaced by the typed value (common: Hangul
+      help, Word and Writer probes); the inserted text is exactly the contract value, or one contiguous segment of it
+      (segments of one value in order); after insertion the container shows all of its text: table rows with automatic
+      height grow (common), but a text box that would have to grow (Hangul grows, Word / Writer depend on the object's
+      autosize property) or a fixed-height row that would clip is not admitted.
+    guard: [caret_set, caret_editable, value_from_contract, segment_in_order, no_clipping, textbox_no_growth]
+    facts: [hangul.typing_replaces_block, word.probe.typing_replaces_selection, writer.probe.typing_replaces_selection,
+            hangul.cell_grows_with_text, word.probe.cell_grows, writer.probe.cell_grows,
+            hangul.textbox_autogrow, word.shape_autosize_none, word.shape_autosize_fit, writer.frame_resizes_with_content]
+    parameters: {value_id: "contract value id", segment: "[start, end) character range of the value (default: whole value)"}
+    state_transition: "selection (if any) removed; text inserted at the caret with the formatting of the preceding run; caret advances"
+    backend: [delete_selection, type_text]
+    unit_cost: {actions: 1, klm_ms: "M + K*keystrokes(text)"}
+  - name: key_ctrl_backspace
+    category: delete
+    concepts: [delete_word_left]
+    admission: conditional
+    condition: "caret NOT inside a table (in a Hangul table Ctrl+BackSpace deletes the row)"
+    guard: [caret_set, caret_not_in_table]
+    facts: [hangul.delete_word_left, word.delete_word_left, writer.delete_word_left]
+    parameters: {count: "int >= 1"}
+    state_transition: "the word left of the caret is deleted, `count` times"
+    backend: [select_range, delete_selection]
+    unit_cost: {actions: "count", klm_ms: "H? + count*2K"}
+  - name: key_delete
+    category: delete
+    concepts: [delete_selection, delete_char]
+    admission: common
+    facts: [hangul.delete_block_keys, word.probe.delete_selection, writer.probe.delete_selection, hangul.delete_char_keys,
+            word.probe.delete_char, writer.probe.delete_char]
+    parameters: {key: "Delete | BackSpace", count: "int >= 1 (each press is one action)"}
+    state_transition: "with a selection: the selection is removed (one press); without: one character after (Delete) / before (BackSpace) the caret per press"
+    backend: [delete_selection]
+    unit_cost: {actions: "count", klm_ms: "H? + count*K"}
+  - name: key_enter
+    category: paragraph_structure
+    concepts: [enter_new_paragraph]
+    admission: common
+    facts: [hangul.enter_new_paragraph, word.enter_new_paragraph_in_cell, word.probe.enter, writer.probe.enter]
+    parameters: {}
+    state_transition: "the paragraph is split at the caret; caret at the start of the new paragraph"
+    backend: [split_paragraph]
+    unit_cost: {actions: 1, klm_ms: "H? + K"}
+  - name: key_arrow
+    category: navigation
+    concepts: [arrow_keys_in_text]
+    admission: conditional
+    condition: "left / right inside the text of one paragraph (movement across cells or paragraphs differs and is not admitted)"
+    guard: [caret_set, stays_in_paragraph]
+    facts: [hangul.arrow_one_char, word.probe.arrow, writer.probe.arrow]
+    parameters: {direction: "left | right", count: "int >= 1"}
+    state_transition: "caret moves count characters"
+    backend: [move_caret]
+    unit_cost: {actions: "count", klm_ms: "H? + count*K"}
+  - name: key_home_end
+    category: navigation
+    concepts: [line_home_end]
+    admission: conditional
+    condition: "the caret paragraph is a single line in the reference layout (line breaks depend on the renderer)"
+    guard: [caret_set, single_line_paragraph]
+    facts: [hangul.line_home_end, word.line_end_key, word.probe.home_end, writer.probe.home_end]
+    parameters: {key: "Home | End"}
+    state_transition: "caret to the start / end of the paragraph"
+    backend: [move_caret]
+    unit_cost: {actions: 1, klm_ms: "H? + K"}
+  # ------------------------------------------------------------------ table structure
+  - name: key_tab_last_cell
+    category: table_structure
+    concepts: [last_cell_tab_adds_row]
+    admission: common
+    facts: [hangul.last_cell_tab_adds_row, word.last_cell_tab_adds_row, writer.last_cell_tab_adds_row]
+    parameters: {}
+    preconditions: ["caret in the last cell of a table"]
+    state_transition: "a row is appended below; caret := unknown (where the caret lands is not stated by all sources)"
+    backend: [table_insert_row]
+    unit_cost: {actions: 1, klm_ms: "H? + K"}
+  - name: cmd_insert_row_below
+    category: table_structure
+    concepts: [insert_row]
+    admission: common
+    facts: [hangul.insert_row.ctrl_enter, hangul.insert_row.below, hangul.insert_row.menu, word.insert_row, writer.insert_row]
+    parameters: {}
+    preconditions: ["caret in a table cell"]
+    state_transition: "a row with the cell structure of the current row is inserted below it; caret := unknown"
+    backend: [table_insert_row]
+    unit_cost: {actions: 1, klm_ms: "M + menu path (P+BB per level, 2 levels)"}
+  - name: cmd_delete_row
+    category: table_structure
+    concepts: [delete_row]
+    admission: conditional
+    condition: "caret in the row to delete (Word's source page is stated for Word for the web; Hangul via the 줄/칸 지우기 command)"
+    guard: [caret_in_cell]
+    facts: [hangul.delete_row.menu, word.delete_row, writer.delete_row]
+    parameters: {}
+    state_transition: "the caret row is removed; caret := unknown"
+    backend: [table_delete_row]
+    unit_cost: {actions: 1, klm_ms: "M + menu path (2 levels)"}
+  - name: cmd_merge_cells
+    category: table_merge
+    concepts: [merge_cells, select_cells]
+    admission: unsupported
+    reason: "the merge command is common, but selecting a block of cells has no common gesture: Hangul F5,F5+arrows; Shift+arrows select 4 cells in Writer and 2 in Word (probe)"
+    facts: [hangul.merge_cells, word.merge_cells, writer.merge_cells, hangul.cell_block_f5, word.probe.shift_arrow_cells, writer.probe.shift_arrow_cells]
+    backend: [table_merge_cells]
+    unit_cost: {actions: 1, klm_ms: "M + menu path (2 levels)"}
+  - name: cmd_split_cell
+    category: table_merge
+    concepts: [split_cell]
+    admission: conditional
+    condition: "caret inside the cell to split (Writer); the split dialog's row/column counts are part of the one command"
+    guard: [caret_in_cell, cell_is_merged]
+    facts: [hangul.split_cell, word.split_cell, writer.split_cell]
+    parameters: {}
+    state_transition: "a merged cell is split back into its grid cells; caret := unknown"
+    backend_limit: "the native backend restores merged cells only; splitting an unmerged cell -> unsupported_operation"
+    backend: [table_split_cell]
+    unit_cost: {actions: 1, klm_ms: "M + menu path (2 levels) + dialog (2K + BB)"}
+  # ------------------------------------------------------------------ objects
+  - name: drag_object
+    category: object_move
+    concepts: [object_move_drag]
+    admission: conditional
+    condition: "the object is hit by a plain click (not laid out behind text: Hangul needs the selection tool for those)"
+    guard: [object_clickable]
+    facts: [hangul.drag_drop_object, word.textbox_move_drag, writer.frame_move_drag]
+    parameters: {object: "hit point on the object", to: [page, x, y]}
+    state_transition: "object moved by the drag vector; object_selection := {object}"
+    backend: [select_objects, move_selection]
+    unit_cost: {actions: 1, klm_ms: "H? + P + B + P + B"}
+  - name: drag_resize_object
+    category: object_resize
+    concepts: [object_resize_drag]
+    admission: unsupported
+    reason: "Word: no snapshotted official statement of resizing by sizing handles yet"
+    facts: [hangul.drag_resize_object, writer.image_resize_handles]
+    backend: [resize_object]
+    unit_cost: {actions: 1, klm_ms: "H? + P + B + P + B"}
+  # ------------------------------------------------------------------ formatting and recovery
+  - name: key_ctrl_b
+    category: formatting
+    concepts: [bold]
+    admission: conditional
+    condition: "a text selection exists (bold applies to the selected text in all editors)"
+    guard: [text_selection]
+    facts: [hangul.bold, word.bold, writer.bold]
+    parameters: {}
+    state_transition: "bold toggled on the selection"
+    backend: [set_char_format]
+    unit_cost: {actions: 1, klm_ms: "H? + 2K"}
+  - name: key_ctrl_z
+    category: undo_recovery
+    concepts: [undo]
+    admission: common
+    facts: [hangul.undo, word.undo, writer.undo]
+    parameters: {}
+    state_transition: "the last action is undone"
+    backend: [undo]
+    unit_cost: {actions: 1, klm_ms: "H? + 2K"}
+  - name: key_ctrl_tab
+    category: input
+    concepts: [tab_char_in_cell]
+    admission: conditional
+    condition: "caret in a table cell"
+    guard: [caret_in_cell]
+    facts: [hangul.tab_char_in_cell, word.tab_char_in_cell, writer.tab_char_in_cell]
+    parameters: {}
+    state_transition: "a tab character is inserted in the cell"
+    backend: [type_text]
+    unit_cost: {actions: 1, klm_ms: "H? + 2K"}
+  # ------------------------------------------------------------------ not admitted (no common evidence yet)
+  - {name: click_object, category: object_select, concepts: [object_click_select], admission: unsupported,
+     reason: "Writer: no snapshotted statement", backend: [select_objects], unit_cost: {actions: 1, klm_ms: "H? + P + BB"}}
+  - {name: toggle_checkbox, category: check_state, concepts: [checkbox_toggle], admission: unsupported,
+     reason: "no official statement yet for a common gesture that toggles a check box / check glyph", backend: [toggle_checkbox],
+     unit_cost: {actions: 1, klm_ms: "H? + P + BB"}}
+  - {name: create_textbox, category: object_create, concepts: [textbox_create], admission: unsupported,
+     reason: "Writer frame / text box insertion not yet in the knowledge base", backend: [create_textbox],
+     unit_cost: {actions: 2, klm_ms: "M + menu path + P + B + P + B"}}

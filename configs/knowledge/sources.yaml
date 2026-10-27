@@ -1,0 +1,345 @@
+# Verified official-source catalog for a document-editing benchmark
+# Sources are referenced by URL; this manifest does not redistribute vendor content.
+# Ingestion must respect each source's terms, robots directives, and attribution requirements.
+#
+# Entries up to writer_shortcuts_online (exclusive) were given by the user on 2026-10-16 and are kept as given;
+# later entries were added under the same rules. Every entry is fetched by `formbench kb fetch` through the
+# policy-gated collector (robots / terms / rate limits), snapshotted by sha256 under data/knowledge/ (git-ignored,
+# never redistributed), and `formbench kb verify` checks that every fact in facts.yaml quotes its snapshot verbatim.
+manifest_version: '1.0'
+retrieval_layers:
+  - id: editor_operations
+    purpose: "Actual editor actions, shortcuts, menus, prerequisites, and side effects"
+  - id: format_semantics
+    purpose: "Native document objects, package layout, XML schema and relationships"
+  - id: cost_model
+    purpose: "Published human-performance models used only for the auxiliary time estimate (KLM)"
+source_catalog:
+  - id: hancom_shortcuts_130
+    layer: editor_operations
+    product: Hancom Hangul
+    version: 'hoffice130 assistant'
+    platform: Windows
+    kind: official_help_html
+    priority: critical
+    url: 'https://help.hancom.com/hoffice130_assistant/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm'
+    topics: [navigation, selection, table, row, cell, paragraph, object, formatting]
+    note: 'Record editor mode and current focus; shortcut meaning is context dependent.'
+  - id: hancom_table_edit
+    layer: editor_operations
+    product: Hancom Hangul
+    version: legacy_help
+    platform: Windows
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.hancom.com/hoffice/multi/ko_kr/hwp/table/table%28edit%29.htm'
+    topics: [table, cell_navigation, text_overflow]
+    note: 'Older documentation: never override a conflicting 130-version operation.'
+  - id: hancom_hwpx_structure
+    layer: format_semantics
+    product: HWPX
+    version: OWPML
+    kind: official_technical_article
+    priority: critical
+    url: 'https://tech.hancom.com/hwpxformat/'
+    topics: [package, xml, sections, paragraphs, styles, objects]
+  - id: hancom_owpml_spec_portal
+    layer: format_semantics
+    product: HWPX
+    version: 'KS X 6101 / OWPML'
+    kind: official_vendor_spec_download_page
+    priority: critical
+    url: 'https://www.hancom.com/support/downloadCenter/hwpOwpml'
+    topics: [specification, schemas, versioning]
+    note: 'Select OWPML tab; direct download links may require site interaction.'
+  - id: hancom_owpml_model
+    layer: format_semantics
+    product: HWPX
+    version: vendor_implementation
+    kind: official_vendor_source_code
+    priority: supporting
+    url: 'https://github.com/hancom-io/hwpx-owpml-model'
+    topics: [model, parser, serialization]
+  - id: word_shortcuts
+    layer: editor_operations
+    product: Microsoft Word
+    version: 'Microsoft 365 / Word 2024, see page applicability'
+    platform: Windows
+    kind: official_help_html
+    priority: critical
+    url: 'https://support.microsoft.com/en-us/accessibility/word/keyboard-shortcuts-in-word'
+    topics: [navigation, selection, table, row, paragraph, style, object, editing]
+    note: 'Split Windows/macOS/mobile/web sections; do not combine action costs.'
+  - id: word_table_edit
+    layer: editor_operations
+    product: Microsoft Word
+    version: 'Microsoft 365 / Word 2024, see page applicability'
+    platform: Windows
+    kind: official_help_html
+    priority: critical
+    url: 'https://support.microsoft.com/en-us/word/add-a-cell-row-or-column-to-a-table-in-word'
+    topics: [insert_row, insert_column, insert_cell]
+  - id: docx_openxml_overview
+    layer: format_semantics
+    product: DOCX
+    version: OOXML
+    kind: official_sdk_documentation
+    priority: critical
+    url: 'https://learn.microsoft.com/en-us/office/open-xml/word/overview'
+    topics: [wordprocessingml, package, sections, paragraphs, styles]
+  - id: docx_openxml_tables
+    layer: format_semantics
+    product: DOCX
+    version: OOXML
+    kind: official_sdk_documentation
+    priority: critical
+    url: 'https://learn.microsoft.com/en-us/office/open-xml/word/working-with-wordprocessingml-tables'
+    topics: [table, row, cell, properties, grid]
+  - id: docx_ecma376
+    layer: format_semantics
+    product: DOCX
+    version: 'ECMA-376 parts 1-4'
+    kind: official_standard_download_page
+    priority: critical
+    url: 'https://dev.ecma-international.org/publications-and-standards/standards/ecma-376/'
+    topics: [ooxml, wordprocessingml, packaging, compatibility]
+    note: 'Part 1 = language reference; Part 2 = package; select official PDF downloads.'
+  - id: writer_guide_262
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: '26.2'
+    platform: cross_platform
+    kind: official_guide_index
+    priority: critical
+    url: 'https://books.libreoffice.org/en/WG262/WG262.html'
+    topics: [text, styles, tables, figures, forms, fields, menus]
+  - id: writer_tables_262
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: '26.2'
+    platform: cross_platform
+    kind: official_guide_html
+    priority: critical
+    url: 'https://books.libreoffice.org/en/WG262/WG26213-Tables.html'
+    topics: [table_creation, navigation, insertion, deletion, merge, split]
+  - id: writer_shortcuts_262
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: '26.2'
+    platform: cross_platform
+    kind: official_guide_html
+    priority: critical
+    url: 'https://books.libreoffice.org/en/WG262/WG26222-KeyboardShortcuts.html'
+    topics: [keyboard_shortcuts, table_navigation, context_actions]
+  # ---- added after the user's list (same rules)
+  - id: writer_shortcuts_online
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: 'online help (latest)'
+    platform: cross_platform
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.libreoffice.org/latest/en-US/text/swriter/04/01020000.html'
+    topics: [keyboard_shortcuts, table_shortcuts]
+    note: 'Help pages track the current release; the 26.2 guide wins on conflict for the stated version.'
+  - id: writer_insert_rows_online
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: 'online help (latest)'
+    platform: cross_platform
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.libreoffice.org/latest/en-US/text/swriter/01/05120400.html'
+    topics: [insert_row, insert_column]
+  - id: hancom_table_insert
+    layer: editor_operations
+    product: Hancom Hangul
+    version: legacy_help
+    platform: Windows
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.hancom.com/hoffice/multi/ko_kr/hwp/table/table%28ins%29.htm'
+    topics: [insert_row, insert_column, last_cell_tab]
+    note: 'Older documentation: never override a conflicting 130-version operation.'
+  - id: word_textbox
+    layer: editor_operations
+    product: Microsoft Word
+    version: 'Microsoft 365 / Word 2024, see page applicability'
+    platform: Windows
+    kind: official_help_html
+    priority: critical
+    url: 'https://support.microsoft.com/en-us/word/add-copy-or-remove-a-text-box-in-word'
+    topics: [textbox, object, text_entry, move, delete]
+  - id: odf_13_schema
+    layer: format_semantics
+    product: ODT
+    version: 'OASIS OpenDocument 1.3 Part 3 (schema)'
+    kind: official_standard_html
+    priority: critical
+    url: 'https://docs.oasis-open.org/office/OpenDocument/v1.3/os/part3-schema/OpenDocument-v1.3-os-part3-schema.html'
+    topics: [text, table, frame, draw, styles]
+  - id: odf_13_package
+    layer: format_semantics
+    product: ODT
+    version: 'OASIS OpenDocument 1.3 Part 2 (packages)'
+    kind: official_standard_html
+    priority: supporting
+    url: 'https://docs.oasis-open.org/office/OpenDocument/v1.3/os/part2-packages/OpenDocument-v1.3-os-part2-packages.html'
+    topics: [package, manifest]
+  - id: klm_card_moran_newell_1980
+    layer: cost_model
+    product: Keystroke-Level Model
+    version: 'Card, Moran & Newell (1980), CACM 23(7)'
+    kind: peer_reviewed_article_doi
+    priority: critical
+    url: 'https://doi.org/10.1145/358886.358895'
+    topics: [klm, keystroke, pointing, homing, mental]
+    note: 'Constants are cited, not quoted from the paywalled text; facts from this source carry status cited_not_snapshotted.'
+  - id: ms_blog_tables_keyboard
+    layer: editor_operations
+    product: Microsoft Word
+    version: 'archived Microsoft blog (2012-10-12; statement covers Word 97 onward)'
+    platform: Windows
+    kind: official_vendor_blog_archive
+    priority: supporting
+    url: 'https://learn.microsoft.com/en-us/archive/blogs/murrays/inserting-tables-using-the-keyboard'
+    topics: [table_navigation, last_cell_tab, insert_row]
+    note: 'Archived blog, not product help: used only where the current help pages are silent.'
+  - id: word_merge_split
+    layer: editor_operations
+    product: Microsoft Word
+    version: 'Microsoft 365 / Word 2024, see page applicability'
+    platform: Windows
+    kind: official_help_html
+    priority: critical
+    url: 'https://support.microsoft.com/en-us/word/merge-or-split-cells-in-a-table'
+    topics: [merge_cells, split_cells]
+  - id: word_delete_rows
+    layer: editor_operations
+    product: Microsoft Word
+    version: 'see page applicability'
+    platform: Windows
+    kind: official_help_html
+    priority: critical
+    url: 'https://support.microsoft.com/en-us/word/delete-rows-and-columns-from-a-table'
+    topics: [delete_row, delete_column]
+  - id: hancom_textbox
+    layer: editor_operations
+    product: Hancom Hangul
+    version: legacy_help
+    platform: Windows
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.hancom.com/hoffice/multi/ko_kr/hwp/insert/textbox/textbox.htm'
+    topics: [textbox, text_entry, autogrow, exit_textbox]
+    note: 'Older documentation: never override a conflicting 130-version operation.'
+  - id: writer_text_basics_262
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: '26.2'
+    platform: cross_platform
+    kind: official_guide_html
+    priority: critical
+    url: 'https://books.libreoffice.org/en/WG262/WG26202-TextBasics.html'
+    topics: [typing, selecting, deleting, cursor_movement]
+  - id: writer_formatting_text_262
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: '26.2'
+    platform: cross_platform
+    kind: official_guide_html
+    priority: critical
+    url: 'https://books.libreoffice.org/en/WG262/WG26204-FormattingText.html'
+    topics: [character_formatting, paragraph_formatting, bold]
+  - id: writer_pages_advanced_262
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: '26.2'
+    platform: cross_platform
+    kind: official_guide_html
+    priority: critical
+    url: 'https://books.libreoffice.org/en/WG262/WG26206-FormattingPagesAdvanced.html'
+    topics: [frames, text_boxes, layout, anchoring]
+  - id: writer_images_graphics_262
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: '26.2'
+    platform: cross_platform
+    kind: official_guide_html
+    priority: critical
+    url: 'https://books.libreoffice.org/en/WG262/WG26211-ImagesAndGraphics.html'
+    topics: [objects, move, resize, anchor, wrap, drawing_text]
+  - id: writer_forms_262
+    layer: editor_operations
+    product: LibreOffice Writer
+    version: '26.2'
+    platform: cross_platform
+    kind: official_guide_html
+    priority: supporting
+    url: 'https://books.libreoffice.org/en/WG262/WG26218-Forms.html'
+    topics: [form_controls, checkbox]
+  - id: word_select_text
+    layer: editor_operations
+    product: Microsoft Word
+    version: 'Microsoft 365 / Word 2024, see page applicability'
+    platform: Windows
+    kind: official_help_html
+    priority: critical
+    url: 'https://support.microsoft.com/en-us/article/08be5e4e-dc38-43eb-8fa4-ecd02bd6e32b'
+    topics: [select_text, mouse_selection, click, double_click, drag]
+  - id: word_js_shapeautosize
+    layer: format_semantics
+    product: DOCX
+    version: 'Word JavaScript API (Word.ShapeAutoSize)'
+    kind: official_sdk_documentation
+    priority: supporting
+    url: 'https://learn.microsoft.com/en-us/javascript/api/word/word.shapeautosize'
+    topics: [textbox, autofit, shape_to_fit_text]
+  - id: hancom_object_select
+    layer: editor_operations
+    product: Hancom Hangul
+    version: legacy_help
+    platform: Windows
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.hancom.com/hoffice/multi/ko_kr/hwp/draw/drawing%28select%29.htm'
+    topics: [object_selection, click, shift_click, rubber_band]
+    note: 'Older documentation: never override a conflicting 130-version operation.'
+  - id: hancom_mouse
+    layer: editor_operations
+    product: Hancom Hangul
+    version: legacy_help
+    platform: Windows
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.hancom.com/hoffice/multi/ko_kr/hwp/hwpbase/mouse.htm'
+    topics: [mouse, click, double_click, drag, selection]
+    note: 'Older documentation: never override a conflicting 130-version operation.'
+  - id: lo_general_shortcuts
+    layer: editor_operations
+    product: LibreOffice (all modules, incl. Writer)
+    version: 'online help (latest)'
+    platform: cross_platform
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.libreoffice.org/latest/en-US/text/shared/04/01010000.html'
+    topics: [general_shortcuts, formatting, editing, dialogs]
+  - id: hancom_block
+    layer: editor_operations
+    product: Hancom Hangul
+    version: legacy_help
+    platform: Windows
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.hancom.com/hoffice/multi/ko_kr/hwp/edit/block.htm'
+    topics: [block_selection, typing_over_block, delete_block]
+    note: 'Older documentation: never override a conflicting 130-version operation.'
+  - id: hancom_erase
+    layer: editor_operations
+    product: Hancom Hangul
+    version: 'webhelp 9.0'
+    platform: Windows
+    kind: official_help_html
+    priority: supporting
+    url: 'https://help.hancom.com/hoffice/webhelp/9.0/ko_kr/hwp/edit/erase.htm'
+    topics: [delete_block, delete_key, backspace]

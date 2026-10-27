@@ -1,0 +1,28 @@
+F....................................................................... [ 33%]
+........................................................................ [ 66%]
+........................................................................ [100%]
+=================================== FAILURES ===================================
+________________ test_16_20_end_to_end_pipeline_is_reproducible ________________
+
+sandbox = PosixPath('/tmp/pytest-of-ubuntu/pytest-78/test_16_20_end_to_end_pipeline0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f76a94c00e0>
+
+    @pytest.mark.slow
+    def test_16_20_end_to_end_pipeline_is_reproducible(sandbox, monkeypatch):
+        from formbench.collection import discovery
+        from formbench.corpus import audit, dedupe, importers, pairing, split
+        from formbench.experiment import reports, runner
+        cfg, ev = _prepare(sandbox, monkeypatch)
+        # the sandbox links configs/ read-only, so the evaluation contract for this run is passed explicitly and written to a private copy
+        os.unlink(sandbox / "configs")
+        os.makedirs(sandbox / "configs")
+        from formbench.util import ROOT
+        for f in (ROOT / "configs").iterdir():
+            if f.is_dir():
+>               shutil.copytree(f, sandbox / "configs" / f.name)
+                ^^^^^^
+E               UnboundLocalError: cannot access local variable 'shutil' where it is not associated with a value
+
+tests/e2e/test_pipeline.py:44: UnboundLocalError
+=========================== short test summary info ============================
+FAILED tests/e2e/test_pipeline.py::test_16_20_end_to_end_pipeline_is_reproducible

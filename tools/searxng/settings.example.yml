@@ -1,0 +1,40 @@
+# Local SearXNG for formbench discovery (strategy S1.1c). Bound to 127.0.0.1 only; not a public instance.
+use_default_settings: true
+general:
+  instance_name: "formbench-local"
+  enable_metrics: true
+server:
+  secret_key: "CHANGE_ME (scripts/searxng.sh up generates one)"
+  limiter: false            # single local client; no bot protection needed (no public exposure)
+  public_instance: false
+  image_proxy: false
+  method: "GET"
+search:
+  safe_search: 0
+  autocomplete: ""
+  formats: [html, json]     # JSON API for scripts/formbench
+  default_lang: "all"
+  ban_time_on_fail: 30      # an engine that errors / is rate-limited is suspended, the others keep answering
+  max_ban_time_on_fail: 600
+outgoing:
+  request_timeout: 6.0
+  max_request_timeout: 15.0
+  pool_connections: 50
+  pool_maxsize: 20
+# engines: several independent backends so that a blocked / rate-limited engine is suspended (ban_time_on_fail) and
+# the others keep answering; regional engines for the Korean / Chinese / Japanese queries; torrent engines off.
+engines:
+  - {name: google, disabled: false}
+  - {name: bing, disabled: false}
+  - {name: qwant, disabled: false}
+  - {name: yahoo, disabled: false}
+  - {name: yandex, disabled: false}
+  - {name: naver, disabled: false}
+  - {name: baidu, disabled: false}
+  - {name: sogou, disabled: false}
+  - {name: 360search, disabled: false}
+  - {name: duckduckgo web, disabled: false}
+  - {name: piratebay, disabled: true}
+  - {name: kickass, disabled: true}
+  - {name: bt4g, disabled: true}
+  - {name: solidtorrents, disabled: true}

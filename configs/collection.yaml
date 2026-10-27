@@ -1,0 +1,117 @@
+version: "1.0"
+contact: "mailto:cldnwjd1024@gmail.com"
+search_terms_file: configs/search_terms.yaml
+use_combinations: true
+use_language_variants: true
+results_per_query: 8
+max_depth: 1
+max_pages_per_domain: 6
+max_pages_total: 130          # global budget for result-page expansion (recorded as skipped_budget beyond it)
+max_documents_per_domain: 260
+max_documents_per_query_per_domain: 8
+# 2026-10-15 user decision: "일본 문서가 너무 많아. 일본을 제외하고 문서 코퍼스 수집할 필요가 있어" -> no further exploration,
+# search or download for Japanese hosts (.jp) or Japanese-region queries. Japanese pairs already collected / reviewed are kept.
+exclude_countries: [JP, TW, CN, MO, FR, BE, CH, DE, AT, NL, IT, ES, PT, BR, MX, AR, CL, CO, TH, ID, VN, MA]
+# 2026-10-15 user decision: "앞으로 한국어와 영어 자료만 수집하자. 검토하지 않은 사항에서도 한국어나 영어가 아닌 자료는 모두 탈락해."
+# Collection: only search queries in these languages; pairing: unreviewed pairs whose documents are in another language
+# become observed_excluded (reviewed decisions are kept). Countries above are not explored (English may still come
+# from HK / SG / MY / PH / IN; the pair-level language rule decides).
+include_languages: [ko, en]
+pair_explorer:
+  pages_per_host: 120
+  site_queries_per_host: 6        # S1.1a/c site: queries per productive host (29 % of them led to pair pages, 2026-10-15)
+  results_per_query: 20
+  hub_pages_per_root: 40          # S1.3 institution roots: pages per hub crawl
+  render_pages_per_host: 30       # S4.4 headless renders per host and process
+  search_every: 2                 # every 2nd pick of a worker is a search query (searching is never starved by the page queue)
+  all_backends_pause_s: 120       # pause search queries only when every backend below is paused
+  # S1.1c failover order (collection/search.py::FailoverSearchProvider). A backend that is blocked / rate-limited / failing
+  # is paused with exponential back-off (60 s doubling, max 6 h; table search_backends) and the next one answers.
+  search_backends:
+    - {type: searxng, label: searxng-local, base_url: "http://127.0.0.1:8888", local: true}     # scripts/searxng.sh up
+    # public instances from searx-instances, probed 2026-10-15: 1 of 80 answered JSON (39 x 429, 9 x 403/418, 23 down)
+    - {type: searxng, label: searxng-public-lumy, base_url: "https://search.lumy.live"}
+    - {type: duckduckgo_html, label: duckduckgo-html}
+max_pair_groups_per_domain: 25     # diversity: at most this many distinct (blank, example) forms from one institution
+multi_institution_hosts: [jsite.mhlw.go.jp, houmukyoku.moj.go.jp, overseas.mofa.go.kr, www.mofa.go.kr, wwwtb.mlit.go.jp]   # institution = host + 1st path segment
+multi_institution_path_depth: {www-ws.gov.taipei: 3}   # shared file servers: institution = host + N path segments
+max_documents_per_pair_page: 40   # observed-pair pages list many (blank, example) files; pairs are kept whole up to this budget
+max_bytes: 31457280
+timeout: 30
+run_av: true
+# 2026-10-14 user decision: legacy binary formats are not collected any more (HWP, DOC). Already collected HWP files are kept.
+# Applied before download (link/extension) and after download (content signature); excluded candidates are logged.
+exclude_formats: [hwp, doc]
+# 2026-10-14 user decision: observed pairs are same-format editable pairs only (HWPX-HWPX, DOCX-DOCX, ODT-ODT). Any pair with a PDF
+# side or a format change would need a conversion before the edit and is not collected (pair-page files of other formats are not fetched).
+pair_formats: [hwpx, docx, odt]
+providers:
+  - {type: law_go_kr, label: law_go_kr_statute_forms, tabs: [ls]}
+  - {type: law_go_kr, label: law_go_kr_admrule_forms, tabs: [admrul],
+     queries: [신청서, 점검표, 보고서, 계획서, 평가표, 확인서, 일지, 기록지, 체크리스트, 동의서]}
+  - {type: failover_web, label: general_web_ddg, region: kr-kr}   # S1.1c: local SearXNG -> public SearXNG -> DuckDuckGo (label kept for continuity)
+  - {type: github, label: github_repos, max_repos: 4, queries: [hwpx, "hwpx 양식"]}
+  # Round 2 (bias-driven): the first audit showed no DOCX/ODT originals, so licence-clear repositories are searched for them.
+  - {type: github, label: github_repos_round2_missing_formats, max_repos: 6, limit: 12,
+     queries: ["docx form template", "odt form template", "docx templates forms", "word form templates"]}
+  - {type: wikimedia_commons, label: wikimedia_commons,
+     queries: [form, template, "fillable form", "application form", "consent form", checklist, "survey form", "inspection form"]}
+  - {type: internet_archive, label: internet_archive, queries: ["fillable form"]}
+  - {type: site_search, label: us_federal_forms, queries: [form, "application form", checklist],
+     sites: [{url: "https://www.gsa.gov/reference/forms?search={query}", result_pattern: "forms/"},
+             {url: "https://www.irs.gov/forms-instructions-and-publications?find={query}", result_pattern: "pub/irs-pdf"}]}
+  - {type: sitemap, label: sitemap_law_go_kr, sitemaps: ["https://law.go.kr/LSW/sitemap.xml"], queries: [서식]}
+  - {type: local_import, label: local_oss_feature_samples, queries: ["*"], limit: 200,
+     roots: [{name: hwp2hwpx_tests, path: "~/opt/jars/hwp2hwpx-main/test",
+              rights: {rights_status: "licensed:Apache-2.0", redistribution_allowed: true,
+                       license_url: "https://github.com/neolord0/hwp2hwpx/blob/main/license.txt", tos_status: not_applicable_local}}]}
+  # Round 10 (scale): two-word queries (form type + publisher example label) through regional general search; pages only
+  - {type: paired_pages, label: observed_pair_search_tw, serial: true, limit: 400, max_posts_per_seed: 10,
+     queries: ["申請書 範例", "切結書 範例", "同意書 範例", "委託書 範例", "委任書 範例", "報告書 範例", "計畫書 範例", "檢核表 範例", "調查表 範例", "申報書 範例", "聲明書 範例", "證明書 範例", "契約書 範例", "授權書 範例", "承諾書 範例", "會議紀錄 範例", "簽到表 範例", "申請表 範例", "填寫範例", "範例 odt"],
+     seed_search: [{type: failover_web, region: tw-tzh, limit: 20}]}
+  - {type: paired_pages, label: observed_pair_search_jp, serial: true, limit: 400, max_posts_per_seed: 10,
+     queries: ["申請書 記載例", "届出書 記載例", "報告書 記載例", "計画書 記載例", "同意書 記載例", "委任状 記載例", "誓約書 記載例", "契約書 記載例", "議事録 記載例", "申告書 記載例", "証明書 記載例", "名簿 記載例", "申請書 記入例", "届 記入例", "様式 記入例", "記載例 Word"],
+     seed_search: [{type: failover_web, region: jp-jp, limit: 20}]}
+  - {type: paired_pages, label: observed_pair_search_ko, serial: true, limit: 400, max_posts_per_seed: 10,
+     queries: ["신청서 작성예시", "신고서 작성예시", "보고서 작성예시", "계획서 작성예시", "동의서 작성예시", "확인서 작성예시", "위임장 작성예시", "서약서 작성예시", "계약서 작성예시", "회의록 작성예시", "명세서 작성예시", "점검표 작성예시", "신청서 기재례", "작성예시 hwpx"],
+     seed_search: [{type: failover_web, region: kr-kr, limit: 20}]}
+  - {type: paired_pages, label: observed_pair_search_en, serial: true, limit: 400, max_posts_per_seed: 10,
+     queries: ["completed example form", "example completed application", "completed example report", "completed example template", "worked example form", "example completed register", "completed example checklist", "example completed consent form", "completed example plan", "sample completed form"],
+     seed_search: [{type: failover_web, region: wt-wt, limit: 20}]}
+  # pages of rounds 6, 8 and 9 again with the improved link recognition (Taiwanese CMS links, labels in title attributes)
+  - {type: paired_pages, label: observed_pair_pages_v2, queries: ["pairs:r6", "pairs:r8", "pairs:r9"], limit: 3000, max_posts_per_seed: 30,
+     seed_files: [data/search_recorded/pair_pages_websearch.jsonl]}
+  # Round 11: sources nominated by the project owner; also explores sibling posts of the same board and the site's form library
+  - {type: paired_pages, label: observed_pair_pages_user, queries: ["pairs:r11"], limit: 3000, max_posts_per_seed: 40, siblings: true,
+     crawl: {depth: 1, max_pages_per_host: 40}, seed_files: [data/search_recorded/pair_pages_websearch.jsonl]}
+  # Round 12: institution type + publisher example label (form libraries live on these sites); crawl their form/example lists
+  - {type: paired_pages, label: observed_pair_inst_tw, serial: true, limit: 2000, max_posts_per_seed: 20, siblings: true,
+     crawl: {depth: 2, max_pages_per_host: 25}, queries: ["戶政事務所 範例", "地政事務所 範例", "地政事務所 填寫範例", "區公所 範例", "國稅局 範例", "檔案應用申請書 範例", "書表下載 範例", "表單下載 範例", "申請書表 範例", "便民服務 範例", "衛生局 範例", "監理站 範例", "稅務局 範例", "地方法院 範例", "大學 表單 範例"],
+     seed_search: [{type: failover_web, region: tw-tzh, limit: 20}]}
+  - {type: paired_pages, label: observed_pair_inst_jp, serial: true, limit: 2000, max_posts_per_seed: 20, siblings: true,
+     crawl: {depth: 2, max_pages_per_host: 25}, queries: ["労働局 記載例", "法務局 記載例", "県 様式 記載例", "市役所 様式 記入例", "区役所 記入例", "大学 様式 記入例", "警察 様式 記載例", "消防 様式 記入例", "税務署 記載例", "農政局 記載例"],
+     seed_search: [{type: failover_web, region: jp-jp, limit: 20}]}
+  - {type: paired_pages, label: observed_pair_inst_ko, serial: true, limit: 2000, max_posts_per_seed: 20, siblings: true,
+     crawl: {depth: 2, max_pages_per_host: 25}, queries: ["민원서식 작성예시", "서식자료실 작성예시", "교육청 작성예시", "구청 작성예시", "공단 작성예시", "대학 작성예시 양식", "시청 서식 작성예시", "군청 작성예시"],
+     seed_search: [{type: failover_web, region: kr-kr, limit: 20}]}
+  - {type: paired_pages, label: observed_pair_inst_en, serial: true, limit: 2000, max_posts_per_seed: 20, siblings: true,
+     crawl: {depth: 2, max_pages_per_host: 25}, queries: ["council completed example form", "school completed example template", "nhs completed example template", "university completed example form", "completed example docx", "worked example template"],
+     seed_search: [{type: failover_web, region: uk-en, limit: 20}]}
+  - {type: recorded, label: recorded_assistant_websearch, files: [data/search_recorded/websearch.jsonl]}
+  # Round 3 (real pairs): pages that publish a blank form next to its filled specimen (작성예시/작성례/기재례).
+  # Seeds = recorded short-query web searches (query, rank, date in the file) + one directly known form library.
+  - {type: paired_pages, label: observed_pair_pages, queries: ["*pairs*", "pairs:r2", "pairs:r3", "pairs:r4", "pairs:r5", "pairs:r6", "pairs:r7", "pairs:r8", "pairs:r9"], limit: 400, max_posts_per_seed: 30,
+     seed_files: [data/search_recorded/pair_pages_websearch.jsonl]}
+  # Round 4 (DOCX/ODT + multilingual): pair pages found by short queries through official search APIs / general search.
+  - {type: paired_pages, label: observed_pair_pages_govuk, queries: [example, completed, sample, specimen, template, form, guidance, notes],
+     limit: 400, max_posts_per_seed: 0, seed_search: [{type: govuk_search, limit: 40}]}
+  # Round 6 (scale): deeper GOV.UK result lists and same-site crawling of form libraries from every recorded seed
+  - {type: paired_pages, label: observed_pair_pages_govuk_deep, queries: ["example form", "completed example", "example completed", "worked example", "sample form"],
+     limit: 2000, max_posts_per_seed: 0, serial: true, seed_search: [{type: govuk_search, limit: 400}]}
+  # crawl provider paused 2026-10-14: low yield (0-3 pairs per round)
+  - {type: paired_pages, label: observed_pair_pages_crawl, enabled: false, queries: ["pairs:r1", "pairs:r2", "pairs:r3", "pairs:r4", "pairs:r5", "pairs:r6", "pairs:r7", "pairs:r8", "pairs:r9"], limit: 3000,
+     max_posts_per_seed: 30, crawl: {depth: 2, max_pages_per_host: 30}, seed_files: [data/search_recorded/pair_pages_websearch.jsonl]}
+  - {type: paired_pages, label: observed_pair_pages_jp, queries: [記入例, 記載例, 様式, 見本],
+     limit: 400, max_posts_per_seed: 0, seed_search: [{type: failover_web, region: jp-jp, limit: 20}]}
+  - {type: searxng, label: general_web_searxng}
+  - {type: brave_api, label: general_web_brave}

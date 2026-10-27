@@ -1,0 +1,115 @@
+
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="kr" lang="kr">
+		<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Pragma" content='no-cache'/>
+		<title>Waitingroom</title>
+		<script type="text/javascript">
+				var frequency = 2000;
+			function ajaxFunction(){
+				var ajaxRequest;
+				try{
+					// Opera 8.0+, Firefox, Safari
+					ajaxRequest = new XMLHttpRequest();
+					console.log ("try XMLHttpRequest");
+				} catch (e){
+					// Internet Explorer Browsers
+					try{
+						ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+						console.log ("try ActiveXObject Msxml2.XMLHTTP");
+					} catch (e) {
+						try{
+							ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+							console.log ("try activexobject xmlhttp");
+						} catch (e){
+							// Something went wrong
+							alert("Your browser is not supported!");
+							return false;
+						}
+					}
+				}
+				// Create a function that will receive data sent from the server
+				ajaxRequest.onreadystatechange = function(){
+					if(ajaxRequest.readyState == 4){
+						var response = ajaxRequest.responseText;
+						if(response == "error") {
+						    // Date : 2018-11-26
+						    // Update for redirection : 1. apply timer 2. change location from /index.php to /
+							// setTimeout (function() { window.location = "/"; }, frequency);
+							// console.log ("error code received and redirect to root directory");
+							window.location = "/";
+						}
+						var responseSplit = response.split(" ");
+						frequency = responseSplit[2];
+						if(responseSplit[0] == "done") {
+							window.location = readCookie("landinguri");
+						} else {
+							estimate(responseSplit[0],responseSplit[1]);
+						}
+					}
+				}
+				ajaxRequest.open("GET", "/waitingroom/update.html", true);
+				ajaxRequest.send(null);
+			}
+			function readCookie(name) {
+				var nameEQ = name + "=";
+				var ca = document.cookie.split(';');
+				for(var i=0;i < ca.length;i++) {
+					var c = ca[i];
+					while (c.charAt(0)==' ') c = c.substring(1,c.length);
+					if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+				}
+				return null;
+			}
+			function estimate(secs,pos) {
+				document.getElementById("pos").innerHTML = pos;
+				var hide = false;
+				if (secs >= 0 ) {
+					mins = Math.round(secs/60);
+					if (mins < 1) {
+						txt = "<1";
+					} else { 
+						txt = mins;
+					}
+						document.getElementById("time").innerHTML = txt;
+				} else {
+					hide = true;
+				}
+				if (hide) {
+					document.getElementById("estimation").style.display = "none";
+				}
+			}
+			function repeat() {
+				ajaxFunction();
+				setTimeout("repeat()", frequency);
+			}
+		</script>
+		</head>
+		<body class="popupContent" onLoad="repeat();">
+			<div class="'container'" style='text-align:center'>
+				<div>
+					<img class="logo" alt="f5_logo" title="F5Networks Korea" src="/waitingroom/logo_popup.gif" width="136" height="136"/>
+				</div><!-- end header -->
+				<div>		
+					<h2>&#49436;&#48708;&#49828; &#51217;&#49549; &#45824;&#44592; &#51473;&#51077;&#45768;&#45796;.</h2>				
+					<p>&#51648;&#44552;&#51008; &#49324;&#50857;&#51088;&#44032; &#47566;&#50500; &#51217;&#49549;&#51060; &#51648;&#50672;&#46104;&#44256; &#51080;&#49845;&#45768;&#45796;. &#51104;&#49884; &#54980; &#45796;&#49884; &#51217;&#49549;&#54616;&#50668; &#51452;&#49884;&#44592; &#48148;&#46989;&#45768;&#45796;.</p>
+					<div id="position">
+
+					</div>
+					<div id="estimation">
+
+					</div>
+					<img src="/waitingroom/loadingAnimation.gif">
+
+
+				</div><!-- end mainContent -->
+				<div>
+					<div>
+
+					</div>
+				</div><!-- end footer -->
+			</div><!-- end Content -->
+		</body>
+		</html>
+	

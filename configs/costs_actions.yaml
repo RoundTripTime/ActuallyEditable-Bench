@@ -1,0 +1,58 @@
+# Experiment edit block edit cost model (human actions in the common subset of Word / Hangul / Writer).
+# One action = one thing a person does: a click, a drag, a key / shortcut, typing ONE contiguous string (any length),
+# one field set in a dialog, opening or confirming a dialog. The KLM-seconds version is configs/costs_klm.yaml.
+version: edit-cost-1.0
+
+text:
+  place_caret: 1          # click into the paragraph / cell (shared by all edits of that paragraph)
+  select_range: 1         # drag over a range (also places the caret)
+  type: 1                 # type one contiguous string (replaces a selection)
+  delete: 1               # Delete / BackSpace after a selection
+  newline: 1              # Enter (new paragraph) or line break
+  tab: 1                  # Tab (next table cell)
+
+char_format:              # applied to a selected range; the selection is shared with a preceding text edit
+  select_range: 1
+  font: 1                 # pick a font in the toolbar list
+  size: 1                 # set the size field
+  bold: 1
+  italic: 1
+  underline: 1
+  color: 2                # open the colour menu + pick
+
+para_format:              # with the caret in the paragraph
+  align: 1                # toolbar button
+  dialog_open: 1          # paragraph dialog (indents, spacing, line spacing)
+  dialog_field: 1         # per changed field
+  dialog_ok: 1
+
+table:
+  insert_dialog: 4        # menu + rows + columns + OK
+  insert_row: 2           # click a cell + command
+  delete_row: 2
+  insert_col: 2
+  delete_col: 2
+  merge: 2                # drag over the cells + merge command
+  split: 3                # click + split command + OK
+  col_width: 1            # drag one column border
+  row_height: 1           # drag one row border
+  cell_nav: 1             # click / Tab into a cell
+
+object:
+  select: 1               # click the object
+  move: 1                 # drag it (after select)
+  resize: 1               # drag a handle (after select)
+  delete: 1               # Delete (after select)
+  textbox_create: 2       # text box tool + drag the box
+  image_insert: 3         # insert-picture command + choose the file + place it
+
+page:
+  setup_open: 1
+  setup_field: 1
+  setup_ok: 1
+  page_break: 2           # caret + Ctrl+Enter
+
+block:
+  delete_run: 2           # drag over a run of consecutive flow blocks + Delete
+
+layout_tolerance_pt: 12    # a kept block whose rendering is farther than this from the example's needs a layout fix

@@ -1,0 +1,72 @@
+# Experiment edit cost table in KLM seconds (Keystroke-Level Model, Card, Moran & Newell 1983):
+#   K 0.28 s keystroke (average skilled typist), P 1.1 s point with the mouse, BB 0.2 s click (press+release),
+#   H 0.4 s move the hand between mouse and keyboard, M 1.35 s mental preparation (one per command / typed string).
+# Composite operations below are sums of these operators; typing adds K x keystrokes of the typed text, where the
+# keystrokes per character model the input method (assumptions, reported with the results).
+# The block model and its decisions are the same as configs/costs_actions.yaml; only the unit changes, so DP minimises time.
+version: edit-cost-klm-1.0
+unit: seconds
+
+klm: {K: 0.28, P: 1.1, BB: 0.2, H: 0.4, M: 1.35}
+keys_per_char:            # keystrokes per visible character, by script
+  latin: 1.0              # letters, digits, ASCII punctuation (shift ignored)
+  hangul: 2.3             # 2-set Korean keyboard: ~2.3 jamo keys per syllable
+  kana: 2.0               # Japanese romaji input
+  han_ja: 2.5             # kanji via romaji + conversion
+  han_zh: 3.2             # Traditional Chinese via Zhuyin + candidate selection
+  fullwidth: 1.5          # full-width digits / symbols through an IME
+  other: 1.5
+
+text:
+  place_caret: 1.7        # H + P + BB (hand to mouse, point, click)
+  select_range: 3.0       # H + P + BB + P (drag)
+  type: 2.15              # M + H + typing of the string (K x keys added per string)
+  delete: 0.28            # K
+  newline: 0.28           # K
+  tab: 0.28               # K
+
+char_format:
+  select_range: 3.0
+  font: 3.95              # M + P + BB + P + BB (open the list, pick)
+  size: 3.75              # M + P + BB + type ~3 keys
+  bold: 2.65              # M + P + BB
+  italic: 2.65
+  underline: 2.65
+  color: 3.95
+
+para_format:
+  align: 2.65             # M + P + BB
+  dialog_open: 2.65       # M + P + BB (menu) -> the dialog
+  dialog_field: 2.14      # P + BB + type ~3 keys
+  dialog_ok: 1.3          # P + BB
+
+table:
+  insert_dialog: 8.65     # M + menu (P + BB) x2 + rows + columns fields + OK
+  insert_row: 4.35        # M + P + BB (cell) + P + BB (command)
+  delete_row: 4.35
+  insert_col: 4.35
+  delete_col: 4.35
+  merge: 4.95             # M + drag over cells + command
+  split: 6.25             # M + click + command + OK
+  col_width: 3.75         # M + drag a border
+  row_height: 3.75
+  cell_nav: 1.3           # P + BB
+
+object:
+  select: 1.3
+  move: 2.45              # M + drag
+  resize: 2.45
+  delete: 0.28
+  textbox_create: 4.95    # M + tool (P + BB) + drag the box
+  image_insert: 6.25      # M + command + choose the file + place
+
+page:
+  setup_open: 2.65
+  setup_field: 2.14
+  setup_ok: 1.3
+  page_break: 2.53        # P + BB + M? + Ctrl+Enter (K)
+
+block:
+  delete_run: 3.28        # drag over the run + Delete
+
+layout_tolerance_pt: 12

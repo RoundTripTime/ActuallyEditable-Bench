@@ -1,0 +1,30 @@
+% Source: figures/ssim-ratio.dat (figures/ssim-ratio.py가 reports/experiments/main/rows.csv에서 생성)
+% 점: 대조군과 MinerU2.5를 제외한 네 방식의 평가 결과 1,267건 (ssim_blur_native_pages, ratio).
+% 대조군 표시는 summary.json labels.{png_150__image_only,oracle__template_odt}의
+%   ssim_blur_native_pages_median, ratio_median (0.99, 3.51), (1.00, 1.00).
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\linewidth, height=40mm,
+  xmin=0.1, xmax=1.02, ymode=log, ymin=0.4, ymax=40,
+  ytick={0.5,1,2,5,10,20}, yticklabels={0.5,1,2,5,10,20},
+  xtick={0.2,0.4,0.6,0.8,1.0},
+  tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  xlabel={시각 유사도(최대 1)}, ylabel={편집 시간(배)},
+  ylabel shift=-3pt, xlabel shift=-2pt,
+  axis line style={black!60}, tick style={black!60},
+  clip marker paths=true]
+\addplot[only marks, mark=*, mark size=0.7pt, draw opacity=0, fill=black, fill opacity=0.28]
+  table[x=ssim, y=ratio] {figures/ssim-ratio.dat};
+\addplot[black!50, dashed, domain=0.1:1.02, samples=2] {1};
+\addplot[only marks, mark=square*, mark size=2.2pt, fill=white, draw=black, semithick] coordinates {(0.9936,3.508)};
+\node[font=\scriptsize, anchor=east, fill=white, inner sep=1pt] at (axis cs:0.965,6.2) {이미지};
+\draw[black!70] (axis cs:0.965,6.2) -- (axis cs:0.99,3.6);
+\addplot[only marks, mark=triangle*, mark size=2.4pt, fill=white, draw=black, semithick] coordinates {(1.0,1.0)};
+\node[font=\scriptsize, anchor=north east, fill=white, inner sep=1pt] at (axis cs:0.90,0.82) {원본};
+\end{axis}
+\end{tikzpicture}
+\caption{시각 유사도와 편집 시간의 관계}
+\label{fig:ssim-ratio}
+\end{figure}

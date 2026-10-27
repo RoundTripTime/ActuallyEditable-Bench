@@ -1,0 +1,478 @@
+# Atomic edit operator contract (metric contract part 1). FROZEN before experiments: any change bumps `version`
+# and changes the protocol hash recorded with every run. Costs are non-negative integers.
+#   uniform    : every executed operator costs 1 (main scheme)
+#   structural : structure-changing operators weighted higher (sensitivity scheme)
+#   klm_ms     : Keystroke-Level-Model estimate in milliseconds (auxiliary; base + per_char * len(text)).
+#                KLM constants (Card, Moran & Newell 1980): K=280, P=1100, H=400, M=1350, B=100.
+# Targets are session node ids. `$name` selectors in test_cases are resolved by the test harness.
+version: "1.0.0"
+cost_schemes: [uniform, structural, klm_ms]
+main_scheme: uniform
+forbidden:
+  - {name: replace_whole_document, reason: "copies the answer in one step"}
+  - {name: write_arbitrary_xml, reason: "unbounded edit, not a user command"}
+  - {name: paste_completed_reference, reason: "leaks the oracle document"}
+macro_policy: "No macro counts as one step: composite intentions (fill a row, repeat an item) are expanded into the atomic operators below and each is charged."
+text_length_model: "type_text costs one operator in uniform/structural schemes; typed characters are recorded separately as content_chars and enter cost only in klm_ms (per_char)."
+operators:
+  - name: focus
+    category: navigation
+    parameters: {target: "paragraph nid", offset: "int | 'end' (default end)"}
+    preconditions: ["target is a paragraph", "paragraph not inside a protected cell", "0 <= offset <= len(text)"]
+    state_transition: "caret := (target, offset); text selection and object selection cleared"
+    scope: "editor state only"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 3050}}
+    allowed_side_effects: []
+    postcondition: "caret == (target, offset)"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: focus, target: "$cell0_0_1"}, expect: {caret: "$cell0_0_1"}}
+      - {fixture: simple_form, op: {op: focus, target: "s0n99999"}, expect: {error: target_not_found}}
+  - name: focus_cell
+    category: table_cell_access
+    parameters: {table: "table nid", row: int, col: int, offset: "int | 'end'"}
+    preconditions: ["table exists", "a cell covers (row, col)", "cell not protected"]
+    state_transition: "caret := first paragraph of the covering cell"
+    scope: "editor state only"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 3050}}
+    allowed_side_effects: []
+    postcondition: "caret paragraph belongs to the covering cell"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: focus_cell, table: "$table0", row: 1, col: 1}, expect: {caret: "$cell0_1_1"}}
+      - {fixture: simple_form, op: {op: focus_cell, table: "$table0", row: 99, col: 0}, expect: {error: target_not_found}}
+  - name: focus_field
+    category: special_field
+    parameters: {field: "fieldBegin nid"}
+    preconditions: ["field exists"]
+    state_transition: "caret := start of the field content inside its paragraph"
+    scope: "editor state only"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 3050}}
+    allowed_side_effects: []
+    postcondition: "caret inside field"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: field_form, op: {op: focus_field, field: "$field0"}, expect: {ok: true}}
+  - name: move_caret
+    category: navigation
+    parameters: {offset: int}
+    preconditions: ["caret is set", "0 <= offset <= len(text)"]
+    state_transition: "caret offset := offset within the same paragraph; selection cleared"
+    scope: "editor state only"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 1700}}
+    allowed_side_effects: []
+    postcondition: "caret offset == offset"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0"}], op: {op: move_caret, offset: 0}, expect: {ok: true}}
+      - {fixture: simple_form, op: {op: move_caret, offset: 0}, expect: {error: no_caret}}
+  - name: select_range
+    category: selection
+    parameters: {start: int, end: int}
+    preconditions: ["caret is set", "0 <= start < end <= len(text)"]
+    state_transition: "selection := [start, end) in the caret paragraph; caret := end"
+    scope: "editor state only"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 2800}}
+    allowed_side_effects: []
+    postcondition: "selection == (paragraph, start, end)"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0"}], op: {op: select_range, start: 0, end: 2}, expect: {ok: true}}
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0"}], op: {op: select_range, start: 0, end: 9999}, expect: {error: offset_out_of_range}}
+  - name: type_text
+    category: input
+    parameters: {text: "non-empty string ('\\n' = line break, '\\t' = tab)", field: "optional fieldBegin nid"}
+    preconditions: ["caret is set in an editable paragraph", "text non-empty"]
+    state_transition: "selection (if any) removed, text inserted at caret with the formatting of the preceding run; caret advances"
+    scope: "one paragraph"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 1750, per_char: 280}}
+    allowed_side_effects: ["stale line-layout cache of the paragraph is dropped", "container may grow / content below reflows"]
+    postcondition: "paragraph text == old[:a] + text + old[b:]"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, setup: [{op: focus, target: "$cell0_0_1"}], op: {op: type_text, text: "가상인"}, expect: {para_text: ["$cell0_0_1", "가상인"]}}
+      - {fixture: simple_form, op: {op: type_text, text: "x"}, expect: {error: no_caret}}
+  - name: delete_selection
+    category: delete
+    parameters: {}
+    preconditions: ["text selection exists"]
+    state_transition: "selected characters removed; caret := selection start"
+    scope: "one paragraph"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 680}}
+    allowed_side_effects: ["reflow"]
+    postcondition: "paragraph text == old[:a] + old[b:]"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0"}, {op: select_range, start: 0, end: 2}], op: {op: delete_selection}, expect: {para_len_delta: ["$para0", -2]}}
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0"}], op: {op: delete_selection}, expect: {error: no_selection}}
+  - name: set_char_format
+    category: formatting
+    parameters: {props: "subset of {size: pt, bold, italic, underline, color, serif}"}
+    preconditions: ["text selection exists", "at least one property"]
+    state_transition: "runs are split at the selection boundaries and re-pointed to a (found or created) charPr"
+    scope: "one paragraph + header charProperties"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 2, klm_ms: {base: 4170}}
+    allowed_side_effects: ["new charPr entry in header.xml", "reflow"]
+    postcondition: "every selected character has the requested properties; text unchanged"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0"}, {op: select_range, start: 0, end: 2}], op: {op: set_char_format, props: {bold: true}}, expect: {para_len_delta: ["$para0", 0]}}
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0"}], op: {op: set_char_format, props: {bold: true}}, expect: {error: no_selection}}
+  - name: set_para_format
+    category: formatting
+    parameters: {props: "subset of {align, line_spacing, left, right, indent, prev, next_}"}
+    preconditions: ["caret is set", "at least one property"]
+    state_transition: "caret paragraph re-pointed to a (found or created) paraPr"
+    scope: "one paragraph + header paraProperties"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 2, klm_ms: {base: 3050}}
+    allowed_side_effects: ["new paraPr entry in header.xml", "reflow"]
+    postcondition: "paragraph has requested paragraph properties"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0"}], op: {op: set_para_format, props: {align: CENTER}}, expect: {ok: true}}
+  - name: split_paragraph
+    category: paragraph_structure
+    parameters: {}
+    preconditions: ["caret is set"]
+    state_transition: "paragraph split at caret; caret := start of the new paragraph"
+    scope: "one paragraph"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 2, klm_ms: {base: 1630}}
+    allowed_side_effects: ["reflow"]
+    postcondition: "paragraph count +1; concatenated text unchanged"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, setup: [{op: focus, target: "$para0", offset: 1}], op: {op: split_paragraph}, expect: {top_para_delta: 1}}
+  - name: join_paragraph
+    category: paragraph_structure
+    parameters: {target: "paragraph nid (joined with the next sibling)"}
+    preconditions: ["target has a following sibling paragraph"]
+    state_transition: "runs of the next paragraph appended to target; next paragraph removed"
+    scope: "two sibling paragraphs"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 2, klm_ms: {base: 1630}}
+    allowed_side_effects: ["reflow"]
+    postcondition: "paragraph count -1; concatenated text unchanged"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: join_paragraph, target: "$para0"}, expect: {top_para_delta: -1}}
+  - name: duplicate_paragraph
+    category: repeat_item
+    parameters: {target: "paragraph nid", keep_text: "bool (default false)"}
+    preconditions: ["target is editable paragraph"]
+    state_transition: "copy of the paragraph (formatting kept, text optionally cleared) inserted after it; caret := copy"
+    scope: "one paragraph"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 2, klm_ms: {base: 4990}}
+    allowed_side_effects: ["reflow"]
+    postcondition: "paragraph count +1"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: duplicate_paragraph, target: "$para0"}, expect: {top_para_delta: 1}}
+  - name: table_insert_row
+    category: table_structure
+    parameters: {table: "table nid", after_row: int}
+    preconditions: ["0 <= after_row < rowCnt"]
+    state_transition: "new row after `after_row`: cells ending in that row are copied empty (rowSpan 1); cells spanning through are extended; following rows shift"
+    scope: "one table"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4350}}
+    allowed_side_effects: ["content below reflows"]
+    postcondition: "rowCnt +1; merges of other cells preserved"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: table_insert_row, table: "$table0", after_row: 1}, expect: {row_delta: ["$table0", 1]}}
+      - {fixture: simple_form, op: {op: table_insert_row, table: "$table0", after_row: 99}, expect: {error: row_out_of_range}}
+  - name: table_delete_row
+    category: table_structure
+    parameters: {table: "table nid", row: int}
+    preconditions: ["0 <= row < rowCnt", "rowCnt > 1"]
+    state_transition: "row removed; cells spanning it shrink; following rows shift"
+    scope: "one table"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4350}}
+    allowed_side_effects: ["content below reflows", "caret cleared"]
+    postcondition: "rowCnt -1"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: table_delete_row, table: "$table0", row: 1}, expect: {row_delta: ["$table0", -1]}}
+  - name: table_insert_column
+    category: table_structure
+    parameters: {table: "table nid", after_col: int}
+    preconditions: ["0 <= after_col < colCnt"]
+    state_transition: "new column after `after_col` (cells ending there copied empty, spanning cells widened)"
+    scope: "one table"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4350}}
+    allowed_side_effects: ["table becomes wider"]
+    postcondition: "colCnt +1"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: table_insert_column, table: "$table0", after_col: 0}, expect: {col_delta: ["$table0", 1]}}
+  - name: table_delete_column
+    category: table_structure
+    parameters: {table: "table nid", col: int}
+    preconditions: ["0 <= col < colCnt", "colCnt > 1"]
+    state_transition: "column removed; spanning cells narrowed"
+    scope: "one table"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4350}}
+    allowed_side_effects: ["caret cleared"]
+    postcondition: "colCnt -1"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: table_delete_column, table: "$table0", col: 1}, expect: {col_delta: ["$table0", -1]}}
+  - name: table_merge_cells
+    category: table_merge
+    parameters: {table: "table nid", row0: int, col0: int, row1: int, col1: int}
+    preconditions: ["range covers whole cells and is rectangular", "more than one cell"]
+    state_transition: "cells merged into the top-left cell; non-empty paragraphs appended"
+    scope: "one table"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4430}}
+    allowed_side_effects: ["caret cleared"]
+    postcondition: "one cell spans the range"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: table_merge_cells, table: "$table0", row0: 1, col0: 0, row1: 1, col1: 1}, expect: {cell_delta: ["$table0", -1]}}
+      - {fixture: merged_form, op: {op: table_merge_cells, table: "$table0", row0: 1, col0: 0, row1: 2, col1: 1}, expect: {error: merge_range_not_rectangular}}
+  - name: table_split_cell
+    category: table_merge
+    parameters: {table: "table nid", row: int, col: int}
+    preconditions: ["cell at (row, col) is a merged cell"]
+    state_transition: "merged cell reduced to 1x1; empty unit cells created for the rest of its area"
+    scope: "one table"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4350}}
+    allowed_side_effects: []
+    postcondition: "no cell spans the former area"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: merged_form, op: {op: table_split_cell, table: "$table0", row: 0, col: 0}, expect: {cell_delta: ["$table0", 1]}}
+      - {fixture: simple_form, op: {op: table_split_cell, table: "$table0", row: 0, col: 0}, expect: {error: cell_not_merged}}
+  - name: create_table
+    category: object_create
+    parameters: {page: int, x: pt, y: pt, col_widths: "[pt]", row_heights: "[pt]", wrap: "optional"}
+    preconditions: ["page has a body paragraph to anchor to", "sizes >= 2pt"]
+    state_transition: "new bordered table anchored to the page at (x, y); caret := first cell"
+    scope: "one anchor paragraph + header borderFills"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 4, klm_ms: {base: 6850}}
+    allowed_side_effects: ["new borderFill/paraPr entries"]
+    postcondition: "table count +1"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: create_table, page: 0, x: 80, y: 600, col_widths: [100, 100], row_heights: [20]}, expect: {table_delta: 1}}
+  - name: create_textbox
+    category: object_create
+    parameters: {page: int, x: pt, y: pt, w: pt, h: pt, border: "bool (default true)"}
+    preconditions: ["page has a body paragraph to anchor to", "w,h >= 2pt"]
+    state_transition: "new text box (default: solid outline, no fill, in front of text, paper-relative); caret := inside the box"
+    scope: "one anchor paragraph"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 5450}}
+    allowed_side_effects: ["new paraPr entry"]
+    postcondition: "text box count +1; caret in new box"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: create_textbox, page: 0, x: 100, y: 500, w: 120, h: 24}, expect: {textbox_delta: 1}}
+      - {fixture: simple_form, op: {op: create_textbox, page: 7, x: 100, y: 500, w: 120, h: 24}, expect: {error: no_anchor_on_page}}
+  - name: create_line
+    category: object_create
+    parameters: {page: int, x0: pt, y0: pt, x1: pt, y1: pt, width: "pt (optional)"}
+    preconditions: ["page has an anchor paragraph", "non-zero length"]
+    state_transition: "new straight line object anchored to the page"
+    scope: "one anchor paragraph"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 5450}}
+    allowed_side_effects: []
+    postcondition: "line object count +1"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: create_line, page: 0, x0: 80, y0: 600, x1: 300, y1: 600}, expect: {shape_delta: 1}}
+  - name: insert_image
+    category: object_create
+    parameters: {page: int, x: pt, y: pt, w: pt, h: pt, asset: "name of an image supplied by the task (e.g. synthetic signature)"}
+    preconditions: ["asset provided", "page has an anchor paragraph"]
+    state_transition: "image stored in BinData + manifest and placed in front of text at (x, y)"
+    scope: "one anchor paragraph + package manifest"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 7030}}
+    allowed_side_effects: ["new BinData entry"]
+    postcondition: "picture count +1; binary item resolvable"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: insert_image, page: 0, x: 300, y: 500, w: 60, h: 30, asset: signature}, expect: {pic_delta: 1}}
+      - {fixture: simple_form, op: {op: insert_image, page: 0, x: 300, y: 500, w: 60, h: 30, asset: missing}, expect: {error: asset_not_found}}
+  - name: delete_object
+    category: object_delete
+    parameters: {target: "object nid (table, text box, picture, shape, control)"}
+    preconditions: ["target is an object"]
+    state_transition: "object removed from its anchor run"
+    scope: "one object"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 3330}}
+    allowed_side_effects: ["reflow", "caret cleared"]
+    postcondition: "object no longer present"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: textbox_form, op: {op: delete_object, target: "$textbox0"}, expect: {textbox_delta: -1}}
+  - name: move_object
+    category: object_move
+    parameters: {target: "object nid", dx: pt, dy: pt}
+    preconditions: ["object is not placed as a character"]
+    state_transition: "anchor offsets += (dx, dy)"
+    scope: "one object"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4150}}
+    allowed_side_effects: []
+    postcondition: "object box translated by (dx, dy)"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: textbox_form, op: {op: move_object, target: "$textbox0", dx: 0, dy: 20}, expect: {box_dy: ["$textbox0", 20]}}
+      - {fixture: simple_form, op: {op: move_object, target: "$table0", dx: 0, dy: 20}, expect: {error: inline_object_not_movable}}
+  - name: select_objects
+    category: selection
+    parameters: {targets: "[object nid]"}
+    preconditions: ["all targets are objects"]
+    state_transition: "object selection := targets"
+    scope: "editor state only"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 3050}}
+    allowed_side_effects: ["caret cleared"]
+    postcondition: "object selection == targets"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: textbox_form, op: {op: select_objects, targets: ["$textbox0"]}, expect: {ok: true}}
+  - name: select_objects_in_rect
+    category: selection
+    parameters: {page: int, x0: pt, y0: pt, x1: pt, y1: pt}
+    preconditions: ["at least one floating top-level object lies completely inside the rectangle"]
+    state_transition: "object selection := floating objects fully inside the rectangle (rubber-band selection)"
+    scope: "editor state only"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 5450}}
+    allowed_side_effects: ["caret cleared"]
+    postcondition: "object selection non-empty"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: textbox_form, op: {op: select_objects_in_rect, page: 0, x0: 0, y0: 0, x1: 600, y1: 850}, expect: {ok: true}}
+      - {fixture: simple_form, op: {op: select_objects_in_rect, page: 0, x0: 0, y0: 0, x1: 5, y1: 5}, expect: {error: empty_selection}}
+  - name: move_selection
+    category: object_move
+    parameters: {dx: pt, dy: pt}
+    preconditions: ["object selection non-empty", "no selected object is placed as a character"]
+    state_transition: "every selected object's anchor offsets += (dx, dy)"
+    scope: "selected objects"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4150}}
+    allowed_side_effects: []
+    postcondition: "all selected boxes translated"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: textbox_form, setup: [{op: select_objects, targets: ["$textbox0"]}], op: {op: move_selection, dx: 0, dy: 10}, expect: {box_dy: ["$textbox0", 10]}}
+      - {fixture: textbox_form, op: {op: move_selection, dx: 0, dy: 10}, expect: {error: no_selection}}
+  - name: resize_object
+    category: object_resize
+    parameters: {target: "object nid (not a table)", w: pt, h: pt}
+    preconditions: ["w,h >= 1pt", "target is not a table"]
+    state_transition: "declared size := (w, h)"
+    scope: "one object"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4150}}
+    allowed_side_effects: ["text inside reflows"]
+    postcondition: "object size == (w, h)"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: textbox_form, op: {op: resize_object, target: "$textbox0", w: 200, h: 80}, expect: {box_size: ["$textbox0", 200, 80]}}
+      - {fixture: simple_form, op: {op: resize_object, target: "$table0", w: 200, h: 80}, expect: {error: unsupported_operation}}
+  - name: set_object_anchor
+    category: anchor_change
+    parameters: {target: "object nid", mode: "inline | paper | para", wrap: "optional text-wrap mode"}
+    preconditions: ["object has a position record"]
+    state_transition: "anchor mode changed; 'paper' keeps the current rendered position as absolute offsets"
+    scope: "one object"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 3, klm_ms: {base: 4630}}
+    allowed_side_effects: ["reflow"]
+    postcondition: "object anchored as requested"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: set_object_anchor, target: "$table0", mode: paper, wrap: IN_FRONT_OF_TEXT}, expect: {ok: true}}
+  - name: set_object_style
+    category: formatting
+    parameters: {target: "object nid", border: "NONE | SOLID | DASH | DOT (optional)", fill: "colour or empty (optional)"}
+    preconditions: ["at least one of border/fill", "object has an outline when border is given"]
+    state_transition: "outline style / fill colour replaced"
+    scope: "one object"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 2, klm_ms: {base: 4630}}
+    allowed_side_effects: []
+    postcondition: "object outline/fill as requested"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: textbox_form, op: {op: set_object_style, target: "$textbox0", border: NONE}, expect: {ok: true}}
+  - name: set_size_lock
+    category: formatting
+    parameters: {target: "object nid", locked: bool}
+    preconditions: ["object has a size record"]
+    state_transition: "size protection flag set/cleared (a locked text box no longer grows with its text)"
+    scope: "one object"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 2, klm_ms: {base: 4630}}
+    allowed_side_effects: ["text box may grow when unlocked"]
+    postcondition: "protect flag == locked"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: textbox_form, op: {op: set_size_lock, target: "$textbox0", locked: true}, expect: {ok: true}}
+  - name: toggle_checkbox
+    category: check_state
+    parameters: {target: "checkBtn / radioBtn nid"}
+    preconditions: ["target is a check or radio control"]
+    state_transition: "value toggles between CHECKED and UNCHECKED"
+    scope: "one control"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 3050}}
+    allowed_side_effects: []
+    postcondition: "value flipped"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: checkbox_form, op: {op: toggle_checkbox, target: "$check0"}, expect: {ok: true}}
+      - {fixture: simple_form, op: {op: toggle_checkbox, target: "$table0"}, expect: {error: target_wrong_type}}
+  - name: set_page_number
+    category: special_field
+    parameters: {pos: "NONE | TOP_LEFT | TOP_CENTER | TOP_RIGHT | BOTTOM_LEFT | BOTTOM_CENTER | BOTTOM_RIGHT", format: "optional", section: "int (default 0)"}
+    preconditions: ["valid position"]
+    state_transition: "page-number control created or updated in the section"
+    scope: "one section"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 2, klm_ms: {base: 4630}}
+    allowed_side_effects: []
+    postcondition: "section has a pageNum control at pos"
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, op: {op: set_page_number, pos: BOTTOM_CENTER}, expect: {ok: true}}
+      - {fixture: simple_form, op: {op: set_page_number, pos: SIDEWAYS}, expect: {error: invalid_parameter}}
+  - name: undo
+    category: undo_recovery
+    parameters: {}
+    preconditions: ["at least one successful operator since load"]
+    state_transition: "document, caret and selections restored to the state before the last successful operator"
+    scope: "whole session"
+    atomicity: atomic
+    unit_cost: {uniform: 1, structural: 1, klm_ms: {base: 1910}}
+    allowed_side_effects: []
+    postcondition: "state == state before last operator. A failed operator never changes state (error recovery is free)."
+    executable_backend: [native_hwpx_xml]
+    test_cases:
+      - {fixture: simple_form, setup: [{op: focus, target: "$cell0_0_1"}, {op: type_text, text: "abc"}], op: {op: undo}, expect: {para_text: ["$cell0_0_1", ""]}}
+      - {fixture: simple_form, op: {op: undo}, expect: {error: nothing_to_undo}}

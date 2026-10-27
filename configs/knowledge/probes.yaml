@@ -1,0 +1,78 @@
+# Empirical probes (second evidence class, user decision 2026-10-16): where no official source states a behaviour,
+# the behaviour is observed by driving the real editor with real key events, on a fresh document, with autocorrect /
+# autoformat switched off (values must be typed verbatim). Each probe is a list of abstract steps that every driver
+# executes the same way; the driver records the observed document state, the editor version, OS and settings, and
+# the hash of the driver script. `formbench kb verify` turns a probe result into a fact status `probe_verified`
+# when the observation satisfies `expect` (per editor, `expect` may differ: the observation is what is recorded).
+#
+# step vocabulary
+#   type: <text>                     key events for each character
+#   key: <KEY>                       one key / chord: TAB, SHIFT+TAB, RETURN, BACKSPACE, DELETE, HOME, END, LEFT, RIGHT,
+#                                    SHIFT+LEFT, SHIFT+RIGHT, SHIFT+DOWN, CTRL+BACKSPACE
+#   repeat: {n: int, key: <KEY>}
+#   table: {rows: int, cols: int, cells: {"r,c": text}}   inserted through the editor's API (setup, not under test),
+#                                    caret placed at the end of cell 0,0
+#   caret_cell: "r,c"                setup: caret at the end of that cell (API)
+# observations (record keys)
+#   paragraphs: list of body paragraph texts (outside tables)
+#   cells: {"r,c": text} of the first table;  rows: number of rows of the first table
+#   row_heights_pt: heights of the first table's rows after layout
+version: '1.0'
+probes:
+  - id: typing_replaces_selection
+    concept: typing_replaces_selection
+    steps: [{type: 'hello world'}, {repeat: {n: 5, key: SHIFT+LEFT}}, {type: X}]
+    expect: {paragraphs: ['hello X']}
+  - id: delete_key_deletes_selection
+    concept: delete_selection
+    steps: [{type: 'hello world'}, {repeat: {n: 5, key: SHIFT+LEFT}}, {key: DELETE}]
+    expect: {paragraphs: ['hello ']}
+  - id: backspace_deletes_selection
+    concept: delete_selection
+    steps: [{type: 'hello world'}, {repeat: {n: 5, key: SHIFT+LEFT}}, {key: BACKSPACE}]
+    expect: {paragraphs: ['hello ']}
+  - id: backspace_deletes_char
+    concept: delete_char
+    steps: [{type: 'abc'}, {key: BACKSPACE}]
+    expect: {paragraphs: ['ab']}
+  - id: delete_deletes_char
+    concept: delete_char
+    steps: [{type: 'abc'}, {key: HOME}, {key: DELETE}]
+    expect: {paragraphs: ['bc']}
+  - id: enter_splits_paragraph
+    concept: enter_new_paragraph
+    steps: [{type: 'a'}, {key: RETURN}, {type: 'b'}]
+    expect: {paragraphs: ['a', 'b']}
+  - id: home_end_line
+    concept: line_home_end
+    steps: [{type: 'abc'}, {key: HOME}, {type: X}, {key: END}, {type: Y}]
+    expect: {paragraphs: ['XabcY']}
+  - id: arrow_moves_one_char
+    concept: arrow_keys_in_text
+    steps: [{type: 'ab'}, {key: LEFT}, {type: X}]
+    expect: {paragraphs: ['aXb']}
+  - id: tab_into_empty_cell
+    concept: tab_next_cell
+    steps: [{table: {rows: 1, cols: 2, cells: {}}}, {key: TAB}, {type: X}]
+    expect: {cells: {'0,0': '', '0,1': 'X'}}
+  - id: tab_into_filled_cell
+    concept: tab_next_cell
+    steps: [{table: {rows: 1, cols: 2, cells: {'0,1': 'old'}}}, {key: TAB}, {type: X}]
+    expect: {}                          # recorded only: Word selects the content (official), Writer not stated
+  - id: tab_last_cell_adds_row
+    concept: last_cell_tab_adds_row
+    steps: [{table: {rows: 1, cols: 2, cells: {}}}, {key: TAB}, {key: TAB}, {type: X}]
+    expect: {rows: 2, cells: {'1,0': 'X'}}
+  - id: cell_grows_with_text
+    concept: cell_overflow
+    steps: [{table: {rows: 1, cols: 1, cells: {}}},
+            {type: 'long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text'}]
+    expect: {row_grew: true}
+  - id: shift_arrow_extends_into_cells
+    concept: select_cells
+    steps: [{table: {rows: 2, cols: 2, cells: {'0,0': 'a', '0,1': 'b', '1,0': 'c', '1,1': 'd'}}}, {key: SHIFT+RIGHT}, {key: SHIFT+DOWN}]
+    expect: {selected_cells: 4}
+  - id: ctrl_backspace_in_cell
+    concept: delete_word_left
+    steps: [{table: {rows: 2, cols: 1, cells: {'0,0': 'one two'}}}, {key: CTRL+BACKSPACE}]
+    expect: {}                          # recorded only: Hangul deletes the row (official)

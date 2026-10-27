@@ -1,0 +1,44 @@
+% 출력본 → 복원 방식 → 복원본 → 편집 → 완성본의 개념도.
+% 원본은 PDF 생성·편집 시간 비교에 사용하며, 준비 과정과 시간 정규화는 본문에서 설명한다.
+% 편집 화살표는 평가 목표를 나타내며 실제 편집 실행을 뜻하지 않는다.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  docname/.style={font=\footnotesize,align=center,anchor=north,inner sep=1pt},
+  proc/.style={draw=black!70,rounded corners=2pt,font=\footnotesize,minimum width=14mm,minimum height=6mm,inner sep=2pt},
+  metric/.style={font=\footnotesize\bfseries,anchor=north,inner sep=1pt},
+  span/.style={decorate,decoration={brace,mirror,amplitude=3pt},black!60}]
+% 세 문서는 같은 크기의 표로 그리고, 완성본만 값 칸을 채운다.
+\newcommand{\miniform}[2]{%
+  \begin{scope}[shift={(#1,0)}]
+    \draw[black!70] (-0.65,0.30) rectangle (0.65,-0.30);
+    \draw[black!70] (-0.20,0.30) -- (-0.20,-0.30) (-0.65,0) -- (0.65,0);
+    \foreach \y in {-0.15,0.15} {
+      \draw[black!50,line width=0.8pt] (-0.54,\y) -- (-0.31,\y);
+      \ifnum#2=1
+        \draw[black,line width=1pt] (-0.07,\y) -- (0.52,\y);
+      \fi
+    }
+  \end{scope}}
+% 과정: 문서 중심 x = 0.65, 4.35, 8.05 / 처리 단계 중심 x = 2.50, 6.20
+\miniform{0.65}{0}
+\miniform{4.35}{0}
+\miniform{8.05}{1}
+\node[proc] (restore) at (2.50,0) {복원 방식};
+\node[proc] (edit) at (6.20,0) {편집};
+\draw[paperarrow] (1.30,0) -- (restore.west);
+\draw[paperarrow] (restore.east) -- (3.70,0);
+\draw[paperarrow] (5.00,0) -- (edit.west);
+\draw[paperarrow] (edit.east) -- (7.40,0);
+\node[docname] at (0.65,-0.36) {출력본(PDF)};
+\node[docname] at (4.35,-0.36) {복원본(ODT)};
+\node[docname] at (8.05,-0.36) {완성본(ODT)};
+% 측정: 시각 유사도는 출력본과 복원본의 외관 비교, 편집 시간은 복원본을 완성본으로 편집하는 시간
+\draw[span] (0.65,-0.80) -- (4.35,-0.80);
+\draw[span] (4.35,-0.80) -- (8.05,-0.80);
+\node[metric] at (2.50,-0.94) {시각 유사도};
+\node[metric] at (6.20,-0.94) {편집 시간};
+\end{tikzpicture}
+\caption{평가 과정}
+\label{fig:pipeline}
+\end{figure}

@@ -1,0 +1,20 @@
+Word.ShapeAutoSize enum - Office Add-ins | Microsoft Learn Skip to main content Skip to in-page navigation Skip to Ask Learn chat experience This browser is no longer supported. Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support. Download Microsoft Edge More info about Internet Explorer and Microsoft Edge Table of contents Exit editor mode Ask Learn Ask Learn Reading mode Table of contents Read in English Add Add to Plans Edit Copy Markdown Print Note Access to this page requires authorization. You can try signing in or changing directories . Access to this page requires authorization. You can try changing directories . Word. Shape Auto Size enum Package: word Determines the type of automatic sizing allowed. Remarks API set: WordApiDesktop 1.2 Used by Word.TextFrame : autoSizeSetting Examples // Link to full sample: https://raw.githubusercontent.com/OfficeDev/office-js-snippets/prod/samples/word/45-shapes/manage-shapes-text-boxes.yaml
+
+await Word.run(async (context) => {
+  // Sets text frame properties of the first text box in the main document.
+  const shape: Word.Shape = context.document.body.shapes.getByTypes([Word.ShapeType.textBox]).getFirstOrNullObject();
+  shape.load("textFrame");
+  await context.sync();
+
+  if (shape.isNullObject) {
+    console.log("No shapes with text boxes found in the main document.");
+    return;
+  }
+
+  const textFrame: Word.TextFrame = shape.textFrame;
+  textFrame.verticalAlignment = Word.ShapeTextVerticalAlignment.bottom;
+  textFrame.orientation = Word.ShapeTextOrientation.vertical270;
+  textFrame.autoSizeSetting = Word.ShapeAutoSize.shapeToFitText;
+
+  console.log("The first text box's text frame properties were updated:", textFrame);
+}); Fields mixed = "Mixed" A combination of automatic sizing schemes are used. API set: WordApiDesktop 1.2 none = "None" No autosizing. API set: WordApiDesktop 1.2 shapeToFitText = "ShapeToFitText" The shape is adjusted to fit the text. API set: WordApiDesktop 1.2 textToFitShape = "TextToFitShape" The text is adjusted to fit the shape. API set: WordApiDesktop 1.2 Collaborate with us on GitHub The source for this content can be found on GitHub, where you can also create and review issues and pull requests. For more information, see our contributor guide . Office Add-ins Open a documentation issue Provide product feedback Feedback Was this page helpful? Yes No No Need help with this topic? Want to try using Ask Learn to clarify or guide you through this topic? Ask Learn Ask Learn Suggest a fix? In this article Was this page helpful? Need help with this topic? Want to try using Ask Learn to clarify or guide you through this topic? Ask Learn Ask Learn Suggest a fix? en-us Your Privacy Choices Theme Light Dark High contrast AI Disclaimer Previous Versions Blog Contribute Privacy Consumer Health Privacy Terms of Use Trademarks © Microsoft 2026

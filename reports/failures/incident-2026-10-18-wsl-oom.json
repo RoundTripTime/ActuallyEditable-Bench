@@ -1,0 +1,13 @@
+{
+  "incident": "WSL VM froze and restarted (memory exhaustion)",
+  "window_kst": "2026-10-18 ~00:30 - 00:43 (syslog: 'Under memory pressure' at 00:43:15, clock-change bursts = stalled VM), reboot 00:45:26",
+  "cause": "Unscoped background jobs started together: 4 parallel PaddleOCR PP-Structure CPU processes (layout+table+formula+OCR models each), the Docling GPU process, a LibreOffice batch renderer and the Windows COM queue. None ran in a MemoryMax scope (violating the rule from the 2026-10-14 incident); the VM has no effective OOM killer before it freezes.",
+  "lost_work": "in-flight chunks only; all v4 steps are resumable (per-file json records)",
+  "prevention": [
+    "scripts/bg.sh <name> <GB> <cmd>: every background job in a systemd user scope with MemoryMax and no swap; refuses to start when the caps of running jobs exceed a 24 GB budget (VM 31 GB)",
+    "scripts/mem_guard.sh: if MemAvailable < 3 GB, kill the single largest project job process and log it (data/logs/mem_guard.log)",
+    ".claude/settings.json PreToolUse hook tools/hooks/require_capped_bg.py: blocks nohup/'&' launches of python/soffice/shell jobs that are not capped",
+    "new tools are measured with ONE process (peak RSS) before running several in parallel; parallelism is sized from the measured peak"
+  ],
+  "after_restart_checklist": ["start scripts/mem_guard.sh via scripts/bg.sh mem_guard 1", "check tasklist.exe for orphaned WINWORD/Hwp", "resume queues via bg.sh"]
+}

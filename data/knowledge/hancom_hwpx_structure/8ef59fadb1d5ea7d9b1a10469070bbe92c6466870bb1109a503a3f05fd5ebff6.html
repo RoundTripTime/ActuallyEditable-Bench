@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	 <link rel="profile" href="https://gmpg.org/xfn/11"> 
+	 <title>한/글 문서 파일 형식 : HWPX 포맷 구조 살펴보기 - 한컴테크</title>
+<meta name='robots' content='max-image-preview:large' />
+<meta name="description" content="이 글은 개방형 문서 포맷인 HWPX의 구조와 데이터를 저장하고 관리하는 방식을 다룹니다. HWPX와 기존 HWP 포맷의 차이를 설명하며, HWPX 포맷의 주요 구성 요소와 각 파일의 역할을 분석합니다. HWPX 문서 데이터를 활용하기 위한 기초 지식을 제공하는 글입니다." />
+<meta property="og:title" content="한/글 문서 파일 형식 : HWPX 포맷 구조 살펴보기" />
+<meta property="og:description" content="이 글은 개방형 문서 포맷인 HWPX의 구조와 데이터를 저장하고 관리하는 방식을 다룹니다. HWPX와 기존 HWP 포맷의 차이를 설명하며, HWPX 포맷의 주요 구성 요소와 각 파일의 역할을 분석합니다. HWPX 문서 데이터를 활용하기 위한 기초 지식을 제공하는 글입니다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tech.hancom.com/hwpxformat/" />
+<meta property="og:site_name" content="한컴테크" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:image" content="https://tech.hancom.com/wp-content/uploads/2025/03/한글-문서-파일-형식_HWPX-포맷-구조-살펴보기.png" />
+<meta property="article:published_time" content="2025-02-26T12:59:55+09:00" />
+<meta property="article:modified_time" content="2025-09-19T15:24:42+09:00" />
+<link rel="alternate" type="application/rss+xml" title="한컴테크 &raquo; 피드" href="https://tech.hancom.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="한컴테크 &raquo; 댓글 피드" href="https://tech.hancom.com/comments/feed/" />
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "한/글 문서 파일 형식 : HWPX 포맷 구조 살펴보기",
+    "description": "이 글은 개방형 문서 포맷인 HWPX의 구조와 데이터를 저장하고 관리하는 방식을 다룹니다. HWPX와 기존 HWP 포맷의 차이를 설명하며, HWPX 포맷의 주요 구성 요소와 각 파일의 역할을 분석합니다. HWPX 문서 데이터를 활용하기 위한 기초 지식을 제공하는 글입니다.",
+    "datePublished": "2025-02-26T12:59:55+09:00",
+    "dateModified": "2025-09-19T15:24:42+09:00",
+    "inLanguage": "ko",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://tech.hancom.com/hwpxformat/"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "김규리",
+        "url": "https://tech.hancom.com/author/hnc-gyuri-kim/",
+        "worksFor": {
+            "@type": "Organization",
+            "name": "한글과컴퓨터"
+        }
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "한컴테크",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://tech.hancom.com/wp-content/uploads/2024/08/img_opengraph-1.png"
+        }
+    },
+    "image": "https://tech.hancom.com/wp-content/uploads/2025/03/한글-문서-파일-형식_HWPX-포맷-구조-살펴보기.png"
+}</script>
+<script>
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/tech.hancom.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.4.2"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83e\udef1\ud83c\udffb\u200d\ud83e\udef2\ud83c\udfff","\ud83e\udef1\ud83c\udffb\u200b\ud83e\udef2\ud83c\udfff")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+</script>
+<style id='cf-frontend-style-inline-css'>
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 100;
+	src: url('https://tech.hancom.com/wp-content/uploads/2024/08/Pretendard-Medium.subset.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 200;
+}
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 300;
+}
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 400;
+}
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 500;
+}
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 600;
+}
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 700;
+}
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 800;
+}
+@font-face {
+	font-family: 'Pretendard-Medium';
+	font-weight: 900;
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 100;
+	src: url('https://tech.hancom.com/wp-content/uploads/2024/08/Pretendard-Bold.subset.woff2') format('woff2');
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 200;
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 300;
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 400;
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 500;
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 600;
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 700;
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 800;
+}
+@font-face {
+	font-family: 'Pretendard-Bold';
+	font-weight: 900;
+}
+</style>
+<link rel='stylesheet' id='astra-theme-css-css' href='https://tech.hancom.com/wp-content/themes/astra/assets/css/minified/main.min.css?ver=4.2.2' media='all' />
+<style id='astra-theme-css-inline-css'>
+:root{--ast-container-default-xlg-padding:3em;--ast-container-default-lg-padding:3em;--ast-container-default-slg-padding:2em;--ast-container-default-md-padding:3em;--ast-container-default-sm-padding:3em;--ast-container-default-xs-padding:2.4em;--ast-container-default-xxs-padding:1.8em;--ast-code-block-background:#ECEFF3;--ast-comment-inputs-background:#F9FAFB;}html{font-size:100%;}a{color:var(--ast-global-color-0);}a:hover,a:focus{color:var(--ast-global-color-1);}body,button,input,select,textarea,.ast-button,.ast-custom-button{font-family:Pretendard-Medium,Helvetica,Arial,sans-serif;font-weight:400;font-size:16px;font-size:1rem;line-height:1.6em;}blockquote{color:var(--ast-global-color-3);}h1,.entry-content h1,h2,.entry-content h2,h3,.entry-content h3,h4,.entry-content h4,h5,.entry-content h5,h6,.entry-content h6,.site-title,.site-title a{font-family:Pretendard-Medium,Helvetica,Arial,sans-serif;font-weight:600;}.ast-site-identity .site-title a{color:#ffffff;}.site-title{font-size:26px;font-size:1.625rem;display:block;}header .custom-logo-link img{max-width:80px;}.astra-logo-svg{width:80px;}.site-header .site-description{font-size:15px;font-size:0.9375rem;display:none;}.entry-title{font-size:26px;font-size:1.625rem;}h1,.entry-content h1{font-size:40px;font-size:2.5rem;font-weight:600;font-family:Pretendard-Medium,Helvetica,Arial,sans-serif;line-height:1.4em;}h2,.entry-content h2{font-size:32px;font-size:2rem;font-weight:600;font-family:Pretendard-Medium,Helvetica,Arial,sans-serif;line-height:1.25em;}h3,.entry-content h3{font-size:26px;font-size:1.625rem;font-weight:600;font-family:Pretendard-Medium,Helvetica,Arial,sans-serif;line-height:1.2em;}h4,.entry-content h4{font-size:24px;font-size:1.5rem;line-height:1.2em;font-weight:600;font-family:Pretendard-Medium,Helvetica,Arial,sans-serif;}h5,.entry-content h5{font-size:20px;font-size:1.25rem;line-height:1.2em;font-weight:600;font-family:Pretendard-Medium,Helvetica,Arial,sans-serif;}h6,.entry-content h6{font-size:16px;font-size:1rem;line-height:1.25em;font-weight:600;font-family:Pretendard-Medium,Helvetica,Arial,sans-serif;}::selection{background-color:var(--ast-global-color-0);color:#ffffff;}body,h1,.entry-title a,.entry-content h1,h2,.entry-content h2,h3,.entry-content h3,h4,.entry-content h4,h5,.entry-content h5,h6,.entry-content h6{color:var(--ast-global-color-3);}.tagcloud a:hover,.tagcloud a:focus,.tagcloud a.current-item{color:#ffffff;border-color:var(--ast-global-color-0);background-color:var(--ast-global-color-0);}input:focus,input[type="text"]:focus,input[type="email"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="reset"]:focus,input[type="search"]:focus,textarea:focus{border-color:var(--ast-global-color-0);}input[type="radio"]:checked,input[type=reset],input[type="checkbox"]:checked,input[type="checkbox"]:hover:checked,input[type="checkbox"]:focus:checked,input[type=range]::-webkit-slider-thumb{border-color:var(--ast-global-color-0);background-color:var(--ast-global-color-0);box-shadow:none;}.site-footer a:hover + .post-count,.site-footer a:focus + .post-count{background:var(--ast-global-color-0);border-color:var(--ast-global-color-0);}.single .nav-links .nav-previous,.single .nav-links .nav-next{color:var(--ast-global-color-0);}.entry-meta,.entry-meta *{line-height:1.45;color:var(--ast-global-color-0);}.entry-meta a:hover,.entry-meta a:hover *,.entry-meta a:focus,.entry-meta a:focus *,.page-links > .page-link,.page-links .page-link:hover,.post-navigation a:hover{color:var(--ast-global-color-1);}#cat option,.secondary .calendar_wrap thead a,.secondary .calendar_wrap thead a:visited{color:var(--ast-global-color-0);}.secondary .calendar_wrap #today,.ast-progress-val span{background:var(--ast-global-color-0);}.secondary a:hover + .post-count,.secondary a:focus + .post-count{background:var(--ast-global-color-0);border-color:var(--ast-global-color-0);}.calendar_wrap #today > a{color:#ffffff;}.page-links .page-link,.single .post-navigation a{color:var(--ast-global-color-0);}.ast-archive-title{color:var(--ast-global-color-2);}.widget-title,.widget .wp-block-heading{font-size:22px;font-size:1.375rem;color:var(--ast-global-color-2);}.ast-single-post .entry-content a,.ast-comment-content a:not(.ast-comment-edit-reply-wrap a){text-decoration:underline;}.ast-single-post .wp-block-button .wp-block-button__link,.ast-single-post .elementor-button-wrapper .elementor-button,.ast-single-post .entry-content .uagb-tab a,.ast-single-post .entry-content .uagb-ifb-cta a,.ast-single-post .entry-content .wp-block-uagb-buttons a,.ast-single-post .entry-content .uabb-module-content a,.ast-single-post .entry-content .uagb-post-grid a,.ast-single-post .entry-content .uagb-timeline a,.ast-single-post .entry-content .uagb-toc__wrap a,.ast-single-post .entry-content .uagb-taxomony-box a,.ast-single-post .entry-content .woocommerce a,.entry-content .wp-block-latest-posts > li > a,.ast-single-post .entry-content .wp-block-file__button{text-decoration:none;}a:focus-visible,.ast-menu-toggle:focus-visible,.site .skip-link:focus-visible,.wp-block-loginout input:focus-visible,.wp-block-search.wp-block-search__button-inside .wp-block-search__inside-wrapper,.ast-header-navigation-arrow:focus-visible,.woocommerce .wc-proceed-to-checkout > .checkout-button:focus-visible,.woocommerce .woocommerce-MyAccount-navigation ul li a:focus-visible,.ast-orders-table__row .ast-orders-table__cell:focus-visible,.woocommerce .woocommerce-order-details .order-again > .button:focus-visible,.woocommerce .woocommerce-message a.button.wc-forward:focus-visible,.woocommerce #minus_qty:focus-visible,.woocommerce #plus_qty:focus-visible,a#ast-apply-coupon:focus-visible,.woocommerce .woocommerce-info a:focus-visible,.woocommerce .astra-shop-summary-wrap a:focus-visible,.woocommerce a.wc-forward:focus-visible,#ast-apply-coupon:focus-visible,.woocommerce-js .woocommerce-mini-cart-item a.remove:focus-visible{outline-style:dotted;outline-color:inherit;outline-width:thin;border-color:transparent;}input:focus,input[type="text"]:focus,input[type="email"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="reset"]:focus,input[type="search"]:focus,input[type="number"]:focus,textarea:focus,.wp-block-search__input:focus,[data-section="section-header-mobile-trigger"] .ast-button-wrap .ast-mobile-menu-trigger-minimal:focus,.ast-mobile-popup-drawer.active .menu-toggle-close:focus,.woocommerce-ordering select.orderby:focus,#ast-scroll-top:focus,#coupon_code:focus,.woocommerce-page #comment:focus,.woocommerce #reviews #respond input#submit:focus,.woocommerce a.add_to_cart_button:focus,.woocommerce .button.single_add_to_cart_button:focus,.woocommerce .woocommerce-cart-form button:focus,.woocommerce .woocommerce-cart-form__cart-item .quantity .qty:focus,.woocommerce .woocommerce-billing-fields .woocommerce-billing-fields__field-wrapper .woocommerce-input-wrapper > .input-text:focus,.woocommerce #order_comments:focus,.woocommerce #place_order:focus,.woocommerce .woocommerce-address-fields .woocommerce-address-fields__field-wrapper .woocommerce-input-wrapper > .input-text:focus,.woocommerce .woocommerce-MyAccount-content form button:focus,.woocommerce .woocommerce-MyAccount-content .woocommerce-EditAccountForm .woocommerce-form-row .woocommerce-Input.input-text:focus,.woocommerce .ast-woocommerce-container .woocommerce-pagination ul.page-numbers li a:focus,body #content .woocommerce form .form-row .select2-container--default .select2-selection--single:focus,#ast-coupon-code:focus,.woocommerce.woocommerce-js .quantity input[type=number]:focus,.woocommerce-js .woocommerce-mini-cart-item .quantity input[type=number]:focus,.woocommerce p#ast-coupon-trigger:focus{border-style:dotted;border-color:inherit;border-width:thin;outline-color:transparent;}.ast-logo-title-inline .site-logo-img{padding-right:1em;}.site-logo-img img{filter:url(#ast-img-color-filter); transition:all 0.2s linear;}@media (max-width:921px){#ast-desktop-header{display:none;}}@media (min-width:921px){#ast-mobile-header{display:none;}}.wp-block-buttons.aligncenter{justify-content:center;}@media (max-width:921px){.ast-theme-transparent-header #primary,.ast-theme-transparent-header #secondary{padding:0;}}@media (max-width:921px){.ast-plain-container.ast-no-sidebar #primary{padding:0;}}.ast-plain-container.ast-no-sidebar #primary{margin-top:0;margin-bottom:0;}@media (min-width:1200px){.ast-plain-container.ast-no-sidebar #primary{margin-top:60px;margin-bottom:60px;}}.wp-block-button.is-style-outline .wp-block-button__link{border-color:var(--ast-global-color-0);}div.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-text-color),div.wp-block-button.wp-block-button__link.is-style-outline:not(.has-text-color){color:var(--ast-global-color-0);}.wp-block-button.is-style-outline .wp-block-button__link:hover,div.wp-block-button.is-style-outline .wp-block-button__link:focus,div.wp-block-button.is-style-outline > .wp-block-button__link:not(.has-text-color):hover,div.wp-block-button.wp-block-button__link.is-style-outline:not(.has-text-color):hover{color:#ffffff;background-color:var(--ast-global-color-1);border-color:var(--ast-global-color-1);}.post-page-numbers.current .page-link,.ast-pagination .page-numbers.current{color:#ffffff;border-color:var(--ast-global-color-0);background-color:var(--ast-global-color-0);border-radius:2px;}h1.widget-title{font-weight:600;}h2.widget-title{font-weight:600;}h3.widget-title{font-weight:600;}#page{display:flex;flex-direction:column;min-height:100vh;}.ast-404-layout-1 h1.page-title{color:var(--ast-global-color-2);}.single .post-navigation a{line-height:1em;height:inherit;}.error-404 .page-sub-title{font-size:1.5rem;font-weight:inherit;}.search .site-content .content-area .search-form{margin-bottom:0;}#page .site-content{flex-grow:1;}.widget{margin-bottom:3.5em;}#secondary li{line-height:1.5em;}#secondary .wp-block-group h2{margin-bottom:0.7em;}#secondary h2{font-size:1.7rem;}.ast-separate-container .ast-article-post,.ast-separate-container .ast-article-single,.ast-separate-container .ast-comment-list li.depth-1,.ast-separate-container .comment-respond{padding:3em;}.ast-separate-container .ast-comment-list li.depth-1,.hentry{margin-bottom:2em;}.ast-separate-container .ast-archive-description,.ast-separate-container .ast-author-box{border-bottom:1px solid var(--ast-border-color);}.ast-separate-container .comments-title{padding:2em 2em 0 2em;}.ast-page-builder-template .comment-form-textarea,.ast-comment-formwrap .ast-grid-common-col{padding:0;}.ast-comment-formwrap{padding:0 20px;display:inline-flex;column-gap:20px;}.archive.ast-page-builder-template .entry-header{margin-top:2em;}.ast-page-builder-template .ast-comment-formwrap{width:100%;}.entry-title{margin-bottom:0.5em;}.ast-archive-description p{font-size:inherit;font-weight:inherit;line-height:inherit;}@media (min-width:921px){.ast-left-sidebar.ast-page-builder-template #secondary,.archive.ast-right-sidebar.ast-page-builder-template .site-main{padding-left:20px;padding-right:20px;}}@media (max-width:544px){.ast-comment-formwrap.ast-row{column-gap:10px;display:inline-block;}#ast-commentform .ast-grid-common-col{position:relative;width:100%;}}@media (min-width:1201px){.ast-separate-container .ast-article-post,.ast-separate-container .ast-article-single,.ast-separate-container .ast-author-box,.ast-separate-container .ast-404-layout-1,.ast-separate-container .no-results{padding:3em;}}@media (max-width:921px){.ast-separate-container #primary,.ast-separate-container #secondary{padding:1.5em 0;}#primary,#secondary{padding:1.5em 0;margin:0;}.ast-left-sidebar #content > .ast-container{display:flex;flex-direction:column-reverse;width:100%;}}@media (min-width:922px){.ast-separate-container.ast-right-sidebar #primary,.ast-separate-container.ast-left-sidebar #primary{border:0;}.search-no-results.ast-separate-container #primary{margin-bottom:4em;}}.elementor-button-wrapper .elementor-button{border-style:solid;text-decoration:none;border-top-width:0;border-right-width:0;border-left-width:0;border-bottom-width:0;}body .elementor-button.elementor-size-sm,body .elementor-button.elementor-size-xs,body .elementor-button.elementor-size-md,body .elementor-button.elementor-size-lg,body .elementor-button.elementor-size-xl,body .elementor-button{padding-top:15px;padding-right:30px;padding-bottom:15px;padding-left:30px;}@media (max-width:921px){.elementor-button-wrapper .elementor-button.elementor-size-sm,.elementor-button-wrapper .elementor-button.elementor-size-xs,.elementor-button-wrapper .elementor-button.elementor-size-md,.elementor-button-wrapper .elementor-button.elementor-size-lg,.elementor-button-wrapper .elementor-button.elementor-size-xl,.elementor-button-wrapper .elementor-button{padding-top:14px;padding-right:28px;padding-bottom:14px;padding-left:28px;}}@media (max-width:544px){.elementor-button-wrapper .elementor-button.elementor-size-sm,.elementor-button-wrapper .elementor-button.elementor-size-xs,.elementor-button-wrapper .elementor-button.elementor-size-md,.elementor-button-wrapper .elementor-button.elementor-size-lg,.elementor-button-wrapper .elementor-button.elementor-size-xl,.elementor-button-wrapper .elementor-button{padding-top:12px;padding-right:24px;padding-bottom:12px;padding-left:24px;}}.elementor-button-wrapper .elementor-button{border-color:var(--ast-global-color-0);background-color:var(--ast-global-color-0);}.elementor-button-wrapper .elementor-button:hover,.elementor-button-wrapper .elementor-button:focus{color:#ffffff;background-color:var(--ast-global-color-1);border-color:var(--ast-global-color-1);}.wp-block-button .wp-block-button__link ,.elementor-button-wrapper .elementor-button,.elementor-button-wrapper .elementor-button:visited{color:#ffffff;}.elementor-button-wrapper .elementor-button{font-weight:500;font-size:16px;font-size:1rem;line-height:1em;}body .elementor-button.elementor-size-sm,body .elementor-button.elementor-size-xs,body .elementor-button.elementor-size-md,body .elementor-button.elementor-size-lg,body .elementor-button.elementor-size-xl,body .elementor-button{font-size:16px;font-size:1rem;}.wp-block-button .wp-block-button__link:hover,.wp-block-button .wp-block-button__link:focus{color:#ffffff;background-color:var(--ast-global-color-1);border-color:var(--ast-global-color-1);}.elementor-widget-heading h1.elementor-heading-title{line-height:1.4em;}.elementor-widget-heading h2.elementor-heading-title{line-height:1.25em;}.elementor-widget-heading h3.elementor-heading-title{line-height:1.2em;}.elementor-widget-heading h4.elementor-heading-title{line-height:1.2em;}.elementor-widget-heading h5.elementor-heading-title{line-height:1.2em;}.elementor-widget-heading h6.elementor-heading-title{line-height:1.25em;}.wp-block-button .wp-block-button__link,.wp-block-search .wp-block-search__button,body .wp-block-file .wp-block-file__button{border-color:var(--ast-global-color-0);background-color:var(--ast-global-color-0);color:#ffffff;font-family:inherit;font-weight:500;line-height:1em;font-size:16px;font-size:1rem;padding-top:15px;padding-right:30px;padding-bottom:15px;padding-left:30px;}@media (max-width:921px){.wp-block-button .wp-block-button__link,.wp-block-search .wp-block-search__button,body .wp-block-file .wp-block-file__button{padding-top:14px;padding-right:28px;padding-bottom:14px;padding-left:28px;}}@media (max-width:544px){.wp-block-button .wp-block-button__link,.wp-block-search .wp-block-search__button,body .wp-block-file .wp-block-file__button{padding-top:12px;padding-right:24px;padding-bottom:12px;padding-left:24px;}}.menu-toggle,button,.ast-button,.ast-custom-button,.button,input#submit,input[type="button"],input[type="submit"],input[type="reset"],#comments .submit,.search .search-submit,form[CLASS*="wp-block-search__"].wp-block-search .wp-block-search__inside-wrapper .wp-block-search__button,body .wp-block-file .wp-block-file__button,.search .search-submit,.woocommerce-js a.button,.woocommerce button.button,.woocommerce .woocommerce-message a.button,.woocommerce #respond input#submit.alt,.woocommerce input.button.alt,.woocommerce input.button,.woocommerce input.button:disabled,.woocommerce input.button:disabled[disabled],.woocommerce input.button:disabled:hover,.woocommerce input.button:disabled[disabled]:hover,.woocommerce #respond input#submit,.woocommerce button.button.alt.disabled,.wc-block-grid__products .wc-block-grid__product .wp-block-button__link,.wc-block-grid__product-onsale,[CLASS*="wc-block"] button,.woocommerce-js .astra-cart-drawer .astra-cart-drawer-content .woocommerce-mini-cart__buttons .button:not(.checkout):not(.ast-continue-shopping),.woocommerce-js .astra-cart-drawer .astra-cart-drawer-content .woocommerce-mini-cart__buttons a.checkout,.woocommerce button.button.alt.disabled.wc-variation-selection-needed{border-style:solid;border-top-width:0;border-right-width:0;border-left-width:0;border-bottom-width:0;color:#ffffff;border-color:var(--ast-global-color-0);background-color:var(--ast-global-color-0);padding-top:15px;padding-right:30px;padding-bottom:15px;padding-left:30px;font-family:inherit;font-weight:500;font-size:16px;font-size:1rem;line-height:1em;}button:focus,.menu-toggle:hover,button:hover,.ast-button:hover,.ast-custom-button:hover .button:hover,.ast-custom-button:hover ,input[type=reset]:hover,input[type=reset]:focus,input#submit:hover,input#submit:focus,input[type="button"]:hover,input[type="button"]:focus,input[type="submit"]:hover,input[type="submit"]:focus,form[CLASS*="wp-block-search__"].wp-block-search .wp-block-search__inside-wrapper .wp-block-search__button:hover,form[CLASS*="wp-block-search__"].wp-block-search .wp-block-search__inside-wrapper .wp-block-search__button:focus,body .wp-block-file .wp-block-file__button:hover,body .wp-block-file .wp-block-file__button:focus,.woocommerce-js a.button:hover,.woocommerce button.button:hover,.woocommerce .woocommerce-message a.button:hover,.woocommerce #respond input#submit:hover,.woocommerce #respond input#submit.alt:hover,.woocommerce input.button.alt:hover,.woocommerce input.button:hover,.woocommerce button.button.alt.disabled:hover,.wc-block-grid__products .wc-block-grid__product .wp-block-button__link:hover,[CLASS*="wc-block"] button:hover,.woocommerce-js .astra-cart-drawer .astra-cart-drawer-content .woocommerce-mini-cart__buttons .button:not(.checkout):not(.ast-continue-shopping):hover,.woocommerce-js .astra-cart-drawer .astra-cart-drawer-content .woocommerce-mini-cart__buttons a.checkout:hover,.woocommerce button.button.alt.disabled.wc-variation-selection-needed:hover{color:#ffffff;background-color:var(--ast-global-color-1);border-color:var(--ast-global-color-1);}form[CLASS*="wp-block-search__"].wp-block-search .wp-block-search__inside-wrapper .wp-block-search__button.has-icon{padding-top:calc(15px - 3px);padding-right:calc(30px - 3px);padding-bottom:calc(15px - 3px);padding-left:calc(30px - 3px);}@media (max-width:921px){.menu-toggle,button,.ast-button,.ast-custom-button,.button,input#submit,input[type="button"],input[type="submit"],input[type="reset"],#comments .submit,.search .search-submit,form[CLASS*="wp-block-search__"].wp-block-search .wp-block-search__inside-wrapper .wp-block-search__button,body .wp-block-file .wp-block-file__button,.search .search-submit,.woocommerce-js a.button,.woocommerce button.button,.woocommerce .woocommerce-message a.button,.woocommerce #respond input#submit.alt,.woocommerce input.button.alt,.woocommerce input.button,.woocommerce input.button:disabled,.woocommerce input.button:disabled[disabled],.woocommerce input.button:disabled:hover,.woocommerce input.button:disabled[disabled]:hover,.woocommerce #respond input#submit,.woocommerce button.button.alt.disabled,.wc-block-grid__products .wc-block-grid__product .wp-block-button__link,.wc-block-grid__product-onsale,[CLASS*="wc-block"] button,.woocommerce-js .astra-cart-drawer .astra-cart-drawer-content .woocommerce-mini-cart__buttons .button:not(.checkout):not(.ast-continue-shopping),.woocommerce-js .astra-cart-drawer .astra-cart-drawer-content .woocommerce-mini-cart__buttons a.checkout,.woocommerce button.button.alt.disabled.wc-variation-selection-needed{padding-top:14px;padding-right:28px;padding-bottom:14px;padding-left:28px;}}@media (max-width:544px){.menu-toggle,button,.ast-button,.ast-custom-button,.button,input#submit,input[type="button"],input[type="submit"],input[type="reset"],#comments .submit,.search .search-submit,form[CLASS*="wp-block-search__"].wp-block-search .wp-block-search__inside-wrapper .wp-block-search__button,body .wp-block-file .wp-block-file__button,.search .search-submit,.woocommerce-js a.button,.woocommerce button.button,.woocommerce .woocommerce-message a.button,.woocommerce #respond input#submit.alt,.woocommerce input.button.alt,.woocommerce input.button,.woocommerce input.button:disabled,.woocommerce input.button:disabled[disabled],.woocommerce input.button:disabled:hover,.woocommerce input.button:disabled[disabled]:hover,.woocommerce #respond input#submit,.woocommerce button.button.alt.disabled,.wc-block-grid__products .wc-block-grid__product .wp-block-button__link,.wc-block-grid__product-onsale,[CLASS*="wc-block"] button,.woocommerce-js .astra-cart-drawer .astra-cart-drawer-content .woocommerce-mini-cart__buttons .button:not(.checkout):not(.ast-continue-shopping),.woocommerce-js .astra-cart-drawer .astra-cart-drawer-content .woocommerce-mini-cart__buttons a.checkout,.woocommerce button.button.alt.disabled.wc-variation-selection-needed{padding-top:12px;padding-right:24px;padding-bottom:12px;padding-left:24px;}}@media (max-width:921px){.ast-mobile-header-stack .main-header-bar .ast-search-menu-icon{display:inline-block;}.ast-header-break-point.ast-header-custom-item-outside .ast-mobile-header-stack .main-header-bar .ast-search-icon{margin:0;}.ast-comment-avatar-wrap img{max-width:2.5em;}.ast-separate-container .ast-comment-list li.depth-1{padding:1.5em 2.14em;}.ast-separate-container .comment-respond{padding:2em 2.14em;}.ast-comment-meta{padding:0 1.8888em 1.3333em;}}@media (min-width:544px){.ast-container{max-width:100%;}}@media (max-width:544px){.ast-separate-container .ast-article-post,.ast-separate-container .ast-article-single,.ast-separate-container .comments-title,.ast-separate-container .ast-archive-description{padding:1.5em 1em;}.ast-separate-container #content .ast-container{padding-left:0.54em;padding-right:0.54em;}.ast-separate-container .ast-comment-list li.depth-1{padding:1.5em 1em;margin-bottom:1.5em;}.ast-separate-container .ast-comment-list .bypostauthor{padding:.5em;}.ast-search-menu-icon.ast-dropdown-active .search-field{width:170px;}}@media (max-width:921px){.ast-header-break-point .ast-search-menu-icon.slide-search .search-form{right:0;}.ast-header-break-point .ast-mobile-header-stack .ast-search-menu-icon.slide-search .search-form{right:-1em;}}.ast-separate-container{background-color:var(--ast-global-color-4);;}@media (max-width:921px){.site-title{display:block;}.site-header .site-description{display:none;}.entry-title{font-size:30px;}h1,.entry-content h1{font-size:30px;}h2,.entry-content h2{font-size:25px;}h3,.entry-content h3{font-size:20px;}}@media (max-width:544px){.site-title{display:block;}.site-header .site-description{display:none;}.entry-title{font-size:30px;}h1,.entry-content h1{font-size:30px;}h2,.entry-content h2{font-size:25px;}h3,.entry-content h3{font-size:20px;}}@media (max-width:921px){html{font-size:91.2%;}}@media (max-width:544px){html{font-size:91.2%;}}@media (min-width:922px){.ast-container{max-width:1240px;}}@media (min-width:922px){.site-content .ast-container{display:flex;}}@media (max-width:921px){.site-content .ast-container{flex-direction:column;}}@media (min-width:922px){.single-post .site-content > .ast-container{max-width:1024px;}}@media (min-width:922px){.main-header-menu .sub-menu .menu-item.ast-left-align-sub-menu:hover > .sub-menu,.main-header-menu .sub-menu .menu-item.ast-left-align-sub-menu.focus > .sub-menu{margin-left:-0px;}}.entry-content li > p{margin-bottom:0;}blockquote,cite {font-style: initial;}.wp-block-file {display: flex;align-items: center;flex-wrap: wrap;justify-content: space-between;}.wp-block-pullquote {border: none;}.wp-block-pullquote blockquote::before {content: "\201D";font-family: "Helvetica",sans-serif;display: flex;transform: rotate( 180deg );font-size: 6rem;font-style: normal;line-height: 1;font-weight: bold;align-items: center;justify-content: center;}.has-text-align-right > blockquote::before {justify-content: flex-start;}.has-text-align-left > blockquote::before {justify-content: flex-end;}figure.wp-block-pullquote.is-style-solid-color blockquote {max-width: 100%;text-align: inherit;}html body {--wp--custom--ast-default-block-top-padding: 3em;--wp--custom--ast-default-block-right-padding: 3em;--wp--custom--ast-default-block-bottom-padding: 3em;--wp--custom--ast-default-block-left-padding: 3em;--wp--custom--ast-container-width: 1200px;--wp--custom--ast-content-width-size: 1200px;--wp--custom--ast-wide-width-size: calc(1200px + var(--wp--custom--ast-default-block-left-padding) + var(--wp--custom--ast-default-block-right-padding));}.ast-narrow-container {--wp--custom--ast-content-width-size: 750px;--wp--custom--ast-wide-width-size: 750px;}@media(max-width: 921px) {html body {--wp--custom--ast-default-block-top-padding: 3em;--wp--custom--ast-default-block-right-padding: 2em;--wp--custom--ast-default-block-bottom-padding: 3em;--wp--custom--ast-default-block-left-padding: 2em;}}@media(max-width: 544px) {html body {--wp--custom--ast-default-block-top-padding: 3em;--wp--custom--ast-default-block-right-padding: 1.5em;--wp--custom--ast-default-block-bottom-padding: 3em;--wp--custom--ast-default-block-left-padding: 1.5em;}}.entry-content > .wp-block-group,.entry-content > .wp-block-cover,.entry-content > .wp-block-columns {padding-top: var(--wp--custom--ast-default-block-top-padding);padding-right: var(--wp--custom--ast-default-block-right-padding);padding-bottom: var(--wp--custom--ast-default-block-bottom-padding);padding-left: var(--wp--custom--ast-default-block-left-padding);}.ast-plain-container.ast-no-sidebar .entry-content > .alignfull,.ast-page-builder-template .ast-no-sidebar .entry-content > .alignfull {margin-left: calc( -50vw + 50%);margin-right: calc( -50vw + 50%);max-width: 100vw;width: 100vw;}.ast-plain-container.ast-no-sidebar .entry-content .alignfull .alignfull,.ast-page-builder-template.ast-no-sidebar .entry-content .alignfull .alignfull,.ast-plain-container.ast-no-sidebar .entry-content .alignfull .alignwide,.ast-page-builder-template.ast-no-sidebar .entry-content .alignfull .alignwide,.ast-plain-container.ast-no-sidebar .entry-content .alignwide .alignfull,.ast-page-builder-template.ast-no-sidebar .entry-content .alignwide .alignfull,.ast-plain-container.ast-no-sidebar .entry-content .alignwide .alignwide,.ast-page-builder-template.ast-no-sidebar .entry-content .alignwide .alignwide,.ast-plain-container.ast-no-sidebar .entry-content .wp-block-column .alignfull,.ast-page-builder-template.ast-no-sidebar .entry-content .wp-block-column .alignfull,.ast-plain-container.ast-no-sidebar .entry-content .wp-block-column .alignwide,.ast-page-builder-template.ast-no-sidebar .entry-content .wp-block-column .alignwide {margin-left: auto;margin-right: auto;width: 100%;}[ast-blocks-layout] .wp-block-separator:not(.is-style-dots) {height: 0;}[ast-blocks-layout] .wp-block-separator {margin: 20px auto;}[ast-blocks-layout] .wp-block-separator:not(.is-style-wide):not(.is-style-dots) {max-width: 100px;}[ast-blocks-layout] .wp-block-separator.has-background {padding: 0;}.entry-content[ast-blocks-layout] > * {max-width: var(--wp--custom--ast-content-width-size);margin-left: auto;margin-right: auto;}.entry-content[ast-blocks-layout] > .alignwide {max-width: var(--wp--custom--ast-wide-width-size);}.entry-content[ast-blocks-layout] .alignfull {max-width: none;}.entry-content .wp-block-columns {margin-bottom: 0;}blockquote {margin: 1.5em;border: none;}.wp-block-quote:not(.has-text-align-right):not(.has-text-align-center) {border-left: 5px solid rgba(0,0,0,0.05);}.has-text-align-right > blockquote,blockquote.has-text-align-right {border-right: 5px solid rgba(0,0,0,0.05);}.has-text-align-left > blockquote,blockquote.has-text-align-left {border-left: 5px solid rgba(0,0,0,0.05);}.wp-block-site-tagline,.wp-block-latest-posts .read-more {margin-top: 15px;}.wp-block-loginout p label {display: block;}.wp-block-loginout p:not(.login-remember):not(.login-submit) input {width: 100%;}.wp-block-loginout input:focus {border-color: transparent;}.wp-block-loginout input:focus {outline: thin dotted;}.entry-content .wp-block-media-text .wp-block-media-text__content {padding: 0 0 0 8%;}.entry-content .wp-block-media-text.has-media-on-the-right .wp-block-media-text__content {padding: 0 8% 0 0;}.entry-content .wp-block-media-text.has-background .wp-block-media-text__content {padding: 8%;}.entry-content .wp-block-cover:not([class*="background-color"]) .wp-block-cover__inner-container,.entry-content .wp-block-cover:not([class*="background-color"]) .wp-block-cover-image-text,.entry-content .wp-block-cover:not([class*="background-color"]) .wp-block-cover-text,.entry-content .wp-block-cover-image:not([class*="background-color"]) .wp-block-cover__inner-container,.entry-content .wp-block-cover-image:not([class*="background-color"]) .wp-block-cover-image-text,.entry-content .wp-block-cover-image:not([class*="background-color"]) .wp-block-cover-text {color: var(--ast-global-color-5);}.wp-block-loginout .login-remember input {width: 1.1rem;height: 1.1rem;margin: 0 5px 4px 0;vertical-align: middle;}.wp-block-latest-posts > li > *:first-child,.wp-block-latest-posts:not(.is-grid) > li:first-child {margin-top: 0;}.wp-block-search__inside-wrapper .wp-block-search__input {padding: 0 10px;color: var(--ast-global-color-3);background: var(--ast-global-color-5);border-color: var(--ast-border-color);}.wp-block-latest-posts .read-more {margin-bottom: 1.5em;}.wp-block-search__no-button .wp-block-search__inside-wrapper .wp-block-search__input {padding-top: 5px;padding-bottom: 5px;}.wp-block-latest-posts .wp-block-latest-posts__post-date,.wp-block-latest-posts .wp-block-latest-posts__post-author {font-size: 1rem;}.wp-block-latest-posts > li > *,.wp-block-latest-posts:not(.is-grid) > li {margin-top: 12px;margin-bottom: 12px;}.ast-page-builder-template .entry-content[ast-blocks-layout] > *,.ast-page-builder-template .entry-content[ast-blocks-layout] > .alignfull > * {max-width: none;}.ast-page-builder-template .entry-content[ast-blocks-layout] > .alignwide > * {max-width: var(--wp--custom--ast-wide-width-size);}.ast-page-builder-template .entry-content[ast-blocks-layout] > .inherit-container-width > *,.ast-page-builder-template .entry-content[ast-blocks-layout] > * > *,.entry-content[ast-blocks-layout] > .wp-block-cover .wp-block-cover__inner-container {max-width: var(--wp--custom--ast-content-width-size);margin-left: auto;margin-right: auto;}.entry-content[ast-blocks-layout] .wp-block-cover:not(.alignleft):not(.alignright) {width: auto;}@media(max-width: 1200px) {.ast-separate-container .entry-content > .alignfull,.ast-separate-container .entry-content[ast-blocks-layout] > .alignwide,.ast-plain-container .entry-content[ast-blocks-layout] > .alignwide,.ast-plain-container .entry-content .alignfull {margin-left: calc(-1 * min(var(--ast-container-default-xlg-padding),20px)) ;margin-right: calc(-1 * min(var(--ast-container-default-xlg-padding),20px));}}@media(min-width: 1201px) {.ast-separate-container .entry-content > .alignfull {margin-left: calc(-1 * var(--ast-container-default-xlg-padding) );margin-right: calc(-1 * var(--ast-container-default-xlg-padding) );}.ast-separate-container .entry-content[ast-blocks-layout] > .alignwide,.ast-plain-container .entry-content[ast-blocks-layout] > .alignwide {margin-left: calc(-1 * var(--wp--custom--ast-default-block-left-padding) );margin-right: calc(-1 * var(--wp--custom--ast-default-block-right-padding) );}}@media(min-width: 921px) {.ast-separate-container .entry-content .wp-block-group.alignwide:not(.inherit-container-width) > :where(:not(.alignleft):not(.alignright)),.ast-plain-container .entry-content .wp-block-group.alignwide:not(.inherit-container-width) > :where(:not(.alignleft):not(.alignright)) {max-width: calc( var(--wp--custom--ast-content-width-size) + 80px );}.ast-plain-container.ast-right-sidebar .entry-content[ast-blocks-layout] .alignfull,.ast-plain-container.ast-left-sidebar .entry-content[ast-blocks-layout] .alignfull {margin-left: -60px;margin-right: -60px;}}@media(min-width: 544px) {.entry-content > .alignleft {margin-right: 20px;}.entry-content > .alignright {margin-left: 20px;}}@media (max-width:544px){.wp-block-columns .wp-block-column:not(:last-child){margin-bottom:20px;}.wp-block-latest-posts{margin:0;}}@media( max-width: 600px ) {.entry-content .wp-block-media-text .wp-block-media-text__content,.entry-content .wp-block-media-text.has-media-on-the-right .wp-block-media-text__content {padding: 8% 0 0;}.entry-content .wp-block-media-text.has-background .wp-block-media-text__content {padding: 8%;}}.ast-page-builder-template .entry-header {padding-left: 0;}.ast-narrow-container .site-content .wp-block-uagb-image--align-full .wp-block-uagb-image__figure {max-width: 100%;margin-left: auto;margin-right: auto;}.entry-content ul,.entry-content ol {padding: revert;margin: revert;}:root .has-ast-global-color-0-color{color:var(--ast-global-color-0);}:root .has-ast-global-color-0-background-color{background-color:var(--ast-global-color-0);}:root .wp-block-button .has-ast-global-color-0-color{color:var(--ast-global-color-0);}:root .wp-block-button .has-ast-global-color-0-background-color{background-color:var(--ast-global-color-0);}:root .has-ast-global-color-1-color{color:var(--ast-global-color-1);}:root .has-ast-global-color-1-background-color{background-color:var(--ast-global-color-1);}:root .wp-block-button .has-ast-global-color-1-color{color:var(--ast-global-color-1);}:root .wp-block-button .has-ast-global-color-1-background-color{background-color:var(--ast-global-color-1);}:root .has-ast-global-color-2-color{color:var(--ast-global-color-2);}:root .has-ast-global-color-2-background-color{background-color:var(--ast-global-color-2);}:root .wp-block-button .has-ast-global-color-2-color{color:var(--ast-global-color-2);}:root .wp-block-button .has-ast-global-color-2-background-color{background-color:var(--ast-global-color-2);}:root .has-ast-global-color-3-color{color:var(--ast-global-color-3);}:root .has-ast-global-color-3-background-color{background-color:var(--ast-global-color-3);}:root .wp-block-button .has-ast-global-color-3-color{color:var(--ast-global-color-3);}:root .wp-block-button .has-ast-global-color-3-background-color{background-color:var(--ast-global-color-3);}:root .has-ast-global-color-4-color{color:var(--ast-global-color-4);}:root .has-ast-global-color-4-background-color{background-color:var(--ast-global-color-4);}:root .wp-block-button .has-ast-global-color-4-color{color:var(--ast-global-color-4);}:root .wp-block-button .has-ast-global-color-4-background-color{background-color:var(--ast-global-color-4);}:root .has-ast-global-color-5-color{color:var(--ast-global-color-5);}:root .has-ast-global-color-5-background-color{background-color:var(--ast-global-color-5);}:root .wp-block-button .has-ast-global-color-5-color{color:var(--ast-global-color-5);}:root .wp-block-button .has-ast-global-color-5-background-color{background-color:var(--ast-global-color-5);}:root .has-ast-global-color-6-color{color:var(--ast-global-color-6);}:root .has-ast-global-color-6-background-color{background-color:var(--ast-global-color-6);}:root .wp-block-button .has-ast-global-color-6-color{color:var(--ast-global-color-6);}:root .wp-block-button .has-ast-global-color-6-background-color{background-color:var(--ast-global-color-6);}:root .has-ast-global-color-7-color{color:var(--ast-global-color-7);}:root .has-ast-global-color-7-background-color{background-color:var(--ast-global-color-7);}:root .wp-block-button .has-ast-global-color-7-color{color:var(--ast-global-color-7);}:root .wp-block-button .has-ast-global-color-7-background-color{background-color:var(--ast-global-color-7);}:root .has-ast-global-color-8-color{color:var(--ast-global-color-8);}:root .has-ast-global-color-8-background-color{background-color:var(--ast-global-color-8);}:root .wp-block-button .has-ast-global-color-8-color{color:var(--ast-global-color-8);}:root .wp-block-button .has-ast-global-color-8-background-color{background-color:var(--ast-global-color-8);}:root{--ast-global-color-0:#046bd2;--ast-global-color-1:#045cb4;--ast-global-color-2:#1e293b;--ast-global-color-3:#334155;--ast-global-color-4:#f9fafb;--ast-global-color-5:#FFFFFF;--ast-global-color-6:#e2e8f0;--ast-global-color-7:#cbd5e1;--ast-global-color-8:#94a3b8;}:root {--ast-border-color : var(--ast-global-color-6);}.ast-single-entry-banner {-js-display: flex;display: flex;flex-direction: column;justify-content: center;text-align: center;position: relative;background: #eeeeee;}.ast-single-entry-banner[data-banner-layout="layout-1"] {max-width: 1200px;background: inherit;padding: 20px 0;}.ast-single-entry-banner[data-banner-width-type="custom"] {margin: 0 auto;width: 100%;}.ast-single-entry-banner + .site-content .entry-header {margin-bottom: 0;}header.entry-header .entry-title{font-weight:600;font-size:32px;font-size:2rem;}header.entry-header > *:not(:last-child){margin-bottom:10px;}.ast-archive-entry-banner {-js-display: flex;display: flex;flex-direction: column;justify-content: center;text-align: center;position: relative;background: #eeeeee;}.ast-archive-entry-banner[data-banner-width-type="custom"] {margin: 0 auto;width: 100%;}.ast-archive-entry-banner[data-banner-layout="layout-1"] {background: inherit;padding: 20px 0;text-align: left;}body.archive .ast-archive-description{max-width:1200px;width:100%;text-align:left;padding-top:3em;padding-right:3em;padding-bottom:3em;padding-left:3em;}body.archive .ast-archive-description .ast-archive-title,body.archive .ast-archive-description .ast-archive-title *{font-weight:600;font-size:32px;font-size:2rem;}body.archive .ast-archive-description > *:not(:last-child){margin-bottom:10px;}@media (max-width:921px){body.archive .ast-archive-description{text-align:left;}}@media (max-width:544px){body.archive .ast-archive-description{text-align:left;}}.ast-breadcrumbs .trail-browse,.ast-breadcrumbs .trail-items,.ast-breadcrumbs .trail-items li{display:inline-block;margin:0;padding:0;border:none;background:inherit;text-indent:0;text-decoration:none;}.ast-breadcrumbs .trail-browse{font-size:inherit;font-style:inherit;font-weight:inherit;color:inherit;}.ast-breadcrumbs .trail-items{list-style:none;}.trail-items li::after{padding:0 0.3em;content:"\00bb";}.trail-items li:last-of-type::after{display:none;}h1,.entry-content h1,h2,.entry-content h2,h3,.entry-content h3,h4,.entry-content h4,h5,.entry-content h5,h6,.entry-content h6{color:var(--ast-global-color-2);}.entry-title a{color:var(--ast-global-color-2);}@media (max-width:921px){.ast-builder-grid-row-container.ast-builder-grid-row-tablet-3-firstrow .ast-builder-grid-row > *:first-child,.ast-builder-grid-row-container.ast-builder-grid-row-tablet-3-lastrow .ast-builder-grid-row > *:last-child{grid-column:1 / -1;}}@media (max-width:544px){.ast-builder-grid-row-container.ast-builder-grid-row-mobile-3-firstrow .ast-builder-grid-row > *:first-child,.ast-builder-grid-row-container.ast-builder-grid-row-mobile-3-lastrow .ast-builder-grid-row > *:last-child{grid-column:1 / -1;}}.ast-builder-layout-element[data-section="title_tagline"]{display:flex;}@media (max-width:921px){.ast-header-break-point .ast-builder-layout-element[data-section="title_tagline"]{display:flex;}}@media (max-width:544px){.ast-header-break-point .ast-builder-layout-element[data-section="title_tagline"]{display:flex;}}.ast-builder-menu-1{font-family:inherit;font-weight:400;}.ast-builder-menu-1 .menu-item > .menu-link{font-size:16px;font-size:1rem;color:#ffffff;}.ast-builder-menu-1 .menu-item > .ast-menu-toggle{color:#ffffff;}.ast-builder-menu-1 .menu-item:hover > .menu-link,.ast-builder-menu-1 .inline-on-mobile .menu-item:hover > .ast-menu-toggle{color:#ffffff;}.ast-builder-menu-1 .menu-item:hover > .ast-menu-toggle{color:#ffffff;}.ast-builder-menu-1 .menu-item.current-menu-item > .menu-link,.ast-builder-menu-1 .inline-on-mobile .menu-item.current-menu-item > .ast-menu-toggle,.ast-builder-menu-1 .current-menu-ancestor > .menu-link{color:#ffffff;}.ast-builder-menu-1 .menu-item.current-menu-item > .ast-menu-toggle{color:#ffffff;}.ast-builder-menu-1 .sub-menu,.ast-builder-menu-1 .inline-on-mobile .sub-menu{border-top-width:2px;border-bottom-width:0px;border-right-width:0px;border-left-width:0px;border-color:var(--ast-global-color-0);border-style:solid;}.ast-builder-menu-1 .main-header-menu > .menu-item > .sub-menu,.ast-builder-menu-1 .main-header-menu > .menu-item > .astra-full-megamenu-wrapper{margin-top:0px;}.ast-desktop .ast-builder-menu-1 .main-header-menu > .menu-item > .sub-menu:before,.ast-desktop .ast-builder-menu-1 .main-header-menu > .menu-item > .astra-full-megamenu-wrapper:before{height:calc( 0px + 5px );}.ast-desktop .ast-builder-menu-1 .menu-item .sub-menu .menu-link{border-style:none;}@media (max-width:921px){.ast-header-break-point .ast-builder-menu-1 .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}.ast-builder-menu-1 .inline-on-mobile .menu-item.menu-item-has-children > .ast-menu-toggle{right:-15px;}.ast-builder-menu-1 .menu-item-has-children > .menu-link:after{content:unset;}.ast-builder-menu-1 .main-header-menu > .menu-item > .sub-menu,.ast-builder-menu-1 .main-header-menu > .menu-item > .astra-full-megamenu-wrapper{margin-top:0;}}@media (max-width:544px){.ast-header-break-point .ast-builder-menu-1 .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}.ast-builder-menu-1 .main-header-menu > .menu-item > .sub-menu,.ast-builder-menu-1 .main-header-menu > .menu-item > .astra-full-megamenu-wrapper{margin-top:0;}}.ast-builder-menu-1{display:flex;}@media (max-width:921px){.ast-header-break-point .ast-builder-menu-1{display:flex;}}@media (max-width:544px){.ast-header-break-point .ast-builder-menu-1{display:flex;}}.ast-desktop .ast-menu-hover-style-underline > .menu-item > .menu-link:before,.ast-desktop .ast-menu-hover-style-overline > .menu-item > .menu-link:before {content: "";position: absolute;width: 100%;right: 50%;height: 1px;background-color: transparent;transform: scale(0,0) translate(-50%,0);transition: transform .3s ease-in-out,color .0s ease-in-out;}.ast-desktop .ast-menu-hover-style-underline > .menu-item:hover > .menu-link:before,.ast-desktop .ast-menu-hover-style-overline > .menu-item:hover > .menu-link:before {width: calc(100% - 1.2em);background-color: currentColor;transform: scale(1,1) translate(50%,0);}.ast-desktop .ast-menu-hover-style-underline > .menu-item > .menu-link:before {bottom: 0;}.ast-desktop .ast-menu-hover-style-overline > .menu-item > .menu-link:before {top: 0;}.ast-desktop .ast-menu-hover-style-zoom > .menu-item > .menu-link:hover {transition: all .3s ease;transform: scale(1.2);}.main-header-bar .main-header-bar-navigation .ast-search-icon {display: block;z-index: 4;position: relative;}.ast-search-icon .ast-icon {z-index: 4;}.ast-search-icon {z-index: 4;position: relative;line-height: normal;}.main-header-bar .ast-search-menu-icon .search-form {background-color: #ffffff;}.ast-search-menu-icon.ast-dropdown-active.slide-search .search-form {visibility: visible;opacity: 1;}.ast-search-menu-icon .search-form {border: 1px solid #e7e7e7;line-height: normal;padding: 0 3em 0 0;border-radius: 2px;display: inline-block;-webkit-backface-visibility: hidden;backface-visibility: hidden;position: relative;color: inherit;background-color: #fff;}.ast-search-menu-icon .astra-search-icon {-js-display: flex;display: flex;line-height: normal;}.ast-search-menu-icon .astra-search-icon:focus {outline: none;}.ast-search-menu-icon .search-field {border: none;background-color: transparent;transition: width .2s;border-radius: inherit;color: inherit;font-size: inherit;width: 0;color: #757575;}.ast-search-menu-icon .search-submit {display: none;background: none;border: none;font-size: 1.3em;color: #757575;}.ast-search-menu-icon.ast-dropdown-active {visibility: visible;opacity: 1;position: relative;}.ast-search-menu-icon.ast-dropdown-active .search-field {width: 235px;}.ast-header-search .ast-search-menu-icon.slide-search .search-form,.ast-header-search .ast-search-menu-icon.ast-inline-search .search-form {-js-display: flex;display: flex;align-items: center;}.ast-search-menu-icon.ast-inline-search .search-field {width : 100%;padding : 0.60em;padding-right : 5.5em;}.site-header-section-left .ast-search-menu-icon.slide-search .search-form {padding-left: 3em;padding-right: unset;left: -1em;right: unset;}.site-header-section-left .ast-search-menu-icon.slide-search .search-form .search-field {margin-right: unset;margin-left: 10px;}.ast-search-menu-icon.slide-search .search-form {-webkit-backface-visibility: visible;backface-visibility: visible;visibility: hidden;opacity: 0;transition: all .2s;position: absolute;z-index: 3;right: -1em;top: 50%;transform: translateY(-50%);}.ast-header-search .ast-search-menu-icon .search-form .search-field:-ms-input-placeholder,.ast-header-search .ast-search-menu-icon .search-form .search-field:-ms-input-placeholder{opacity:0.5;}.ast-header-search .ast-search-menu-icon.slide-search .search-form,.ast-header-search .ast-search-menu-icon.ast-inline-search .search-form{-js-display:flex;display:flex;align-items:center;}.ast-builder-layout-element.ast-header-search{height:auto;}.ast-header-search .astra-search-icon{color:var(--ast-global-color-8);font-size:30px;}.ast-header-search .search-field::placeholder,.ast-header-search .ast-icon{color:var(--ast-global-color-8);}.ast-header-search .ast-search-menu-icon.ast-dropdown-active .search-field{margin-right:20px;}.ast-hfb-header .site-header-section > .ast-header-search,.ast-hfb-header .ast-header-search{margin-left:-5px;}@media (max-width:921px){.ast-header-search .astra-search-icon{font-size:30px;}.ast-header-search .ast-search-menu-icon.ast-dropdown-active .search-field{margin-right:20px;}.ast-hfb-header .site-header-section > .ast-header-search,.ast-hfb-header .ast-header-search{margin-left:-15px;}}@media (max-width:544px){.ast-header-search .astra-search-icon{color:#ffffff;font-size:30px;}.ast-header-search .search-field::placeholder{color:#ffffff;}.ast-header-search .ast-search-menu-icon.ast-dropdown-active .search-field{margin-right:20px;}.ast-hfb-header .site-header-section > .ast-header-search,.ast-hfb-header .ast-header-search{margin-left:-15px;}}.ast-header-search{display:flex;}@media (max-width:921px){.ast-header-break-point .ast-header-search{display:flex;}}@media (max-width:544px){.ast-header-break-point .ast-header-search{display:flex;}}.footer-widget-area.widget-area.site-footer-focus-item{width:auto;}.elementor-template-full-width .ast-container{display:block;}@media (max-width:544px){.elementor-element .elementor-wc-products .woocommerce[class*="columns-"] ul.products li.product{width:auto;margin:0;}.elementor-element .woocommerce .woocommerce-result-count{float:none;}}.ast-header-break-point .main-header-bar{border-bottom-width:1px;}@media (min-width:922px){.main-header-bar{border-bottom-width:1px;}}.main-header-menu .menu-item, #astra-footer-menu .menu-item, .main-header-bar .ast-masthead-custom-menu-items{-js-display:flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;-moz-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-moz-box-orient:vertical;-moz-box-direction:normal;-ms-flex-direction:column;flex-direction:column;}.main-header-menu > .menu-item > .menu-link, #astra-footer-menu > .menu-item > .menu-link{height:100%;-webkit-box-align:center;-webkit-align-items:center;-moz-box-align:center;-ms-flex-align:center;align-items:center;-js-display:flex;display:flex;}.ast-header-break-point .main-navigation ul .menu-item .menu-link .icon-arrow:first-of-type svg{top:.2em;margin-top:0px;margin-left:0px;width:.65em;transform:translate(0, -2px) rotateZ(270deg);}.ast-mobile-popup-content .ast-submenu-expanded > .ast-menu-toggle{transform:rotateX(180deg);overflow-y:auto;}.ast-separate-container .blog-layout-1, .ast-separate-container .blog-layout-2, .ast-separate-container .blog-layout-3{background-color:transparent;background-image:none;}.ast-separate-container .ast-article-post{background-color:var(--ast-global-color-5);;}@media (max-width:921px){.ast-separate-container .ast-article-post{background-color:var(--ast-global-color-5);;}}@media (max-width:544px){.ast-separate-container .ast-article-post{background-color:var(--ast-global-color-5);;}}.ast-separate-container .ast-article-single:not(.ast-related-post), .ast-separate-container .comments-area .comment-respond,.ast-separate-container .comments-area .ast-comment-list li, .woocommerce.ast-separate-container .ast-woocommerce-container, .ast-separate-container .error-404, .ast-separate-container .no-results, .single.ast-separate-container .site-main .ast-author-meta, .ast-separate-container .related-posts-title-wrapper,.ast-separate-container .comments-count-wrapper, .ast-box-layout.ast-plain-container .site-content,.ast-padded-layout.ast-plain-container .site-content, .ast-separate-container .comments-area .comments-title, .ast-separate-container .ast-archive-description{background-color:var(--ast-global-color-5);;}@media (max-width:921px){.ast-separate-container .ast-article-single:not(.ast-related-post), .ast-separate-container .comments-area .comment-respond,.ast-separate-container .comments-area .ast-comment-list li, .woocommerce.ast-separate-container .ast-woocommerce-container, .ast-separate-container .error-404, .ast-separate-container .no-results, .single.ast-separate-container .site-main .ast-author-meta, .ast-separate-container .related-posts-title-wrapper,.ast-separate-container .comments-count-wrapper, .ast-box-layout.ast-plain-container .site-content,.ast-padded-layout.ast-plain-container .site-content, .ast-separate-container .comments-area .comments-title, .ast-separate-container .ast-archive-description{background-color:var(--ast-global-color-5);;}}@media (max-width:544px){.ast-separate-container .ast-article-single:not(.ast-related-post), .ast-separate-container .comments-area .comment-respond,.ast-separate-container .comments-area .ast-comment-list li, .woocommerce.ast-separate-container .ast-woocommerce-container, .ast-separate-container .error-404, .ast-separate-container .no-results, .single.ast-separate-container .site-main .ast-author-meta, .ast-separate-container .related-posts-title-wrapper,.ast-separate-container .comments-count-wrapper, .ast-box-layout.ast-plain-container .site-content,.ast-padded-layout.ast-plain-container .site-content, .ast-separate-container .comments-area .comments-title, .ast-separate-container .ast-archive-description{background-color:var(--ast-global-color-5);;}}.ast-separate-container.ast-two-container #secondary .widget{background-color:var(--ast-global-color-5);;}@media (max-width:921px){.ast-separate-container.ast-two-container #secondary .widget{background-color:var(--ast-global-color-5);;}}@media (max-width:544px){.ast-separate-container.ast-two-container #secondary .widget{background-color:var(--ast-global-color-5);;}}.ast-plain-container, .ast-page-builder-template{background-color:var(--ast-global-color-5);;}@media (max-width:921px){.ast-plain-container, .ast-page-builder-template{background-color:var(--ast-global-color-5);;}}@media (max-width:544px){.ast-plain-container, .ast-page-builder-template{background-color:var(--ast-global-color-5);;}}
+		#ast-scroll-top {
+			display: none;
+			position: fixed;
+			text-align: center;
+			cursor: pointer;
+			z-index: 99;
+			width: 2.1em;
+			height: 2.1em;
+			line-height: 2.1;
+			color: #ffffff;
+			border-radius: 2px;
+			content: "";
+			outline: inherit;
+		}
+		@media (min-width: 769px) {
+			#ast-scroll-top {
+				content: "769";
+			}
+		}
+		#ast-scroll-top .ast-icon.icon-arrow svg {
+			margin-left: 0px;
+			vertical-align: middle;
+			transform: translate(0, -20%) rotate(180deg);
+			width: 1.6em;
+		}
+		.ast-scroll-to-top-right {
+			right: 30px;
+			bottom: 30px;
+		}
+		.ast-scroll-to-top-left {
+			left: 30px;
+			bottom: 30px;
+		}
+	#ast-scroll-top{background-color:var(--ast-global-color-0);font-size:15px;font-size:0.9375rem;}@media (max-width:921px){#ast-scroll-top .ast-icon.icon-arrow svg{width:1em;}}.ast-mobile-header-content > *,.ast-desktop-header-content > * {padding: 10px 0;height: auto;}.ast-mobile-header-content > *:first-child,.ast-desktop-header-content > *:first-child {padding-top: 10px;}.ast-mobile-header-content > .ast-builder-menu,.ast-desktop-header-content > .ast-builder-menu {padding-top: 0;}.ast-mobile-header-content > *:last-child,.ast-desktop-header-content > *:last-child {padding-bottom: 0;}.ast-mobile-header-content .ast-search-menu-icon.ast-inline-search label,.ast-desktop-header-content .ast-search-menu-icon.ast-inline-search label {width: 100%;}.ast-desktop-header-content .main-header-bar-navigation .ast-submenu-expanded > .ast-menu-toggle::before {transform: rotateX(180deg);}#ast-desktop-header .ast-desktop-header-content,.ast-mobile-header-content .ast-search-icon,.ast-desktop-header-content .ast-search-icon,.ast-mobile-header-wrap .ast-mobile-header-content,.ast-main-header-nav-open.ast-popup-nav-open .ast-mobile-header-wrap .ast-mobile-header-content,.ast-main-header-nav-open.ast-popup-nav-open .ast-desktop-header-content {display: none;}.ast-main-header-nav-open.ast-header-break-point #ast-desktop-header .ast-desktop-header-content,.ast-main-header-nav-open.ast-header-break-point .ast-mobile-header-wrap .ast-mobile-header-content {display: block;}.ast-desktop .ast-desktop-header-content .astra-menu-animation-slide-up > .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-slide-up > .menu-item .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-slide-down > .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-slide-down > .menu-item .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-fade > .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-fade > .menu-item .menu-item > .sub-menu {opacity: 1;visibility: visible;}.ast-hfb-header.ast-default-menu-enable.ast-header-break-point .ast-mobile-header-wrap .ast-mobile-header-content .main-header-bar-navigation {width: unset;margin: unset;}.ast-mobile-header-content.content-align-flex-end .main-header-bar-navigation .menu-item-has-children > .ast-menu-toggle,.ast-desktop-header-content.content-align-flex-end .main-header-bar-navigation .menu-item-has-children > .ast-menu-toggle {left: calc( 20px - 0.907em);right: auto;}.ast-mobile-header-content .ast-search-menu-icon,.ast-mobile-header-content .ast-search-menu-icon.slide-search,.ast-desktop-header-content .ast-search-menu-icon,.ast-desktop-header-content .ast-search-menu-icon.slide-search {width: 100%;position: relative;display: block;right: auto;transform: none;}.ast-mobile-header-content .ast-search-menu-icon.slide-search .search-form,.ast-mobile-header-content .ast-search-menu-icon .search-form,.ast-desktop-header-content .ast-search-menu-icon.slide-search .search-form,.ast-desktop-header-content .ast-search-menu-icon .search-form {right: 0;visibility: visible;opacity: 1;position: relative;top: auto;transform: none;padding: 0;display: block;overflow: hidden;}.ast-mobile-header-content .ast-search-menu-icon.ast-inline-search .search-field,.ast-mobile-header-content .ast-search-menu-icon .search-field,.ast-desktop-header-content .ast-search-menu-icon.ast-inline-search .search-field,.ast-desktop-header-content .ast-search-menu-icon .search-field {width: 100%;padding-right: 5.5em;}.ast-mobile-header-content .ast-search-menu-icon .search-submit,.ast-desktop-header-content .ast-search-menu-icon .search-submit {display: block;position: absolute;height: 100%;top: 0;right: 0;padding: 0 1em;border-radius: 0;}.ast-hfb-header.ast-default-menu-enable.ast-header-break-point .ast-mobile-header-wrap .ast-mobile-header-content .main-header-bar-navigation ul .sub-menu .menu-link {padding-left: 30px;}.ast-hfb-header.ast-default-menu-enable.ast-header-break-point .ast-mobile-header-wrap .ast-mobile-header-content .main-header-bar-navigation .sub-menu .menu-item .menu-item .menu-link {padding-left: 40px;}.ast-mobile-popup-drawer.active .ast-mobile-popup-inner{background-color:#ffffff;;}.ast-mobile-header-wrap .ast-mobile-header-content, .ast-desktop-header-content{background-color:#ffffff;;}.ast-mobile-popup-content > *, .ast-mobile-header-content > *, .ast-desktop-popup-content > *, .ast-desktop-header-content > *{padding-top:0px;padding-bottom:0px;}.content-align-flex-start .ast-builder-layout-element{justify-content:flex-start;}.content-align-flex-start .main-header-menu{text-align:left;}.ast-mobile-popup-drawer.active .menu-toggle-close{color:#3a3a3a;}.ast-mobile-header-wrap .ast-primary-header-bar,.ast-primary-header-bar .site-primary-header-wrap{min-height:72px;}.ast-desktop .ast-primary-header-bar .main-header-menu > .menu-item{line-height:72px;}@media (max-width:921px){#masthead .ast-mobile-header-wrap .ast-primary-header-bar,#masthead .ast-mobile-header-wrap .ast-below-header-bar{padding-left:20px;padding-right:20px;}}.ast-header-break-point .ast-primary-header-bar{border-bottom-width:0px;border-bottom-color:#eaeaea;border-bottom-style:solid;}@media (min-width:922px){.ast-primary-header-bar{border-bottom-width:0px;border-bottom-color:#eaeaea;border-bottom-style:solid;}}.ast-primary-header-bar{background-color:#ffffff;;background-image:none;;}.ast-primary-header-bar{display:none;}@media (max-width:921px){.ast-header-break-point .ast-primary-header-bar{display:none;}}@media (max-width:544px){.ast-header-break-point .ast-primary-header-bar{display:none;}}[data-section="section-header-mobile-trigger"] .ast-button-wrap .ast-mobile-menu-trigger-minimal{color:#ffffff;border:none;background:transparent;}[data-section="section-header-mobile-trigger"] .ast-button-wrap .mobile-menu-toggle-icon .ast-mobile-svg{width:32px;height:32px;fill:#ffffff;}[data-section="section-header-mobile-trigger"] .ast-button-wrap .mobile-menu-wrap .mobile-menu{color:#ffffff;}.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item > .menu-link{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item > .ast-menu-toggle{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item:hover > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item:hover > .ast-menu-toggle{color:#000000;}.ast-builder-menu-mobile .main-navigation .menu-item:hover > .ast-menu-toggle{color:#000000;}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item.current-menu-item > .ast-menu-toggle, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .menu-link, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .ast-menu-toggle{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .ast-menu-toggle{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}.ast-builder-menu-mobile .main-navigation .menu-item-has-children > .menu-link:after{content:unset;}.ast-hfb-header .ast-builder-menu-mobile .main-navigation .main-header-menu, .ast-hfb-header .ast-builder-menu-mobile .main-navigation .main-header-menu, .ast-hfb-header .ast-mobile-header-content .ast-builder-menu-mobile .main-navigation .main-header-menu, .ast-hfb-header .ast-mobile-popup-content .ast-builder-menu-mobile .main-navigation .main-header-menu{border-top-width:1px;border-color:#eaeaea;}.ast-hfb-header .ast-builder-menu-mobile .main-navigation .menu-item .sub-menu .menu-link, .ast-hfb-header .ast-builder-menu-mobile .main-navigation .menu-item .menu-link, .ast-hfb-header .ast-builder-menu-mobile .main-navigation .menu-item .sub-menu .menu-link, .ast-hfb-header .ast-builder-menu-mobile .main-navigation .menu-item .menu-link, .ast-hfb-header .ast-mobile-header-content .ast-builder-menu-mobile .main-navigation .menu-item .sub-menu .menu-link, .ast-hfb-header .ast-mobile-header-content .ast-builder-menu-mobile .main-navigation .menu-item .menu-link, .ast-hfb-header .ast-mobile-popup-content .ast-builder-menu-mobile .main-navigation .menu-item .sub-menu .menu-link, .ast-hfb-header .ast-mobile-popup-content .ast-builder-menu-mobile .main-navigation .menu-item .menu-link{border-bottom-width:1px;border-color:#eaeaea;border-style:solid;}.ast-builder-menu-mobile .main-navigation .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}@media (max-width:921px){.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item > .menu-link{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item > .ast-menu-toggle{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item:hover > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item:hover > .ast-menu-toggle{color:#000000;background:var(--ast-global-color-4);}.ast-builder-menu-mobile .main-navigation .menu-item:hover > .ast-menu-toggle{color:#000000;}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item.current-menu-item > .ast-menu-toggle, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .menu-link, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .ast-menu-toggle{color:rgba(0,0,0,0.8);background:var(--ast-global-color-4);}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .ast-menu-toggle{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}.ast-builder-menu-mobile .main-navigation .menu-item-has-children > .menu-link:after{content:unset;}.ast-builder-menu-mobile .main-navigation .main-header-menu, .ast-builder-menu-mobile .main-navigation .main-header-menu .sub-menu{background-color:var(--ast-global-color-5);;background-image:none;;}}@media (max-width:544px){.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item > .menu-link{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item  > .ast-menu-toggle{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item:hover > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item:hover > .ast-menu-toggle{color:#000000;}.ast-builder-menu-mobile .main-navigation .menu-item:hover  > .ast-menu-toggle{color:#000000;}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item.current-menu-item > .ast-menu-toggle, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .menu-link, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .ast-menu-toggle{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item  > .ast-menu-toggle{color:rgba(0,0,0,0.8);}.ast-builder-menu-mobile .main-navigation .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}}.ast-builder-menu-mobile .main-navigation{display:block;}@media (max-width:921px){.ast-header-break-point .ast-builder-menu-mobile .main-navigation{display:block;}}@media (max-width:544px){.ast-header-break-point .ast-builder-menu-mobile .main-navigation{display:block;}}:root{--e-global-color-astglobalcolor0:#046bd2;--e-global-color-astglobalcolor1:#045cb4;--e-global-color-astglobalcolor2:#1e293b;--e-global-color-astglobalcolor3:#334155;--e-global-color-astglobalcolor4:#f9fafb;--e-global-color-astglobalcolor5:#FFFFFF;--e-global-color-astglobalcolor6:#e2e8f0;--e-global-color-astglobalcolor7:#cbd5e1;--e-global-color-astglobalcolor8:#94a3b8;}
+</style>
+<style id='wp-emoji-styles-inline-css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://tech.hancom.com/wp-includes/css/dist/block-library/style.min.css?ver=6.4.2' media='all' />
+<style id='global-styles-inline-css'>
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--ast-global-color-0: var(--ast-global-color-0);--wp--preset--color--ast-global-color-1: var(--ast-global-color-1);--wp--preset--color--ast-global-color-2: var(--ast-global-color-2);--wp--preset--color--ast-global-color-3: var(--ast-global-color-3);--wp--preset--color--ast-global-color-4: var(--ast-global-color-4);--wp--preset--color--ast-global-color-5: var(--ast-global-color-5);--wp--preset--color--ast-global-color-6: var(--ast-global-color-6);--wp--preset--color--ast-global-color-7: var(--ast-global-color-7);--wp--preset--color--ast-global-color-8: var(--ast-global-color-8);--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}body { margin: 0;--wp--style--global--content-size: var(--wp--custom--ast-content-width-size);--wp--style--global--wide-size: var(--wp--custom--ast-wide-width-size); }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 24px; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child:first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child:last-child { margin-block-end: 0; }body { --wp--style--block-gap: 24px; }:where(body .is-layout-flow)  > :first-child:first-child{margin-block-start: 0;}:where(body .is-layout-flow)  > :last-child:last-child{margin-block-end: 0;}:where(body .is-layout-flow)  > *{margin-block-start: 24px;margin-block-end: 0;}:where(body .is-layout-constrained)  > :first-child:first-child{margin-block-start: 0;}:where(body .is-layout-constrained)  > :last-child:last-child{margin-block-end: 0;}:where(body .is-layout-constrained)  > *{margin-block-start: 24px;margin-block-end: 0;}:where(body .is-layout-flex) {gap: 24px;}:where(body .is-layout-grid) {gap: 24px;}body .is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}a:where(:not(.wp-element-button)){text-decoration: none;}.wp-element-button, .wp-block-button__link{background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;line-height: inherit;padding: calc(0.667em + 2px) calc(1.333em + 2px);text-decoration: none;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-ast-global-color-0-color{color: var(--wp--preset--color--ast-global-color-0) !important;}.has-ast-global-color-1-color{color: var(--wp--preset--color--ast-global-color-1) !important;}.has-ast-global-color-2-color{color: var(--wp--preset--color--ast-global-color-2) !important;}.has-ast-global-color-3-color{color: var(--wp--preset--color--ast-global-color-3) !important;}.has-ast-global-color-4-color{color: var(--wp--preset--color--ast-global-color-4) !important;}.has-ast-global-color-5-color{color: var(--wp--preset--color--ast-global-color-5) !important;}.has-ast-global-color-6-color{color: var(--wp--preset--color--ast-global-color-6) !important;}.has-ast-global-color-7-color{color: var(--wp--preset--color--ast-global-color-7) !important;}.has-ast-global-color-8-color{color: var(--wp--preset--color--ast-global-color-8) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-ast-global-color-0-background-color{background-color: var(--wp--preset--color--ast-global-color-0) !important;}.has-ast-global-color-1-background-color{background-color: var(--wp--preset--color--ast-global-color-1) !important;}.has-ast-global-color-2-background-color{background-color: var(--wp--preset--color--ast-global-color-2) !important;}.has-ast-global-color-3-background-color{background-color: var(--wp--preset--color--ast-global-color-3) !important;}.has-ast-global-color-4-background-color{background-color: var(--wp--preset--color--ast-global-color-4) !important;}.has-ast-global-color-5-background-color{background-color: var(--wp--preset--color--ast-global-color-5) !important;}.has-ast-global-color-6-background-color{background-color: var(--wp--preset--color--ast-global-color-6) !important;}.has-ast-global-color-7-background-color{background-color: var(--wp--preset--color--ast-global-color-7) !important;}.has-ast-global-color-8-background-color{background-color: var(--wp--preset--color--ast-global-color-8) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-ast-global-color-0-border-color{border-color: var(--wp--preset--color--ast-global-color-0) !important;}.has-ast-global-color-1-border-color{border-color: var(--wp--preset--color--ast-global-color-1) !important;}.has-ast-global-color-2-border-color{border-color: var(--wp--preset--color--ast-global-color-2) !important;}.has-ast-global-color-3-border-color{border-color: var(--wp--preset--color--ast-global-color-3) !important;}.has-ast-global-color-4-border-color{border-color: var(--wp--preset--color--ast-global-color-4) !important;}.has-ast-global-color-5-border-color{border-color: var(--wp--preset--color--ast-global-color-5) !important;}.has-ast-global-color-6-border-color{border-color: var(--wp--preset--color--ast-global-color-6) !important;}.has-ast-global-color-7-border-color{border-color: var(--wp--preset--color--ast-global-color-7) !important;}.has-ast-global-color-8-border-color{border-color: var(--wp--preset--color--ast-global-color-8) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='wpdm-font-awesome-css' href='https://tech.hancom.com/wp-content/plugins/download-manager/assets/fontawesome/css/all.min.css?ver=6.4.2' media='all' />
+<link rel='stylesheet' id='wpdm-front-bootstrap-css' href='https://tech.hancom.com/wp-content/plugins/download-manager/assets/bootstrap/css/bootstrap.min.css?ver=6.4.2' media='all' />
+<link rel='stylesheet' id='wpdm-front-css' href='https://tech.hancom.com/wp-content/plugins/download-manager/assets/css/front.css?ver=6.4.2' media='all' />
+<link rel='stylesheet' id='dashicons-css' href='https://tech.hancom.com/wp-includes/css/dashicons.min.css?ver=6.4.2' media='all' />
+<link rel='stylesheet' id='post-views-counter-frontend-css' href='https://tech.hancom.com/wp-content/plugins/post-views-counter/css/frontend.min.css?ver=1.3.13' media='all' />
+<link rel='stylesheet' id='wp-ulike-css' href='https://tech.hancom.com/wp-content/plugins/wp-ulike/assets/css/wp-ulike.min.css?ver=4.6.8' media='all' />
+<link rel='stylesheet' id='hfe-style-css' href='https://tech.hancom.com/wp-content/plugins/header-footer-elementor/assets/css/header-footer-elementor.css?ver=1.6.25' media='all' />
+<link rel='stylesheet' id='elementor-icons-css' href='https://tech.hancom.com/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=5.21.0' media='all' />
+<link rel='stylesheet' id='elementor-frontend-css' href='https://tech.hancom.com/wp-content/plugins/elementor/assets/css/frontend-lite.min.css?ver=3.15.3' media='all' />
+<link rel='stylesheet' id='swiper-css' href='https://tech.hancom.com/wp-content/plugins/elementor/assets/lib/swiper/v8/css/swiper.min.css?ver=8.4.5' media='all' />
+<link rel='stylesheet' id='elementor-post-13-css' href='https://tech.hancom.com/wp-content/uploads/elementor/css/post-13.css?ver=1719179046' media='all' />
+<link rel='stylesheet' id='she-header-style-css' href='https://tech.hancom.com/wp-content/plugins/sticky-header-effects-for-elementor/assets/css/she-header-style.css?ver=1.6.11' media='all' />
+<link rel='stylesheet' id='elementor-post-2028-css' href='https://tech.hancom.com/wp-content/uploads/elementor/css/post-2028.css?ver=1723514787' media='all' />
+<link rel='stylesheet' id='hfe-widgets-style-css' href='https://tech.hancom.com/wp-content/plugins/header-footer-elementor/inc/widgets-css/frontend.css?ver=1.6.25' media='all' />
+<link rel='stylesheet' id='megamenu-css' href='https://tech.hancom.com/wp-content/uploads/maxmegamenu/style.css?ver=52eb30' media='all' />
+<link rel='stylesheet' id='google-fonts-1-css' href='https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=swap&#038;ver=6.4.2' media='all' />
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><!--[if IE]>
+<script src="https://tech.hancom.com/wp-content/themes/astra/assets/js/minified/flexibility.min.js?ver=4.2.2" id="astra-flexibility-js"></script>
+<script id="astra-flexibility-js-after">
+flexibility(document.documentElement);
+</script>
+<![endif]-->
+<script src="https://tech.hancom.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script src="https://tech.hancom.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script src="https://tech.hancom.com/wp-content/plugins/download-manager/assets/bootstrap/js/popper.min.js?ver=6.4.2" id="wpdm-poper-js"></script>
+<script src="https://tech.hancom.com/wp-content/plugins/download-manager/assets/bootstrap/js/bootstrap.min.js?ver=6.4.2" id="wpdm-front-bootstrap-js"></script>
+<script id="wpdm-frontjs-js-extra">
+var wpdm_url = {"home":"https:\/\/tech.hancom.com\/","site":"https:\/\/tech.hancom.com\/","ajax":"https:\/\/tech.hancom.com\/wp-admin\/admin-ajax.php"};
+var wpdm_js = {"spinner":"<i class=\"fas fa-sun fa-spin\"><\/i>","client_id":"5a0e2ed6a43edce0fcc84887c54dc4fe"};
+</script>
+<script src="https://tech.hancom.com/wp-content/plugins/download-manager/assets/js/front.js?ver=3.2.76" id="wpdm-frontjs-js"></script>
+<script id="wp-statistics-tracker-js-extra">
+var WP_Statistics_Tracker_Object = {"hitRequestUrl":"https:\/\/tech.hancom.com\/wp-json\/wp-statistics\/v2\/hit?wp_statistics_hit_rest=yes&track_all=1&current_page_type=post&current_page_id=2709&search_query&page_uri=L2h3cHhmb3JtYXQv","keepOnlineRequestUrl":"https:\/\/tech.hancom.com\/wp-json\/wp-statistics\/v2\/online?wp_statistics_hit_rest=yes&track_all=1&current_page_type=post&current_page_id=2709&search_query&page_uri=L2h3cHhmb3JtYXQv","option":{"dntEnabled":"1","cacheCompatibility":""}};
+</script>
+<script src="https://tech.hancom.com/wp-content/plugins/wp-statistics/assets/js/tracker.js?ver=6.4.2" id="wp-statistics-tracker-js"></script>
+<script src="https://tech.hancom.com/wp-content/plugins/sticky-header-effects-for-elementor/assets/js/she-header.js?ver=1.6.11" id="she-header-js"></script>
+<link rel="https://api.w.org/" href="https://tech.hancom.com/wp-json/" /><link rel="alternate" type="application/json" href="https://tech.hancom.com/wp-json/wp/v2/posts/2709" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://tech.hancom.com/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.4.2" />
+<link rel="canonical" href="https://tech.hancom.com/hwpxformat/" />
+<link rel='shortlink' href='https://tech.hancom.com/?p=2709' />
+<link rel="alternate" type="application/json+oembed" href="https://tech.hancom.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Ftech.hancom.com%2Fhwpxformat%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://tech.hancom.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Ftech.hancom.com%2Fhwpxformat%2F&#038;format=xml" />
+<link rel="icon" type="image/png" href="https://tech.hancom.com/wp-content/uploads/2024/04/favicon_190.ico" sizes="190x190" />
+<link rel="icon" type="image/png" href="https://tech.hancom.com/wp-content/uploads/2024/04/favicon_180.ico" sizes="180x180" />
+<link rel="icon" type="image/png" href="https://tech.hancom.com/wp-content/uploads/2024/04/favicon_96.ico" sizes="96x96" />
+<link rel="icon" type="image/png" href="https://tech.hancom.com/wp-content/uploads/2024/04/favicon_32.ico" sizes="32x32" />
+<meta name="naver-site-verification" content="23b941bed1fc334ed93f0ebe093786be121fd6fe" />
+<meta name="author" content="(주)한글과컴퓨터" />
+<meta name="keywords" content="한컴테크,개발,개발자,공유,한글과컴퓨터,한컴,한컴기술블로그,기술블로그,블로그,한컴디벨로퍼,한컴개발자센터,개발자센터,한컴개발자" />
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    var menuTabs = document.querySelectorAll('.mega-menu-tab');
+
+    menuTabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var menuItems = document.querySelectorAll('.mega-menu-item');
+            menuItems.forEach(function(item) {
+                item.classList.remove('hover');
+            });
+        });
+    });
+
+    var menuLinks = document.querySelectorAll('.mega-menu-item a');
+    menuLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            this.blur();
+        });
+    });
+});
+</script><!-- Analytics by WP Statistics v14.1.6.1 - https://wp-statistics.com/ -->
+<meta name="generator" content="Elementor 3.15.3; features: e_dom_optimization, e_optimized_assets_loading, e_optimized_css_loading, additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap">
+		<style id="wp-custom-css">
+			
+#colophon .elementor-container {
+	margin-left: 0px;
+	margin-right: 0px;
+	width: 100vw;
+	padding: 0px;
+}
+
+#colophon .elementor-element-populated {
+	padding: 0px;
+}
+
+.hdcfooter {
+	width: 100vw;	
+	color: #fff;
+	font-size: 14px;
+	line-height: 19.6px;
+/* 	font-size: 0.875rem; */
+	font-weight: 400;
+	background: #000;
+	text-align: left;
+	padding-bottom: 0;
+
+	@media(max-width: 768px) {
+		padding: 32px 24px;
+	}
+
+	@media(min-width: 769px) {
+		padding: 32px;
+	}
+}
+
+.hdcfooter ul {
+	margin-left: 0px;
+}
+
+.hdcfooter ul li {
+	display: inline-block;
+	padding-right: 12px;
+/* 	font-size: 0.875rem; */
+	color: rgba(255, 255, 255, 0.6);
+	text-align: left;
+}
+
+.hdclink a {
+	color: inherit;
+	line-height: 39.2px
+}
+
+.hdclink a {
+	position: relative;
+	padding-right: 17px;
+	margin-right: 16px;
+}
+
+/* .hdclink a:first-of-type {
+	position: relative;
+	padding-right: 17px;
+	margin-right: 16px;
+} */
+
+.hdclink a:after {
+	content: " ";
+	position: absolute;
+	width: 1px;
+	height: 12px;
+	right: 0;
+	top: 2px;
+	background: #fff;
+}
+
+.hdclink a:last-of-type::after {
+	content: " ";
+	position: absolute;
+	width: 0px;
+	height: 12px;
+	right: 0;
+	top: 2px;
+	background: #fff;
+}
+		</style>
+		<meta name="generator" content="WordPress Download Manager 3.2.76" />
+<style type="text/css">/** Mega Menu CSS: fs **/</style>
+                <style>
+        /* WPDM Link Template Styles */        </style>
+                <style>
+
+            :root {
+                --color-primary: #4a8eff;
+                --color-primary-rgb: 74, 142, 255;
+                --color-primary-hover: #5998ff;
+                --color-primary-active: #3281ff;
+                --color-secondary: #6c757d;
+                --color-secondary-rgb: 108, 117, 125;
+                --color-secondary-hover: #6c757d;
+                --color-secondary-active: #6c757d;
+                --color-success: #018e11;
+                --color-success-rgb: 1, 142, 17;
+                --color-success-hover: #0aad01;
+                --color-success-active: #0c8c01;
+                --color-info: #2CA8FF;
+                --color-info-rgb: 44, 168, 255;
+                --color-info-hover: #2CA8FF;
+                --color-info-active: #2CA8FF;
+                --color-warning: #FFB236;
+                --color-warning-rgb: 255, 178, 54;
+                --color-warning-hover: #FFB236;
+                --color-warning-active: #FFB236;
+                --color-danger: #ff5062;
+                --color-danger-rgb: 255, 80, 98;
+                --color-danger-hover: #ff5062;
+                --color-danger-active: #ff5062;
+                --color-green: #30b570;
+                --color-blue: #0073ff;
+                --color-purple: #8557D3;
+                --color-red: #ff5062;
+                --color-muted: rgba(69, 89, 122, 0.6);
+                --wpdm-font: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            }
+
+            .wpdm-download-link.btn.btn-primary {
+                border-radius: 4px;
+            }
+
+
+        </style>
+        </head>
+
+<body itemtype='https://schema.org/Blog' itemscope='itemscope' class="post-template-default single single-post postid-2709 single-format-standard wp-custom-logo ehf-header ehf-footer ehf-template-astra ehf-stylesheet-astra mega-menu-primary ast-desktop ast-plain-container ast-no-sidebar astra-4.2.2 group-blog ast-blog-single-style-1 ast-single-post ast-inherit-site-logo-transparent ast-hfb-header ast-normal-title-enabled elementor-default elementor-kit-13">
+<p style="display:none">
+한컴테크를 통해 한컴의 기술을 공유합니다. 한컴의 프로그래밍, 프레임워크, 라이브러리 및 도구 등 다양한 기술을 만나보세요. 한컴 개발자들의 다양한 지식을 회사라는 울타리를 넘어 여러분과 공유합니다. 한컴이 제공하는 기술블로그에서 새로운 아이디어와 도전을 마주하고, 개발자가 꿈꾸는 미래를 실현하세요.
+</p>
+<a
+	class="skip-link screen-reader-text"
+	href="#content"
+	role="link"
+	title="콘텐츠로 건너뛰기">
+		콘텐츠로 건너뛰기</a>
+
+<div
+class="hfeed site" id="page">
+			<header id="masthead" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
+			<p class="main-title bhf-hidden" itemprop="headline"><a href="https://tech.hancom.com" title="한컴테크" rel="home">한컴테크</a></p>
+					<div data-elementor-type="wp-post" data-elementor-id="2028" class="elementor elementor-2028">
+									<section class="elementor-section elementor-top-section elementor-element elementor-element-6e25644 elementor-section-full_width she-header-yes elementor-section-content-middle elementor-section-height-default elementor-section-height-default" data-id="6e25644" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;transparent&quot;:&quot;yes&quot;,&quot;scroll_distance&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;transparent_on&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;scroll_distance_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;scroll_distance_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}">
+						<div class="elementor-container elementor-column-gap-custom">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-d6d0e35" data-id="d6d0e35" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<section class="elementor-section elementor-inner-section elementor-element elementor-element-7fda03c elementor-section-content-middle elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="7fda03c" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-23036a7" data-id="23036a7" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-fb4be4a elementor-widget__width-auto elementor-widget elementor-widget-site-logo" data-id="fb4be4a" data-element_type="widget" data-settings="{&quot;align&quot;:&quot;center&quot;,&quot;width&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;width_tablet&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;width_mobile&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;space&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;space_tablet&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;space_mobile&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;image_border_radius&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:&quot;&quot;,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true},&quot;image_border_radius_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:&quot;&quot;,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true},&quot;image_border_radius_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:&quot;&quot;,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true},&quot;caption_padding&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:&quot;&quot;,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true},&quot;caption_padding_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:&quot;&quot;,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true},&quot;caption_padding_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;top&quot;:&quot;&quot;,&quot;right&quot;:&quot;&quot;,&quot;bottom&quot;:&quot;&quot;,&quot;left&quot;:&quot;&quot;,&quot;isLinked&quot;:true},&quot;caption_space&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0,&quot;sizes&quot;:[]},&quot;caption_space_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;caption_space_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="site-logo.default">
+				<div class="elementor-widget-container">
+					<div class="hfe-site-logo">
+													<a data-elementor-open-lightbox=""  class='elementor-clickable' href="https://tech.hancom.com">
+							<div class="hfe-site-logo-set">           
+				<div class="hfe-site-logo-container">
+									<img class="hfe-site-logo-img elementor-animation-"  src="https://tech.hancom.com/wp-content/uploads/2024/08/logo_tech-1.svg" alt="logo_tech"/>
+				</div>
+			</div>
+							</a>
+						</div>  
+					</div>
+				</div>
+					</div>
+		</div>
+				<div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-7320366" data-id="7320366" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-d708ecc elementor-widget__width-auto elementor-widget elementor-widget-wp-widget-maxmegamenu" data-id="d708ecc" data-element_type="widget" data-widget_type="wp-widget-maxmegamenu.default">
+				<div class="elementor-widget-container">
+			<div id="mega-menu-wrap-primary" class="mega-menu-wrap"><div class="mega-menu-toggle"><div class="mega-toggle-blocks-left"></div><div class="mega-toggle-blocks-center"></div><div class="mega-toggle-blocks-right"><div class='mega-toggle-block mega-menu-toggle-animated-block mega-toggle-block-0' id='mega-toggle-block-0'><button aria-label="Toggle Menu" class="mega-toggle-animated mega-toggle-animated-slider" type="button" aria-expanded="false">
+                  <span class="mega-toggle-animated-box">
+                    <span class="mega-toggle-animated-inner"></span>
+                  </span>
+                </button></div></div></div><ul id="mega-menu-primary" class="mega-menu max-mega-menu mega-menu-horizontal mega-no-js" data-event="hover_intent" data-effect="fade_up" data-effect-speed="200" data-effect-mobile="disabled" data-effect-speed-mobile="0" data-mobile-force-width="body" data-second-click="go" data-document-click="collapse" data-vertical-behaviour="standard" data-breakpoint="768" data-unbind="true" data-mobile-state="collapse_all" data-hover-intent-timeout="300" data-hover-intent-interval="100"><li class='mega-menu-item mega-menu-item-type-custom mega-menu-item-object-custom mega-align-bottom-left mega-menu-flyout mega-menu-item-34' id='mega-menu-item-34'><a class="mega-menu-link" href="https://tech.hancom.com/blog" tabindex="0">블로그</a></li><li class='mega-menu-item mega-menu-item-type-custom mega-menu-item-object-custom mega-align-bottom-left mega-menu-flyout mega-menu-item-36' id='mega-menu-item-36'><a target="_blank" class="mega-menu-link" href="https://developer.hancom.com/" tabindex="0">한컴디벨로퍼</a></li></ul></div>		</div>
+				</div>
+				<div class="elementor-element elementor-element-bd02e69 hfe-search-layout-icon_text elementor-widget__width-initial tech_searchbar elementor-widget elementor-widget-hfe-search-button" data-id="bd02e69" data-element_type="widget" data-settings="{&quot;size&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:30,&quot;sizes&quot;:[]},&quot;icon_size&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:16,&quot;sizes&quot;:[]},&quot;button_width&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0,&quot;sizes&quot;:[]},&quot;close_icon_size&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0,&quot;sizes&quot;:[]},&quot;size_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;size_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;icon_size_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;icon_size_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;button_width_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;button_width_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;close_icon_size_tablet&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]},&quot;close_icon_size_mobile&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:[]}}" data-widget_type="hfe-search-button.default">
+				<div class="elementor-widget-container">
+					<form class="hfe-search-button-wrapper" role="search" action="https://tech.hancom.com" method="get">
+						<div class="hfe-search-form__container" role="tablist">
+									<input placeholder="검색어 입력..." class="hfe-search-form__input" type="search" name="s" title="Search" value="">
+					<button id="clear-with-button" type="reset">
+						<i class="fas fa-times" aria-hidden="true"></i>
+					</button>
+					<button class="hfe-search-submit" type="submit">
+						<i class="fas fa-search" aria-hidden="true"></i>
+					</button>
+							</div>
+				</form>
+				</div>
+				</div>
+					</div>
+		</div>
+							</div>
+		</section>
+					</div>
+		</div>
+							</div>
+		</section>
+							</div>
+				</header>
+
+		<div id="content" class="site-content">
+		<div class="ast-container">
+		
+
+	<div id="primary" class="content-area primary">
+
+		
+					<main id="main" class="site-main">
+				
+
+<article
+class="post-2709 post type-post status-publish format-standard has-post-thumbnail hentry category-blog tag-hwpx tag-188 ast-article-single" id="post-2709" itemtype="https://schema.org/CreativeWork" itemscope="itemscope">
+
+	
+	
+<div class="ast-post-format- single-layout-1">
+
+	
+	
+		<header class="entry-header ">
+
+			
+			<h1 class="entry-title" itemprop="headline">한/글 문서 파일 형식 : HWPX 포맷 구조 살펴보기</h1><div class="entry-meta">글쓴이 <span class="posted-by vcard author" itemtype="https://schema.org/Person" itemscope="itemscope" itemprop="author">			<a title="김규리의 모든 글 보기"
+				href="https://tech.hancom.com/author/hnc-gyuri-kim/" rel="author"
+				class="url fn n" itemprop="url"				>
+				<span
+				class="author-name" itemprop="name"				>
+				김규리			</span>
+			</a>
+		</span>
+
+		 / <span class="posted-on"><span class="published" itemprop="datePublished"> 2025년 02월 26일 </span></span></div>
+			
+		</header><!-- .entry-header -->
+
+	
+	
+	<div class="entry-content clear"
+	ast-blocks-layout="true" itemprop="text"	>
+
+		
+				<div class="wpulike wpulike-default " ><div class="wp_ulike_general_class wp_ulike_is_not_liked"><button type="button"
+					aria-label="Like Button"
+					data-ulike-id="2709"
+					data-ulike-nonce="a71e2b027b"
+					data-ulike-type="post"
+					data-ulike-template="wpulike-default"
+					data-ulike-display-likers=""
+					data-ulike-likers-style="popover"
+					class="wp_ulike_btn wp_ulike_put_image wp_post_btn_2709"></button><span class="count-box wp_ulike_counter_up" data-ulike-counter-value="+28"></span>			</div></div>
+	
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+
+
+
+<details class="wp-block-details is-layout-flow wp-block-details-is-layout-flow" open><summary>요약</summary>
+<p>이 글은 개방형 문서 포맷인 HWPX의 구조와 데이터를 저장하고 관리하는 방식을 다룹니다. HWPX와 기존 HWP 포맷의 차이를 설명하며, HWPX 포맷의 주요 구성 요소와 각 파일의 역할을 분석합니다. HWPX 문서 데이터를 활용하기 위한 기초 지식을 제공하는 글입니다.</p>
+
+
+
+<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
+</details>
+
+
+
+<h2 class="wp-block-heading"><strong>서론</strong></h2>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+
+
+
+<p>이전 글을 통해 HWP 포맷을 알아봤다면, 이번 글에서는 HWPX 포맷에 대해 알아보겠습니다.</p>
+
+
+
+<p>HWP는 바이너리 포맷이고, HWPX는 XML 파일들이 ZIP 구조로 구성되어 있다는 점에서 가장 큰 차이가 있습니다. HWP 포맷의 경우 스트림이 레코드 형식으로 구성되어 있어서 데이터를 추출하기 위해 별도의 분석 과정을 거쳐야 하는 반면, HWPX 포맷은 주요 파일들이 XML이기 때문에 데이터 추출이 용이합니다.</p>
+
+
+
+<p>개방형 포맷으로 알려진 HWPX 파일이 어떤 구조로 이루어져 있고, 각 구성 요소가 어떤 역할을 하는지 알아보겠습니다.</p>
+
+
+
+<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h2 class="wp-block-heading" id="HWPX란?">HWPX란?</h2>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+
+
+
+<figure class="wp-block-image aligncenter size-full has-custom-border"><img fetchpriority="high" decoding="async" width="284" height="400" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-16.png" alt="" class="has-border-color has-cyan-bluish-gray-border-color wp-image-2710" style="border-width:2px"/><figcaption class="wp-element-caption">KS X 6101 표준 표지 이미지</figcaption></figure>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>한글의 표준 포맷 HWPX는 국가 표준(KS X 6101)인 OWPML을 따르는 개방형 문서 포맷입니다.</p>
+
+
+
+<p>OWPML은 XML 기반의 ‘개방형 워드프로세서 마크업 언어(Open Word-Processor Markup Language)’를 의미합니다. 2011년 12월 30일 제정된 한국산업표준(KS)으로, 약 2년에 걸쳐 국내 문서 표준화 위원회를 통해 표준 개발이 진행되었으며, 국내 표준 개발에 직접 참여하고 있는 전문가들과 함께 공동 개발된 국가 표준입니다.</p>
+
+
+
+<p>HWP 형식의 바이너리 포맷에 대한 개방성, 호환성, 보존성을 확보하기 위해 개발된 파일 형식이며, 이를 위해 바이너리 포맷보다 개방성과 기술적 해석이 용이한 XML 기반의 패키지 포맷으로 구성되었습니다.</p>
+
+
+
+<p>아래 링크를 통해 한글(HWP, HWPX) 문서 포맷의 공식 자료를 확인할 수 있습니다.</p>
+
+
+
+<ul>
+<li><strong>한글 문서 포맷 공식 자료 : </strong><a href="https://www.hancom.com/support/downloadCenter/hwpOwpml" data-type="link" data-id="https://store.hancom.com/etc/hwpDownload.do?gnb0=269&amp;gnb0=101&amp;gnb1=271&amp;gnb1=140">HWP/OWPML 형식</a></li>
+</ul>
+
+
+
+<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h2 class="wp-block-heading" id="HWPX-파일-구조">HWPX 파일 구조</h2>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+
+
+
+<p>HWPX는 ZIP 파일 구조를 가진 XML 기반 포맷이며, 관련된 파일들이 동일 디렉터리에 위치하도록 구성되어 있습니다. 압축 파일이기 때문에 확장자를 변경하여 압축을 해제할 수 있습니다. 위 이미지는 .hwpx 파일의 확장자를 .zip으로 변경한 후 압축을 해제한 결과입니다.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-full has-custom-border"><img decoding="async" width="99" height="196" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-17.png" alt="" class="has-border-color has-cyan-bluish-gray-border-color wp-image-2711" style="border-width:2px"/></figure>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>HWP 포맷의 경우 스트림이 레코드 형식으로 구성되어 있어서 데이터를 추출하기 위해 별도의 분석 과정을 거쳐야 하는 반면, HWPX 포맷은 주요 파일들이 XML이기 때문에 데이터 추출이 용이합니다.</p>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>HWPX는 HWP와 비슷하면서도 다른 형태로 구성되어 있으며, 각각의 포맷 구조는 아래의 그림과 같습니다.</p>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<figure class="wp-block-image aligncenter size-large is-resized"><img decoding="async" width="1024" height="513" src="https://tech.hancom.com/wp-content/uploads/2025/02/HWP-Format-1024x513.png" alt="" class="wp-image-2712" style="width:800px;height:auto" srcset="https://tech.hancom.com/wp-content/uploads/2025/02/HWP-Format-1024x513.png 1024w, https://tech.hancom.com/wp-content/uploads/2025/02/HWP-Format-512x256.png 512w, https://tech.hancom.com/wp-content/uploads/2025/02/HWP-Format-768x385.png 768w, https://tech.hancom.com/wp-content/uploads/2025/02/HWP-Format.png 1060w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<figure class="wp-block-image aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="273" src="https://tech.hancom.com/wp-content/uploads/2025/02/HWPX-Format-1024x273.png" alt="" class="wp-image-2713" style="width:800px;height:auto" srcset="https://tech.hancom.com/wp-content/uploads/2025/02/HWPX-Format-1024x273.png 1024w, https://tech.hancom.com/wp-content/uploads/2025/02/HWPX-Format-512x137.png 512w, https://tech.hancom.com/wp-content/uploads/2025/02/HWPX-Format-768x205.png 768w, https://tech.hancom.com/wp-content/uploads/2025/02/HWPX-Format-1536x410.png 1536w, https://tech.hancom.com/wp-content/uploads/2025/02/HWPX-Format.png 1690w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>전체적인 틀은 비슷하지만 저장되는 스트림 또는 파일 이름만으로도 약간의 차이가 있음을 확인하실 수 있습니다. 문서의 내용에 따라 구성요소는 그림에 표기된 것과 달라질 수 있습니다. (변경 추적/문서 이력/이미지 제거/스크립트 제거 등)</p>
+
+
+
+<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h2 class="wp-block-heading" id="HWPX-구성요소-역할">HWPX 구성요소 역할</h2>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+
+
+
+<p>구조도를 통해 HWPX가 어떻게 구성되어 있는지 간단하게 확인해 보았습니다.<br>그렇다면 HWPX를 구성하고 있는 각 요소들은 어떤 역할을 하는지 핵심적인 파일 위주로 살펴보겠습니다.</p>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="mimetype-:-파일-형식-정보">mimetype : 파일 형식 정보</h4>
+
+
+
+<p>mimetype 파일은 HWPX 포맷임을 확인할 수 있는 시그니처 정보입니다.<br>저장된 mimetype을 통해 실제 HWPX 포맷인지를 구분하게 됩니다.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-full is-resized"><img loading="lazy" decoding="async" width="462" height="126" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-18.png" alt="" class="wp-image-2714" style="width:250px;height:auto"/></figure>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="settings.xml-:-커서-위치-정보,-외부-설정-요소-정보">settings.xml : 커서 위치 정보, 외부 설정 요소 정보</h4>
+
+
+
+<p>settings.xml 파일에는 외부 설정 요소 정보가 포함됩니다.<br>한글 프로그램에서는 저장 시점의 커서 위치 정보(CaretPosition)를 아래와 같이 해당 파일에 저장하고 있습니다.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="199" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-19-1024x199.png" alt="" class="wp-image-2715" style="width:830px;height:auto" srcset="https://tech.hancom.com/wp-content/uploads/2025/02/image-19-1024x199.png 1024w, https://tech.hancom.com/wp-content/uploads/2025/02/image-19-512x100.png 512w, https://tech.hancom.com/wp-content/uploads/2025/02/image-19-768x149.png 768w, https://tech.hancom.com/wp-content/uploads/2025/02/image-19.png 1362w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="version.xml-:-버전-정보">version.xml : 버전 정보</h4>
+
+
+
+<p>version.xml 파일에서는 OWPML 파일 형식 버전 정보와 해당 한글 문서를 저장한 환경 정보 등을 확인할 수 있습니다.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="204" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-20-1024x204.png" alt="" class="wp-image-2716" style="width:830px;height:auto" srcset="https://tech.hancom.com/wp-content/uploads/2025/02/image-20-1024x204.png 1024w, https://tech.hancom.com/wp-content/uploads/2025/02/image-20-512x102.png 512w, https://tech.hancom.com/wp-content/uploads/2025/02/image-20-768x153.png 768w, https://tech.hancom.com/wp-content/uploads/2025/02/image-20.png 1345w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<div style="height:5px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<div style="height:0px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="BinData/-:-문서에-포함된-바이너리-정보">BinData/ : 문서에 포함된 바이너리 정보</h4>
+
+
+
+<figure class="wp-block-image aligncenter size-full has-custom-border"><img loading="lazy" decoding="async" width="169" height="121" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-21.png" alt="" class="has-border-color has-cyan-bluish-gray-border-color wp-image-2717" style="border-width:2px"/></figure>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>BinData 폴더에는 문서에 포함된 이미지, OLE 개체 등의 바이너리 파일들로 구성되어 있습니다. 문서에서 사용되는 이미지와 같은 개체들은 바이너리 파일로 HWPX 파일 구조에 포함됩니다.</p>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="Contents/-:-서식을-포함한-문서-내용">Contents/ : 서식을 포함한 문서 내용</h4>
+
+
+
+<figure class="wp-block-image aligncenter size-full has-custom-border"><img loading="lazy" decoding="async" width="175" height="152" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-22.png" alt="" class="has-border-color has-cyan-bluish-gray-border-color wp-image-2718" style="border-width:2px"/></figure>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>Contents 폴더에는 문서에서 사용되는 서식 정보와 본문 내용이 포함되어 있습니다.<br>문서를 구성하는 데 있어서 무엇보다도 중요한 본문 내용을 포함하는 폴더로 각 파일에 어떤 정보가 담겨있는지 자세히 살펴보겠습니다.</p>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="Contents/content.hpf-:-패키징-주요-파일-목록">Contents/content.hpf : 패키징 주요 파일 목록</h4>
+
+
+
+<p>content.hpf 파일에는 패키징 주요 파일 목록이 있습니다. OPF(Open Packaging Format) 표준에 따라 정의되었으며, metadata, manifest, spine 세 부분으로 나누어 구성되어 있습니다.</p>
+
+
+
+<p>metadata에는 작성자, 제목, 생성 날짜 등 문서의 메타데이터가 들어있고, manifest에는 패키지를 이루는 파일 목록이 들어있습니다. spine은 manifest에 정의된 item을 참조하여 문서 내부 구조를 구성합니다. manifest의 순서는 중요하지 않지만, spine에서는 순서가 중요합니다. spine에 나열된 순서에 따라 문서를 읽어야 합니다.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="415" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-23-1024x415.png" alt="" class="wp-image-2719" style="width:900px;height:auto" srcset="https://tech.hancom.com/wp-content/uploads/2025/02/image-23-1024x415.png 1024w, https://tech.hancom.com/wp-content/uploads/2025/02/image-23-512x207.png 512w, https://tech.hancom.com/wp-content/uploads/2025/02/image-23-768x311.png 768w, https://tech.hancom.com/wp-content/uploads/2025/02/image-23.png 1402w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="Contents/header.xml-:-서식-관련-매핑-정보(Shape-Table)-등-문서-내용에-관련된-모든-설정">Contents/header.xml : 서식 관련 매핑 정보(Shape Table) 등 문서 내용에 관련된 모든 설정</h4>
+
+
+
+<p>header.xml 파일은 문서 내용에 관련된 모든 설정을 가지고 있습니다.<br>대표적으로 본문에서 사용되는 글자 모양, 문단 모양 등의 데이터에 대한 매핑 정보를 포함합니다. 그 밖에도 금칙 문자, 문서 호환성 설정, 변경 추적 정보 등의 정보가 있습니다.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="574" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-24-1024x574.png" alt="" class="wp-image-2720" style="width:900px;height:auto" srcset="https://tech.hancom.com/wp-content/uploads/2025/02/image-24-1024x574.png 1024w, https://tech.hancom.com/wp-content/uploads/2025/02/image-24-512x287.png 512w, https://tech.hancom.com/wp-content/uploads/2025/02/image-24-768x431.png 768w, https://tech.hancom.com/wp-content/uploads/2025/02/image-24.png 1045w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>HWP 포맷의 DocInfo 스트림과 거의 동일한 내용들이 담겨 있고, section.xml에서는 header.xml 파일을 참조하여 여러 가지 속성을 지정하게 됩니다. 보다 자세한 내용은 실전 편에서 예시와 함께 알아보겠습니다.</p>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="Contents/section0.xml-:-구역별-본문-내용">Contents/section0.xml : 구역별 본문 내용</h4>
+
+
+
+<p>한글 문서는 한 개 이상의 구역으로 이루어져 있으며, 각각의 구역이 별도의 파일로 저장됩니다.<br>본문의 구역 개수만큼 파일이 존재하고 section0.xml, section1.xml, … 과 같이 이름이 지정됩니다. 각 구역의 내용을 구성하는 문단들이 구역 하위에 포함되어 있습니다.</p>
+
+
+
+<figure class="wp-block-image aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="1024" height="458" src="https://tech.hancom.com/wp-content/uploads/2025/02/image-25-1024x458.png" alt="" class="wp-image-2721" style="width:900px;height:auto" srcset="https://tech.hancom.com/wp-content/uploads/2025/02/image-25-1024x458.png 1024w, https://tech.hancom.com/wp-content/uploads/2025/02/image-25-512x229.png 512w, https://tech.hancom.com/wp-content/uploads/2025/02/image-25-768x344.png 768w, https://tech.hancom.com/wp-content/uploads/2025/02/image-25.png 1375w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>많은 내용이 담겨 있지만 간단하게 살펴보면, &lt;hp:p&gt; 단위로 구분되어 문서 내용을 표현하고 있고, 글자 모양으로 구분되는 &lt;hp:run&gt; 하위의 &lt;hp:t&gt;가 문서 내부의 텍스트를 담고 있는 형태입니다. &lt;hp:t&gt; 태그 안의 정보만 가지고도 문서에 포함된 텍스트를 추출할 수 있습니다.</p>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="META-INF/-:-컨테이너-주요-파일-목록-및-암호화-정보">META-INF/ : 컨테이너 주요 파일 목록 및 암호화 정보</h4>
+
+
+
+<p>META-INF/ 폴더에는 manifest.xml, container.rdf, container.xml 파일이 담겨 있습니다. 암호 문서인 경우 manifest.xml 파일에 HWPX 내부의 각 파일별 암호화를 위한 정보가 저장되며, container.rdf, container.xml 파일은 컨테이너를 구성하는 주요 파일 목록으로 구성되어 있습니다.</p>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="Scripts/-:-스크립트-정보">Scripts/ : 스크립트 정보</h4>
+
+
+
+<p>Scripts 폴더에는 문서에 저장된 스크립트 정보가 담겨 있습니다. headerScripts, sourceScripts 파일에 스크립트 내용이 저장됩니다.</p>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h4 class="wp-block-heading" id="Preview/-:-미리보기-정보">Preview/ : 미리보기 정보</h4>
+
+
+
+<p>Preview 폴더에는 미리보기 이미지와 텍스트 파일이 담겨 있습니다. 파일 탐색기에서 미리보기 창을 열었을 때 표시되는 이미지나 파일에 마우스를 올려놓았을 때 표시되는 텍스트 내용이 바로 이 정보를 참조합니다. 암호 문서의 경우 보안을 위해 해당 파일을 저장하지 않습니다.</p>
+
+
+
+<div style="height:100px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<h2 class="wp-block-heading" id="마치며">마치며</h2>
+
+
+
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+
+
+
+<p>HWPX를 활용하기에 앞서 전체적인 구조와 내부를 구성하는 각 파일의 역할을 알아보았습니다. 문서를 구성하는 모든 내용을 설명하기에는 분량이 너무 길어질 것 같아서 전체적으로 간략하게 정리하고 주요 파일들만 추가적인 내용을 덧붙여서 설명드렸습니다. 이후 시리즈에서는 실제 HWPX 문서에서 원하는 데이터를 추출하는 예제를 공유하려고 합니다. 오늘 정리한 내용이 HWPX의 어떤 구성 요소에 어떤 데이터가 있는지 파악하고 문서의 데이터를 활용하는 데 도움이 되었으면 좋겠습니다. 감사합니다.</p>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<div class="wp-block-columns has-ast-global-color-4-background-color has-background is-layout-flex wp-container-core-columns-layout-1 wp-block-columns-is-layout-flex" style="padding-top:var(--wp--preset--spacing--60);padding-right:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60);padding-left:var(--wp--preset--spacing--60)">
+<div class="wp-block-column is-layout-flow wp-block-column-is-layout-flow">
+<h5 class="wp-block-heading">📌 한/글 문서 파일 형식 시리즈</h5>
+
+
+
+<p>1편: <a href="https://tech.hancom.com/%ed%95%9c-%ea%b8%80-%eb%ac%b8%ec%84%9c-%ed%8c%8c%ec%9d%bc-%ed%98%95%ec%8b%9d-hwp-%ed%8f%ac%eb%a7%b7-%ea%b5%ac%ec%a1%b0-%ec%82%b4%ed%8e%b4%eb%b3%b4%ea%b8%b0/" target="_blank" rel="noreferrer noopener">한/글 문서 파일 형식 : HWP 포맷 구조 살펴보기↗</a><br><strong>👉 2편: <a href="https://tech.hancom.com/hwpxformat/" data-type="link" data-id="https://tech.hancom.com/hwpxformat/" target="_blank" rel="noreferrer noopener">한/글 문서 파일 형식 : HWPX 포맷 구조 살펴보기↗</a></strong><br>3편: <a href="https://tech.hancom.com/python-hwp-parsing-1/" target="_blank" rel="noreferrer noopener">한/글 문서 파일 형식: Python을 통한 HWP 포맷 파싱하기 (1)↗</a><br>4편: <a href="https://tech.hancom.com/python-hwpx-parsing-1/" target="_blank" rel="noreferrer noopener">한/글 문서 파일 형식: Python을 통한 HWPX 포맷 파싱하기 (1)↗</a></p>
+</div>
+</div>
+
+
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer"></div>
+<div class="post-views content-post post-2709 entry-meta">
+				<span class="post-views-icon dashicons dashicons-chart-bar"></span> <span class="post-views-label">Post Views:</span> <span class="post-views-count">30,731</span>
+			</div>		<div class="wpulike wpulike-default " ><div class="wp_ulike_general_class wp_ulike_is_not_liked"><button type="button"
+					aria-label="Like Button"
+					data-ulike-id="2709"
+					data-ulike-nonce="a71e2b027b"
+					data-ulike-type="post"
+					data-ulike-template="wpulike-default"
+					data-ulike-display-likers=""
+					data-ulike-likers-style="popover"
+					class="wp_ulike_btn wp_ulike_put_image wp_post_btn_2709"></button><span class="count-box wp_ulike_counter_up" data-ulike-counter-value="+28"></span>			</div></div>
+	
+		
+		
+			</div><!-- .entry-content .clear -->
+</div>
+
+	
+</article><!-- #post-## -->
+
+
+	        <nav class="navigation post-navigation" role="navigation" aria-label="글">
+	                <span class="screen-reader-text">글 내비게이션</span>
+	                <div class="nav-links"><div class="nav-previous"><a href="https://tech.hancom.com/%ed%95%9c-%ea%b8%80-%eb%ac%b8%ec%84%9c-%ed%8c%8c%ec%9d%bc-%ed%98%95%ec%8b%9d-hwp-%ed%8f%ac%eb%a7%b7-%ea%b5%ac%ec%a1%b0-%ec%82%b4%ed%8e%b4%eb%b3%b4%ea%b8%b0/" rel="prev"><span class="ast-left-arrow">&larr;</span> 이전 글</a></div><div class="nav-next"><a href="https://tech.hancom.com/2025-03-10-deepseek-r1-technology-analysis/" rel="next">다음 글 <span class="ast-right-arrow">&rarr;</span></a></div></div>
+	        </nav>			</main><!-- #main -->
+			
+		
+	</div><!-- #primary -->
+
+
+	</div> <!-- ast-container -->
+	</div><!-- #content -->
+		<footer itemtype="https://schema.org/WPFooter" itemscope="itemscope" id="colophon" role="contentinfo">
+			<div class='footer-width-fixer'>		<div data-elementor-type="wp-post" data-elementor-id="1603" class="elementor elementor-1603">
+									<section class="elementor-section elementor-top-section elementor-element elementor-element-cfeb88e elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="cfeb88e" data-element_type="section">
+						<div class="elementor-container elementor-column-gap-default">
+					<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-dfa425c" data-id="dfa425c" data-element_type="column">
+			<div class="elementor-widget-wrap elementor-element-populated">
+								<div class="elementor-element elementor-element-9249574 elementor-widget elementor-widget-text-editor" data-id="9249574" data-element_type="widget" data-widget_type="text-editor.default">
+				<div class="elementor-widget-container">
+			<style>/*! elementor - v3.15.0 - 20-08-2023 */
+.elementor-widget-text-editor.elementor-drop-cap-view-stacked .elementor-drop-cap{background-color:#69727d;color:#fff}.elementor-widget-text-editor.elementor-drop-cap-view-framed .elementor-drop-cap{color:#69727d;border:3px solid;background-color:transparent}.elementor-widget-text-editor:not(.elementor-drop-cap-view-default) .elementor-drop-cap{margin-top:8px}.elementor-widget-text-editor:not(.elementor-drop-cap-view-default) .elementor-drop-cap-letter{width:1em;height:1em}.elementor-widget-text-editor .elementor-drop-cap{float:left;text-align:center;line-height:1;font-size:50px}.elementor-widget-text-editor .elementor-drop-cap-letter{display:inline-block}</style>				<div class="hdcfooter">
+<div class="hdclink"><a style="text-decoration: none; outline: none;" href="https://accounts.hancom.com/policy/terms/current" target="_blank" rel="noopener noreferrer">이용약관</a><a style="font-weight: bold; text-decoration: none; outline: none;" href="https://accounts.hancom.com/policy/privacy/current/ko" target="_blank" rel="noopener noreferrer">개인정보처리방침</a><a style="text-decoration: none; outline: none;" href="https://tech.hancom.com/open-source-license/" target="_self" rel="noopener noreferrer">오픈소스 라이선스</a></div>
+<ul>
+<li>(주)한컴</li>&nbsp;<li>대표자:변성준,김연수</li>
+<li>사업자등록번호: 107-81-52230</li>
+<li>경기도 성남시 분당구 대왕판교로 644번길 49 한컴타워</li>
+<li>© 2023.<a style="text-decoration: none; color: inherit;" href="https://www.hancom.com" target="blank" rel="noreferrer"> Hancom</a> Inc. All rights reserved.</li>
+</ul>
+</div>						</div>
+				</div>
+					</div>
+		</div>
+							</div>
+		</section>
+							</div>
+		</div>		</footer>
+		</div><!-- #page -->
+            <script>
+                jQuery(function($){
+
+                    
+                });
+            </script>
+            <div id="fb-root"></div>
+            
+<div id="ast-scroll-top" tabindex="0" class="ast-scroll-top-icon ast-scroll-to-top-right" data-on-devices="both">
+	<span class="ast-icon icon-arrow"><svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+                <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"/>
+                </svg></span>	<span class="screen-reader-text">Scroll to Top</span>
+</div>
+<style id='core-block-supports-inline-css'>
+.wp-container-core-columns-layout-1.wp-container-core-columns-layout-1{flex-wrap:nowrap;gap:0 2em;}
+</style>
+<script id="astra-theme-js-js-extra">
+var astra = {"break_point":"921","isRtl":"","is_scroll_to_id":"1","is_scroll_to_top":"1","is_header_footer_builder_active":"1"};
+</script>
+<script src="https://tech.hancom.com/wp-content/themes/astra/assets/js/minified/frontend.min.js?ver=4.2.2" id="astra-theme-js-js"></script>
+<script src="https://tech.hancom.com/wp-includes/js/dist/vendor/wp-polyfill-inert.min.js?ver=3.1.2" id="wp-polyfill-inert-js"></script>
+<script src="https://tech.hancom.com/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.14.0" id="regenerator-runtime-js"></script>
+<script src="https://tech.hancom.com/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0" id="wp-polyfill-js"></script>
+<script src="https://tech.hancom.com/wp-includes/js/dist/hooks.min.js?ver=c6aec9a8d4e5a5d543a1" id="wp-hooks-js"></script>
+<script src="https://tech.hancom.com/wp-includes/js/dist/i18n.min.js?ver=7701b0c3857f914212ef" id="wp-i18n-js"></script>
+<script id="wp-i18n-js-after">
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+</script>
+<script src="https://tech.hancom.com/wp-includes/js/jquery/jquery.form.min.js?ver=4.3.0" id="jquery-form-js"></script>
+<script id="wp_ulike-js-extra">
+var wp_ulike_params = {"ajax_url":"https:\/\/tech.hancom.com\/wp-admin\/admin-ajax.php","notifications":"1"};
+</script>
+<script src="https://tech.hancom.com/wp-content/plugins/wp-ulike/assets/js/wp-ulike.min.js?ver=4.6.8" id="wp_ulike-js"></script>
+<script src="https://tech.hancom.com/wp-includes/js/hoverIntent.min.js?ver=1.10.2" id="hoverIntent-js"></script>
+<script id="megamenu-js-extra">
+var megamenu = {"timeout":"300","interval":"100"};
+</script>
+<script src="https://tech.hancom.com/wp-content/plugins/megamenu/js/maxmegamenu.js?ver=3.3.1" id="megamenu-js"></script>
+<script src="https://tech.hancom.com/wp-content/plugins/header-footer-elementor/inc/js/frontend.js?ver=1.6.25" id="hfe-frontend-js-js"></script>
+<script src="https://tech.hancom.com/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=3.15.3" id="elementor-webpack-runtime-js"></script>
+<script src="https://tech.hancom.com/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=3.15.3" id="elementor-frontend-modules-js"></script>
+<script src="https://tech.hancom.com/wp-content/plugins/elementor/assets/lib/waypoints/waypoints.min.js?ver=4.0.2" id="elementor-waypoints-js"></script>
+<script src="https://tech.hancom.com/wp-includes/js/jquery/ui/core.min.js?ver=1.13.2" id="jquery-ui-core-js"></script>
+<script id="elementor-frontend-js-before">
+var elementorFrontendConfig = {"environmentMode":{"edit":false,"wpPreview":false,"isScriptDebug":false},"i18n":{"shareOnFacebook":"\ud398\uc774\uc2a4\ubd81\uc5d0 \uacf5\uc720","shareOnTwitter":"\ud2b8\uc704\ud130\uc5d0 \uacf5\uc720","pinIt":"\ud540 \ud558\uae30","download":"\ub2e4\uc6b4\ub85c\ub4dc","downloadImage":"\uc774\ubbf8\uc9c0 \ub2e4\uc6b4\ub85c\ub4dc","fullscreen":"\uc804\uccb4 \ud654\uba74","zoom":"\ud655\ub300\/\ucd95\uc18c","share":"\uacf5\uc720","playVideo":"\ub3d9\uc601\uc0c1 \uc7ac\uc0dd","previous":"\uc774\uc804","next":"\ub2e4\uc74c","close":"\ub2eb\uae30","a11yCarouselWrapperAriaLabel":"\uce90\ub7ec\uc140 | \uac00\ub85c \uc2a4\ud06c\ub864: \uc67c\ucabd \ubc0f \uc624\ub978\ucabd \ud654\uc0b4\ud45c","a11yCarouselPrevSlideMessage":"\uc774\uc804 \uc2ac\ub77c\uc774\ub4dc","a11yCarouselNextSlideMessage":"\ub2e4\uc74c \uc2ac\ub77c\uc774\ub4dc","a11yCarouselFirstSlideMessage":"\uccab \ubc88\uc9f8 \uc2ac\ub77c\uc774\ub4dc\uc785\ub2c8\ub2e4.","a11yCarouselLastSlideMessage":"\ub9c8\uc9c0\ub9c9 \uc2ac\ub77c\uc774\ub4dc\uc785\ub2c8\ub2e4.","a11yCarouselPaginationBulletMessage":"\uc2ac\ub77c\uc774\ub4dc\ub85c \uc774\ub3d9"},"is_rtl":false,"breakpoints":{"xs":0,"sm":480,"md":768,"lg":1025,"xl":1440,"xxl":1600},"responsive":{"breakpoints":{"mobile":{"label":"\ubaa8\ubc14\uc77c \ucd08\uc0c1\ud654","value":767,"default_value":767,"direction":"max","is_enabled":true},"mobile_extra":{"label":"\ubaa8\ubc14\uc77c \ud48d\uacbd","value":880,"default_value":880,"direction":"max","is_enabled":false},"tablet":{"label":"\ud0dc\ube14\ub9bf \uc138\ub85c","value":1024,"default_value":1024,"direction":"max","is_enabled":true},"tablet_extra":{"label":"\ud0dc\ube14\ub9bf \uac00\ub85c","value":1200,"default_value":1200,"direction":"max","is_enabled":false},"laptop":{"label":"\ub7a9\ud0d1","value":1366,"default_value":1366,"direction":"max","is_enabled":false},"widescreen":{"label":"\uc640\uc774\ub4dc\uc2a4\ud06c\ub9b0","value":2400,"default_value":2400,"direction":"min","is_enabled":false}}},"version":"3.15.3","is_static":false,"experimentalFeatures":{"e_dom_optimization":true,"e_optimized_assets_loading":true,"e_optimized_css_loading":true,"additional_custom_breakpoints":true,"e_swiper_latest":true,"landing-pages":true,"e_global_styleguide":true},"urls":{"assets":"https:\/\/tech.hancom.com\/wp-content\/plugins\/elementor\/assets\/"},"swiperClass":"swiper","settings":{"page":[],"editorPreferences":[]},"kit":{"active_breakpoints":["viewport_mobile","viewport_tablet"],"global_image_lightbox":"yes","lightbox_enable_counter":"yes","lightbox_enable_fullscreen":"yes","lightbox_enable_zoom":"yes","lightbox_enable_share":"yes","lightbox_title_src":"title","lightbox_description_src":"description"},"post":{"id":2709,"title":"%ED%95%9C%2F%EA%B8%80%20%EB%AC%B8%EC%84%9C%20%ED%8C%8C%EC%9D%BC%20%ED%98%95%EC%8B%9D%20%3A%20HWPX%20%ED%8F%AC%EB%A7%B7%20%EA%B5%AC%EC%A1%B0%20%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0%20-%20%ED%95%9C%EC%BB%B4%ED%85%8C%ED%81%AC","excerpt":"\uc774 \uae00\uc740 \uac1c\ubc29\ud615 \ubb38\uc11c \ud3ec\ub9f7\uc778 HWPX\uc758 \uad6c\uc870\uc640 \ub370\uc774\ud130\ub97c \uc800\uc7a5\ud558\uace0 \uad00\ub9ac\ud558\ub294 \ubc29\uc2dd\uc744 \ub2e4\ub8f9\ub2c8\ub2e4. HWPX\uc640 \uae30\uc874 HWP \ud3ec\ub9f7\uc758 \ucc28\uc774\ub97c \uc124\uba85\ud558\uba70, HWPX \ud3ec\ub9f7\uc758 \uc8fc\uc694 \uad6c\uc131 \uc694\uc18c\uc640 \uac01 \ud30c\uc77c\uc758 \uc5ed\ud560\uc744 \ubd84\uc11d\ud569\ub2c8\ub2e4. HWPX \ubb38\uc11c \ub370\uc774\ud130\ub97c \ud65c\uc6a9\ud558\uae30 \uc704\ud55c \uae30\ucd08 \uc9c0\uc2dd\uc744 \uc81c\uacf5\ud558\ub294 \uae00\uc785\ub2c8\ub2e4.","featuredImage":"https:\/\/tech.hancom.com\/wp-content\/uploads\/2025\/03\/\ud55c\uae00-\ubb38\uc11c-\ud30c\uc77c-\ud615\uc2dd_HWPX-\ud3ec\ub9f7-\uad6c\uc870-\uc0b4\ud3b4\ubcf4\uae30-1024x1024.png"}};
+</script>
+<script src="https://tech.hancom.com/wp-content/plugins/elementor/assets/js/frontend.min.js?ver=3.15.3" id="elementor-frontend-js"></script>
+			<script>
+			/(trident|msie)/i.test(navigator.userAgent)&&document.getElementById&&window.addEventListener&&window.addEventListener("hashchange",function(){var t,e=location.hash.substring(1);/^[A-z0-9_-]+$/.test(e)&&(t=document.getElementById(e))&&(/^(?:a|select|input|button|textarea)$/i.test(t.tagName)||(t.tabIndex=-1),t.focus())},!1);
+			</script>
+				</body>
+</html>

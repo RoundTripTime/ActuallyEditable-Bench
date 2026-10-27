@@ -1,0 +1,11 @@
+# Host resource guards (src/formbench/resources.py). NOT part of the metric contract: nothing here enters protocol_hash.
+# A row killed by these limits is reported as `resource_exhausted` (machine dependent, like `timeout`).
+memory:
+  guard: auto               # auto: run inside a memory-capped systemd scope when available | off | required
+  scope_max_fraction: 0.6   # MemoryMax of the scope = min(fraction * MemTotal, MemAvailable - reserve_mb); no swap
+  reserve_mb: 4096          # memory left to the rest of the host; below half of it the youngest job is re-queued
+  job_mem_mb: 3072          # per-job cap on resident memory (job + its subprocesses); exceeding it kills that job only
+  job_expect_mb: 1024       # used to size the worker count: workers <= usable memory / job_expect_mb
+  max_workers: 8
+  poll_s: 0.5
+# Environment overrides: FORMBENCH_MEM_GUARD, FORMBENCH_MEM_MAX_MB, FORMBENCH_JOB_MEM_MB, FORMBENCH_MAX_WORKERS

@@ -1,0 +1,31 @@
+# Metric contract part 2 (frozen before experiments; hashed into every run as `protocol_hash`).
+version: "1.0.0"
+seed: 20261014
+reference_renderer: internal            # coordinates of task contracts and reconstruction inputs come from this renderer
+# Documents inspected while the metric and tools were developed are forced into the train split (never test).
+development_documents:
+  - doc-2e2e85b0b70c8b74                # 의료지원금 지급신청서 (law.go.kr): used to calibrate the layout engine
+render:
+  inputs:
+    - {id: vector_pdf, kind: vector_pdf, main: true}
+    - {id: png_150, kind: image, dpi: 150, format: png, main: true}
+    - {id: scan_pdf_150, kind: scanned_pdf, dpi: 150, jpeg_quality: 85, noise_sigma: 3.0}
+    - {id: jpeg_100_skew, kind: image, dpi: 100, format: jpeg, jpeg_quality: 60, skew_deg: 0.6, noise_sigma: 4.0}
+reconstruction:
+  matrix:
+    vector_pdf: [image_only, image_overlay, parse_flow, parse_textbox, intermediary_pdf2docx, intermediary_libreoffice]
+    png_150: [image_only, image_overlay, parse_flow, parse_textbox, intermediary_pdf2docx, vlm_generate]
+    scan_pdf_150: [image_overlay, parse_flow, parse_textbox]
+    jpeg_100_skew: [image_overlay, parse_flow, parse_textbox]
+  vlm: {max_templates: 16, max_pages: 2}
+solver:
+  max_expansions: 40          # deterministic search budget per interaction component
+  time_limit_s: 180           # safety net only: results must not depend on machine load (time-outs are listed by `reproduce`)
+  schemes: [uniform, structural, klm_ms]
+  secondary_scheme_inputs: [vector_pdf]              # non-main cost schemes are solved for the original and these inputs
+comparators:                                         # naive algorithms reported next to the optimal plan
+  inputs: [vector_pdf]
+  ted_max_nodes: 900
+visual: {dpi: 72}
+statistics: {bootstrap_resamples: 2000, confidence: 0.95, cluster_key: template_family_id}
+completion_failure_policy: "A task counts as completed only if targets, protected predicates and file validity all pass after save+reopen. Failures are never averaged in as infinite cost; they are reported as rates."
