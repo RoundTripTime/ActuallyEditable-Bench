@@ -1,0 +1,759 @@
+org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+29:https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+31:https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+33:https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.pdf
+61:•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. (this part) https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+73:•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4.  27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html. 
+85:This document is Part 2 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification and defines a package format for OpenDocument documents, the digital signing of such documents, along with metadata that may be supplied with them.
+103:Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. Latest stage: https://docs.oasis-open.org/office/v1.4/OpenDocument-v1.4-part2-packages.html.
+305:This document is part of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification. It defines a package format for OpenDocument documents.
+389:Elements and attribute contained in the package manifest.
+431:The OpenDocument specification defines conformance for packages, package consumers, and package producers, with two conformance classes called conforming and extended conforming. This chapter defines the basic requirements for the individual conformance targets.
+446:B.3)The XML file shall be valid with respect to the manifest schema defined in appendix A.1 OpenDocument Manifest Schema. 
+448:C)It should contain a file “mimetype”. 
+451:D.1)The files shall be well-formed XML files in accordance with [XML1.0]. 
+466:G)An OpenDocument Extended Package shall meet all requirements of a conforming package except item E) of 2.2.1. 
+472:An OpenDocument Package Producer is a program that creates conforming OpenDocument packages, and that meets the additional requirements:
+474:A)It may produce conforming OpenDocument extended packages, but it shall have a mode of operation where all OpenDocument packages that are created are conforming OpenDocument packages. 
+476:B)It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument package producer. 
+480:An OpenDocument Package Extended Producer is a program that creates conforming OpenDocument extended packages. It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument package producer.
+484:An OpenDocument Package Consumer is a program that can parse and interpret OpenDocument packages, and that meets the following additional requirements:
+486:A)It shall be able to parse and interpret OpenDocument packages and OpenDocument extended packages, but it need not interpret the semantics of all elements, attributes and attribute values. 
+499:OpenDocument defines a package file to store the XML content of a document as separate parts together with associated binary data as file entries in a single package file. These file entries may be compressed to further reduce the storage taken by the package. This package is a Zip file [ZIP], whose structure is described in Appendix C. OpenDocument Packages impose additional structure on the Zip file to accomplish the representation of OpenDocument Format documents.
+501:A document within a package may consist of a set of files creating a unit, for instance the set of files specified by OpenDocument Part 3. These files may be located in the root of the package, or within a directory. If they are contained in the root of the package, they are called document. If they are located within a directory, the document they constitute is called a sub document. A package may contain multiple sub documents, but only a single document can be contained in the root of the package. Unless otherwise stated, the term document refers to the document contained in the root of the package. This may include sub documents.
+505:All OpenDocument packages shall contain a file named “META-INF/manifest.xml”. This file is the OpenDocument package manifest. The manifest provides :
+507:•A list of all of the files in the package (except those specifically excluded from the manifest). 
+509:•The MIME media type of each file in the package. 
+515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+517:The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+527:If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+529:Note: The purpose is to allow the type of document represented by the package to be discovered through 'magic number' mechanisms, such as Unix's file/magic utility. If a Zip file contains a file at the beginning of the file that is uncompressed, and has no extra data in the header, then its file name and data can be found at fixed positions from the beginning of the package. More specifically, one will find:
+533:•the string 'mimetype' beginning at position 30 
+541:OpenDocument packages may be encrypted by encrypting some or all files within the package. The encryption process takes place in the following stages:
+571:Files within a package may have a digital signature applied. Digital signatures are stored in one or more files whose relative paths begin with “META-INF/”. The names of these files shall contain the term “signatures”.
+577:Metadata for documents contained in an OpenDocument package may be expressed using the model of the W3C Resource Description Framework [RDF-CONCEPTS].
+579:A document or sub document that is stored in a package may contain any  number of metadata files. The content of a metadata files shall conform to the [RDF-XML] specification. Implementations that are consumers as well as producers should preserve all metadata files.
+581:All metadata files of a document or sub document shall be listed in a separate metadata manifest file, which has the file name “manifest.rdf”. This file enumerates metadata files and their relationships to other files in an OpenDocument package. See chapter 6.
+585:All references to a resource within the same package that occur within metadata file shall be represented by relative IRIs to the resource. This includes values of rdf:about attributes occurring within metadata files or metadata manifest files.
+589:Within the files contained in a package, relative IRIs as defined by [RFC3987] may be used to reference other files within the same package.
+591:OpenDocument Package Consumers shall resolve relative IRIs that occur within a file of a package as follows:
+595:2.The package base IRI is the base IRI which would be established for the package itself as defined in §5.1 of [RFC3986]. 
+597:3.If the relative IRI does not match the rule for "relative-ref" defined in §4.2 of [RFC3986] or if the relative IRI does start with a "/" character (U+002F, SOLIDUS) then it is resolved as defined in §5.2 of [RFC3986] with the package base IRI as base URI. 
+610:•if the file entry path buffer is empty, then the content of the relative IRI buffer is replaced with "." (U+002E, FULL STOP). The query and fragment components of the relative IRI, if present, are appended to the relative IRI buffer, including the "?" (U+003F, QUESTION MARK) and "#" (U+0023, NUMBER SIGN) delimiter characters. The content of the relative IRI buffer then is resolved as defined in §5.2 of [RFC3986] with the package base IRI as base URI. 
+
+exec
+/usr/bin/zsh -lc "sed -n '7790,7845p' odf_spec/OpenDocument-v1.4-schema.rng
+sed -n '12135,12270p' odf_spec/OpenDocument-v1.4-schema.rng
+sed -n '14290,14335p' odf_spec/OpenDocument-v1.4-schema.rng
+sed -n '16070,16220p' odf_spec/OpenDocument-v1.4-schema.rng
+sed -n '6295,6315p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt
+sed -n '1479,1495p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt
+sed -n '350,430p' odf_spec/OpenDocument-v1.4-os-part2-packages.txt" in /tmp/fb_codex_pdf_2j2v5__v
+ succeeded in 0ms:
+            <rng:value>into-default-style-data-style</rng:value>
+            <rng:value>into-english-number</rng:value>
+            <rng:value>keep-text</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document">
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-meta">
+    <rng:element name="office:document-meta">
+      <rng:ref name="office-document-common-attrs"/>
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+
+The <office:document> element is a root element.
+
+The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+
+The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+
+The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+ The potential root elements for an OpenDocument document represented as a package are defined in OpenDocument Document, 2.2.1.
+
+A package may also contain image files, embedded objects and implementation-dependent files.
+
+3.1.3.2 <office:document-content>
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+[XML-ID] Jonathan Marsh, Daniel Veillard, Norman Walsh, xml:id Version 1.0, http://www.w3.org/TR/2005/REC-xml-id-20050909/, W3C, 2005.
+
+[xml-names] Tim Bray et al., Namespaces in XML 1.0 (Second Edition), http://www.w3.org/TR/2006/REC-xml-names-20060816, W3C, 2006.
+
+[xmlenc-core] Donald Eastlake, Joseph Reagle, XML Encryption Syntax and Processing, http://www.w3.org/TR/2002/REC-xmlenc-core-20021210/, W3C, 2002.
+
+[xmlschema-2] Paul V. Biron, Ashok Malhotra, XML Schema Part 2: Datatypes Second Edition, http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/, W3C, 2004.
+
+[xmldsig-core] Donald Eastlake, Joseph Reagle, David Solo, Frederick Hirsch, Thomas Roessler,  XML Signature Syntax and Processing (Second Edition), http://www.w3.org/TR/2008/REC-xmldsig-core-20080610/, W3C, 2008.
+
+[xmldsig-core1] D. Eastlake; J. Reagle; D. Solo; F. Hirsch; T. Roessler; K. Yiu. XML Signature Syntax and Processing Version 1.1. 11 April 2013. W3C Recommendation. http://www.w3.org/TR/2013/REC-xmldsig-core1-20130411/
+
+[ZIP] PKWARE Inc. Zip APPNOTE Version 6.2.0, http://www.pkware.com/support/application-note-archives, 2004
+
+1.4 Non Normative References
+
+[Schneier] Bruce Schneier, Applied Cryptography (Second Edition), John Wiley & Sons, ISBN: 0-471-11709-9, 1996
+
+[Schneier-Errata] Bruce Schneir, Applied Cryptography 2nd. Ed. - Errata, http://www.schneier.com/book-applied-errata.html, 1998.
+
+1.5 Namespaces
+
+The namespaces used or defined by OpenDocument part 2 are listed in tables 1 and 2.
+
+The prefix column in tables 1 and 2 lists the namespace prefixes this specification uses when referring to elements and attributes in different namespaces. Consistent usage in this specification and in the schema is for clarity. Instances of XML documents can employ any [xml-names]-admissable declarations of prefixes and default namespaces that accomplish binding of the listed namespaces.
+
+Note: XML namespaces are employed in accordance with the Namespaces in XML W3C Recommendation  [xml-names].
+
+Table 1 - XML Namespaces defined by the OpenDocument specification part 2
+
+Prefix
+
+Description
+
+Namespace
+
+manifest
+
+Elements and attribute contained in the package manifest.
+
+urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+
+dsig
+
+Elements and attribute contained in digital signature files.
+
+urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+
+Table 2 - XML Namespaces defined by the OpenDocument metadata manifest ontology
+
+Prefix
+
+Description
+
+Namespace
+
+pkg
+
+OWL classes and properties contained in metadata manifest files.
+
+http://docs.oasis-open.org/ns/office/1.2/meta/pkg#
+
+Table 3 - XML Namespaces used by the OpenDocument digital signature schema
+
+Prefix
+
+Description
+
+Namespace
+
+ds
+
+XML Digital Signature Syntax and Processing namespace (see [xmldsig-core])
+
+http://www.w3.org/2000/09/xmldsig#
+
+2 Packages, Package Consumers and Package Producers
+
+2.1 Introduction
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.12cm" fo:line-height="120%"/>
+      <style:text-properties style:font-name="serif" fo:font-size="10.5pt" style:font-name-asian="Noto Serif CJK JP" style:font-size-asian="10.5pt"/>
+    </style:default-style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.12cm" fo:line-height="120%"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0.12cm"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:margin-top="0cm" fo:margin-bottom="0.12cm"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="9pt" style:font-size-asian="9pt"/>
+    </style:style>
+    <style:style style:name="Gap" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="8pt" style:font-size-asian="8pt"/>
+    </style:style>
+    <style:style style:name="BorderTable" style:family="table">
+      <style:table-properties table:align="margins"/>
+    </style:style>
+    <style:style style:name="GridCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="GridHead" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="NoBorderCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0.05cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="3.2cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="3.2cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="2cm" fo:margin-bottom="2cm" fo:margin-left="2cm" fo:margin-right="2cm"/>
+    </style:page-layout>
+    <style:style style:name="EntryTable" style:family="table">
+      <style:table-properties table:align="margins" style:width="16.8cm"/>
+    </style:style>
+    <style:style style:name="LandTable" style:family="table">
+      <style:table-properties table:align="margins" style:width="18cm"/>
+    </style:style>
+    <style:style style:name="StaffTable" style:family="table">
+      <style:table-properties table:align="margins" style:width="17.8cm"/>
+    </style:style>
+    <style:style style:name="LandCol1" style:family="table-column"><style:table-column-properties style:column-width="2.5cm"/></style:style>
+    <style:style style:name="LandCol2" style:family="table-column"><style:table-column-properties style:column-width="1.8cm"/></style:style>
+    <style:style style:name="LandCol3" style:family="table-column"><style:table-column-properties style:column-width="1.7cm"/></style:style>
+    <style:style style:name="LandCol4" style:family="table-column"><style:table-column-properties style:column-width="1.9cm"/></style:style>
+    <style:style style:name="LandCol5" style:family="table-column"><style:table-column-properties style:column-width="5.3cm"/></style:style>
+    <style:style style:name="LandCol6" style:family="table-column"><style:table-column-properties style:column-width="2cm"/></style:style>
+    <style:style style:name="LandCol7" style:family="table-column"><style:table-column-properties style:column-width="1.5cm"/></style:style>
+    <style:style style:name="LandCol8" style:family="table-column"><style:table-column-properties style:column-width="1.5cm"/></style:style>
+    <style:style style:name="StaffCol" style:family="table-column"><style:table-column-properties style:column-width="5.9cm"/></style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="PageStart">様式例第１号の７</text:p>
+      <text:p text:style-name="Center">農地等の利用状況報告書</text:p>
+      <text:p text:style-name="Right">年　　月　　日</text:p>
+      <text:p text:style-name="Body">かすみがうら市農業委員会会長　殿</text:p>
+      <text:p text:style-name="Right">住所</text:p>
+      <text:p text:style-name="Right">氏名</text:p>
+      <text:p text:style-name="Gap"> </text:p>
+      <text:p text:style-name="Body">農地法第３条第３項の規定により同条第１項の許可を受けて使用貸借による権利又は賃借権の設定を受けた</text:p>
+      <text:p text:style-name="Body">農地中間管理事業の推進に関する法律第18条第７項の規定による公告があった農用地利用集積等促進計画の定めるところにより賃借権又は使用貸借による権利の設定又は移転を受けた</text:p>
+      <text:p text:style-name="Body">農地（採草放牧地）について、農地法第６条の２第１項の規定に基づき、下記のとおり報告します。</text:p>
+      <text:p text:style-name="Center">記</text:p>
+      <text:p text:style-name="Body">１　農地法第３条第３項の規定により同条第１項の許可を受けた者</text:p>
+      <text:p text:style-name="Body">　　農地中間管理事業の推進に関する法律第18条第５項第３号に規定する者の氏名等</text:p>
+      <table:table table:name="NamesAndAddresses" table:style-name="EntryTable">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridHead"><text:p>氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead"><text:p>住所</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Gap"> </text:p>
+      <text:p text:style-name="Body">２　報告に係る土地の所在等</text:p>
+      <table:table table:name="LandDetails" table:style-name="LandTable">
+        <table:table-column table:style-name="LandCol1"/>
+        <table:table-column table:style-name="LandCol2"/>
+        <table:table-column table:style-name="LandCol3"/>
+        <table:table-column table:style-name="LandCol4"/>
+        <table:table-column table:style-name="LandCol5"/>
+        <table:table-column table:style-name="LandCol6"/>
+        <table:table-column table:style-name="LandCol7"/>
+        <table:table-column table:style-name="LandCol8"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridHead" table:number-rows-spanned="2"><text:p>所在・地番</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead" table:number-columns-spanned="2"><text:p>地目</text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="GridHead"/>
+          <table:table-cell table:style-name="GridHead" table:number-rows-spanned="2"><text:p>面積</text:p><text:p>（㎡）</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead" table:number-rows-spanned="2"><text:p>作物の種類別作付面積（又は栽培面積）</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead" table:number-rows-spanned="2"><text:p>生産数量</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead" table:number-rows-spanned="2"><text:p>反収</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead" table:number-rows-spanned="2"><text:p>備考</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell table:style-name="GridHead"/>
+          <table:table-cell table:style-name="GridHead"><text:p>登記簿</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead"><text:p>現況</text:p></table:table-cell>
+          <table:covered-table-cell table:style-name="GridHead"/>
+          <table:covered-table-cell table:style-name="GridHead"/>
+          <table:covered-table-cell table:style-name="GridHead"/>
+          <table:covered-table-cell table:style-name="GridHead"/>
+          <table:covered-table-cell table:style-name="GridHead"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Gap"> </text:p>
+      <text:p text:style-name="Body">３　農地法第３条第３項の規定により同条第１項の許可を受けて使用貸借による権利又は賃借権の設定を受けた</text:p>
+      <text:p text:style-name="Body">農地中間管理事業の推進に関する法律第18条第７項の規定による公告があった農用地利用集積等促進計画の定めるところにより賃借権又は使用貸借による権利の設定又は移転を受けた</text:p>
+      <text:p text:style-name="Body">農地又は採草放牧地の周辺の農地又は採草放牧地の農業上の利用に及ぼしている影響</text:p>
+
+      <text:p text:style-name="PageStart">４　地域の農業における他の農業者との役割分担の状況</text:p>
+      <text:p text:style-name="Gap"> </text:p>
+      <text:p text:style-name="Body">５　業務執行役員又は重要な使用人の状況</text:p>
+      <table:table table:name="StaffDetails" table:style-name="StaffTable">
+        <table:table-column table:style-name="StaffCol"/>
+        <table:table-column table:style-name="StaffCol"/>
+        <table:table-column table:style-name="StaffCol"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridHead"><text:p>氏　名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead"><text:p>常時従事者の役職名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridHead"><text:p>耕作又は養畜の事業の</text:p><text:p>年間従事日数</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Gap"> </text:p>
+      <text:p text:style-name="Body">６　その他参考となるべき事項</text:p>
+
+      <text:p text:style-name="PageStart">（記載要領）</text:p>
+      <text:p text:style-name="Body">１．不要の文字は抹消してください。</text:p>
+      <text:p text:style-name="Body">２．報告書を提出する者が法人である場合は、住所は主たる事務所の所在地を、氏名は法人の</text:p>
+      <text:p text:style-name="Body">　　名称及び代表者の氏名をそれぞれ記載し、定款又は寄附行為の写しを添付してください。</text:p>
+      <text:p text:style-name="Body">３．記の２の「報告に係る土地の所在等」の備考欄には、登記簿上の所有名義人と現在の所有</text:p>
+      <text:p text:style-name="Body">　　者が異なるときに登記簿上の所有者を記載してください。</text:p>
+      <text:p text:style-name="Body">４．記の３の「農地法第３条第３項の規定の適用を受けて同条第１項の許可を受けた農地又は</text:p>
+      <text:p text:style-name="Body">　　採草放牧地の周辺の農地又は採草放牧地の農業上の利用に及ぼしている影響」には、例えば、</text:p>
+      <text:p text:style-name="Body">　　病虫害の温床となっている雑草の刈取りをせず、周辺の作物に著しい被害を与えていないか等</text:p>
+      <text:p text:style-name="Body">　　を記載してください。</text:p>
+      <text:p text:style-name="Body">５．記の４の「地域の農業における他の農業者との役割分担の状況」には、例えば、農業の維</text:p>
+      <text:p text:style-name="Body">　　持発展に関する話し合い活動への参加、道路、水路、ため池等の共同利用施設の取決めの遵</text:p>
+      <text:p text:style-name="Body">　　守、獣害被害対策への協力等の取り組み状況（今後取り組む場合はその見込み）について記</text:p>
+      <text:p text:style-name="Body">　　載してください。</text:p>
+      <text:p text:style-name="Body">６．記の５の「業務執行役員又は重要な使用人の状況」については、報告書を提出する者が個</text:p>
+      <text:p text:style-name="Body">　　人である場合は記載不要です。「耕作又は養畜の事業の年間従事日数」欄には、当該事業年</text:p>
+      <text:p text:style-name="Body">　　度において法人の行う耕作又は養畜の事業に常時従事した業務執行役員（耕作又は養畜の事</text:p>
+      <text:p text:style-name="Body">　　業に常時従事した業務執行役員がいない場合には、重要な使用人）の耕作又は養畜の事業へ</text:p>
+      <text:p text:style-name="Body">　　の年間従事日数を記載してください。</text:p>
+      <text:p text:style-name="Body">　　なお、「重要な使用人」とは、その法人の使用人であって、当該法人の行う耕作又は養畜</text:p>
+      <text:p text:style-name="Body">　　の事業に関する権限及び責任を有する者をいいます。</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+72,248

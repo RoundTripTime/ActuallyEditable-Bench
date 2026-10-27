@@ -1,0 +1,929 @@
+ue>
+            <rng:value>keep-text</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document">
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body">
+    <rng:element name="office:body">
+      <rng:ref name="office-body-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body-content">
+    <rng:choice>
+      <rng:element name="office:text">
+        <rng:ref name="office-text-attlist"/>
+        <rng:ref name="office-text-content-prelude"/>
+        <rng:ref name="office-text-content-main"/>
+        <rng:ref name="office-text-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:drawing">
+        <rng:ref name="office-drawing-attlist"/>
+        <rng:ref name="office-drawing-content-prelude"/>
+        <rng:ref name="office-drawing-content-main"/>
+        <rng:ref name="office-drawing-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:presentation">
+        <rng:ref name="office-presentation-attlist"/>
+        <rng:ref name="office-presentation-content-prelude"/>
+        <rng:ref name="office-presentation-content-main"/>
+        <rng:ref name="office-presentation-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:spreadsheet">
+        <rng:ref name="office-spreadsheet-attlist"/>
+        <rng:ref name="office-spreadsheet-content-prelude"/>
+        <rng:ref name="office-spreadsheet-content-main"/>
+        <rng:ref name="office-spreadsheet-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:chart">
+        <rng:ref name="office-chart-attlist"/>
+        <rng:ref name="office-chart-content-prelude"/>
+        <rng:ref name="office-chart-content-main"/>
+        <rng:ref name="office-chart-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:image">
+        <rng:ref name="office-image-attlist"/>
+        <rng:ref name="office-image-content-prelude"/>
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+
+exec
+/usr/bin/zsh -lc "rg -n 'name=\"(table-table|table-table-column|table-table-row|table-table-cell|table-covered-table-cell|style-style|style-text-properties|style-table-cell-properties|style-table-column-properties|style-table-row-properties|style-table-properties|paragraph-attrs|style-paragraph-properties|style-master-styles|style-page-layout-properties-content-strict)' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_pdf_dvg2i_1r
+ succeeded in 0ms:
+483:        <rng:ref name="table-table"/>
+5105:          <rng:ref name="table-table"/>
+5934:        <rng:ref name="table-table"/>
+6840:            <rng:ref name="table-table"/>
+7107:        <rng:ref name="style-text-properties"/>
+7128:        <rng:ref name="style-text-properties"/>
+7189:        <rng:ref name="style-text-properties"/>
+7416:        <rng:ref name="style-text-properties"/>
+7438:        <rng:ref name="style-text-properties"/>
+7535:        <rng:ref name="style-text-properties"/>
+7571:        <rng:ref name="style-text-properties"/>
+8268:      <rng:ref name="table-table"/>
+8329:            <rng:ref name="table-table-template"/>
+8373:  <rng:define name="paragraph-attrs">
+10414:      <rng:ref name="style-style-content"/>
+12249:      <rng:ref name="style-page-layout-properties-content-strict"/>
+12440:  <rng:define name="style-page-layout-properties-content-strict">
+12451:  <rng:define name="style-paragraph-properties">
+12453:      <rng:ref name="style-paragraph-properties-content-strict"/>
+12456:  <rng:define name="style-paragraph-properties-attlist">
+12641:  <rng:define name="style-paragraph-properties-content-strict">
+12642:    <rng:ref name="style-paragraph-properties-attlist"/>
+12643:    <rng:ref name="style-paragraph-properties-elements"/>
+12645:  <rng:define name="style-paragraph-properties-elements">
+12757:  <rng:define name="style-style">
+12759:      <rng:ref name="style-style-attlist"/>
+12760:      <rng:ref name="style-style-content"/>
+12766:  <rng:define name="style-style-attlist">
+12837:  <rng:define name="style-style-content">
+12844:          <rng:ref name="style-text-properties"/>
+12852:          <rng:ref name="style-paragraph-properties"/>
+12855:          <rng:ref name="style-text-properties"/>
+12879:          <rng:ref name="style-table-properties"/>
+12887:          <rng:ref name="style-table-column-properties"/>
+12895:          <rng:ref name="style-table-row-properties"/>
+12903:          <rng:ref name="style-table-cell-properties"/>
+12906:          <rng:ref name="style-paragraph-properties"/>
+12909:          <rng:ref name="style-text-properties"/>
+12923:          <rng:ref name="style-paragraph-properties"/>
+12926:          <rng:ref name="style-text-properties"/>
+12948:          <rng:ref name="style-paragraph-properties"/>
+12951:          <rng:ref name="style-text-properties"/>
+13033:  <rng:define name="style-table-cell-properties">
+13035:      <rng:ref name="style-table-cell-properties-content-strict"/>
+13038:  <rng:define name="style-table-cell-properties-attlist">
+13153:  <rng:define name="style-table-cell-properties-content-strict">
+13154:    <rng:ref name="style-table-cell-properties-attlist"/>
+13155:    <rng:ref name="style-table-cell-properties-elements"/>
+13157:  <rng:define name="style-table-cell-properties-elements">
+13162:  <rng:define name="style-table-column-properties">
+13164:      <rng:ref name="style-table-column-properties-content-strict"/>
+13167:  <rng:define name="style-table-column-properties-attlist">
+13187:  <rng:define name="style-table-column-properties-content-strict">
+13188:    <rng:ref name="style-table-column-properties-attlist"/>
+13189:    <rng:ref name="style-table-column-properties-elements"/>
+13191:  <rng:define name="style-table-column-properties-elements">
+13194:  <rng:define name="style-table-properties">
+13196:      <rng:ref name="style-table-properties-content-strict"/>
+13199:  <rng:define name="style-table-properties-attlist">
+13256:  <rng:define name="style-table-properties-content-strict">
+13257:    <rng:ref name="style-table-properties-attlist"/>
+13258:    <rng:ref name="style-table-properties-elements"/>
+13260:  <rng:define name="style-table-properties-elements">
+13265:  <rng:define name="style-table-row-properties">
+13267:      <rng:ref name="style-table-row-properties-content-strict"/>
+13270:  <rng:define name="style-table-row-properties-attlist">
+13299:  <rng:define name="style-table-row-properties-content-strict">
+13300:    <rng:ref name="style-table-row-properties-attlist"/>
+13301:    <rng:ref name="style-table-row-properties-elements"/>
+13303:  <rng:define name="style-table-row-properties-elements">
+13308:  <rng:define name="style-text-properties">
+13310:      <rng:ref name="style-text-properties-content-strict"/>
+13313:  <rng:define name="style-text-properties-attlist">
+13806:  <rng:define name="style-text-properties-content-strict">
+13807:    <rng:ref name="style-text-properties-attlist"/>
+13808:    <rng:ref name="style-text-properties-elements"/>
+13810:  <rng:define name="style-text-properties-elements">
+13832:        <rng:ref name="style-style"/>
+14137:      <rng:ref name="table-table-cell-range-source-attlist"/>
+14194:      <rng:ref name="table-table-columns"/>
+14196:        <rng:ref name="table-table-column"/>
+14203:        <rng:ref name="table-table-column-group"/>
+14213:          <rng:ref name="table-table-header-columns"/>
+14220:        <rng:ref name="table-table-header-columns"/>
+14298:  <rng:define name="table-covered-table-cell">
+14300:      <rng:ref name="table-table-cell-attlist"/>
+14301:      <rng:ref name="table-table-cell-content"/>
+14897:      <rng:ref name="table-table"/>
+15590:      <rng:ref name="table-table-rows"/>
+15595:        <rng:ref name="table-table-row"/>
+15602:        <rng:ref name="table-table-row-group"/>
+15612:          <rng:ref name="table-table-header-rows"/>
+15619:        <rng:ref name="table-table-header-rows"/>
+15939:  <rng:define name="table-table">
+15941:      <rng:ref name="table-table-attlist"/>
+15949:        <rng:ref name="table-table-source"/>
+15970:  <rng:define name="table-table-attlist">
+16052:  <rng:define name="table-table-cell">
+16054:      <rng:ref name="table-table-cell-attlist"/>
+16055:      <rng:ref name="table-table-cell-attlist-extra"/>
+16056:      <rng:ref name="table-table-cell-content"/>
+16059:  <rng:define name="table-table-cell-attlist">
+16102:  <rng:define name="table-table-cell-attlist-extra">
+16126:  <rng:define name="table-table-cell-content">
+16140:  <rng:define name="table-table-cell-range-source-attlist">
+16153:  <rng:define name="table-table-column">
+16155:      <rng:ref name="table-table-column-attlist"/>
+16159:  <rng:define name="table-table-column-attlist">
+16186:  <rng:define name="table-table-column-group">
+16188:      <rng:ref name="table-table-column-group-attlist"/>
+16192:  <rng:define name="table-table-column-group-attlist">
+16199:  <rng:define name="table-table-columns">
+16202:        <rng:ref name="table-table-column"/>
+16206:  <rng:define name="table-table-header-columns">
+16209:        <rng:ref name="table-table-column"/>
+16213:  <rng:define name="table-table-header-rows">
+16219:        <rng:ref name="table-table-row"/>
+16223:  <rng:define name="table-table-row">
+16225:      <rng:ref name="table-table-row-attlist"/>
+16228:          <rng:ref name="table-table-cell"/>
+16229:          <rng:ref name="table-covered-table-cell"/>
+16234:  <rng:define name="table-table-row-attlist">
+16261:  <rng:define name="table-table-row-group">
+16263:      <rng:ref name="table-table-row-group-attlist"/>
+16267:  <rng:define name="table-table-row-group-attlist">
+16274:  <rng:define name="table-table-rows">
+16280:        <rng:ref name="table-table-row"/>
+16284:  <rng:define name="table-table-source">
+16286:      <rng:ref name="table-table-source-attlist"/>
+16291:  <rng:define name="table-table-source-attlist">
+16308:  <rng:define name="table-table-template">
+16310:      <rng:ref name="table-table-template-attlist"/>
+16341:  <rng:define name="table-table-template-attlist">
+16944:      <rng:ref name="table-table"/>
+17097:      <rng:ref name="paragraph-attrs"/>
+17662:          <rng:ref name="style-text-properties"/>
+17672:          <rng:ref name="style-text-properties"/>
+17903:        <rng:ref name="style-text-properties"/>
+17951:      <rng:ref name="paragraph-attrs"/>
+
+exec
+/usr/bin/zsh -lc "sed -n '8370,8405p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '15935,16090p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16150,16245p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12440,12485p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12400,12440p' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_pdf_dvg2i_1r
+ succeeded in 0ms:
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="paragraph-attrs">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:class-names">
+          <rng:ref name="styleNameRefs"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:cond-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:group>
+          <rng:ref name="xml-id"/>
+          <rng:optional>
+            <rng:attribute name="text:id">
+              <rng:ref name="NCName"/>
+            </rng:attribute>
+          </rng:optional>
+        </rng:group>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="paragraph-content">
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+  <rng:define name="style-page-layout-properties-content-strict">
+    <rng:ref name="style-page-layout-properties-attlist"/>
+    <rng:ref name="style-page-layout-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <rng:ref name="style-columns"/>
+      <rng:ref name="style-footnote-sep"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-lines">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-base-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-ruby-below">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-display">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-snap-to">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-content-strict">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="10.5pt" fo:line-height="120%" fo:margin-top="0cm" fo:margin-bottom="0.18cm"/>
+      <style:text-properties style:font-name="MS Mincho" fo:font-size="10.5pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.35cm" fo:margin-bottom="0.55cm"/>
+      <style:text-properties style:font-name="MS Mincho" fo:font-size="10.5pt"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="0.4cm" fo:margin-bottom="0.18cm"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:text-align="center" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="RightRed" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:text-align="right" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:name="Red" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-bottom="0cm"/>
+      <style:text-properties fo:color="#ff0000"/>
+    </style:style>
+    <style:style style:name="Note" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-left="0.2cm" fo:margin-top="0.08cm" fo:margin-bottom="0.45cm"/>
+      <style:text-properties style:font-name="MS Mincho" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-left="2cm" fo:margin-right="2cm" fo:margin-top="2cm" fo:margin-bottom="2cm"/>
+    </style:page-layout>
+    <style:style style:name="BudgetTable" style:family="table">
+      <style:table-properties table:align="margins"/>
+    </style:style>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties fo:column-width="4.45cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties fo:column-width="3cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties fo:column-width="8.9cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="CellTotal" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:border-top="double 0.75pt #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="HeaderRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.95cm"/>
+    </style:style>
+    <style:style style:name="IncomeRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.95cm"/>
+    </style:style>
+    <style:style style:name="ExpenseRow" style:family="table-row">
+      <style:table-row-properties style:row-height="1.97cm"/>
+    </style:style>
+    <style:style style:name="TotalRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.95cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Body">様式第３号（第８条関係）</text:p>
+      <text:p text:style-name="Title">収支予算書</text:p>
+      <text:p text:style-name="Section">１　収入予算　　　　　　　　　　　　　　（単位：<text:line-break/>円）</text:p>
+      <table:table table:name="IncomeBudget" table:style-name="BudgetTable">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-row table:style-name="HeaderRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">項　目</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">金　額</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">内　容</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="IncomeRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">市補助金</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="RightRed">200,000</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="IncomeRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">自己資金</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="RightRed">100,000</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="IncomeRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">その他</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="TotalRow">
+          <table:table-cell table:style-name="CellTotal"><text:p text:style-name="Center">合　計</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellTotal"><text:p text:style-name="RightRed">300,000</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellTotal"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Note">（注）　補助率及び補助上限は、別表第４を参照すること。</text:p>
+      <text:p text:style-name="Section">２　支出予算　　　　　　　　　　　　　　（単位：<text:line-break/>円）</text:p>
+      <table:table table:name="ExpenseBudget" table:style-name="BudgetTable">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-row table:style-name="HeaderRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">項　目</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">金　額</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">内　容</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="ExpenseRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Red">システム導入費</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="RightRed">300,000</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Red">オンラインストレージ導入に係る費用</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="ExpenseRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="ExpenseRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="ExpenseRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="ExpenseRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="ExpenseRow">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="TotalRow">
+          <table:table-cell table:style-name="CellTotal"><text:p text:style-name="Center">合　計</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellTotal"><text:p text:style-name="RightRed">300,000</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellTotal"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Note">（注）　「項目」は、別表第４の項目名を記入すること。</text:p>
+      <text:p text:style-name="PageStart"/>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+35,562

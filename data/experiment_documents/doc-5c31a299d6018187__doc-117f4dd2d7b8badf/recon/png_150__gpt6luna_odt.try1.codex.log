@@ -1,0 +1,864 @@
+>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-opacity"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+      <rng:ref name="style-background-fill"/>
+      <rng:ref name="style-columns"/>
+      <rng:zeroOrMore>
+        <rng:ref name="text-notes-configuration"/>
+      </rng:zeroOrMore>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style">
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+    <rng:ref name="style-table-cell-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties">
+    <rng:element name="style:table-column-properties">
+      <rng:ref name="style-table-column-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-column-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:column-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-column-width">
+          <rng:ref name="relativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-column-width">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-break-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-column-properties-content-strict">
+    <rng:ref name="style-table-column-properties-attlist"/>
+    <rng:ref name="style-table-column-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-table-properties">
+    <rng:element name="style:table-properties">
+      <rng:ref name="style-table-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-page-continuation-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:select-page">
+        <rng:choice>
+          <rng:value>previous</rng:value>
+          <rng:value>next</rng:value>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:string-value">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-page-number-attlist">
+    <rng:interleave>
+      <rng:interleave>
+        <rng:ref name="common-field-num-format-attlist"/>
+        <rng:ref name="common-field-fixed-attlist"/>
+      </rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:page-adjust">
+          <rng:ref name="integer"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:select-page">
+          <rng:choice>
+            <rng:value>previous</rng:value>
+            <rng:value>current</rng:value>
+            <rng:value>next</rng:value>
+          </rng:choice>
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:177:3.1.2 <office:document>(Single OpenDocument XML Files)
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6134:C)If the document is a single XML file, then  
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6162:C)If the document is a single XML file, then the XML files shall be valid against the schema defined in appendix A, after processing of foreign elements as defined in B.1) has taken place. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6270:B)It may be able to parse and interpret OpenDocument documents stored as a single XML document, but it need not interpret the semantics of all elements, attributes and attribute values. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6291:•A single XML document. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6295:3.1.2 <office:document>(Single OpenDocument XML Files)
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:6297:The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+odf_spec/OpenDocument-v1.4-os-part3-schema.txt:21319:The office:mimetype attribute specifies the document type for a document that is contained in a single XML file. Its values are the MIME types that are used for the packaged variant of office documents.
+
+exec
+/usr/bin/zsh -lc "sed -n '12830,12930p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12135,12155p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7880,7905p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12450,12480p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '17920,17950p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '6295,6318p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '6130,6142p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '6148,6165p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_d1cge05s
+ succeeded in 0ms:
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-section-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>ruby</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-ruby-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-column</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-column-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-row</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-row-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-cell</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-cell-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:choice>
+            <rng:value>graphic</rng:value>
+            <rng:value>presentation</rng:value>
+          </rng:choice>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-graphic-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+    <rng:element name="office:event-listeners">
+      <rng:zeroOrMore>
+        <rng:choice>
+          <rng:ref name="script-event-listener"/>
+          <rng:ref name="presentation-event-listener"/>
+        </rng:choice>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-font-face-decls">
+    <rng:optional>
+      <rng:element name="office:font-face-decls">
+        <rng:zeroOrMore>
+          <rng:ref name="style-font-face"/>
+        </rng:zeroOrMore>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-forms">
+    <rng:optional>
+      <rng:element name="office:forms">
+        <rng:ref name="office-forms-attlist"/>
+        <rng:zeroOrMore>
+          <rng:choice>
+            <rng:ref name="form-form"/>
+            <rng:ref name="xforms-model"/>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+      <rng:ref name="common-num-format-attlist"/>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4108 -->
+      <rng:ref name="common-num-list-format-name-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:display-levels">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:start-value">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-outline-style">
+    <rng:element name="text:outline-style">
+      <rng:ref name="text-outline-style-attr"/>
+      <rng:oneOrMore>
+        <rng:ref name="text-outline-level-style"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-outline-style-attr">
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+
+The <office:document> element is a root element.
+
+The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+
+The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+
+The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+ The potential root elements for an OpenDocument document represented as a package are defined in OpenDocument Document, 2.2.1.
+
+A package may also contain image files, embedded objects and implementation-dependent files.
+
+3.1.3.2 <office:document-content>
+
+The <office:document-content> root element contains document content and automatic styles used in a document. The file within a package for the <office:document-content> element is content.xml. 
+
+B.3)If the XML root element of a file is <office:document-content>, <office:document-styles>, <office:document-meta> or <office:document-settings>, then the XML file shall be valid with respect to the schema defined in appendix A. 
+
+B.4)If the XML root element of a file is <math:math>, then the XML file shall be valid with respect to the MathML 2.0 [MathML] schema. 
+
+C)If the document is a single XML file, then  
+C.1)the file shall be a well-formed XML document with respect to the XML 1.0 [XML1.0] specification 
+
+C.2)the XML root element of the file shall be <office:document>. 
+
+C.3)the XML file shall validate against the schema defined in appendix A. 
+
+D)The files contained in a package listed in B) or the single file listed in C) meet the following requirements: 
+D.1)They shall conform to the XML Namespaces specification [XML-Names]. 
+E)It shall conform to one of: OpenDocument Text Document (2.2.3), OpenDocument Spreadsheet Document (2.2.4), OpenDocument Drawing Document (2.2.5), OpenDocument Presentation Document (2.2.6), OpenDocument Chart Document (2.2.7), OpenDocument Image Document (2.2.8), OpenDocument Formula Document (2.2.9), OpenDocument Database Front End Document (2.2.10).  
+
+2.2.2 OpenDocument Extended Document
+
+An OpenDocument extended document shall meet all requirements of a conforming document listed in 2.2.1 except A.1), B.3), C.3) and E) and shall meet the following requirements:
+
+A)If the document is an OpenDocument package, then it shall be a conforming ODF extended package [ODF1.4-Part-2:Packages], 2.2.2 OpenDocument Extended Package. 
+
+B)If the document is an OpenDocument package, then the following requirement shall be met for its contained files named content.xml, styles.xml, settings.xml, and meta.xml if present: 
+B.1)If the XML root element of a file is <office:document-content> 3.1.3.2, <office:document-styles> 3.1.3.3, <office:document-meta> 3.1.3.4 or <office:document-settings> 3.1.3.5, then the XML file shall be valid with respect to the schema defined in appendix A, after the following processing of foreign elements has taken place: 
+B.1.1)Foreign elements and attributes, as defined in section 3.17 have been removed. 
+
+B.1.2)The content of foreign elements has been processed as defined in section 3.17. 
+
+C)If the document is a single XML file, then the XML files shall be valid against the schema defined in appendix A, after processing of foreign elements as defined in B.1) has taken place. 
+
+2.2.3 OpenDocument Text Document
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Base" style:family="paragraph">
+      <style:paragraph-properties fo:margin="0in" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:margin="0in" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:margin="0in" fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:margin="0in" fo:text-align="right"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:margin="0in" fo:text-align="center"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="GridCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.8pt solid #000000" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Vertical" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.8pt solid #000000" style:vertical-align="middle" style:writing-mode="tb-rl"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" fo:margin-top="0.45in" fo:margin-bottom="0.45in" fo:margin-left="0.8in" fo:margin-right="0.8in" style:print-orientation="portrait"/>
+    </style:page-layout>
+    <style:style style:name="C1" style:family="table-column"><style:table-column-properties style:column-width="0.38in"/></style:style>
+    <style:style style:name="C2" style:family="table-column"><style:table-column-properties style:column-width="0.35in"/></style:style>
+    <style:style style:name="C3" style:family="table-column"><style:table-column-properties style:column-width="1.30in"/></style:style>
+    <style:style style:name="C4" style:family="table-column"><style:table-column-properties style:column-width="1.25in"/></style:style>
+    <style:style style:name="C5" style:family="table-column"><style:table-column-properties style:column-width="0.90in"/></style:style>
+    <style:style style:name="C6" style:family="table-column"><style:table-column-properties style:column-width="2.42in"/></style:style>
+    <style:style style:name="F1" style:family="table-column"><style:table-column-properties style:column-width="1.15in"/></style:style>
+    <style:style style:name="F2" style:family="table-column"><style:table-column-properties style:column-width="2.55in"/></style:style>
+    <style:style style:name="F3" style:family="table-column"><style:table-column-properties style:column-width="2.90in"/></style:style>
+    <style:style style:name="B1" style:family="table-column"><style:table-column-properties style:column-width="1.30in"/></style:style>
+    <style:style style:name="B2" style:family="table-column"><style:table-column-properties style:column-width="1.80in"/></style:style>
+    <style:style style:name="B3" style:family="table-column"><style:table-column-properties style:column-width="1.00in"/></style:style>
+    <style:style style:name="B4" style:family="table-column"><style:table-column-properties style:column-width="2.50in"/></style:style>
+    <style:style style:name="K1" style:family="table-column"><style:table-column-properties style:column-width="0.75in"/></style:style>
+    <style:style style:name="K2" style:family="table-column"><style:table-column-properties style:column-width="3.00in"/></style:style>
+    <style:style style:name="K3" style:family="table-column"><style:table-column-properties style:column-width="2.85in"/></style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Base">別記様式第８号（第１１条関係）</text:p>
+      <text:p text:style-name="Right">年　　　月　　　日</text:p>
+      <text:p text:style-name="Base">多治見市長</text:p>
+      <text:p text:style-name="Right">申請者　氏名　　　　　　　　　（※）</text:p>
+      <text:p text:style-name="Right">（※）本人が自署しないときは、押印してください。</text:p>
+      <text:p text:style-name="Title">住宅用新エネルギーシステム設置概要書</text:p>
+
+      <text:p text:style-name="Base">1　□住宅用太陽光発電システム</text:p>
+      <table:table table:name="太陽光発電システム">
+        <table:table-column table:style-name="C1"/>
+        <table:table-column table:style-name="C2"/>
+        <table:table-column table:style-name="C3"/>
+        <table:table-column table:style-name="C4"/>
+        <table:table-column table:style-name="C5"/>
+        <table:table-column table:style-name="C6"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Vertical" table:number-rows-spanned="6"><text:p text:style-name="Center">太陽光モジュール</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="Center">①</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">メーカー名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">型式</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">最大出力</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">W</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">使用枚数</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">枚</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="Center">②</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">メーカー名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">型式</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">最大出力</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">W</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">使用枚数</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">枚</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell" table:number-rows-spanned="2"><text:p text:style-name="Center">③</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">メーカー名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">型式</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">最大出力</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">W</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">使用枚数</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">枚</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="5">
+            <text:p text:style-name="Base">太陽電池の最大出力</text:p>
+            <text:p text:style-name="Small">（小数点以下２桁未満を四捨五入）</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">ｋＷ</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Base">2　□家庭用燃料電池システム</text:p>
+      <table:table table:name="家庭用燃料電池システム">
+        <table:table-column table:style-name="F1"/>
+        <table:table-column table:style-name="F2"/>
+        <table:table-column table:style-name="F3"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">燃料電池ユニット</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">貯湯ユニット</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">メーカー名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">品名番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">定格発電出力</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">W</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Base">3　□定置用リチウムイオン蓄電システム</text:p>
+      <table:table table:name="定置用リチウムイオン蓄電システム">
+        <table:table-column table:style-name="B1"/>
+        <table:table-column table:style-name="B2"/>
+        <table:table-column table:style-name="B3"/>
+        <table:table-column table:style-name="B4"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">メーカー名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">型番</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell">
+            <text:p text:style-name="Base">蓄電容量</text:p>
+            <text:p text:style-name="Small">（小数点以下２桁未満を四捨五入）</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="3"><text:p text:style-name="Right">ｋＷｈ</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Base">4　□次世代自動車充給電システム</text:p>
+      <table:table table:name="次世代自動車充給電システム">
+        <table:table-column table:style-name="B1"/>
+        <table:table-column table:style-name="B2"/>
+        <table:table-column table:style-name="B3"/>
+        <table:table-column table:style-name="B4"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">メーカー名</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Center">型番</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"/>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Base">5　□対象システム設置費</text:p>
+      <table:table table:name="対象システムの費用">
+        <table:table-column table:style-name="K1"/>
+        <table:table-column table:style-name="K2"/>
+        <table:table-column table:style-name="K3"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Vertical" table:number-rows-spanned="4"><text:p text:style-name="Center">対象システムの費用</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell">
+            <text:p text:style-name="Base">住宅用太陽光発電システム</text:p>
+            <text:p text:style-name="Small">（太陽電池、架台、パワーコンディ</text:p>
+            <text:p text:style-name="Small">ショナー等の機器等）</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell">
+            <text:p text:style-name="Base">家庭用燃料電池システム</text:p>
+            <text:p text:style-name="Small">（発電ユニット、貯湯ユニット等）</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">定置用リチウムイオン蓄電システム</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Base">次世代自動車充給電システム</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Base">工事費</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Base">計（対象システム設置費）</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Base">消費税額</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell" table:number-columns-spanned="2"><text:p text:style-name="Base">総額</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Right">円</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+35,923

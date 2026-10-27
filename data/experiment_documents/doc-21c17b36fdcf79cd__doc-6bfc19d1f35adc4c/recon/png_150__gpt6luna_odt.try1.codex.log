@@ -1,0 +1,701 @@
+he content of the relative IRI buffer is the character sequence ".." (U+002E, FULL STOP, followed by U+002E, FULL STOP) and 
+610:•if the file entry path buffer is empty, then the content of the relative IRI buffer is replaced with "." (U+002E, FULL STOP). The query and fragment components of the relative IRI, if present, are appended to the relative IRI buffer, including the "?" (U+003F, QUESTION MARK) and "#" (U+0023, NUMBER SIGN) delimiter characters. The content of the relative IRI buffer then is resolved as defined in §5.2 of [RFC3986] with the package base IRI as base URI. 
+611-
+612-•if the file entry path buffer contains at least one relative path component, the last relative path component up to and including the last "/" character (U+002F, SOLIDUS) is removed. The ".." character sequence is removed from the IRI buffer. Continue with step 11. 
+613-
+614-10.If a fragment buffer has been created and is not empty, its content may be resolved as fragment identifier, as defined by §3.5 of [RFC3986]. 
+615:•if the file entry path buffer is empty, then the "../" is replaced with "./" (U+002E, FULL STOP, followed by U+002F, SOLIDUS) in the relative IRI buffer. The query and fragment components of the relative IRI, if present, are appended to the relative IRI buffer, including the "?" (U+003F, QUESTION MARK) and "#" (U+0023, NUMBER SIGN) delimiter characters. The content of the relative IRI buffer then is resolved as defined in §5.2 of [RFC3986] with the package base IRI as base URI. 
+616-
+617-•if the file entry path buffer contains at least one one relative path component, the last relative path component up to and including the last "/" character (U+002F, SOLIDUS) is removed. The "../" character sequence is removed from the IRI buffer. Continue with step 7. 
+--
+619-11.The content of the file entry buffer is inserted into the relative IRI buffer before any existing content. 
+620-
+621:12.The content of the relative IRI buffer is interpreted as a file or directory name within the package, that is, as the name of a file or directory including its relative path within the Zip file. An empty buffer denotes the package root. Path segments in the relative IRI buffer that originally came from the relative IRI shall be interpreted according to IRI syntax rules, while segments that originally came from the file entry path shall be interpreted according to Zip path name syntax rules. 
+622-
+623-13.If the relative IRI contains a fragment component, it is resolved as fragment identifier, as defined by §3.5 of [RFC3986]. 
+624-
+625:Note: Files whose relative path starts with “META-INF/” are considered to be part of the OpenDocument package rather than of the content stored within the package. Therefore, different rules regarding the resolution of relative IRIs may apply.
+626-
+627-3.8 Preview Image
+628-
+629:Unless a document is encrypted, package producers should generate a preview image of the document that is contained in the package. It should be a representation of the first page, first sheet, etc. of the document. For maximum re-usability of the preview images they shall be generated without any effects, surrounding frames, or borders.
+630-
+631-Note: Such effects might interfere with effects added to the preview images by the different file system explorers or might be undesirable for certain use cases.
+--
+637-Note: Current desktops display preview images within squares of up to 256 pixel width and height, and 24 bit per pixel. While this specification does not define upper or lower limits for preview image sizes, producers should only use image sizes that are displayed with a reasonable quality if scaled to fit into 256x256 pixel square.
+638-
+639:Encrypted documents are intended to be unreadable for unauthorized users and package producers shall not generate preview images for such documents. They may include a preview image that is independent of the contents of the document. Such preview images should not be encrypted.
+640-
+641-3.9 Interactions Between Encryption and Digital Signatures
+642-
+643:An OpenDocument Package Producer that both encrypts files in the package and applies digital signatures to files in the package should either first encrypt (per section 3.4) and then apply the digital signatures (per section 5) or first apply the digital signatures and then encrypt.
+644-
+645-If the encryption of the files is done first, the digital signatures files shall not be encrypted.
+646-
+647:If the files in the package are encrypted after applying the digital signatures, the digital signature files shall be encrypted.
+648-
+649-See also section 5.2.
+--
+659-4.2 <manifest:manifest>
+660-
+661:The <manifest:manifest> element is the root element of the manifest file. It contains <manifest:file-entry> child elements 4.3, each of which specifies information for a file or directory in the package.
+662-
+663-The <manifest:manifest> element is a root element.
+--
+669-4.3 <manifest:file-entry>
+670-
+671:The <manifest:file-entry> element specifies the media type of a single file or sub document within the package.  It may also specify the data required to decrypt a file.
+672-
+673-For directories, the manifest file should contain a <manifest:file-entry> element only if a directory contains a document or a sub document. See 3.1. A directory for administrative or convenience purposes, such as a directory that contains various unrelated image files, should not have an entry in the manifest file.
+--
+829-•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#blowfish: The same algorithm as identified by Blowfish CFB. 
+830-
+831:•The implementation-defined IRI of an alternative algorithm as specified in §5.1 of [xmlenc-core]. Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+832-
+833-•Package producers that support encryption shall support the value Blowfish CFB. Package consumers that support encryption shall support the values Blowfish CFB and urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#blowfish. 
+--
+861-•An IRI listed in §5.7 of [xmlenc-core]: The algorithm specified in §5.7 of [xmlenc-core] for this IRI. 
+862-
+863:•The implementation-defined IRI of an alternative algorithm as specified in §5.1 of [xmlenc-core]. Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+864-
+865-Package producers should use the SHA1/1K value and method when compatibility with older versions of consumers is important. In other cases, producers that support encryption should use the urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k value and method. 
+--
+875-4.16.4 manifest:full-path
+876-
+877:The manifest:full-path attribute describes the location of a file or directory within the package. It's value is the name of a file or folder within the Zip file for which the manifest entry defines additional information, including its relative path in the package. The notation is the same as for the “filename” fields of the Zip file's central directory.
+878-
+879:The attribute value "/" denotes a manifest entry for the package itself.
+880-
+881-Note: The Zip file's central directory and the manifest file may have different text encodings.
+--
+903-•An IRI listed in §5.7 of [xmlenc-core]: The algorithm specified in §5.7 of [xmlenc-core] for this IRI. 
+904-
+905:•The implementation-defined IRI of an alternative algorithm as specified in §5.1 of [xmlenc-core] Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+906-
+907-The default value for this attribute is SHA1.
+--
+947-•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#pbkdf2: The same algorithms as identified by PBKDF2. 
+948-
+949:•The implementation-defined IRI of an implementation-defined alternative algorithm. Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+950-
+951-•PGP [xmldsig-core1] 
+--
+1019-4.16.14.2 <manifest:manifest>
+1020-
+1021:The manifest:version attribute identifies the version of OpenDocument specification that defines the schema and interpretation of the package manifest. The value of the manifest:version attribute shall be "1.4".
+1022-
+1023-The manifest:version attribute is usable with the following element: <manifest:manifest> 4.2.
+--
+1049-•if the <ds:Reference> child elements of the <ds:Signature> element reference a certain set of files. 
+1050-
+1051:In particular, consumers may require that a digital signature references all files contained in a package.
+1052-
+1053-If a digital signature file is not encrypted, each encrypted file referenced by <ds:Reference> elements shall be signed in its encrypted form.
+--
+1071-<ds:Reference> elements contained within a <ds:SignedInfo> element shall be resolved according to the following specification:
+1072-
+1073:1.A <ds:Reference> element which has a Type attribute value of "http://docs.oasis-open.org/office/v1.2/OS/OpenDocument-v1.2.odt" shall refer to a file in the same package in the accordance with the procedure for resolving IRIs 3.7, except that the file entry path shall be the name of the signature file with its relative path omitted.  
+1074-Note: Consequently, an IRI-Reference consisting entirely of "#" followed by an ifragment (§2.2 of [RFC3987]) refers to the ID of an XML element within the same XML document containing this <ds:signature> element. 
+1075-
+--
+1119-6.1 General
+1120-
+1121:Metadata manifest files (see 3.6) have the file name “manifest.rdf”. The metadata manifest file for a document (see 3.1) shall be stored in the root of the package. The metadata manifest file for a sub documents shall be stored in the sub document's directory.
+1122-
+1123-Metadata manifest files enumerate metadata files and their relationships to other files in that document or sub document as defined by this specification.
+--
+1133-6.3 pkg:File
+1134-
+1135:A file in an OpenDocument package is represented by an instance of class pkg:File or by one of its subclasses, for example pkg:MetadataFile.
+1136-
+1137-An instance of the pkg:File class (or one of its subclasses) is identified by an IRI.
+1138-
+1139:The relationship between a file and a package is expressed using the property pkg:hasPart 6.6.
+1140-
+1141-The following property is defined for the pkg:File class: pkg:mimeType 6.7.
+--
+1149-6.5 pkg:Element
+1150-
+1151:The pkg:Element class describes an XML element contained in a file within an OpenDocument package.
+1152-
+1153-6.6 pkg:hasPart
+
+exec
+/usr/bin/zsh -lc "sed -n '12247,12335p' odf_spec/OpenDocument-v1.4-schema.rng; rg -n '"'^  <rng:define name="style-(paragraph-properties|table-cell-properties|table-column-properties|table-row-properties|table-properties|text-properties)"'"' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12620,12755p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '17940,17958p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16223,16261p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7669,7685p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8278,8300p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7937,7955p' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_497_ezlx
+ succeeded in 0ms:
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-page-order">
+          <rng:choice>
+            <rng:value>ttb</rng:value>
+            <rng:value>ltr</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:first-page-number">
+          <rng:choice>
+            <!-- https://issues.oasis-open.org/browse/OFFICE-3953 -->
+            <rng:ref name="integer"/>
+            <rng:value>continue</rng:value>
+          </rng:choice>
+12451:  <rng:define name="style-paragraph-properties">
+13033:  <rng:define name="style-table-cell-properties">
+13162:  <rng:define name="style-table-column-properties">
+13194:  <rng:define name="style-table-properties">
+13265:  <rng:define name="style-table-row-properties">
+13308:  <rng:define name="style-text-properties">
+            <rng:value>bottom</rng:value>
+            <rng:value>auto</rng:value>
+            <rng:value>baseline</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:writing-mode-automatic">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:snap-to-layout-grid">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-page-number-attlist"/>
+      <rng:ref name="common-background-transparency-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-content-strict">
+    <rng:ref name="style-paragraph-properties-attlist"/>
+    <rng:ref name="style-paragraph-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-tab-stops"/>
+      <rng:ref name="style-drop-cap"/>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-presentation-page-layout">
+    <rng:element name="style:presentation-page-layout">
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="presentation-placeholder"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-center">
+    <rng:element name="style:region-center">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-left">
+    <rng:element name="style:region-left">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-right">
+    <rng:element name="style:region-right">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties">
+    <rng:element name="style:ruby-properties">
+      <rng:ref name="style-ruby-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:ruby-position">
+          <rng:choice>
+            <rng:value>above</rng:value>
+            <rng:value>below</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:ruby-align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>distribute-letter</rng:value>
+            <rng:value>distribute-space</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-ruby-properties-content-strict">
+    <rng:ref name="style-ruby-properties-attlist"/>
+    <rng:ref name="style-ruby-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-ruby-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-section-properties">
+    <rng:element name="style:section-properties">
+      <rng:ref name="style-section-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-section-properties-attlist">
+    <rng:interleave>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-editable-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:dont-balance-text-columns">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-section-properties-content-strict">
+    <rng:ref name="style-section-properties-attlist"/>
+    <rng:ref name="style-section-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-section-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+      <rng:ref name="style-columns"/>
+      <rng:zeroOrMore>
+        <rng:ref name="text-notes-configuration"/>
+      </rng:zeroOrMore>
+    </rng:interleave>
+        <rng:ref name="text-outline-level-style"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-outline-style-attr">
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+  <rng:define name="office-automatic-styles">
+    <rng:optional>
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+  <rng:define name="office-master-styles">
+    <rng:optional>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta">
+    <rng:optional>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.08cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:default-style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:text-align="center" fo:margin-top="1.35cm" fo:margin-bottom="1.1cm"/>
+      <style:text-properties fo:font-size="17pt"/>
+    </style:style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.08cm" fo:margin-bottom="0.35cm"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:margin-top="0cm" fo:margin-bottom="0.25cm"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.4cm" fo:margin-bottom="0.1cm"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10.5pt"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="10.5pt"/>
+    </style:style>
+    <style:style style:name="Footer" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:margin-top="2.1cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="8.5pt"/>
+    </style:style>
+    <style:style style:name="InputCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" fo:background-color="#fffde0" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="GridCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="PlainCell" style:family="table-cell">
+      <style:table-cell-properties fo:padding="0.04cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties table:align="center" style:width="16.35cm"/>
+    </style:style>
+    <style:style style:name="SmallTable" style:family="table">
+      <style:table-properties table:align="right" style:width="12.1cm"/>
+    </style:style>
+    <style:style style:name="ColLabel" style:family="table-column">
+      <style:table-column-properties style:column-width="2.1cm"/>
+    </style:style>
+    <style:style style:name="ColNarrow" style:family="table-column">
+      <style:table-column-properties style:column-width="0.95cm"/>
+    </style:style>
+    <style:style style:name="ColSigLabel" style:family="table-column">
+      <style:table-column-properties style:column-width="4.1cm"/>
+    </style:style>
+    <style:style style:name="ColSigInput" style:family="table-column">
+      <style:table-column-properties style:column-width="6.6cm"/>
+    </style:style>
+    <style:style style:name="ColExpense1" style:family="table-column">
+      <style:table-column-properties style:column-width="2.0cm"/>
+    </style:style>
+    <style:style style:name="ColExpense2" style:family="table-column">
+      <style:table-column-properties style:column-width="2.3cm"/>
+    </style:style>
+    <style:style style:name="ColExpense3" style:family="table-column">
+      <style:table-column-properties style:column-width="3.65cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout" style:page-usage="all">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:print-orientation="portrait" fo:margin-top="1.7cm" fo:margin-bottom="1.5cm" fo:margin-left="2.4cm" fo:margin-right="2.4cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="DefaultPage" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Title">ふるさと教室実施報告および補助金交付申請書</text:p>
+      <text:p text:style-name="Right">令 和　年　月　日</text:p>
+      <text:p text:style-name="Body">飯綱町青少年育成町民会議会長　様</text:p>
+      <table:table table:name="署名欄" table:style-name="SmallTable">
+        <table:table-column table:style-name="ColSigLabel"/>
+        <table:table-column table:style-name="ColSigInput"/>
+        <table:table-row>
+          <table:table-cell table:style-name="PlainCell"><text:p text:style-name="Cell">子ども会・育成会名</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="PlainCell"><text:p text:style-name="Cell">代表者</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"><text:p text:style-name="Cell">㊞</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">下記のとおりふるさと教室事業実施しましたので、補助金の交付を申請します。</text:p>
+      <text:p text:style-name="Section">1.　実施した事業の概要</text:p>
+      <table:table table:name="事業概要" table:style-name="FormTable">
+        <table:table-column table:style-name="ColLabel"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">実施内容</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="15" table:style-name="InputCell"/>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">実施期日</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="GridCell"><text:p text:style-name="CellCenter">令和</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">年</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">月</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">日</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">～</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="GridCell"><text:p text:style-name="CellCenter">令和</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">年</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">月</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">実施場所</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="15" table:style-name="InputCell"/>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">共催団体</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="15" table:style-name="InputCell"/>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-rows-spanned="2" table:style-name="GridCell"><text:p text:style-name="Cell">参　加　者</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="GridCell"><text:p text:style-name="CellCenter">子ども</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="GridCell"><text:p text:style-name="CellCenter">保護者</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="GridCell"><text:p text:style-name="CellCenter">育成会</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="GridCell"><text:p text:style-name="CellCenter">高齢者</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="7" table:style-name="GridCell"><text:p text:style-name="CellCenter">その他</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">人</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">人</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">人</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">人</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="InputCell"/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">人</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">（</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">）</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Section">2.　事業に伴う経費</text:p>
+      <table:table table:name="事業経費" table:style-name="FormTable">
+        <table:table-column table:style-name="ColExpense1"/>
+        <table:table-column table:style-name="ColExpense2"/>
+        <table:table-column table:style-name="ColExpense3"/>
+        <table:table-column table:style-name="ColExpense1"/>
+        <table:table-column table:style-name="ColExpense2"/>
+        <table:table-column table:style-name="ColExpense3"/>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">区　分</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">金　額</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">説　明</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">区　分</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">金　額</text:p></table:table-cell>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="CellCenter">説　明</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">講師謝礼</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">材　料　費</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="GridCell"><text:p text:style-name="Cell">食　糧　費</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="GridCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="InputCell"/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Right">※ 経費の合計金額　　円</text:p>
+      <text:p text:style-name="Right">■　上 限 額　＝　6,000　円</text:p>
+      <text:p text:style-name="Section">3.　補助金交付申請額</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　円　　事業に伴う経費の合計金額と</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　 6,000円(上限額)との少ない方の額</text:p>
+      <text:p text:style-name="Section">4.　添付書類</text:p>
+      <text:p text:style-name="Body">　　① 領収書(写)　　②開催通知等事業の実施がわかるもの</text:p>
+      <text:p text:style-name="Body">　　③ 写真３枚程度（子どもと講師(高齢者)の活動の様子・作成したもの）</text:p>
+      <text:p text:style-name="Footer">ふるさと教室事業補助金実施報告および交付申請書 230310</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+38,676

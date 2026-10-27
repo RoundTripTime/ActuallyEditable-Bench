@@ -1,0 +1,821 @@
+
+      <rng:ref name="style-footnote-sep"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+          <rng:choice>
+            <rng:value>start</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>justify</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:justify-single-word">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:keep-together">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>always</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:widows">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:orphans">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    <rng:optional>
+      <rng:element name="style:tab-stops">
+        <rng:zeroOrMore>
+          <rng:ref name="style-tab-stop"/>
+        </rng:zeroOrMore>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-table-cell-properties">
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+    <rng:ref name="style-table-cell-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties">
+    <rng:element name="style:table-column-properties">
+      <rng:ref name="style-table-column-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-column-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:column-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-column-width">
+          <rng:ref name="relativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-column-width">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-break-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-column-properties-content-strict">
+    <rng:ref name="style-table-column-properties-attlist"/>
+    <rng:ref name="style-table-column-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-table-properties">
+    <rng:element name="style:table-properties">
+      <rng:ref name="style-table-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+    <rng:ref name="style-table-row-properties-attlist"/>
+    <rng:ref name="style-table-row-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-row-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-text-properties">
+    <rng:element name="style:text-properties">
+      <rng:ref name="style-text-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-text-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:font-variant">
+          <rng:ref name="fontVariant"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:text-transform">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>lowercase</rng:value>
+            <rng:value>uppercase</rng:value>
+            <rng:value>capitalize</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-window-font-color">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-outline">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-type">
+          <rng:ref name="lineType"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-style">
+          <rng:ref name="lineStyle"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-width">
+          <rng:ref name="lineWidth"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+      <rng:ref name="table-table-row-group-attlist"/>
+      <rng:ref name="table-rows-and-groups"/>
+    </rng:element>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:default-style>
+    <style:style style:name="P" style:family="paragraph"/>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="paragraph">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="BoldCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="LeftCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="RightCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="NarrowLeft" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties style:width="18cm"/>
+    </style:style>
+    <style:style style:name="ColLeft" style:family="table-column">
+      <style:table-column-properties style:column-width="4.2cm"/>
+    </style:style>
+    <style:style style:name="ColRight" style:family="table-column">
+      <style:table-column-properties style:column-width="13.8cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.3cm" fo:margin-bottom="1.3cm" fo:margin-left="1.6cm" fo:margin-right="1.6cm"/>
+    </style:page-layout>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="SubTitle" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.2cm" fo:margin-bottom="0.1cm"/>
+      <style:text-properties fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="SmallCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="BreakPage" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="TableA" style:family="table">
+      <style:table-properties style:width="18cm"/>
+    </style:style>
+    <style:style style:name="TableACol1" style:family="table-column">
+      <style:table-column-properties style:column-width="4.4cm"/>
+    </style:style>
+    <style:style style:name="TableACol2" style:family="table-column">
+      <style:table-column-properties style:column-width="13.6cm"/>
+    </style:style>
+    <style:style style:name="TableBCol1" style:family="table-column">
+      <style:table-column-properties style:column-width="4.4cm"/>
+    </style:style>
+    <style:style style:name="TableBCol2" style:family="table-column">
+      <style:table-column-properties style:column-width="13.6cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="CellTop" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #808080" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="TitleText" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="IntroText" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Center">附件一</text:p>
+      <text:p text:style-name="TitleText">外國營利事業申請適用所得稅法第 25 條第 1 項規定計算所得額申請書</text:p>
+      <text:p text:style-name="TitleText">Application for the Calculation of Business Revenue for Foreign Profit-seeking Enterprise in Accordance with the Provisions of Paragraph 1, Article 25 of the Income Tax Act</text:p>
+      <text:p text:style-name="IntroText">(請依下列格式填寫，若紙張不敷使用請自行加頁)</text:p>
+      <text:p text:style-name="IntroText">(Please fill in the form below and attach additional pages if needed.)</text:p>
+      <text:p>受文者：</text:p>
+      <text:p>Recipient:</text:p>
+      <text:p>發文日期字號：　 年　 月　 日第　　號</text:p>
+      <text:p>Issuing date:</text:p>
+      <text:p>Reference number:</text:p>
+      <text:p text:style-name="Section">一、交易主體及事實 Transaction parties and facts:</text:p>
+      <table:table table:name="Parties" table:style-name="TableA">
+        <table:table-column table:style-name="TableACol1"/>
+        <table:table-column table:style-name="TableACol2"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter" table:number-rows-spanned="4"><text:p text:style-name="Center">外國營利事業(申請人)</text:p><text:p text:style-name="Center">Foreign Profit-seeking Enterprise (the applicant)</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellTop"><text:p>國籍 Nationality:</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="CellTop"><text:p>稅務識別碼或其他識別號碼 Tax Identification Number or Other Identification Number：</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="CellTop"><text:p>名稱 Name:</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="CellTop"><text:p>地址 Address:</text:p></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter" table:number-rows-spanned="2"><text:p text:style-name="Center">申請人在中華民國境內設立固定營業場所或營業代理人之情形(請於□內打✓)</text:p><text:p text:style-name="Center">Has the applicant had a fixed place of business or a business agent in the territory of the Republic of China (ROC)? (Please check the appropriate box.)</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellTop"><text:p>□無固定營業場所及營業代理人 Having neither a fixed place of business nor a business agent</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="CellTop"><text:p>□有固定營業場所 Having a fixed place of business</text:p><text:p>名稱 Name:</text:p><text:p>統一編號 Business Administration No. (BAN):</text:p><text:p>地址 Address:</text:p><text:p>與總公司業務劃分及參與本案情形：</text:p><text:p>Please explain the business division compared with the head office’s and participation in the transaction.</text:p></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center"> </text:p></table:table-cell>
+          <table:table-cell table:style-name="CellTop"><text:p>□有營業代理人 Having a business agent</text:p><text:p>名稱 Name:</text:p><text:p>統一編號 BAN:</text:p><text:p>地址 Address:</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">給付人</text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p>名稱 Name:</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="SmallCenter">第1頁</text:p>
+
+      <text:p text:style-name="BreakPage"/>
+      <table:table table:name="TransactionA" table:style-name="TableA">
+        <table:table-column table:style-name="TableACol1"/>
+        <table:table-column table:style-name="TableACol2"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">The Payer (the other party of the transaction)</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellTop"><text:p>統一編號 BAN:</text:p><text:p>總公司營業登記地 Address:</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellTop" table:number-columns-spanned="2"><text:p>申請人與給付人是否為關係人：（請於□內打✓）</text:p><text:p>Are the applicant and the payer related parties? (Please check the appropriate box.)</text:p><text:p>□關係人 Related Parties　　　　□非關係人 Unrelated Parties</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">合約名稱及編號</text:p><text:p text:style-name="Center">Title of the contract and reference number</text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p> </text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">合約期間</text:p><text:p text:style-name="Center">Period covered by the contract</text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p> </text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">納稅方式 Tax payment</text:p><text:p text:style-name="Center">(請於□內打✓)</text:p><text:p text:style-name="Center">(Please check the appropriate box.)</text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p>□固定營業場所結算申報</text:p><text:p>The fixed place of business files the applicant’s annual income tax return.</text:p><text:p>□營業代理人扣繳</text:p><text:p>The business Agent withholds the tax.</text:p><text:p>□營業代理人依約不經手價款者，依規定或經核准由給付人扣繳</text:p><text:p>If the business agent does not collect the payment pursuant to contractual agreement, the payer withholds the tax at the time of payment in accordance with the relevant withholding provisions or under the approval of the competent collection authority.</text:p><text:p>□於境內未設分支機構及營業代理人者，由給付人於給付時扣繳。</text:p><text:p>If the applicant has neither branch office nor business agent in the territory of the ROC, the payer withholds the tax at the time of payment.</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">所得類別</text:p><text:p text:style-name="Center">(請於□內打✓)</text:p><text:p text:style-name="Center">Items of income (Please check the appropriate box.)</text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p>□經營國際運輸 International transport</text:p><text:p>□承包營建工程 Construction contracting</text:p><text:p>□出租機器設備 Machinery and equipment leasing</text:p><text:p>□提供技術服務 Providing technical services</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">交易內容</text:p><text:p text:style-name="Center">(請於□內打✓)</text:p><text:p text:style-name="Center">Content of the transaction (Please check the appropriate box.)</text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p>交易內容摘要 Summary of the transaction: (必填 required)________________________</text:p><text:p>________________________________________________________________________________</text:p><text:p>□經營國際運輸 International transport:</text:p><text:p>　□海運事業 Marine transport business</text:p><text:p>　□空運事業 Air transport business</text:p><text:p>□營建工程範圍 Scope of the construction contract: _______________________</text:p><text:p>________________________________________________________________________________</text:p><text:p>□出租機器設備名稱及數量 Name and quantity of leasing machinery and equipment:_________________________________________________________</text:p><text:p>________________________________________________________________________________</text:p><text:p>□提供技術服務內容 Content of technical services provided:</text:p><text:p>　□行銷(一般行政事務以外之技術性行銷服務)</text:p><text:p>　Marketing (technical marketing services other than general administrative affairs)</text:p><text:p>　□管理(一般行政事務以外之技術性管理服務)</text:p><text:p>　Management (technical marketing services other than general administrative affairs)</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="SmallCenter">第2頁</text:p>
+
+      <text:p text:style-name="BreakPage"/>
+      <table:table table:name="TransactionB" table:style-name="TableA">
+        <table:table-column table:style-name="TableACol1"/>
+        <table:table-column table:style-name="TableACol2"/>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p> </text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p>□技術 Technical (□安裝 Installation、 □監督 Supervision、 □測試 Test</text:p><text:p>　□檢驗 Inspection、　□維修 Maintenance、　□諮詢 Consultation、</text:p><text:p>　□支援 Support、 □設計 Design、 □規劃 Planning、 □教育訓練 Education and training、 □電信電訊傳輸 Telecommunications transmission、　□其他 Other:________________________________)</text:p><text:p>□研究與發展 Research and Development</text:p><text:p>□資訊處理 Information Processing(□資料處理 Data processing、 □資料分析 Data analyzing、 □區域網路使用 Support LAN use、 □客製化系統發展 Customized system development、 □系統諮詢 System consulting、 □系統定義 System definition、 □系統開發 System development、 □系統測試 System testing、 □系統維護 System maintenance、 □其他 Other:________________)</text:p><text:p>□其他 Other:_________________________________________________________________</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">合約金額/計價方式</text:p><text:p text:style-name="Center">Contract amount / Pricing method</text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p>幣別 Currency:________________________________________________________</text:p><text:p>合約金額 Contract amount:______________________________________________</text:p><text:p>計價方式 Pricing method:_______________________________________________</text:p><text:p>付款條件 Terms of payment:_____________________________________________</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellCenter"><text:p text:style-name="Center">與本合約有關之其他收入 Other income related to this contract</text:p></table:table-cell><table:table-cell table:style-name="CellTop"><text:p>(服務成果之智慧財產權若約定屬申請人所有，或涉及專門技術、秘密方法、軟體等無形資產之授權使用，如未另行授權並收取報酬，請自合約價款劃分權利金，並說明劃分依據及提供雙方往來文件或資料)</text:p><text:p>Please divide the royalty from the contractual remuneration, explain the basis of allocation, and provide documents or information if the intellectual property right of the service result is owned by the applicant, or involves the authorized use without separate authorization and remuneration of intangible assets such as expertise, secret methods, software, etc.)</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Section">二、成本費用分攤計算困難之原因(必填)The reasons why the cost and expenses are difficult to calculate (required):</text:p>
+      <text:p>________________________________________________________________________________________</text:p>
+      <text:p>________________________________________________________________________________________</text:p>
+      <text:p text:style-name="Section">三、其他補充事項 Other supplemental matters:</text:p>
+      <text:p>________________________________________________________________________________________</text:p>
+      <text:p>________________________________________________________________________________________</text:p>
+      <text:p text:style-name="Section">四、隨文檢附下列文件 Please enclose the following documents with this application form:</text:p>
+      <text:p>(一)合約書(含中譯本)影本；海運事業委託中華民國船務代理業經營業務者，應檢附船務代理合約(含中譯本)影本及航政機關核准代理登記之文件影本。</text:p>
+      <text:p>A photocopy of the contract (with a Mandarin transcript); a photocopy of the shipping agency contract (with a Mandarin transcript); and the document for agency registration issued by the competent authority if the shipping business delegates the shipping agency of the ROC to operate the business.</text:p>
+      <text:p>(二)授權書正本(由申請人在中華民國境內之固定營業場所申請者，免附；營業代理合約或船務代理合約已約定相關代理範圍者，則檢附該代理合約影本)。</text:p>
+      <text:p>The original power of attorney (This attachment is not required if the applicant is a fixed place of business in the territory of the ROC; a photocopy of the agency contract is required if the relevant agency scope has been agreed in the business agency contract or shipping agency contract.)</text:p>
+      <text:p text:style-name="SmallCenter">第3頁</text:p>
+
+      <text:p text:style-name="BreakPage"/>
+      <text:p text:style-name="Bold">申請人/代理人(名稱或姓名)Applicant or Agent (Name):　　　　　　　　　(蓋章)(signature/seal)</text:p>
+      <text:p text:style-name="Bold">公文送達地址 Mailing Address:　　縣(市)　　鄉(鎮市區)　　村(里)　　路(街)　　段</text:p>
+      <text:p>　　　　　　　　　　　　　　巷　　弄　　號　　樓之</text:p>
+      <text:p text:style-name="Bold">連絡人姓名 Contact person:</text:p>
+      <text:p text:style-name="Bold">連絡電話 Telephone number:</text:p>
+      <text:p text:style-name="SmallCenter">第4頁</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+34,081

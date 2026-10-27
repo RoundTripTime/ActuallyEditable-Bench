@@ -1,0 +1,910 @@
+/rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:shrink-to-fit">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-content-strict">
+    <rng:ref name="style-table-cell-properties-attlist"/>
+    <rng:ref name="style-table-cell-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties">
+    <rng:element name="style:table-column-properties">
+      <rng:ref name="style-table-column-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-column-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:column-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-column-width">
+          <rng:ref name="relativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-column-width">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-break-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-column-properties-content-strict">
+    <rng:ref name="style-table-column-properties-attlist"/>
+    <rng:ref name="style-table-column-properties-elements"/>
+  </rng:define>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-section-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>ruby</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-ruby-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-column</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-column-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-row</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-row-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-cell</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-cell-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:choice>
+            <rng:value>graphic</rng:value>
+            <rng:value>presentation</rng:value>
+          </rng:choice>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-graphic-properties"/>
+      <rng:attribute name="style:border-line-width-bottom">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-left">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+
+exec
+/usr/bin/zsh -lc "rg -n -C 3 'name=\"style:master-page-name\"|name=\"office:document\"|name=\"office:version\"|name=\"office:mimetype\"|name=\"table:table-column\"|name=\"table:table-row\"|name=\"table:covered-table-cell\"|name=\"table:table\"|name=\"text:style-name\"' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_75tzdntn
+ succeeded in 0ms:
+2403-  <rng:define name="common-section-attlist">
+2404-    <rng:interleave>
+2405-      <rng:optional>
+2406:        <rng:attribute name="text:style-name">
+2407-          <rng:ref name="styleNameRef"/>
+2408-        </rng:attribute>
+2409-      </rng:optional>
+--
+2557-    <rng:attribute name="table:row">
+2558-      <rng:ref name="integer"/>
+2559-    </rng:attribute>
+2560:    <rng:attribute name="table:table">
+2561-      <rng:ref name="integer"/>
+2562-    </rng:attribute>
+2563-  </rng:define>
+--
+7796-    </rng:interleave>
+7797-  </rng:define>
+7798-  <rng:define name="office-document">
+7799:    <rng:element name="office:document">
+7800-      <rng:ref name="office-document-attrs"/>
+7801-      <rng:ref name="office-document-common-attrs"/>
+7802-      <rng:ref name="office-meta"/>
+--
+7810-    </rng:element>
+7811-  </rng:define>
+7812-  <rng:define name="office-document-attrs">
+7813:    <rng:attribute name="office:mimetype">
+7814-      <rng:ref name="string"/>
+7815-    </rng:attribute>
+7816-  </rng:define>
+7817-  <rng:define name="office-document-common-attrs">
+7818-    <rng:interleave>
+7819:      <rng:attribute name="office:version">
+7820-        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+7821-        <rng:value>1.4</rng:value>
+7822-      </rng:attribute>
+--
+8373-  <rng:define name="paragraph-attrs">
+8374-    <rng:interleave>
+8375-      <rng:optional>
+8376:        <rng:attribute name="text:style-name">
+8377-          <rng:ref name="styleNameRef"/>
+8378-        </rng:attribute>
+8379-      </rng:optional>
+--
+8421-      <rng:ref name="text-soft-page-break"/>
+8422-      <rng:element name="text:span">
+8423-        <rng:optional>
+8424:          <rng:attribute name="text:style-name">
+8425-            <rng:ref name="styleNameRef"/>
+8426-          </rng:attribute>
+8427-        </rng:optional>
+--
+8485-      </rng:element>
+8486-      <rng:element name="text:ruby">
+8487-        <rng:optional>
+8488:          <rng:attribute name="text:style-name">
+8489-            <rng:ref name="styleNameRef"/>
+8490-          </rng:attribute>
+8491-        </rng:optional>
+--
+8496-        </rng:element>
+8497-        <rng:element name="text:ruby-text">
+8498-          <rng:optional>
+8499:            <rng:attribute name="text:style-name">
+8500-              <rng:ref name="styleNameRef"/>
+8501-            </rng:attribute>
+8502-          </rng:optional>
+--
+12800-        </rng:attribute>
+12801-      </rng:optional>
+12802-      <rng:optional>
+12803:        <rng:attribute name="style:master-page-name">
+12804-          <rng:ref name="styleNameRef"/>
+12805-        </rng:attribute>
+12806-      </rng:optional>
+--
+14296-    </rng:element>
+14297-  </rng:define>
+14298-  <rng:define name="table-covered-table-cell">
+14299:    <rng:element name="table:covered-table-cell">
+14300-      <rng:ref name="table-table-cell-attlist"/>
+14301-      <rng:ref name="table-table-cell-content"/>
+14302-    </rng:element>
+--
+14944-        <rng:ref name="integer"/>
+14945-      </rng:attribute>
+14946-      <rng:optional>
+14947:        <rng:attribute name="table:table">
+14948-          <rng:ref name="integer"/>
+14949-        </rng:attribute>
+14950-      </rng:optional>
+--
+15310-        </rng:attribute>
+15311-      </rng:optional>
+15312-      <rng:optional>
+15313:        <rng:attribute name="table:table">
+15314-          <rng:ref name="integer"/>
+15315-        </rng:attribute>
+15316-      </rng:optional>
+--
+15937-    </rng:interleave>
+15938-  </rng:define>
+15939-  <rng:define name="table-table">
+15940:    <rng:element name="table:table">
+15941-      <rng:ref name="table-table-attlist"/>
+15942-      <rng:optional>
+15943-        <rng:ref name="table-title"/>
+--
+16151-    </rng:interleave>
+16152-  </rng:define>
+16153-  <rng:define name="table-table-column">
+16154:    <rng:element name="table:table-column">
+16155-      <rng:ref name="table-table-column-attlist"/>
+16156-      <rng:empty/>
+16157-    </rng:element>
+--
+16221-    </rng:element>
+16222-  </rng:define>
+16223-  <rng:define name="table-table-row">
+16224:    <rng:element name="table:table-row">
+16225-      <rng:ref name="table-table-row-attlist"/>
+16226-      <rng:oneOrMore>
+16227-        <rng:choice>
+--
+16497-        </rng:attribute>
+16498-      </rng:optional>
+16499-      <rng:optional>
+16500:        <rng:attribute name="text:style-name">
+16501-          <rng:ref name="styleNameRef"/>
+16502-        </rng:attribute>
+16503-      </rng:optional>
+--
+16549-          <rng:value>separator</rng:value>
+16550-        </rng:choice>
+16551-      </rng:attribute>
+16552:      <rng:attribute name="text:style-name">
+16553-        <rng:ref name="styleNameRef"/>
+16554-      </rng:attribute>
+16555-    </rng:interleave>
+--
+16756-      <rng:attribute name="text:bibliography-type">
+16757-        <rng:ref name="text-bibliography-types"/>
+16758-      </rng:attribute>
+16759:      <rng:attribute name="text:style-name">
+16760-        <rng:ref name="styleNameRef"/>
+16761-      </rng:attribute>
+16762-    </rng:interleave>
+--
+17163-    </rng:element>
+17164-  </rng:define>
+17165-  <rng:define name="text-illustration-index-entry-template-attrs">
+17166:    <rng:attribute name="text:style-name">
+17167-      <rng:ref name="styleNameRef"/>
+17168-    </rng:attribute>
+17169-  </rng:define>
+--
+17218-  <rng:define name="text-index-entry-bibliography-attrs">
+17219-    <rng:interleave>
+17220-      <rng:optional>
+17221:        <rng:attribute name="text:style-name">
+17222-          <rng:ref name="styleNameRef"/>
+17223-        </rng:attribute>
+17224-      </rng:optional>
+--
+17263-  <rng:define name="text-index-entry-chapter">
+17264-    <rng:element name="text:index-entry-chapter">
+17265-      <rng:optional>
+17266:        <rng:attribute name="text:style-name">
+17267-          <rng:ref name="styleNameRef"/>
+17268-        </rng:attribute>
+17269-      </rng:optional>
+--
+17293-  <rng:define name="text-index-entry-link-end">
+17294-    <rng:element name="text:index-entry-link-end">
+17295-      <rng:optional>
+17296:        <rng:attribute name="text:style-name">
+17297-          <rng:ref name="styleNameRef"/>
+17298-        </rng:attribute>
+17299-      </rng:optional>
+--
+17302-  <rng:define name="text-index-entry-link-start">
+17303-    <rng:element name="text:index-entry-link-start">
+17304-      <rng:optional>
+17305:        <rng:attribute name="text:style-name">
+17306-          <rng:ref name="styleNameRef"/>
+17307-        </rng:attribute>
+17308-      </rng:optional>
+--
+17311-  <rng:define name="text-index-entry-page-number">
+17312-    <rng:element name="text:index-entry-page-number">
+17313-      <rng:optional>
+17314:        <rng:attribute name="text:style-name">
+17315-          <rng:ref name="styleNameRef"/>
+17316-        </rng:attribute>
+17317-      </rng:optional>
+--
+17320-  <rng:define name="text-index-entry-span">
+17321-    <rng:element name="text:index-entry-span">
+17322-      <rng:optional>
+17323:        <rng:attribute name="text:style-name">
+17324-          <rng:ref name="styleNameRef"/>
+17325-        </rng:attribute>
+17326-      </rng:optional>
+--
+17330-  <rng:define name="text-index-entry-tab-stop">
+17331-    <rng:element name="text:index-entry-tab-stop">
+17332-      <rng:optional>
+17333:        <rng:attribute name="text:style-name">
+17334-          <rng:ref name="styleNameRef"/>
+17335-        </rng:attribute>
+17336-      </rng:optional>
+--
+17362-  <rng:define name="text-index-entry-text">
+17363-    <rng:element name="text:index-entry-text">
+17364-      <rng:optional>
+17365:        <rng:attribute name="text:style-name">
+17366-          <rng:ref name="styleNameRef"/>
+17367-        </rng:attribute>
+17368-      </rng:optional>
+--
+17385-  </rng:define>
+17386-  <rng:define name="text-index-source-style">
+17387-    <rng:element name="text:index-source-style">
+17388:      <rng:attribute name="text:style-name">
+17389-        <rng:ref name="styleNameRef"/>
+17390-      </rng:attribute>
+17391-      <rng:empty/>
+--
+17413-  <rng:define name="text-index-title-template">
+17414-    <rng:element name="text:index-title-template">
+17415-      <rng:optional>
+17416:        <rng:attribute name="text:style-name">
+17417-          <rng:ref name="styleNameRef"/>
+17418-        </rng:attribute>
+17419-      </rng:optional>
+--
+17439-        <rng:ref name="common-num-format-attlist"/>
+17440-      </rng:optional>
+17441-      <rng:optional>
+17442:        <rng:attribute name="text:style-name">
+17443-          <rng:ref name="styleNameRef"/>
+17444-        </rng:attribute>
+17445-      </rng:optional>
+--
+17504-  <rng:define name="text-list-attr">
+17505-    <rng:interleave>
+17506-      <rng:optional>
+17507:        <rng:attribute name="text:style-name">
+17508-          <rng:ref name="styleNameRef"/>
+17509-        </rng:attribute>
+17510-      </rng:optional>
+--
+17578-  <rng:define name="text-list-level-style-bullet-attr">
+17579-    <rng:interleave>
+17580-      <rng:optional>
+17581:        <rng:attribute name="text:style-name">
+17582-          <rng:ref name="styleNameRef"/>
+17583-        </rng:attribute>
+17584-      </rng:optional>
+--
+17602-  <rng:define name="text-list-level-style-number-attr">
+17603-    <rng:interleave>
+17604-      <rng:optional>
+17605:        <rng:attribute name="text:style-name">
+17606-          <rng:ref name="styleNameRef"/>
+17607-        </rng:attribute>
+17608-      </rng:optional>
+--
+17817-        </rng:attribute>
+17818-      </rng:optional>
+17819-      <rng:optional>
+17820:        <rng:attribute name="text:style-name">
+17821-          <rng:ref name="styleNameRef"/>
+17822-        </rng:attribute>
+17823-        <rng:attribute name="text:continue-numbering">
+--
+17913-        <rng:ref name="nonNegativeInteger"/>
+17914-      </rng:attribute>
+17915-      <rng:optional>
+17916:        <rng:attribute name="text:style-name">
+17917-          <rng:ref name="styleNameRef"/>
+17918-        </rng:attribute>
+17919-      </rng:optional>
+--
+18277-      <rng:attribute name="text:outline-level">
+18278-        <rng:ref name="positiveInteger"/>
+18279-      </rng:attribute>
+18280:      <rng:attribute name="text:style-name">
+18281-        <rng:ref name="styleNameRef"/>
+18282-      </rng:attribute>
+18283-    </rng:interleave>
+--
+18424-      <rng:attribute name="text:outline-level">
+18425-        <rng:ref name="positiveInteger"/>
+18426-      </rng:attribute>
+18427:      <rng:attribute name="text:style-name">
+18428-        <rng:ref name="styleNameRef"/>
+18429-      </rng:attribute>
+18430-    </rng:interleave>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:text-properties fo:font-size="12pt" fo:font-family="Arial" fo:color="#1a1a1a"/>
+      <style:paragraph-properties fo:margin-top="0.06in" fo:margin-bottom="0.06in"/>
+    </style:default-style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:text-properties fo:font-size="22pt" fo:font-family="Arial" fo:color="#ed3345"/>
+      <style:paragraph-properties fo:margin-bottom="0.04in"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph">
+      <style:text-properties fo:font-size="20pt" fo:font-family="Arial" fo:color="#ed3345"/>
+      <style:paragraph-properties fo:margin-bottom="0.04in"/>
+    </style:style>
+    <style:style style:name="PageBreakPortrait" style:family="paragraph" style:master-page-name="Portrait">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="PageBreakLandscape" style:family="paragraph" style:master-page-name="Landscape">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="text">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Table" style:family="table">
+      <style:table-properties table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="3.25in"/>
+    </style:style>
+    <style:style style:name="ColWide" style:family="table-column">
+      <style:table-column-properties style:column-width="1.90in"/>
+    </style:style>
+    <style:style style:name="ColNarrow" style:family="table-column">
+      <style:table-column-properties style:column-width="1.78in"/>
+    </style:style>
+    <style:style style:name="HeaderCell" style:family="table-cell">
+      <style:table-cell-properties fo:background-color="#d9d9d9" fo:border="0.5pt solid #222222" fo:padding="0.08in" style:vertical-align="top"/>
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PromptCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #222222" fo:padding="0.10in" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="BlankCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #222222" fo:padding="0.10in" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="CategoryCell" style:family="table-cell">
+      <style:table-cell-properties fo:background-color="#d9d9d9" fo:border="0.5pt solid #222222" fo:padding="0.08in" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="DataCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #222222" fo:padding="0.06in" style:vertical-align="top"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PagePortrait">
+      <style:page-layout-properties fo:page-width="8.5in" fo:page-height="11in" style:print-orientation="portrait" fo:margin="0.7in"/>
+    </style:page-layout>
+    <style:page-layout style:name="PageLandscape">
+      <style:page-layout-properties fo:page-width="11in" fo:page-height="8.5in" style:print-orientation="landscape" fo:margin="0.65in"/>
+    </style:page-layout>
+    <style:style style:name="PortraitBreak" style:family="paragraph" style:master-page-name="Portrait">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="LandscapeBreak" style:family="paragraph" style:master-page-name="Landscape">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="AssessmentTable" style:family="table">
+      <style:table-properties table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="WideTable" style:family="table">
+      <style:table-properties table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="AssessCol" style:family="table-column">
+      <style:table-column-properties style:column-width="3.25in"/>
+    </style:style>
+    <style:style style:name="WideCol1" style:family="table-column">
+      <style:table-column-properties style:column-width="1.80in"/>
+    </style:style>
+    <style:style style:name="WideCol" style:family="table-column">
+      <style:table-column-properties style:column-width="1.95in"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Portrait" style:page-layout-name="PagePortrait"/>
+    <style:master-page style:name="Landscape" style:page-layout-name="PageLandscape"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Title">Individualized Development Plan (IDP)</text:p>
+      <text:p>The Faculty of Graduate Studies' IDP is a tool to assist graduate students, like you, to identify and develop your goals during your studies. This IDP is an <text:span text:style-name="Bold">abridged version</text:span> that has been designed for graduate students who prefer a more streamlined option compared to the full IDP based on their individual preferences.</text:p>
+      <text:p>When creating an IDP, with the help of a mentor, you can enhance your professional growth and skills by:</text:p>
+      <text:p>•　<text:span text:style-name="Bold">Setting and communicating goals</text:span> related to teaching, research and/or professional development with your supervisor, faculty colleagues or other mentors</text:p>
+      <text:p>•　<text:span text:style-name="Bold">Identifying ways to learn or improve your competencies</text:span> to be used during your graduate work and within professional spaces</text:p>
+      <text:p>•　<text:span text:style-name="Bold">Identifying your strengths, talents and passions,</text:span> as well as opportunities to use them during your studies and in your future professional life while building an effective support network</text:p>
+      <text:p>The development of an IDP is a cyclical process. You are encouraged to revisit it over the course of your program of study as interests and long-term goals evolve. The five steps in working with the IDP are as follows:</text:p>
+      <text:p>1.　<text:span text:style-name="Bold">Self-Assessment/Reflection:</text:span> looking back while planning for the future</text:p>
+      <text:p>2.　<text:span text:style-name="Bold">Setting Goals:</text:span> clarifying the knowledge and skills you need</text:p>
+      <text:p>3.　<text:span text:style-name="Bold">Exploring Opportunities:</text:span> developing a strategy for realizing your plan</text:p>
+      <text:p>4.　<text:span text:style-name="Bold">Engagement:</text:span> acting on your plan to achieve your goals</text:p>
+      <text:p>5.　<text:span text:style-name="Bold">Check-in:</text:span> revisit to update your goals and engagement activities</text:p>
+      <text:p>Further information, resources and relevant contact information can be found on the Individualized Development Plan (IDP) webpage.</text:p>
+      <text:p>yorku.ca/gradstudies　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 graduate studies │ YORK U</text:p>
+
+      <text:p text:style-name="PortraitBreak"/>
+      <text:p text:style-name="Section">Self-Assessment/Reflection</text:p>
+      <text:p>To begin, reflect on the following areas. These will most likely change and evolve during your studies, but you can use it as a guide as you progress.</text:p>
+      <table:table table:name="SelfAssessment" table:style-name="AssessmentTable">
+        <table:table-column table:style-name="AssessCol"/>
+        <table:table-column table:style-name="AssessCol"/>
+        <table:table-row>
+          <table:table-cell table:style-name="HeaderCell"><text:p>What are my...</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>My Response</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="PromptCell"><text:p>...short- or long-term goals for academic and future career success?</text:p></table:table-cell>
+          <table:table-cell table:style-name="BlankCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="PromptCell"><text:p>...current areas of strength? Where do I want to improve?</text:p></table:table-cell>
+          <table:table-cell table:style-name="BlankCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="PromptCell"><text:p>...self-improvement goals? What new skills do I want to acquire?</text:p></table:table-cell>
+          <table:table-cell table:style-name="BlankCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p>yorku.ca/gradstudies　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 graduate studies │ YORK U</text:p>
+
+      <text:p text:style-name="LandscapeBreak"/>
+      <text:p text:style-name="Section">Planning Ahead</text:p>
+      <text:p>Keeping your self-assessment/reflection in mind, situate your current portfolio (e.g., achievements and successes), plan out goals and next steps, and then revisit the IDP to describe and identify the skills that your engagement helped to develop.</text:p>
+      <table:table table:name="PlanningAhead" table:style-name="WideTable">
+        <table:table-column table:style-name="WideCol1"/>
+        <table:table-column table:style-name="WideCol"/>
+        <table:table-column table:style-name="WideCol"/>
+        <table:table-column table:style-name="WideCol"/>
+        <table:table-column table:style-name="WideCol"/>
+        <table:table-row>
+          <table:table-cell table:style-name="HeaderCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>Current Portfolio</text:p><text:p>What have I worked on?</text:p><text:p>What are my achievements?</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>Goals</text:p><text:p>Where do I want to go?</text:p><text:p>What do I want to improve?</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>Next Steps</text:p><text:p>How will I make that happen?</text:p><text:p>What resources will I need?</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>Skills</text:p><text:p>Did I achieve my goal(s)?</text:p><text:p>If so, what did I learn?</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CategoryCell"><text:p>Career Exploration and Planning</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CategoryCell"><text:p>Communication</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CategoryCell"><text:p>Health and Wellness</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p>yorku.ca/gradstudies　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 graduate studies │ YORK U</text:p>
+
+      <text:p text:style-name="LandscapeBreak"/>
+      <table:table table:name="PlanningAheadContinued" table:style-name="WideTable">
+        <table:table-column table:style-name="WideCol1"/>
+        <table:table-column table:style-name="WideCol"/>
+        <table:table-column table:style-name="WideCol"/>
+        <table:table-column table:style-name="WideCol"/>
+        <table:table-column table:style-name="WideCol"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CategoryCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CategoryCell"><text:p>Managing Time and Resources</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CategoryCell"><text:p>Research Dissemination</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CategoryCell"><text:p>Teaching</text:p></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="DataCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p><text:span text:style-name="Bold">Strategies and Tips:</text:span></text:p>
+      <text:p text:style-name="LandscapeBreak"/>
+      <text:p>1.　Refer to your resume/CV when reflecting on your current portfolio. You do not have to list everything; rather, focus on the main points that give a sense of your work thus far. These points can also be useful when writing a cover letter or when providing a reference with a summary of your experience and involvement.</text:p>
+      <text:p>2.　Graduate students are strongly encouraged to view all professional skills opportunities and resources at York University – organized under the six competency areas of the IDP – on the Graduate and Postdoctoral Professional Skills (GPPS) webpage. The webpage includes a list of resources that can be identified as next steps and opportunities.</text:p>
+      <text:p>3.　Use the IDP Examples to get a sense of how to frame and set goals, next steps, and skills. It can also be helpful to speak with a mentor (who may be your Supervisor and Graduate Program Director, for example) to get further support and to revise your plans based on your short-term and long-term goals.</text:p>
+      <text:p>yorku.ca/gradstudies　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 graduate studies │ YORK U</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+65,013

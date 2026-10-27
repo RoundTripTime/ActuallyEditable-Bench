@@ -1,0 +1,592 @@
+nt settings. The file within a package for the <office:document-settings> element is settings.xml. 
+6349:The <office:document-settings> element is a root element.
+6351:The <office:document-settings> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+6353:The <office:document-settings> element has the following child element: <office:settings> 3.10.
+6379:<office:document>
+6397:<office:document-content>
+6407:<office:document-styles>
+6417:<office:document-meta>
+6421:<office:document-settings>
+85:This document is Part 2 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification and defines a package format for OpenDocument documents, the digital signing of such documents, along with metadata that may be supplied with them.
+448:C)It should contain a file “mimetype”. 
+515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+517:The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+527:If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+533:•the string 'mimetype' beginning at position 30 
+
+exec
+/usr/bin/zsh -lc "sed -n '7790,7835p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12135,12275p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '14270,14335p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16070,16135p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '1280,1310p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '6295,6310p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1470,1495p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_pdf__h2481pn
+ succeeded in 0ms:
+            <rng:value>into-default-style-data-style</rng:value>
+            <rng:value>into-english-number</rng:value>
+            <rng:value>keep-text</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document">
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-content-validation">
+    <rng:element name="table:content-validation">
+      <rng:ref name="table-validation-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-help-message"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:choice>
+          <rng:ref name="table-error-message"/>
+          <rng:group>
+            <rng:ref name="table-error-macro"/>
+            <rng:ref name="office-event-listeners"/>
+          </rng:group>
+        </rng:choice>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+      <rng:attribute name="style:border-line-width-bottom">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-left">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+
+The <office:document> element is a root element.
+
+The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+
+The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+
+The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+
+16.1 General
+
+16.2 <style:style>
+
+16.3 <style:map>
+
+16.4 <style:default-style>
+
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:text-properties fo:font-size="10pt" style:font-name="serif"/>
+      <style:paragraph-properties fo:margin-top="0pt" fo:margin-bottom="0pt" fo:line-height="120%"/>
+    </style:default-style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0pt" fo:margin-bottom="2pt"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0pt" fo:margin-bottom="0pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0pt" fo:margin-bottom="1pt"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="end" fo:margin-top="0pt" fo:margin-bottom="1pt"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="text">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Under" style:family="text">
+      <style:text-properties style:text-underline-style="solid" style:text-underline-width="auto" style:text-underline-color="font-color"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1cm" fo:margin-bottom="1cm" fo:margin-left="1.25cm" fo:margin-right="1.25cm"/>
+    </style:page-layout>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="2pt" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Peach" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="2pt" fo:background-color="#FDE9D9" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="HeaderCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="2pt" fo:background-color="#FDE9D9" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Narrow" style:family="table-column">
+      <style:table-column-properties style:column-width="0.8cm"/>
+    </style:style>
+    <style:style style:name="Wide" style:family="table-column">
+      <style:table-column-properties style:column-width="6cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Body">別記第１号様式（第６条関係）</text:p>
+      <text:p text:style-name="Right">年　　　月　　　日</text:p>
+      <text:p>江東区長　殿</text:p>
+      <text:p text:style-name="Right">申請者</text:p>
+      <text:p text:style-name="Right">〒　-<text:line-break/>住所<text:line-break/>フリガナ<text:line-break/>氏名<text:line-break/>日中の連絡先</text:p>
+      <text:p text:style-name="Right">（事業者及び管理組合にあっては、その所在地、名称及び代表者氏名）</text:p>
+      <text:p text:style-name="Center">江東区地球温暖化防止設備導入助成金交付申請書</text:p>
+      <text:p>下記のとおり、関係書類を添えて、江東区地球温暖化防止設備導入助成金を申請します。</text:p>
+      <text:p text:style-name="Center">記</text:p>
+      <table:table table:name="申請書">
+        <table:table-column table:style-name="Narrow"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Peach"><text:p/></table:table-cell>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>色付き部分に記入してください。</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>１</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>施工場所</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Peach"><text:p>□申請者住所と同じ　□その他　江東区</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-rows-spanned="2" table:style-name="Cell"><text:p>２</text:p></table:table-cell>
+          <table:table-cell table:number-rows-spanned="2" table:style-name="Cell"><text:p>建物の状況</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Peach"><text:p>□個人住宅</text:p><text:p>（戸建住宅。マンションの一住戸を含む。）</text:p><text:p>□集合住宅（５住戸以上）</text:p><text:p>□事業所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Peach"><text:p>□既築</text:p><text:p>□新築</text:p></table:table-cell>
+          <table:table-cell table:style-name="Peach"><text:p>□自己所有</text:p><text:p>□賃貸又は使用貸借</text:p><text:p>□管理組合</text:p><text:p>□その他（　　　　　　　　　）</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>３</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>建物の所有者</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Peach"><text:p>□申請者と同じ　□その他　氏名　　　　　　　　　　　　　　住所</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>４</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>設備の施工予定期間</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Peach"><text:p>着工　　　年　　　月　　　日　～　完了　　　年　　　月　　　日</text:p><text:p>※着工日前に全ての申請書類の提出が必要です。</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>５　施工する設備の種類</text:p><text:p>※申請する設備にレ印をお願いします。</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>最大出力値、容量、設置数又は施工面積</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeaderCell"><text:p>助成対象経費</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="HeaderCell"><text:p>交付申請額（千円未満切捨て）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　集　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>太 陽 光 発 電 シ ス テ ム</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>kW</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　集　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>蓄　電　池</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>kWh</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　集　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>エネルギー管理システム機器</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>台</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　　　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>ＣＯ₂冷媒ヒートポンプ給湯機</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>台</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　　　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>燃　料　電　池　装　置</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>台</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　集　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>高　反　射　率　塗　装</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>m²</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　集　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>高　断　熱　窓</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>か所</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　　　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>高　断　熱　ド　ア</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>か所</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　　　集　事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>Ｌ　Ｅ　Ｄ　照　明</text:p></table:cell><table:table-cell table:style-name="Peach"><text:p>個</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□　個　集</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>電 気 自 動 車 等 充 電 設 備</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p>基</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>※「個」…個人住宅、「集」…集合住宅、「事」…事業所</text:p><text:p>建物の種別により、対象設備が異なります。</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>合計額</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>円</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-rows-spanned="6" table:style-name="Cell"><text:p>６　設備概要</text:p></table:table-cell><table:table-cell table:style-name="HeaderCell"><text:p>設備の種類</text:p></table:table-cell><table:table-cell table:style-name="HeaderCell"><text:p>メーカー名</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="HeaderCell"><text:p>製品名、型式番号</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:style-name="Peach"><text:p/></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="6" table:style-name="Cell"><text:p>７　施工会社名（設置工事の契約事業者及び領収書の発行者）</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>会社名</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>代表者氏名</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>担当者氏名</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>連絡先</text:p></table:table-cell><table:table-cell table:number-columns-spanned="2" table:style-name="Peach"><text:p/></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="6" table:style-name="Cell"><text:p text:style-name="Center"><text:span text:style-name="Bold">⇒⇒⇒　裏面もあります。裏面の「８　誓約事項」もご確認の上、ご記入ください。　⇒⇒⇒</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Center">１　/　２</text:p>
+      <text:p text:style-name="PageBreak"/>
+      <table:table table:name="誓約事項">
+        <table:table-column table:style-name="Narrow"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>８　誓約事項</text:p><text:p>私は、区に対して、以下の全ての事項について誓約いたします。</text:p><text:p>※必ず申請者本人が誓約事項をご確認ください。</text:p><text:p>※誓約内容に虚偽がある場合又は誓約に反する場合は、助成金の交付を受けられない場合があります。</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>申請者氏名</text:p><text:p>（事業者及び管理組合にあっては、名称及び代表者氏名）</text:p></table:table-cell><table:table-cell table:style-name="Peach"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p><text:span text:style-name="Bold">チェック欄（※レ印をお願いします。）</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（1）　本年度及び直近の過去４年度において、同一住宅・事業所の同一設備について、本助成金を受けていません。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（2）　特別区民税・都民税（住民税）、法人都民税（住民税）の滞納はありません。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（3）　江東区暴力団排除条例に規定する暴力団員及び暴力団関係者に該当しません。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（4）　申請対象住宅（分譲の場合は、住戸）・事業所の全ての所有者の同意が得られています。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（5）　本申請に係る工事は、対象住宅・事業所の販売又は譲渡を目的にしておりません。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（6）　区が審査した結果、助成金の全部又は一部が交付対象にならない場合があることを了承します。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（7）　本申請の記載事項について、誤字、脱字等の軽微な訂正については、区役所職員が行うことに同意します。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（8）　助成対象設備が立地上又は構造上危険がないことを施工会社等に確認した上で申請します。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（9）　申請者、手続代理人、施工会社等の間で生じる問題に関して、区が関与しないことを了承します。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（10）助成事業の適切な実施の確認のため、区が現地調査等を行う場合、協力することを了承します。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p>環境に配慮した行動の促進のため、以下の全ての取組の実行に努めます。（※レ印をお願いします。）</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（11）江東区環境検定（受検料無料のオンライン検定）、江東区環境学習情報館（えこっくる江東）の講座等の環境学習に関する取組への参加に努めます。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（12）清掃活動及び５Ｒ（リフューズ、リデュース、リユース、リペア、リサイクル）の取組に努めます。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Peach"><text:p>□</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>（13）省エネ及び環境に配慮したライフスタイルを心がけます。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p/>
+      <text:p>申請必要書類チェックリスト　※必ず「事業案内」（パンフレット）をご確認のうえ、書類をご用意ください。</text:p>
+      <text:p>□　交付申請書（第１号様式）</text:p>
+      <text:p>□　助成対象設備経費内訳書（第２号様式）〈設備毎に作成〉</text:p>
+      <text:p>□　申請者本人確認書類の写し</text:p>
+      <text:p>□　見積書または契約書の写し</text:p>
+      <text:p>□　当該設備が助成要件を満たすことがわかる書類</text:p>
+      <text:p>□　平面図等</text:p>
+      <text:p>□　工事着工前のカラー写真</text:p>
+      <text:p>□　【代理人が手続きをする場合】委任状</text:p>
+      <text:p>□　【新築・建替えの場合】新築工事請負契約書の写し</text:p>
+      <text:p>□　【高反射率塗装の場合】施工面積の算出表</text:p>
+      <text:p>□　【集合住宅※（法人（個人事業者を含む））・事業所の場合】商業登記簿謄本の写しまたは直近の確定申告書の写し</text:p>
+      <text:p>□　【集合住宅※（個人・法人（個人事業者を含む））・事業所の場合】不動産登記簿謄本の写し</text:p>
+      <text:p>□　【集合住宅※の場合（管理組合）】①管理規約、②対象設備導入の決議書、③現在理事長名のわかる決議書</text:p>
+      <text:p>※１棟のうち独立した住戸が５戸以上ある建物の申請者が該当。集合住宅の１戸に居住しており、個人で工事契約を結ぶ場合には提出不要。</text:p>
+      <text:p text:style-name="Center">２　/　２</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+42,920

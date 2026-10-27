@@ -1,0 +1,795 @@
+roOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="style-background-fill"/>
+      <rng:ref name="style-columns"/>
+      <rng:zeroOrMore>
+        <rng:ref name="text-notes-configuration"/>
+      </rng:zeroOrMore>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style">
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="10pt" fo:line-height="150%" fo:margin-bottom="0.08in"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.15in" fo:margin-bottom="0.10in"/>
+      <style:text-properties fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.12in" fo:margin-bottom="0.06in"/>
+      <style:text-properties fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Subsection" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.08in" fo:margin-bottom="0.04in"/>
+      <style:text-properties fo:font-size="11pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-bottom="0.10in"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Grid" style:family="table">
+      <style:table-properties table:align="center" style:width="6.8in"/>
+    </style:style>
+    <style:style style:name="Col" style:family="table-column">
+      <style:table-column-properties style:column-width="1.7in"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="0.06in" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin="0in" fo:line-height="130%"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Gray" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="0.06in" fo:background-color="#bfbfbf"/>
+      <style:paragraph-properties fo:margin="0in"/>
+      <style:text-properties fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="CenterCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="0.06in" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin="0in" fo:text-align="center"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" fo:margin-top="0.75in" fo:margin-bottom="0.75in" fo:margin-left="0.9in" fo:margin-right="0.9in"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Master" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="Title">＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿消防計画</text:p>
+      <text:p text:style-name="Body">※本計画に定めるもの以外のものについては、規定の消防計画による</text:p>
+      <text:p text:style-name="Body">令和　　年　　月　　日作成</text:p>
+      <table:table table:name="Page1" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Gray" table:number-columns-spanned="4"><text:p>１　工事計画及び施工に関すること</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="4"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="4"><text:p>１　工事概要</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>２　工事日程表</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>３　工事範囲</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>４　機能に支障を生じる消防用設備等</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="CenterCell"><text:p>有　・　無</text:p></table:table-cell><table:table-cell><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>５　機能に支障を生じる避難施設等</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="CenterCell"><text:p>有　・　無</text:p></table:table-cell><table:table-cell><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>６　火気を使用する設備器具（以下、「火気使用設備器具」という。）等の使用等</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="CenterCell"><text:p>有　・　無</text:p></table:table-cell><table:table-cell><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>７　危険物等を取り扱う作業等</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="CenterCell"><text:p>有　・　無</text:p></table:table-cell><table:table-cell><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>８　連絡先</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"><text:p>＿＿</text:p><text:p>＿＿</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>９　緊急連絡先</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"><text:p>＿＿</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2"><text:p>10　その他</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2"><text:p>＿＿</text:p><text:p>＿＿</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p>＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿</text:p><text:p>＿＿</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageStart">２　工事中の防火管理体制に関すること</text:p>
+      <text:p text:style-name="Subsection">１　出火防止対策</text:p>
+      <text:p text:style-name="Body">（１）　日常の火災予防</text:p>
+      <text:p text:style-name="Body">　ア　＿＿＿＿＿＿＿＿＿＿＿＿＿＿を別表１「日常の火災予防組織」のとおり指定し、それぞれの任務に従って日常の火災予防を行う。</text:p>
+      <text:p text:style-name="Body">　イ　＿＿＿＿＿＿＿＿＿＿＿＿＿＿は、別表２「日常の自主検査チェック表」を用いて、担当区域の日常の火災予防について毎日自主検査を実施する。</text:p>
+      <text:p text:style-name="Body">　ウ　＿＿＿＿＿＿＿＿＿＿＿＿＿＿は、自主検査の結果、異常が認められたときは、＿＿＿＿＿＿＿＿に報告し、指示を受けて対処する。</text:p>
+      <text:p text:style-name="Body">　エ　その他</text:p>
+      <text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p>
+      <text:p text:style-name="Body">（２）　放火防止対策</text:p>
+      <text:p text:style-name="Body">　ア　建物の外周部及び階段等には、可燃性の工事用資材又は梱包材等は置かないようにする。やむを得ず置く場合は整理整頓し難燃性シート等で覆い保管する。</text:p>
+      <text:p text:style-name="Body">　イ　＿＿＿＿＿＿＿＿＿＿＿＿＿＿は、作業終了後に施錠を最終的に確認する。</text:p>
+      <text:p text:style-name="Body">　ウ　工事関係者以外の者の工事部分等への立ち入りは禁止とし、＿＿＿＿＿＿＿＿が、工事部分等への出入りをチェックする。</text:p>
+      <text:p text:style-name="Body">　エ　その他</text:p>
+      <text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p>
+
+      <text:p text:style-name="PageStart">（３）　喫煙管理</text:p>
+      <text:p text:style-name="Body">　ア　喫煙をする場合は、＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿の喫煙場所で行う。</text:p>
+      <text:p text:style-name="Body">　　　なお、喫煙場所には、その旨を掲示する</text:p>
+      <text:p text:style-name="Body">　イ　＿＿＿＿＿＿＿＿＿＿＿＿＿＿は、毎日作業終了後に吸殻を集め、指定された不燃性容器に入れて処理を行う。</text:p>
+      <text:p text:style-name="Body">　ウ　その他</text:p>
+      <text:p text:style-name="Body">（４）　延焼拡大防止</text:p>
+      <text:p text:style-name="Body">　ア　＿＿＿＿＿＿＿＿の周囲には、延焼媒体となる可燃物や開閉障害となる物品を放置しない。</text:p>
+      <text:p text:style-name="Body">　イ　工事中は、作業のため必要がある場合を除き、＿＿＿＿＿＿＿＿＿＿＿＿は努めて閉鎖する。</text:p>
+      <text:p text:style-name="Body">　ウ　防火戸、防火シャッターは、作業終了後努めて閉鎖する。</text:p>
+      <text:p text:style-name="Body">　エ　その他</text:p>
+      <text:p text:style-name="Subsection">２　相互連絡体制</text:p>
+      <text:p text:style-name="Body">（１）＿＿＿＿＿＿＿＿は、火災予防上必要な事項について、必要に応じて、工事責任者等に指導、監督を行う。</text:p>
+      <text:p text:style-name="Body">（２）＿＿＿＿＿＿＿＿は、工事関係者等と工事の開始前に十分協議を行う。</text:p>
+      <text:p text:style-name="Body">（３）工事責任者は、工事の開始・終了の報告、溶接・溶断作業の事前報告、危険物品の持込み・使用の事前報告を＿＿＿＿＿＿＿＿に行う。</text:p>
+      <text:p text:style-name="Body">（４）工事部分内又は使用している部分から火災が発生した場合は、相互連絡体制を図る。</text:p>
+      <text:p text:style-name="Body">（５）その他</text:p>
+      <text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p>
+
+      <text:p text:style-name="PageStart">３　地震対策</text:p>
+      <text:p text:style-name="Body">（１）日常の地震対策</text:p>
+      <text:p text:style-name="Body">　ア　地震対策を実施する責任者は、＿＿＿＿＿＿＿＿＿＿＿＿とする。</text:p>
+      <text:p text:style-name="Body">　イ　建築物の倒壊、施設物の転倒、落下防止及び火気使用設備器具からの出火防止を重点とし、次の事項について予防措置を実施する。</text:p>
+      <text:p text:style-name="Body">　　（ア）工事用資器材等の転倒防止措置</text:p>
+      <text:p text:style-name="Body">　　（イ）工事用足場、資材等の落下、飛散防止措置</text:p>
+      <text:p text:style-name="Body">　　（ウ）その他</text:p>
+      <text:p text:style-name="Body">　　　　＿＿</text:p><text:p text:style-name="Body">　　　　＿＿</text:p><text:p text:style-name="Body">　　　　＿＿</text:p><text:p text:style-name="Body">　　　　＿＿</text:p><text:p text:style-name="Body">　　　　＿＿</text:p>
+      <text:p text:style-name="Body">　ウ　その他</text:p>
+      <text:p text:style-name="Body">　　　＿＿</text:p><text:p text:style-name="Body">　　　＿＿</text:p>
+      <text:p text:style-name="Body">（２）地震後の安全措置</text:p>
+      <text:p text:style-name="Body">　ア　地震発生直後は、身の安全を守ることを第一とする。</text:p>
+      <text:p text:style-name="Body">　イ　工事関係者は、揺れがおさまったら、直近の火気使用設備器具の元栓、器具栓の閉止又は電源遮断を行い、＿＿＿＿＿＿＿＿＿＿＿＿はその状況を確認する。</text:p>
+      <text:p text:style-name="Body">　ウ　各設備器具等は、安全を確認した後に使用する。</text:p>
+      <text:p text:style-name="Body">　エ　＿＿＿＿＿＿＿＿＿＿＿＿は、地震動終了後、工事部分等を点検、確認し、被害状況を＿＿＿＿＿＿＿＿に報告する。</text:p>
+      <text:p text:style-name="Body">　オ　その他</text:p>
+      <text:p text:style-name="Body">　　　＿＿</text:p><text:p text:style-name="Body">　　　＿＿</text:p><text:p text:style-name="Body">　　　＿＿</text:p><text:p text:style-name="Body">　　　＿＿</text:p>
+
+      <text:p text:style-name="PageStart">４　自衛消防について</text:p>
+      <text:p text:style-name="Body">　　組織の編成</text:p>
+      <text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p><text:p text:style-name="Body">　　</text:p>
+      <text:p text:style-name="Body">１　この隊の編成表は、＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿の見やすいところに掲示する。</text:p>
+      <text:p text:style-name="Body">２　各班及び班員の指定は、工事現場の規模、工事人の数に応じて、具体的に任務分担し、自衛消防隊活動の内容を周知させる。</text:p>
+
+      <text:p text:style-name="PageStart">５　消防機関との連絡</text:p>
+      <text:p text:style-name="Body">（１）届出事項</text:p>
+      <table:table table:name="Notifications" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell table:style-name="CenterCell"><text:p>種　　別</text:p></table:table-cell><table:table-cell table:style-name="CenterCell"><text:p>届　出　等　の　時　期</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">（２）連絡事項</text:p>
+      <table:table table:name="Contacts" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Subsection">６　避難経路</text:p>
+      <text:p text:style-name="Body">（１）工事部分等における避難経路図を作成し、＿＿＿＿＿＿＿＿に掲示する。</text:p>
+      <text:p text:style-name="Body">（２）避難経路には、資材等の物品が置かれないよう確保する。</text:p>
+      <text:p text:style-name="Body">（３）その他</text:p>
+      <text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p>
+      <text:p text:style-name="Subsection">７　防火区画</text:p>
+      <text:p text:style-name="Body">（１）防火区画については、別図のとおり。</text:p>
+      <text:p text:style-name="Body">（２）＿＿＿＿＿＿＿＿＿＿＿＿は、防火区画に異常がないかどうかを自主検査チェック表に基づき確認し、破損等を発見した場合は、直ちに改修する。</text:p>
+      <text:p text:style-name="Body">（３）その他</text:p>
+      <text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p>
+
+      <text:p text:style-name="PageStart">３　工事期間中の工事人への教育・訓練の実施及び工事中の消防計画の周知に関すること</text:p>
+      <text:p text:style-name="Subsection">１　防火・防災教育</text:p>
+      <text:p text:style-name="Body">（１）防火教育の実施</text:p>
+      <text:p text:style-name="Body">　　＿＿＿＿＿＿＿＿＿＿＿＿より、全員を対象として＿＿＿＿＿＿＿＿＿＿＿行うこととし、その他、必要の都度実施とする。</text:p>
+      <text:p text:style-name="Body">（２）防火教育の内容</text:p>
+      <table:table table:name="Education" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell table:style-name="CenterCell"><text:p>対　象　者</text:p></table:table-cell><table:table-cell table:style-name="CenterCell"><text:p>実　施　内　容</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-rows-spanned="6"><text:p/></table:table-cell><table:table-cell><text:p>１　工事中の消防計画について</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>２　遵守事項の徹底について</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>　（1）火気管理、喫煙管理</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>　（2）避難施設等の維持管理</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>　（3）危険物品等の管理</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>３　災害発生時の対応要領について</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-rows-spanned="5"><text:p/></table:table-cell><table:table-cell><text:p>１　工事中の消防計画について</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>２　各自の任務分担と責任範囲について</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>３　日常の火災予防の徹底について</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>４　自主検査チェック表による自主検査の徹底について</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:covered-table-cell/><table:table-cell><text:p>５　災害発生時における工事部分と使用している部分の連絡体制の徹底について</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">（３）その他</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p>
+
+      <text:p text:style-name="PageStart">２　訓練</text:p>
+      <text:p text:style-name="Body">（１）訓練種別及び実施時期等</text:p>
+      <table:table table:name="Drills" table:style-name="Grid">
+        <table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/><table:table-column table:style-name="Col"/>
+        <table:table-row><table:table-cell table:style-name="CenterCell"><text:p>訓練種別</text:p></table:table-cell><table:table-cell table:style-name="CenterCell"><text:p>実施時期又は</text:p><text:p>実　施　回　数</text:p></table:table-cell><table:table-cell table:style-name="CenterCell"><text:p>参　加　者</text:p></table:table-cell><table:table-cell table:style-name="CenterCell"><text:p>訓練内容</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CenterCell"><text:p>消火訓練</text:p></table:table-cell><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p>消火器の取扱い</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CenterCell"><text:p>通報訓練</text:p></table:table-cell><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p>119番通報・館内連絡要領</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CenterCell"><text:p>避難訓練</text:p></table:table-cell><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p>工事部分の避難経路の確認</text:p><text:p>避難誘導要領</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CenterCell"><text:p>総合訓練</text:p></table:table-cell><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p/></table:table-cell><table:table-cell><text:p>工事部分と使用部分の連携活動</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">（２）その他</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p>
+      <text:p text:style-name="Subsection">３　工事中の消防計画の周知に関すること</text:p>
+      <text:p text:style-name="Body">（１）防火管理者は、前記の防火・防災教育及び訓練を通して、全従業員、工事人に対して、工事中の消防計画を周知徹底する。</text:p>
+      <text:p text:style-name="Body">（２）その他</text:p>
+      <text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p><text:p text:style-name="Body">　　＿＿</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+52,819

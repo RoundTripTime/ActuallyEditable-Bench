@@ -1,0 +1,552 @@
+  </office:body>
+</office:document>
+Reading prompt from stdin...
+OpenAI Codex v0.163.0
+--------
+workdir: /tmp/fb_codex_pdf_6emmyvqo
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a15871-1a94-7772-9736-4ecf13377f9c
+--------
+user
+The attached images are the pages (in order) of one blank form document. Reconstruct it as ONE editable OpenDocument
+text document that a person could open in a word processor and fill in.
+
+The same document is also attached as a digital PDF with a text layer: ./input/form.pdf (the file the page images were
+rendered from, unchanged). Use the PDF together with the page images.
+
+The official OASIS OpenDocument 1.4 specification is attached in the directory ./odf_spec/:
+- OpenDocument-v1.4-os-part3-schema.txt  (Part 3: OpenDocument Schema, plain text of the OASIS Standard)
+- OpenDocument-v1.4-os-part2-packages.txt (Part 2: Packages)
+- OpenDocument-v1.4-schema.rng            (normative RELAX NG schema)
+Read these files (for example with grep or sed) and, before you answer, verify with them that every element and attribute
+you use is allowed where you use it.
+You may read the PDF with read-only commands, including python3 with its standard library only (for example zlib to
+decompress its streams). Do not run any other command, and do not use any PDF library, converter or office application.
+
+Output format: a single OpenDocument XML file (Part 3, section 3.1.2 <office:document>) with
+office:mimetype="application/vnd.oasis.opendocument.text" and office:version="1.4", declaring every namespace you use.
+Define page size and margins in a style:page-layout used by a style:master-page, put styles in office:styles and
+office:automatic-styles, and put the content in office:body/office:text.
+
+Rules:
+- Reproduce every printed text exactly as shown (same language and characters); do not translate, summarise or fill anything in.
+- Use real ODF tables (table:table with table:table-column, table:table-row, table:table-cell) for tabular layouts, with
+  table:number-columns-spanned / table:number-rows-spanned and table:covered-table-cell for merged cells; keep empty input cells empty.
+- Keep blank input areas as they appear (empty cells, underscores, spaces, brackets, "( )" etc.); checkboxes as □ or ☐ as printed.
+- Keep headings, paragraph order, alignment and line structure; start every new page with a paragraph whose style has fo:break-before="page".
+- Set widths, borders, alignment and font sizes through styles where they matter for the layout. No scripts, no external resources, no images.
+- Answer with the complete XML document only (from <?xml version="1.0" encoding="UTF-8"?> to </office:document>), nothing else.
+
+warning: Codex could not find bubblewrap on PATH. Install bubblewrap with your OS package manager. See the sandbox prerequisites: https://developers.openai.com/codex/concepts/sandboxing#prerequisites. Codex will use the bundled bubblewrap in the meantime.
+codex
+I’ll inspect the supplied PDF text and the ODF schema/package rules, then assemble a single XML document with the form’s tables and page breaks.
+exec
+/usr/bin/zsh -lc "ls -la && ls -la input odf_spec && sed -n '1,100p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt && sed -n '1,80p' odf_spec/OpenDocument-v1.4-os-part2-packages.txt" in /tmp/fb_codex_pdf_6emmyvqo
+ succeeded in 0ms:
+total 192
+drwx------   4 ubuntu ubuntu    4096 Oct 20 17:32 .
+drwxrwxrwt 114 nobody nogroup 180224 Oct 20 17:32 ..
+drwxr-xr-x   2 ubuntu ubuntu    4096 Oct 20 17:32 input
+drwxr-xr-x   2 ubuntu ubuntu    4096 Oct 20 17:32 odf_spec
+input:
+total 436
+drwxr-xr-x 2 ubuntu ubuntu   4096 Oct 20 17:32 .
+drwx------ 4 ubuntu ubuntu   4096 Oct 20 17:32 ..
+-rw-r--r-- 1 ubuntu ubuntu 437865 Oct 20 17:32 form.pdf
+
+odf_spec:
+total 2452
+drwxr-xr-x 2 ubuntu ubuntu    4096 Oct 20 17:32 .
+drwx------ 4 ubuntu ubuntu    4096 Oct 20 17:32 ..
+-rw-r--r-- 1 ubuntu ubuntu   68897 Oct 20 17:32 OpenDocument-v1.4-os-part2-packages.txt
+-rw-r--r-- 1 ubuntu ubuntu 1820109 Oct 20 17:32 OpenDocument-v1.4-os-part3-schema.txt
+-rw-r--r-- 1 ubuntu ubuntu  610092 Oct 20 17:32 OpenDocument-v1.4-schema.rng
+
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema
+
+OASIS Standard6 October 2025
+
+This stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.pdf
+
+Previous stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part3-schema/OpenDocument-v1.4-cs01-part3-schema.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part3-schema/OpenDocument-v1.4-cs01-part3-schema.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part3-schema/OpenDocument-v1.4-cs01-part3-schema.pdf
+
+Latest stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part3-schema.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part3-schema.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part3-schema.pdf
+
+Technical Committee:
+
+OASIS Open Document Format for Office Applications (OpenDocument) TC
+
+Chairs:
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Editors:
+
+Francis Cave (francis@franciscave.com), Individual
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Michael Stahl (michael.stahl@allotropia.de), allotropia software GmbH
+
+Additional artifacts:
+
+This prose specification is one component of a Work Product which includes:
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 1: Introduction. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part1-introduction/OpenDocument-v1.4-os-part1-introduction.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema (this part). https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 4: Recalculated Formula (OpenFormula) Format. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html. 
+
+•XML/RNG schemas and OWL ontologies. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/. 
+
+Related work:
+
+This specification replaces or supersedes:
+
+•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4. 27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part3-schema.html. 
+
+Declared XML namespaces:
+
+urn:oasis:names:tc:opendocument:xmlns:animation:1.0urn:oasis:names:tc:opendocument:xmlns:chart:1.0urn:oasis:names:tc:opendocument:xmlns:config:1.0urn:oasis:names:tc:opendocument:xmlns:database:1.0urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0urn:oasis:names:tc:opendocument:xmlns:drawing:1.0urn:oasis:names:tc:opendocument:xmlns:form:1.0urn:oasis:names:tc:opendocument:xmlns:manifest:1.0urn:oasis:names:tc:opendocument:xmlns:meta:1.0urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0urn:oasis:names:tc:opendocument:xmlns:office:1.0urn:oasis:names:tc:opendocument:xmlns:presentation:1.0urn:oasis:names:tc:opendocument:xmlns:script:1.0urn:oasis:names:tc:opendocument:xmlns:table:1.0urn:oasis:names:tc:opendocument:xmlns:text:1.0urn:oasis:names:tc:opendocument:xmlns:style:1.0urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0urn:oasis:names:tc:opendocument:xmlns:of:1.2http://docs.oasis-open.org/ns/office/1.2/meta/odf#
+
+http://docs.oasis-open.org/ns/office/1.2/meta/pkg#
+
+Abstract:
+
+This document is Part 3 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification.
+
+Status:
+
+This document was last revised or approved by the OASIS Open Document Format for Office Applications (OpenDocument) TC on the above date. The level of approval is also listed above. Check the "Latest stage" location noted above for possible later revisions of this document. Any other numbered Versions and other technical work produced by the Technical Committee (TC) are listed at https://groups.oasis-open.org/communities/tc-community-home2?CommunityKey=4bf06d41-79ad-4c58-9e8e-018dc7d05da8#technical.
+
+TC members should send comments on this specification to the TC's email list. Others should send comments to the TC's public comment list at Technical-Committee-Comments@oasis-open.org.
+
+This specification is provided under the RF on Limited Terms Mode of the OASIS IPR Policy, the mode chosen when the Technical Committee was established. For information on whether any patents have been disclosed that may be essential to implementing this specification, and any offers of patent licensing terms, please refer to the Intellectual Property Rights section of the TC's web page (https://www.oasis-open.org/committees/office/ipr.php).
+
+Note that any machine-readable content (Computer Language Definitions) declared Normative for this Work Product is provided in separate plain text files. In the event of a discrepancy between any such plain text file and display content in the Work Product's prose narrative document(s), the content in the separate plain text file prevails.
+
+Citation format:
+
+When referencing this specification the following citation format should be used:
+
+[OpenDocument-v1.4-part3]
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema. Edited by Francis Cave, Patrick Durusau, Svante Schubert and Michael Stahl. 6 October 2025. OASIS Standard. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part3-schema.html.
+
+
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+OASIS Standard
+
+6 October 2025
+
+This stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.pdf
+
+Previous stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+
+Latest stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.pdf
+
+Technical Committee:
+
+OASIS Open Document Format for Office Applications (OpenDocument) TC
+
+Chairs:
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Editors:
+
+Francis Cave (francis@franciscave.com), Individual
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Michael Stahl (michael.stahl@allotropia.de), allotropia software GmbH
+
+Additional artifacts:
+
+This prose specification is one component of a Work Product which includes:
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 1: Introduction. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part1-introduction/OpenDocument-v1.4-os-part1-introduction.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. (this part) https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 4: Recalculated Formula (OpenFormula) Format. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html. 
+
+•XML/RNG schemas and OWL ontologies. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/. 
+
+Related work:
+
+This specification replaces or supersedes:
+
+•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4.  27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html. 
+
+Declared XML namespaces:
+
+urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+
+urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re,zlib; b=open(\"input/form.pdf\",\"rb\").read(); print(b[:500]); print(\"pages\",len(re.findall(rb\"/Type /Page\\\\b\",b)),\"streams\",len(re.findall(rb\"stream\\\\r?\\\\n\",b)))' && rg -n \"office:document|office:document-content|style:page-layout|style:master-page|table:covered-table-cell|fo:break-before|table:number-columns-spanned|office:mimetype|office:version\" odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -35 && rg -n \"application/vnd.oasis.opendocument.text|mimetype\" odf_spec/OpenDocument-v1.4-os-part2-packages.txt | head -20" in /tmp/fb_codex_pdf_6emmyvqo
+ succeeded in 0ms:
+b'%PDF-1.7\n%\xc3\xa4\xc3\xbc\xc3\xb6\xc3\x9f\n2 0 obj\n<</Length 3 0 R/Filter/FlateDecode>>\nstream\nx\x9c\xc5][\xaf$\xb9m~?\xbf\xa2\x81y30\xbd\x92\xa8+\xd08@U_\x82\x180\x90\xb5\x07\xc8\xc3 \x0f\x1bg\xd7Yc/\xf6b\x0c\'\xff>"U\xf7\xa2\xaa\xeb\x9cfO0\x83\xaa\xae:%\x89")\x8a\xd4\xe5\x93:\xea\xc3?_\xbei~\xfb\xf2\xe3\x0f\xdf\xfd\xf9\xcb\xa1\xfd\xc3\xf9\xe5\xef\x07uPGe\xe2\xc1%w4\xc1\x1f\xa2\xd5\xc7\xe8\xf5\xe1\xb7\xef_\xfe\xfdw\x87_^\xae\xf9\xabo>\\\xd3\x87F}H\xea\xc35~h\xf2\xff\xcb\x87\xab\xff\xd0\\?\xb4\x0e\xdf\xe4\xf7m~\xe3\xf0}\n\xf8#]?\xc4\xf6t\xfa\xe6\x0f\xe7\x7f\xbd\x1c\xd4\xebk{\xe9\xca\xca\xff~\xfb\xcbK\xfb\xe9E\xfbx\xb4\xee\x10|8\xa6\x98\x0e\x9f\xfe\xeb\xf0\xcdM\x1f\xb4?|\xfa\xe1\xf3I\xe9\xd7\x8f:\xbe\xed\xf6\x1f\x9f~\xffr\xfd\xf4\xf2\xad\x04\xc5\x9a\xa3\xd8(s\x8c\xf7(6\xe5\x06\xe5f\xcb\xcd\x95\x9b/\xb7Pn\xb1\xdcR\xb95\xe5\xd6\x8aV\xc3\xf0\x8c\x0fG\x95\xab\xe1\xf4\x1b\x18/I\x15\xb0TE{4\x0b\xaa\x8c8s\xa7\t\xce\xe5v)\xb7\xabh\x15-WEo\x8e\xfe\x10\xac9\x02t\x15\x84\x83\x86\xbe\x82\x06\xb0~\xef\xb9\xc2\x82\xf4?\xfd\xed\xbb_zB\x1c\xcb\xeb\x905\xd8\xcdI\xb1,)@W\xfbj,\xb2\r\x7f{\xba\x86\x8d"=W\xa4U\xee\x18j%fa\xa5D\xc2\xc2[Snm\xb9\x9dE\xe5\x128\xda\xd41\xd2\x93>d\xf2|\xe6\x8b\xf1\x85\xca\x9f_\xa8e\xe8\x9e/`\xa5\x9bB\xbcC\x8f?\x86\x05=f\xa0\xe7\x86\xf4h%JO\xda\xc5\x1fm\xbf\x16\x7f4\xdbu\xac\x184%\xa8c\xd0I'
+pages 0 streams 0
+177:3.1.2 <office:document>(Single OpenDocument XML Files)
+183:3.1.3.2 <office:document-content>
+185:3.1.3.3 <office:document-styles>
+187:3.1.3.4 <office:document-meta>
+189:3.1.3.5 <office:document-settings>
+785:9.1.5 <table:covered-table-cell>
+1479:16.5 <style:page-layout>
+1487:16.9 <style:master-page>
+1695:17.2 <style:page-layout-properties>
+2503:19.219.27 <style:master-page>
+2911:19.379 office:mimetype
+2951:19.390 office:version
+3217:19.501 style:master-page-name
+3223:19.502.2 <number:boolean-style>, <number:currency-style>, <number:date-style>, <number:num-list-format>, <number:number-style>, <number:percentage-style>, <number:text-style>, <number:time-style>, <style:master-page>, <style:page-layout>, <style:presentation-page-layout>, <style:style>, <text:list-style>, <text:outline-style>
+3231:19.503.2 <style:master-page>
+3243:19.508 style:page-layout-name
+3809:19.679.2 <table:covered-table-cell>
+3815:19.680 table:number-columns-spanned
+3867:19.700.2 <table:covered-table-cell>
+3941:19.730.4 <table:covered-table-cell>
+5129:20.185 fo:break-before
+5601:20.404.3 <style:page-layout-properties>
+6122:B.2.1)<office:document-content> 3.1.3.2 or <math:math> 14.6 for files named content.xml, 
+6124:B.2.2)<office:document-styles> 3.1.3.3 for files named styles.xml, 
+6126:B.2.3)<office:document-meta> 3.1.3.4 for files named meta.xml, 
+6128:B.2.4)<office:document-settings> 3.1.3.5 for files named settings.xml. 
+6130:B.3)If the XML root element of a file is <office:document-content>, <office:document-styles>, <office:document-meta> or <office:document-settings>, then the XML file shall be valid with respect to the schema defined in appendix A. 
+6137:C.2)the XML root element of the file shall be <office:document>. 
+6157:B.1)If the XML root element of a file is <office:document-content> 3.1.3.2, <office:document-styles> 3.1.3.3, <office:document-meta> 3.1.3.4 or <office:document-settings> 3.1.3.5, then the XML file shall be valid with respect to the schema defined in appendix A, after the following processing of foreign elements has taken place: 
+6168:A)The <office:document> 3.1.2 element shall have an office:mimetype 3.1.2 attribute with one of these values: "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.text-master" or "application/vnd.oasis.opendocument.text-master-template". 
+6178:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.spreadsheet" or "application/vnd.oasis.opendocument.spreadsheet-template". 
+6192:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.graphics" or "application/vnd.oasis.opendocument.graphics-template". 
+6202:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.presentation" or "application/vnd.oasis.opendocument.presentation-template". 
+6212:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.chart" or "application/vnd.oasis.opendocument.chart-template". 
+6222:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.image" or "application/vnd.oasis.opendocument.image-template". 
+448:C)It should contain a file “mimetype”. 
+515:For all files contained in a package, with exception of the “mimetype” file and files whose relative path starts with “META-INF/”, the “META-INF/manifest.xml” file shall contain exactly one <manifest:file-entry> element whose manifest:full-path attribute's value references the file.
+517:The “META-INF/manifest.xml” file need not contain <manifest:file-entry> elements 4.3 whose manifest:full-path attribute 4.16.4 references files whose relative path start with "META-INF/". The file shall not contain <manifest:file-entry> elements whose manifest:full-path attribute value references the “META-INF/manifest.xml” file itself or the “mimetype” file.
+519:The “META-INF/manifest.xml” file should contain a <manifest:file-entry> element whose manifest:full-path attribute has the value "/". This element specifies information regarding the document stored in the root of the package. This entry shall exist if the package contains a file "mimetype"
+523:If a MIME media type for a document exists, then an OpenDocument package should contain a file with name “mimetype”. The content of this file shall be the ASCII encoded MIME media type associated with the document. See [RFC6838].
+525:The “mimetype” file shall be the first file of the zip file. It shall not be compressed, and it shall not use an 'extra field' in its header.
+527:If the file named “META-INF/manifest.xml” contains a <manifest:file-entry> element whose manifest:full-path attribute has the value "/", then a "mimetype" file shall exist, and the content of the “mimetype” file shall be equal to the value of the manifest:media-type attribute 4.16.10 of that element.
+533:•the string 'mimetype' beginning at position 30 
+
+exec
+/usr/bin/zsh -lc "sed -n '177,215p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1470,1505p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1685,1715p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '2900,2920p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; rg -n \"<table:table-column>|<table:table-row>|<table:table-cell>|<style:style>|<text:p>|<text:span>\" odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head" in /tmp/fb_codex_pdf_6emmyvqo
+ succeeded in 0ms:
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+3.1.3.2 <office:document-content>
+
+3.1.3.3 <office:document-styles>
+
+3.1.3.4 <office:document-meta>
+
+3.1.3.5 <office:document-settings>
+
+3.1.4 Summary of Document Representation
+
+3.2 <office:meta>
+
+3.3 <office:body>
+
+3.4 <office:text>
+
+3.5 <office:drawing>
+
+3.6 <office:presentation>
+
+3.7 <office:spreadsheet>
+
+3.8 <office:chart>
+
+3.9 <office:image>
+
+3.10 <office:settings>
+
+3.10.1 General
+
+3.10.2 <config:config-item-set>
+
+3.10.3 <config:config-item>
+
+16.1 General
+
+16.2 <style:style>
+
+16.3 <style:map>
+
+16.4 <style:default-style>
+
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+16.14 <style:header-left>
+
+16.15 <style:footer-left>
+
+16.16 <style:region-left>
+
+16.17 <style:region-center>
+
+16.18 <style:region-right>
+16.43 <style:presentation-page-layout>
+
+16.44 <presentation:placeholder>
+
+16.45 Chart Styles
+
+17 Formatting Properties Elements
+
+17.1 General
+
+17.2 <style:page-layout-properties>
+
+17.3 <style:background-image>
+
+17.4 <style:footnote-sep>
+
+17.5 <style:header-footer-properties>
+
+17.6 <style:paragraph-properties>
+
+17.7 <style:tab-stops>
+
+17.8 <style:tab-stop>
+
+17.9 <style:drop-cap>
+
+17.10 <style:ruby-properties>
+
+17.11 <style:section-properties>
+
+17.12 <style:columns>
+
+19.374 office:date-value
+
+19.375 office:dde-application
+
+19.376 office:dde-item
+
+19.377 office:dde-topic
+
+19.378 office:display
+
+19.379 office:mimetype
+
+19.380 office:name
+
+19.380.1 General
+
+19.380.2 <draw:a>
+
+19.380.3 <draw:area-circle>
+
+323:5.1.3 <text:p>
+399:6.1.7 <text:span>
+781:9.1.3 <table:table-row>
+783:9.1.4 <table:table-cell>
+787:9.1.6 <table:table-column>
+1473:16.2 <style:style>
+3123:19.473.3 <style:style>
+3223:19.502.2 <number:boolean-style>, <number:currency-style>, <number:date-style>, <number:num-list-format>, <number:number-style>, <number:percentage-style>, <number:text-style>, <number:time-style>, <style:master-page>, <style:page-layout>, <style:presentation-page-layout>, <style:style>, <text:list-style>, <text:outline-style>
+3233:19.503.3 <style:style>
+3811:19.679.3 <table:table-cell>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:font-size="10pt" fo:line-height="115%"/>
+      <style:text-properties fo:font-size="10pt" style:font-name="Noto Sans CJK TC"/>
+    </style:default-style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="16pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.06in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="HeadCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.06in" style:vertical-align="middle"/>
+      <style:text-properties fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="Red" style:family="text">
+      <style:text-properties fo:color="#ff0000"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" fo:print-orientation="portrait" fo:margin-top="0.55in" fo:margin-bottom="0.55in" fo:margin-left="0.58in" fo:margin-right="0.58in"/>
+    </style:page-layout>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties style:width="7.1in" table:align="margins"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="1.35in"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="2.35in"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="3.4in"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="1.05in"/>
+    </style:style>
+    <style:style style:name="ColE" style:family="table-column">
+      <style:table-column-properties style:column-width="1.15in"/>
+    </style:style>
+    <style:style style:name="ColF" style:family="table-column">
+      <style:table-column-properties style:column-width="1.25in"/>
+    </style:style>
+    <style:style style:name="ColG" style:family="table-column">
+      <style:table-column-properties style:column-width="1.1in"/>
+    </style:style>
+    <style:style style:name="ColH" style:family="table-column">
+      <style:table-column-properties style:column-width="1.15in"/>
+    </style:style>
+    <style:style style:name="RowCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.05in" style:vertical-align="middle"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Center">★★ <text:tab/>第一聯：申請聯</text:p>
+      <text:p text:style-name="Title">臺中市政府地方稅務局</text:p>
+      <text:p text:style-name="Title">使用牌照稅身心障礙者免稅申請書</text:p>
+      <table:table table:name="FormPage1" table:style-name="FormTable">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/><table:table-column table:style-name="ColE"/><table:table-column table:style-name="ColF"/><table:table-column table:style-name="ColG"/><table:table-column table:style-name="ColH"/>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p text:style-name="Center">項　目</text:p></table:table-cell><table:table-cell table:style-name="HeadCell" table:number-columns-spanned="3"><text:p text:style-name="Center">申請人（車主）</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="HeadCell" table:number-columns-spanned="4"><text:p text:style-name="Center">身心障礙者</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>姓名</text:p><text:p>（簽名或蓋章）</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="RowCell" table:number-columns-spanned="4"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>身分證</text:p><text:p>統一編號</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="RowCell" table:number-columns-spanned="4"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>聯絡電話</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="3"><text:p>手機：</text:p><text:p>市話：</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="RowCell" table:number-columns-spanned="2"><text:p>後續（重新）鑑定日期</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="RowCell" table:number-columns-spanned="2"><text:p>□　年　月　日</text:p><text:p>□永久有效無須重新鑑定</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>車牌號碼</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="RowCell"><text:p>排氣量或馬力數</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="2"><text:p>車籍所在地</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="RowCell" table:number-columns-spanned="2"><text:p>市　　鄉鎮</text:p><text:p>縣　　市區</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>車主對身心障礙者之稱謂</text:p><text:p><text:span text:style-name="Red">（請勾選）</text:span></text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="5"><text:p><text:span text:style-name="Red">□本人□配偶□父母□配偶之父母□子女□兄弟姊妹（含配偶）□媳婦或女婿□（外）祖父母（含配偶）□（外）孫子女□法院選定之監護人或輔助人□其他：</text:span></text:p><text:p>*親屬關係之認定，同性或異性婚姻均適用</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="RowCell" table:number-columns-spanned="2"><text:p>原免稅車輛恢復課稅之車號：</text:p><text:p><text:span text:style-name="Red">（非本案車主請併同檢附原車主恢復課稅申請書）</text:span></text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>車主通訊地址</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="7"><text:p>市　　鄉鎮　　里　　街　　段　　巷　　弄　　號　　樓</text:p><text:p>縣　　市區　　村　　路　　　　　　　　　室</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>申請免稅事由</text:p><text:p>（請在□打□）</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="7"><text:p>□身心障礙者所有並供本人使用之車輛。</text:p><text:p>□供<text:span text:style-name="Red">無駕駛執照</text:span>身心障礙者使用，其配偶同戶籍二親等以內親屬□二親等以內親屬所有且車籍地（或於監理機關登載之住居所地址）與該身心障礙者戶籍地相同□同戶籍法院選定監護人或輔助人□非同戶籍法院選定監護人或輔助人所有且車籍地（或於監理機關登載之住居所地址）與該身心障礙者戶籍地相同 所有之車輛。</text:p><text:p>□供<text:span text:style-name="Red">有駕駛執照無車輛</text:span>身心障礙者使用，其配偶同戶籍二親等以內親屬□二親等以內親屬所有且車籍地（或於監理機關登載之住居所地址）與該身心障礙者戶籍地相同 所有之車輛。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>應檢附證明文件</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="7"><text:p>身心障礙證明</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>稅款繳納縣市</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="7"><text:p>市縣</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p>退稅方式</text:p></table:table-cell><table:table-cell table:style-name="RowCell"><text:p>□直接退稅</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="6"><text:p>請詳實填寫車主存摺帳號明確資料或提供存摺帳號影本</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p/></table:table-cell><table:table-cell table:style-name="RowCell"><text:p>□支票退稅</text:p></table:table-cell><table:table-cell table:style-name="RowCell"><text:p>金融機構名稱</text:p></table:table-cell><table:table-cell table:style-name="RowCell"><text:p>分行名稱</text:p></table:table-cell><table:table-cell table:style-name="RowCell" table:number-columns-spanned="4"><text:p>帳　號（郵局請填局號+帳號）</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell"><text:p/></table:table-cell><table:table-cell table:style-name="RowCell"><text:p/></table:table-cell><table:table-cell table:style-name="RowCell"><text:p/></table:table-cell><table:table-cell table:style-name="RowCell"><text:p/></table:table-cell><table:table-cell table:style-name="RowCell"/><table:table-cell table:style-name="RowCell"/><table:table-cell table:style-name="RowCell"/><table:table-cell table:style-name="RowCell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="Center">★★ <text:tab/>申請日期：　年　月　日 <text:tab/>第二聯：核准聯</text:p>
+      <text:p text:style-name="Title">臺中市政府地方稅務局</text:p>
+      <text:p text:style-name="Title">使用牌照稅身心障礙者免稅申請書</text:p>
+      <table:table table:name="FormPage2" table:style-name="FormTable">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/><table:table-column table:style-name="ColE"/><table:table-column table:style-name="ColF"/><table:table-column table:style-name="ColG"/><table:table-column table:style-name="ColH"/>
+        <table:table-row><table:table-cell table:style-name="RowCell" table:number-columns-spanned="8"><text:p>（本聯申請表欄位同第一聯）</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell" table:number-columns-spanned="8"><text:p>稽徵機關審核意見</text:p><text:p>依所檢附證明文件，核定事項如下：</text:p><text:p>一、准自　　年　　月　　日起至□免稅原因消失之日止。</text:p><text:p>□　　年　　月　　日止。</text:p><text:p>二、免稅額為□於免稅標準之稅額內，全額免徵。</text:p><text:p>□以免稅標準之稅額為限，超過部分，不予免徵。</text:p><text:p>三、註銷原核准免稅車牌號碼：　　　　　　　　　　　第　　層執行</text:p><text:p>承辦人　　　　　　　　　股長　　　　　　　　主任</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="RowCell" table:number-columns-spanned="8"><text:p>說　　　　　　　　　　　　　　　明</text:p><text:p>1.依使用牌照稅法第 7 條第 1 項第 8 款規定，供身心障礙者使用之車輛可免徵使用牌照稅，每一身心障礙者以 1 輛為限；免徵金額以 2,400 c.c.、262 英制馬力（HP）或 265.9 公制馬力（PS）之稅額為限，超過部分，不予免徵。</text:p><text:p>2.身心障礙類（級）別需作後續（重新）鑑定者，請於免稅期間屆滿前，持憑辦妥後續（重新）鑑定之身心障礙證明向本局申請繼續核准免稅；免稅期間屆滿後仍未辦妥後續鑑定者，將自原身心障礙證明後續鑑定日之次日起恢復課稅。</text:p><text:p>3.如適用免稅要件消失，致不符合免稅條件時，應向本局申報，並自不符合免稅要件之日起恢復課稅（例如：「二親等以內親屬車主戶籍地、車輛車籍地及監理機關登載之住居所地址均與身心障礙者戶籍地不同」、親屬關係消滅、車主或身心障礙者出境經戶政機關逕為遷出登記者、身心障礙證明因到期未重新鑑定或因身心障礙者已恢復健康被註銷、車輛改變用途或轉讓等）。</text:p><text:p>4.納稅義務人以詐術或其他不正當方法逃漏稅捐者，處 5 年以下有期徒刑，併科 1,000 萬元以下罰金；教唆或幫助犯者處 3 年以下有期徒刑，併科 100 萬元以下罰金。</text:p><text:p>5.照顧弱勢族群，增進社會福祉，以達 SDG1、16 永續發展目標。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="PageStart"/>
+      <table:table table:name="Continuation" table:style-name="FormTable">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/><table:table-column table:style-name="ColE"/><table:table-column table:style-name="ColF"/><table:table-column table:style-name="ColG"/><table:table-column table:style-name="ColH"/>
+        <table:table-row><table:table-cell table:style-name="RowCell" table:number-columns-spanned="8"><text:p>內親屬車主戶籍地、車輛車籍地及監理機關登載之住居所地址均與身心障礙者戶籍地不同」、親屬關係消滅、車主或身心障礙者出境經戶政機關逕為遷出登記者、身心障礙證明因到期未重新鑑定或因身心障礙者已恢復健康被註銷、車輛改變用途或轉讓等）。</text:p><text:p>4.納稅義務人以詐術或其他不正當方法逃漏稅捐者，處 5 年以下有期徒刑，併科 1,000 萬元以下罰金；教唆或幫助犯者處 3 年以下有期徒刑，併科 100 萬元以下罰金。</text:p><text:p>5.照顧弱勢族群，增進社會福祉，以達 SDG1、16 永續發展目標。</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p>備註：為維護您的權益，以平信寄送之核准書，申請人（車主）及身心障礙者身分證號以“＊”代替，以資保密。</text:p>
+      <text:p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　115.10.</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+47,474

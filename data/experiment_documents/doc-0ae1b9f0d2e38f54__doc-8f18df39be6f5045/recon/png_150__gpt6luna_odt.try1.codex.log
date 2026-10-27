@@ -1,0 +1,611 @@
+ng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+      <rng:ref name="table-table-row-group-attlist"/>
+      <rng:ref name="table-rows-and-groups"/>
+    </rng:element>
+7799:    <rng:element name="office:document">
+7835:    <rng:element name="office:document-content">
+7844:    <rng:element name="office:document-meta">
+7850:    <rng:element name="office:document-settings">
+7856:    <rng:element name="office:document-styles">
+7939:      <rng:element name="office:master-styles">
+
+exec
+/usr/bin/zsh -lc "sed -n '7790,7838p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7928,7960p' odf_spec/OpenDocument-v1.4-schema.rng; rg -n -C 1 'fo:font-size|fo:text-align|fo:margin-top|fo:margin-bottom|fo:margin-left|style:font-name|style:text-underline-style' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_odt_z_cg3wr8
+ succeeded in 0ms:
+            <rng:value>into-default-style-data-style</rng:value>
+            <rng:value>into-english-number</rng:value>
+            <rng:value>keep-text</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document">
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+  <rng:define name="office-image-content-epilogue">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="office-image-content-main">
+    <rng:ref name="draw-frame"/>
+  </rng:define>
+  <rng:define name="office-image-content-prelude">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="office-master-styles">
+    <rng:optional>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-meta">
+    <rng:optional>
+      <rng:element name="office:meta">
+        <rng:ref name="office-meta-content-strict"/>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+2554-
+2555:19.237 fo:margin-left
+2556-
+--
+5138-
+5139:20.190 fo:font-size
+5140-
+--
+5170-
+5171:20.206 fo:margin-bottom
+5172-
+5173:20.207 fo:margin-left
+5174-
+--
+5176-
+5177:20.209 fo:margin-top
+5178-
+--
+5208-
+5209:20.223 fo:text-align
+5210-
+--
+5214-
+5215:20.224 fo:text-align-last
+5216-
+--
+5320-
+5321:20.277 style:font-name
+5322-
+5323:20.278 style:font-name-asian
+5324-
+5325:20.279 style:font-name-complex
+5326-
+--
+5562-
+5563:20.390 style:text-underline-style
+5564-
+--
+13478-
+13479:OpenDocument font face declarations may have an unique name. This name can be used inside styles (as an attribute of <style:text-properties> element) as value of the style:font-name attribute to select a font face declaration. If a font face declaration is referenced by name, the font-matching algorithms for selecting a font declaration based on the font-family, font-style, font-variant, font-weight and font-size descriptors are not used but the referenced font face declaration is used directly. (See §15.5 [CSS2])
+13480-
+--
+13850-
+13851:The <style:text-properties> element has the following attributes: fo:background-color 20.182, fo:color 20.187, fo:country 20.188, fo:font-family 20.189, fo:font-size 20.190, fo:font-style 20.191, fo:font-variant 20.192, fo:font-weight 20.193, fo:hyphenate 20.195, fo:hyphenation-push-char-count 20.198, fo:hyphenation-remain-char-count 20.199, fo:language 20.202, fo:letter-spacing 20.203, fo:script 20.222, fo:text-shadow 20.226, fo:text-transform 20.227, style:country-asian 20.256, style:country-complex 20.257, style:font-charset 20.268, style:font-charset-asian 20.269, style:font-charset-complex 20.270, style:font-family-asian 20.271, style:font-family-complex 20.272, style:font-family-generic 20.273, style:font-family-generic-asian 20.274, style:font-family-generic-complex 20.275, style:font-name 20.277, style:font-name-asian 20.278, style:font-name-complex 20.279, style:font-pitch 20.280, style:font-pitch-asian 20.281, style:font-pitch-complex 20.282, style:font-relief 20.283, style:font-size-asian 20.284, style:font-size-complex 20.285, style:font-size-rel 20.286, style:font-size-rel-asian 20.287, style:font-size-rel-complex 20.288, style:font-style-asian 20.289, style:font-style-complex 20.290, style:font-style-name 20.291, style:font-style-name-asian 20.292, style:font-style-name-complex 20.293, style:font-weight-asian 20.294, style:font-weight-complex 20.295, style:language-asian 20.302, style:language-complex 20.303, style:letter-kerning 20.316, style:rfc-language-tag 20.343, style:rfc-language-tag-asian 20.344, style:rfc-language-tag-complex 20.345, style:script-asian 20.356, style:script-complex 20.357, style:script-type 20.358, style:text-blinking 20.366, style:text-combine 20.367, style:text-combine-end-char 20.369, style:text-combine-start-char 20.368, style:text-emphasize 20.370, style:text-line-through-color 20.371, style:text-line-through-mode 20.372, style:text-line-through-style 20.373, style:text-line-through-text 20.374, style:text-line-through-text-style 20.375, style:text-line-through-type 20.376, style:text-line-through-width 20.377, style:text-outline 20.378, style:text-overline-color 20.379, style:text-overline-mode 20.380, style:text-overline-style 20.381, style:text-overline-type 20.382, style:text-overline-width 20.383, style:text-position 20.384, style:text-rotation-angle 20.385, style:text-rotation-scale 20.386, style:text-scale 20.387, style:text-underline-color 20.388, style:text-underline-mode 20.389, style:text-underline-style 20.390, style:text-underline-type 20.391, style:text-underline-width 20.392, style:use-window-font-color 20.395, text:condition 20.426, text:display 20.427.
+13852-
+--
+14258-
+14259:The <style:page-layout-properties> element has the following attributes: fo:background-color 20.182, fo:border 20.183.2, fo:border-bottom 20.183.3, fo:border-left 20.183.4, fo:border-right 20.183.5, fo:border-top 20.183.6, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, fo:padding 20.217, fo:padding-bottom 20.218, fo:padding-left 20.219, fo:padding-right 20.220, fo:padding-top 20.221, fo:page-height 20.215, fo:page-width 20.216, style:border-line-width 20.248, style:border-line-width-bottom 20.249, style:border-line-width-left 20.250, style:border-line-width-right 20.251, style:border-line-width-top 20.252, style:first-page-number 20.266, style:footnote-max-height 20.296, style:layout-grid-base-height 20.304, style:layout-grid-base-width 20.305, style:layout-grid-color 20.306, style:layout-grid-display 20.307, style:layout-grid-lines 20.308, style:layout-grid-mode 20.309, style:layout-grid-print 20.310, style:layout-grid-ruby-below 20.311, style:layout-grid-ruby-height 20.312, style:layout-grid-snap-to 20.313, style:layout-grid-standard-mode 20.314, style:margin-gutter 20.439, style:num-format 20.322, style:num-letter-sync 20.323, style:num-prefix 20.324, style:num-suffix 20.325, style:paper-tray-name 20.329, style:print 20.330, style:print-orientation 20.333, style:print-page-order 20.332, style:register-truth-ref-style-name 20.337, style:scale-to 20.352, style:scale-to-X 20.354, style:scale-to-Y 20.355, style:scale-to-pages 20.353, style:shadow 20.359, style:table-centering 20.363 and style:writing-mode 20.404.
+14260-
+--
+14292-
+14293:The <style:header-footer-properties> element has the following attributes: fo:background-color 20.182, fo:border 20.183.2, fo:border-bottom 20.183.3, fo:border-left 20.183.4, fo:border-right 20.183.5, fo:border-top 20.183.6, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, fo:min-height 20.212, fo:padding 20.217, fo:padding-bottom 20.218, fo:padding-left 20.219, fo:padding-right 20.220, fo:padding-top 20.221, style:border-line-width 20.248, style:border-line-width-bottom 20.249, style:border-line-width-left 20.250, style:border-line-width-right 20.251, style:border-line-width-top 20.252, style:dynamic-spacing 20.264, style:shadow 20.359 and svg:height 20.407.
+14294-
+--
+14302-
+14303:The <style:paragraph-properties> element has the following attributes: fo:background-color 20.182, fo:border 20.183.2, fo:border-bottom 20.183.3, fo:border-left 20.183.4, fo:border-right 20.183.5, fo:border-top 20.183.6, fo:break-after 20.184, fo:break-before 20.185, fo:hyphenation-keep 20.196, fo:hyphenation-ladder-count 20.197, fo:keep-together 20.200, fo:keep-with-next 20.201, fo:line-height 20.204, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, fo:orphans 20.214, fo:padding 20.217, fo:padding-bottom 20.218, fo:padding-left 20.219, fo:padding-right 20.220, fo:padding-top 20.221, fo:text-align 20.223, fo:text-align-last 20.224, fo:text-indent 20.225, fo:widows 20.228, style:auto-text-indent 20.246, style:background-transparency 20.247, style:border-line-width 20.248, style:border-line-width-bottom 20.249, style:border-line-width-left 20.250, style:border-line-width-right 20.251, style:border-line-width-top 20.252, style:contextual-spacing 20.255, style:font-independent-line-spacing 20.276, style:join-border 20.300, style:justify-single-word 20.301, style:line-break 20.315, style:line-height-at-least 20.317, style:line-spacing 20.318, style:page-number 20.328, style:punctuation-wrap 20.335, style:register-true 20.336, style:shadow 20.359, style:snap-to-layout-grid 20.361, style:tab-stop-distance 20.362, style:text-autospace 20.365, style:vertical-align 20.396, style:writing-mode 20.404, style:writing-mode-automatic 20.405, text:line-number 20.430, text:number-lines 20.434 and text:relative-tab-stop-position 20.440.
+14304-
+--
+14354-
+14355:The <style:section-properties> element has the following attributes: fo:background-color 20.182, fo:margin-left 20.207, fo:margin-right 20.208, style:editable 20.265, style:protect 20.334, style:writing-mode 20.404 and text:dont-balance-text-columns 20.428.
+14356-
+--
+14394-
+14395:The <style:table-properties> element has the following attributes: fo:background-color 20.182, fo:break-after 20.184, fo:break-before 20.185, fo:keep-with-next 20.201, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, style:may-break-between-rows 20.319, style:page-number 20.328, style:rel-width 20.340, style:shadow 20.359, style:width 20.399, style:writing-mode 20.404, table:align 20.414, table:border-model 20.415, table:display 20.416 and table:tab-color 20.442.
+14396-
+--
+14434-
+14435:The <style:list-level-properties> element has the following attributes: fo:height 20.194, fo:text-align 20.223, fo:width 20.229, style:font-name 20.277, style:vertical-pos 20.397, style:vertical-rel 20.398, svg:y 20.412, text:list-level-position-and-space-mode 20.431, text:min-label-distance 20.432, text:min-label-width 20.433 and text:space-before 20.435.
+14436-
+--
+14444-
+14445:The fo:text-indent and fo:margin-left attributes specify the indent and margin for the text lines of a list item. The text lines of a list item contain the list level properties specific content and the text of the paragraph inside the list item. The value fo:text-indent + fo:margin-left specifies the indent of the first text line of the list item. This position is also the alignment position for the list label, because the value of text:min-label-width is treated as 0. 19.246, 20.431
+14446-
+14447:The fo:text-indent and fo:margin-left attributes are evaluated only for paragraphs inside list items whose paragraph styles do not specify them. If one of the two properties, or both, are specified by the paragraph style, the text indent and/or left margin are taken from the paragraph style. In this case the paragraph style's properties are used to determine the indent and margin for the text lines and thus also the alignment position.
+14448-
+--
+14450-
+14451:The <style:list-level-label-alignment> element has the following attributes: fo:margin-left 19.237, fo:text-indent 19.246, text:label-followed-by 19.833 and text:list-tab-stop-position 19.836.
+14452-
+--
+14460-
+14461:The <style:graphic-properties> element has the following attributes: dr3d:ambient-color 20.74, dr3d:back-scale 20.75, dr3d:backface-culling 20.76, dr3d:close-back 20.77, dr3d:close-front 20.78, dr3d:depth 20.79, dr3d:diffuse-color 20.80, dr3d:edge-rounding 20.81, dr3d:edge-rounding-mode 20.82, dr3d:emissive-color 20.83, dr3d:end-angle 20.84, dr3d:horizontal-segments 20.85, dr3d:lighting-mode 20.86, dr3d:normals-direction 20.87, dr3d:normals-kind 20.88, dr3d:shadow 20.89, dr3d:shininess 20.90, dr3d:specular-color 20.91, dr3d:texture-filter 20.92, dr3d:texture-generation-mode-x 20.95, dr3d:texture-generation-mode-y 20.96, dr3d:texture-kind 20.93, dr3d:texture-mode 20.94, dr3d:vertical-segments 20.97, draw:allow-overlap 20.438, draw:auto-grow-height 20.98, draw:auto-grow-width 20.99, draw:blue 20.101, draw:caption-angle 20.102, draw:caption-angle-type 20.103, draw:caption-escape 20.104, draw:caption-escape-direction 20.105, draw:caption-fit-line-length 20.106, draw:caption-gap 20.107, draw:caption-line-length 20.108, draw:caption-type 20.109, draw:color-inversion 20.110, draw:color-mode 20.111, draw:contrast 20.112, draw:decimal-places 20.113, draw:decorative 20.441, draw:draw-aspect 20.114, draw:end-guide 20.115, draw:end-line-spacing-horizontal 20.116, draw:end-line-spacing-vertical 20.117, draw:fill 20.118, draw:fill-color 20.119, draw:fill-gradient-name 20.120, draw:fill-hatch-name 20.121, draw:fill-hatch-solid 20.122, draw:fill-image-height 20.123, draw:fill-image-name 20.124, draw:fill-image-ref-point 20.125, draw:fill-image-ref-point-x 20.126, draw:fill-image-ref-point-y 20.127, draw:fill-image-width 20.128, draw:fit-to-contour 20.129, draw:fit-to-size 20.130, draw:frame-display-border 20.131, draw:frame-display-scrollbar 20.133, draw:frame-margin-horizontal 20.132, draw:frame-margin-vertical 20.134, draw:gamma 20.135, draw:gradient-step-count 20.137, draw:green 20.136, draw:guide-distance 20.138, draw:guide-overhang 20.139, draw:image-opacity 20.140, draw:line-distance 20.141, draw:luminance 20.142, draw:marker-end 20.143, draw:marker-end-center 20.144, draw:marker-end-width 20.145, draw:marker-start 20.146, draw:marker-start-center 20.147, draw:marker-start-width 20.148, draw:measure-align 20.149, draw:measure-vertical-align 20.150, draw:ole-draw-aspect 20.151, draw:opacity 20.152, draw:opacity-name 20.153, draw:parallel 20.154, draw:placing 20.155, draw:red 20.156, draw:secondary-fill-color 20.157, draw:shadow 20.158, draw:shadow-color 20.159, draw:shadow-offset-x 20.160, draw:shadow-offset-y 20.161, draw:shadow-opacity 20.162, draw:show-unit 20.163, draw:start-guide 20.164, draw:start-line-spacing-horizontal 20.165, draw:start-line-spacing-vertical 20.166, draw:stroke 20.167, draw:stroke-dash 20.168, draw:stroke-dash-names 20.169, draw:stroke-linejoin 20.170, draw:symbol-color 20.172, draw:textarea-horizontal-align 20.173, draw:textarea-vertical-align 20.174, draw:tile-repeat-offset 20.175, draw:unit 20.180, draw:visible-area-height 20.176, draw:visible-area-left 20.177, draw:visible-area-top 20.178, draw:visible-area-width 20.179, draw:wrap-influence-on-position 20.181, fo:background-color 20.182, fo:border 20.183.2, fo:border-bottom 20.183.3, fo:border-left 20.183.4, fo:border-right 20.183.5, fo:border-top 20.183.6, fo:clip 20.186, fo:margin 20.205, fo:margin-bottom 20.206, fo:margin-left 20.207, fo:margin-right 20.208, fo:margin-top 20.209, fo:max-height 20.210, fo:max-width 20.211, fo:min-height 20.212, fo:min-width 20.213, fo:padding 20.217, fo:padding-bottom 20.218, fo:padding-left 20.219, fo:padding-right 20.220, fo:padding-top 20.221, fo:wrap-option 20.230, style:background-transparency 20.247, style:border-line-width 20.248, style:border-line-width-bottom 20.249, style:border-line-width-left 20.250, style:border-line-width-right 20.251, style:border-line-width-top 20.252, style:editable 20.265, style:flow-with-text 20.267, style:horizontal-pos 20.298, style:horizontal-rel 20.299, style:mirror 20.321, style:number-wrapped-paragraphs 20.326, style:overflow-behavior 20.327, style:print-content 20.331, style:protect 20.334, style:rel-height 20.339, style:rel-width 20.340, style:repeat 20.341, style:run-through 20.351, style:shadow 20.359, style:shrink-to-fit 20.360, style:vertical-pos 20.397, style:vertical-rel 20.398, style:wrap 20.400, style:wrap-contour 20.401, style:wrap-contour-mode 20.402, style:wrap-dynamic-threshold 20.403, style:writing-mode 20.404, svg:fill-rule 20.406, svg:height 20.407, svg:stroke-color 20.408, svg:stroke-linecap 20.171, svg:stroke-opacity 20.409, svg:stroke-width 20.410, svg:width 20.413, svg:x 20.411, svg:y 20.412, text:anchor-page-number 20.417, text:anchor-type 20.418, text:animation 20.419, text:animation-delay 20.420, text:animation-direction 20.421, text:animation-repeat 20.422, text:animation-start-inside 20.423, text:animation-steps 20.424 and text:animation-stop-inside 20.425.
+14462-
+--
+19246-
+19247:19.237 fo:margin-left
+19248-
+--
+19250-
+19251:The fo:margin-left attribute specifies the left margins for the text lines of a list item. The attribute has the same meaning as the formatting property attribute fo:margin-left. 20.207 Its value is only considered for paragraphs inside a list item whose paragraph styles do not specify a fo:text-indent attribute or a fo:margin-left attribute. 
+19252-
+19253:The fo:margin-left attribute is usable with the following element: <style:list-level-label-alignment> 17.20.
+19254-
+19255:The fo:margin-left attribute has the data type length 18.3.19.
+19256-
+--
+19362-
+19363:The fo:text-indent attribute specifies the indent for the text lines of a list item. The attribute has the same meaning as the formatting property attribute fo:text-indent. See 20.225 It is used for paragraphs inside list items whose paragraph styles do not specify an fo:text-indent or fo:margin-left attribute. 
+19364-
+19365:The value fo:text-indent + fo:margin-left specifies the indent of the first text line of the list item. This position is also the alignment position for the list label, because the value of text:min-label-width is treated as 0. 
+19366-
+--
+23414-
+23415:The style:name attribute specifies a unique name for a font declaration. This name can be used inside styles as an attribute of the <style:text-properties> element) as the value of a style:font-name attribute to immediately select a font face declaration.
+23416-
+--
+37608-
+37609:Instead of this attribute, the style:font-name 20.277 attribute should be used to specify the properties of a font.
+37610-
+--
+37614-
+37615:20.190 fo:font-size
+37616-
+--
+37624-
+37625:In the OpenDocument XSL-compatible namespace, the fo:font-size attribute does not support absolute-size, inherit and relative-size values. 
+37626-
+37627:The fo:font-size attribute is usable with the following element: <style:text-properties> 16.29.29.
+37628-
+37629:The values of the fo:font-size attribute are a value of type positiveLength 18.3.27 or a value of type percent 18.3.24.
+37630-
+--
+37802-
+37803:20.206 fo:margin-bottom
+37804-
+--
+37808-
+37809:In the OpenDocument XSL-compatible namespace, the fo:margin-bottom attribute does not support the auto and inherit values.
+37810-
+37811:The fo:margin-bottom attribute is usable with the following elements: <style:graphic-properties> 17.21, <style:header-footer-properties> 17.5, <style:page-layout-properties> 17.2, <style:paragraph-properties> 17.6 and <style:table-properties> 17.15.
+37812-
+37813:The values of the fo:margin-bottom attribute are a value of type nonNegativeLength 18.3.21 or a value of type percent 18.3.24.
+37814-
+37815:20.207 fo:margin-left
+37816-
+--
+37822-
+37823:The fo:margin-left attribute is usable with the following elements: <style:graphic-properties> 17.21, <style:header-footer-properties> 17.5, <style:page-layout-properties> 17.2, <style:paragraph-properties> 17.6, <style:section-properties> 17.11 and <style:table-properties> 17.15.
+37824-
+37825:The values of the fo:margin-left attribute are a value of type length 18.3.19 or a value of type percent 18.3.24.
+37826-
+--
+37838-
+37839:20.209 fo:margin-top
+37840-
+--
+37844-
+37845:In the OpenDocument XSL-compatible namespace, the fo:margin-top attribute does not support the inherit value.
+37846-
+37847:The fo:margin-top attribute is usable with the following elements: <style:graphic-properties> 17.21, <style:header-footer-properties> 17.5, <style:page-layout-properties> 17.2, <style:paragraph-properties> 17.6 and <style:table-properties> 17.15.
+37848-
+37849:The values of the fo:margin-top attribute are a value of type nonNegativeLength 18.3.21 or a value of type percent 18.3.24.
+37850-
+--
+37970-
+37971:20.223 fo:text-align
+37972-
+--
+37974-
+37975:If there are no values specified for the fo:text-align and style:justify-single-word 20.301 attributes within the same formatting properties element, the values of those attributes is set to start and false respectively.
+37976-
+37977:In the OpenDocument XSL-compatible namespace, the fo:text-align attribute does not support the inherit, inside, outside, or string values.
+37978-
+37979:The fo:text-align attribute is usable with the following elements: <style:list-level-properties> 17.19 and <style:paragraph-properties> 17.6.
+37980-
+37981:The values of the fo:text-align attribute are start, end, left, right, center or justify.
+37982-
+--
+37984-
+37985:The fo:text-align attribute when used with the <style:paragraph-properties> 17.6 element specifies the alignment of text in a paragraph. 
+37986-
+--
+37988-
+37989:The fo:text-align attribute is usable with the following element: <style:paragraph-properties> 17.6.
+37990-
+37991:The values of the fo:text-align attribute are start, end, left, right, center or justify.
+37992-
+--
+37994-
+37995:The fo:text-align attribute when used with the <style:list-level-properties> 17.20 element specifies the alignment of list labels. 
+37996-
+37997:If the text:list-level-position-and-space-mode 20.431 attribute on the same <style:list-level-properties> element has the value label-width-and-position, the fo:text-align attribute specifies the horizontal alignment of the list label within the width specified by the text:min-label-width 20.433 attribute. If the actual width of the list label is greater than the specified minimum width no alignment takes place.
+37998-
+37999:If the text:list-level-position-and-space-mode attribute on the same <style:list-level-properties> element has the value label-alignment, the value of the text:min-label-width attribute is treated as 0 and the fo:text-align attribute specifies the horizontal alignment of the list label at the alignment position. The alignment position is specified by the fo:margin-left 20.207 and fo:text-indent 20.225 attributes of its child element <style:list-level-label-alignment> 17.20.
+38000-
+38001:The defined values for the fo:text-align attribute are:
+38002-
+--
+38004-
+38005:•end: interpreted as fo:text-align=”right” 
+38006-
+--
+38012-
+38013:•start: interpreted as fo:text-align=”left”. 
+38014-
+38015:The fo:text-align attribute is usable with the following element: <style:list-level-properties> 17.19.
+38016-
+38017:The values of the fo:text-align attribute are start, end, left, right, center or justify.
+38018-
+38019:20.224 fo:text-align-last
+38020-
+--
+38022-
+38023:This attribute is ignored if it not accompanied by an fo:text-align 20.223 attribute.
+38024-
+--
+38026-
+38027:The fo:text-align-last attribute is usable with the following element: <style:paragraph-properties> 17.6.
+38028-
+38029:The values of the fo:text-align-last attribute are start, center or justify.
+38030-
+--
+38548-
+38549:The fo:margin-bottom 20.206 attribute of a paragraph and the fo:margin-top 20.209 attribute of the next paragraph are ignored, so that the space between the paragraphs is zero, if all of the following conditions hold:
+38550-
+--
+38734-
+38735:Instead of this attribute, the style:font-name attribute should be used to specify the properties of a font.
+38736-
+--
+38752-
+38753:Instead of this attribute, the style:font-name-asian 20.278 attribute should be used to specify the properties of a font.
+38754-
+--
+38770-
+38771:Instead of this attribute, the style:font-name-complex 20.279 attribute should be used to specify the properties of a font.
+38772-
+--
+38782-
+38783:Instead of this attribute, the style:font-name-asian 20.278 attribute should be used to specify the properties of a font.
+38784-
+--
+38794-
+38795:Instead of this attribute, the style:font-name-complex 20.279 attribute should be used to specify the properties of a font.
+38796-
+--
+38808-
+38809:Instead of this attribute, the style:font-name 20.277 attribute should be used to specify the properties of a font.
+38810-
+--
+38836-
+38837:Instead of this attribute, the style:font-name-asian 20.278 attribute should be used to specify the properties of a font.
+38838-
+--
+38862-
+38863:Instead of this attribute, the style:font-name-complex 20.279 attribute should be used to specify the properties of a font. 
+38864-
+--
+38890-
+38891:•true: line height is calculated only from the font height as specified by the font size attributes fo:font-size 20.190, style:font-size-asian 20.284 and style:font-size-complex 20.285. 
+38892-
+--
+38896-
+38897:20.277 style:font-name
+38898-
+38899:The style:font-name attribute specifies a font that is declared by a <style:font-face> 16.23 element with a style:name 19.502 attribute whose name is the same as that of the style:font-name attribute value. 
+38900-
+--
+38902-
+38903:The style:font-name attribute is usable with the following elements: <style:list-level-properties> 17.19 and <style:text-properties> 16.29.29.
+38904-
+38905:The style:font-name attribute has the data type string 18.2.
+38906-
+38907:20.278 style:font-name-asian
+38908-
+38909:The style:font-name-asian attribute specifies a font that is declared by a <style:font-face> 16.23 element with a style:name 19.502 attribute whose name is the same as that of the style:font-name-asian attribute value. 
+38910-
+--
+38912-
+38913:The style:font-name-asian attribute is usable with the following element: <style:text-properties> 16.29.29.
+38914-
+38915:The style:font-name-asian attribute has the data type string 18.2.
+38916-
+38917:20.279 style:font-name-complex
+38918-
+38919:The style:font-name-complex attribute specifies a font that is declared by a <style:font-face> 16.23 element with a style:name 19.502 attribute whose name is the same as that of the style:font-name-complex attribute value. 
+38920-
+38921:The style:font-name-complex attribute is evaluated for [UNICODE] characters whose script type is complex. 20.358
+38922-
+38923:The style:font-name-complex attribute is usable with the following element: <style:text-properties> 16.29.29.
+38924-
+38925:The style:font-name-complex attribute has the data type string 18.2.
+38926-
+--
+38934-
+38935:Instead of this attribute, the style:font-name 20.277 attribute should be used to specify the properties of a font.
+38936-
+--
+38954-
+38955:Instead of this attribute, the style:font-name-asian 20.189 attribute should be used to specify the properties of a font.
+38956-
+--
+38974-
+38975:Instead of this attribute, the style:font-name-complex 20.279 attribute should be used to specify the properties of a font.
+38976-
+--
+39108-
+39109:Instead of this attribute, the style:font-name 20.277 attribute should be used to specify the properties of a font.
+39110-
+--
+39122-
+39123:Instead of this attribute, the style:font-name-asian 20.278 attribute should be used to specify the properties of a font.
+39124-
+--
+39136-
+39137:Instead of this attribute, the style:font-name-complex 20.279 attribute should be used to specify the properties of a font.
+39138-
+--
+39382-
+39383:5)Values of the fo:margin-left 20.207 attribute, which can also be given by the fo:margin, and fo:text-indent 19.246 attributes, that meet one of these conditions: 
+39384-1.All values are the same. 
+39385-
+39386:2.Values of the fo:margin-left attributes are the same and values of the fo:text-indent attributes are non-negative. 
+39387-
+39388:3.Value of the fo:margin-left attribute of one paragraph whose value of the fo:text-indent attribute is non-negative is the same as the sum of values of the fo:margin-left and fo:text-indent attributes of the other paragraph whose value of the fo:text-indent attribute is negative. 
+39389-
+39390:4.Both values of the fo:text-indent attributes are negative and the sums of values of the fo:margin-left and fo:text-indent attributes are equal. 
+39391-
+--
+39407-
+39408:Specifying a style:justify-single-word attribute without specifying a fo:text-align 20.223 and fo:text-align-last 20.224 attribute has no effect. Unspecified, both fo:text-align and fo:text-align-last have the value start.
+39409-
+--
+40359-
+40360:•fix: content alignment uses the value of the fo:text-align 20.223 attribute. 
+40361-
+--
+40755-
+40756:20.390 style:text-underline-style
+40757-
+40758:The style:text-underline-style attribute specifies a style for underlining text.
+40759-
+40760:The defined values for the style:text-underline-style attribute are: 
+40761-
+--
+40777-
+40778:Note: The definitions of the values of the style:text-underline-style attribute are based on the text decoration style 'text-underline-style' from [CSS3Text], §9.2.
+40779-
+40780:The style:text-underline-style attribute is usable with the following element: <style:text-properties> 16.29.29.
+40781-
+40782:The values of the style:text-underline-style attribute are none, solid, dotted, dash, long-dash, dot-dash, dot-dot-dash or wave.
+40783-
+--
+40795-
+40796:Every occurrence of the style:text-underline-type attribute should be accompanied by an occurrence of the style:text-underline-style 20.390 attribute on the same element. There should not be an occurrence of the style:text-underline-type attribute if the value of the style:text-underline-style attribute is none. 
+40797-
+--
+41266-
+41267:If the fo:text-align with value start, text alignment can be adapted to the writing mode.
+41268-
+--
+41640-
+41641:•label-alignment: The <style:list-level-label-alignment> 17.20 element and the fo:text-align 20.223 attribute are used to define the position and spacing of the list label and the list item. The values of the attributes for text:space-before 20.435, text:min-label-width 20.433 and text:min-label-distance 20.432 are assumed to be 0. 
+41642-
+41643:•label-width-and-position: The text:space-before, text:min-label-width, text:min-label-distance and fo:text-align attributes are used to define the position and spacing of the list label and the list item. 
+41644-
+--
+41670-
+41671:The list label can be aligned horizontally within the specified minimum width using the fo:text-align 20.223 attribute. If the actual width of the list label is greater than the specified minimum width no alignment takes place.
+41672-
+--
+41752-
+41753:•false: paragraph style determines position of tab stops relative to the outer edge of the margin that is specified by fo:margin or fo:margin-left of the paragraph. 
+41754-
+41755:•true: paragraph style determines the position of tab stops relative to the inner edge of the margin that is specified by fo:margin or fo:margin-left of the paragraph. Exception: the tab stop set by applied list style is determined by the paragraph style relative to the outer edge of the margin that is specified by fo:margin or fo:margin-left of the paragraph. 
+41756-
+--
+41758-
+41759:Note: In right-to-left layout environments, the paragraph's right margin is specified by fo:margin-left, and its tab stop positions are relative to the right edge.
+41760-
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="13pt" fo:line-height="150%"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="13pt"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="17mm" fo:text-align="center"/>
+      <style:text-properties fo:font-size="22pt"/>
+    </style:style>
+    <style:style style:name="Agent" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="11mm"/>
+    </style:style>
+    <style:style style:name="Indented" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-left="18mm"/>
+    </style:style>
+    <style:style style:name="Statement" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="19mm"/>
+    </style:style>
+    <style:style style:name="ItemHeading" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="17mm"/>
+    </style:style>
+    <style:style style:name="BulletLine" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-left="6mm" fo:line-height="150%"/>
+    </style:style>
+    <style:style style:name="Consent" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="37mm"/>
+    </style:style>
+    <style:style style:name="Centered" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Signature" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="9mm"/>
+    </style:style>
+    <style:style style:name="Underline" style:family="text">
+      <style:text-properties style:text-underline-style="solid"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="210mm" fo:page-height="297mm" fo:margin-top="25mm" fo:margin-bottom="25mm" fo:margin-left="30mm" fo:margin-right="30mm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="PageStart">委<text:s/>任<text:s/>状</text:p>
+      <text:p text:style-name="Agent">代理人<text:s text:c="2"/><text:span text:style-name="Underline">住所<text:s text:c="2"/></text:span></text:p>
+      <text:p text:style-name="Indented"><text:span text:style-name="Underline">氏名<text:s text:c="2"/></text:span></text:p>
+      <text:p text:style-name="Statement">私は、上記のものを代理人と定め、横浜市<text:span text:style-name="Underline"><text:s text:c="25"/></text:span></text:p>
+      <text:p>に所在する土地及び建築物に関して、次の権限を委任します。</text:p>
+      <text:p text:style-name="ItemHeading">委任事項</text:p>
+      <text:p text:style-name="BulletLine">・</text:p>
+      <text:p text:style-name="BulletLine">・</text:p>
+      <text:p text:style-name="BulletLine">・</text:p>
+      <text:p text:style-name="BulletLine">・</text:p>
+      <text:p text:style-name="BulletLine">・</text:p>
+      <text:p text:style-name="Consent">なお、上記委任事項に関連する個人情報について代理人に提供することに同意します。</text:p>
+      <text:p text:style-name="Centered">令和<text:s text:c="2"/>年<text:s text:c="2"/>月<text:s text:c="2"/>日</text:p>
+      <text:p text:style-name="Centered">（委任状作成年月日）</text:p>
+      <text:p text:style-name="Signature">本人<text:s text:c="2"/>住所<text:span text:style-name="Underline"><text:s text:c="2"/></text:span></text:p>
+      <text:p text:style-name="Indented"><text:span text:style-name="Underline">氏名<text:s text:c="2"/></text:span></text:p>
+      <text:p text:style-name="Indented"><text:span text:style-name="Underline">電話番号<text:s text:c="2"/></text:span></text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+42,831

@@ -1,0 +1,779 @@
+rows-and-groups" />
+      <ns0:optional>
+        <ns0:ref name="table-named-expressions" />
+      </ns0:optional>
+    </ns0:element>
+  </ns0:define>
+  
+\n### table-table-column \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-column">
+    <ns0:element name="table:table-column">
+      <ns0:ref name="table-table-column-attlist" />
+      <ns0:empty />
+    </ns0:element>
+  </ns0:define>
+  
+\n### table-table-row \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-row">
+    <ns0:element name="table:table-row">
+      <ns0:ref name="table-table-row-attlist" />
+      <ns0:oneOrMore>
+        <ns0:choice>
+          <ns0:ref name="table-table-cell" />
+          <ns0:ref name="table-covered-table-cell" />
+        </ns0:choice>
+      </ns0:oneOrMore>
+    </ns0:element>
+  </ns0:define>
+  
+\n### table-table-cell \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-cell">
+    <ns0:element name="table:table-cell">
+      <ns0:ref name="table-table-cell-attlist" />
+      <ns0:ref name="table-table-cell-attlist-extra" />
+      <ns0:ref name="table-table-cell-content" />
+    </ns0:element>
+  </ns0:define>
+  
+\n### table-covered-table-cell \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-covered-table-cell">
+    <ns0:element name="table:covered-table-cell">
+      <ns0:ref name="table-table-cell-attlist" />
+      <ns0:ref name="table-table-cell-content" />
+    </ns0:element>
+  </ns0:define>
+  
+\n### text-p \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="text-p">
+    <ns0:element name="text:p">
+      <ns0:ref name="paragraph-attrs" />
+      <ns0:zeroOrMore>
+        <ns0:ref name="paragraph-content-or-hyperlink" />
+      </ns0:zeroOrMore>
+    </ns0:element>
+  </ns0:define>
+  
+
+exec
+/usr/bin/zsh -lc "python3 -c 'from pathlib import Path; import xml.etree.ElementTree as E; p=E.parse(\"odf_spec/OpenDocument-v1.4-schema.rng\").getroot(); ns={\"r\":\"http://relaxng.org/ns/structure/1.0\"}; names=[\"office-document-attrs\",\"office-document-common-attrs\",\"style-style-attlist\",\"style-page-layout-attlist\",\"style-page-layout-properties-content-strict\",\"style-master-page-attlist\",\"style-paragraph-properties-content-strict\",\"style-text-properties-content-strict\",\"style-table-properties-content-strict\",\"style-table-column-properties-content-strict\",\"style-table-row-properties-content-strict\",\"style-table-cell-properties-content-strict\",\"table-table-attlist\",\"table-table-column-attlist\",\"table-table-row-attlist\",\"table-table-cell-attlist\",\"table-table-cell-attlist-extra\",\"paragraph-attrs\"];
+for name in names:
+ for d in p.findall(\"r:define\",ns):
+  if d.get(\"name\")==name: print(\"\\\\n###\",name,\"\\\\n\",E.tostring(d,encoding=\"unicode\")[:8000])'" in /tmp/fb_codex_pdf_re9zpapd
+ succeeded in 0ms:
+\n### office-document-attrs \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="office-document-attrs">
+    <ns0:attribute name="office:mimetype">
+      <ns0:ref name="string" />
+    </ns0:attribute>
+  </ns0:define>
+  
+\n### office-document-common-attrs \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="office-document-common-attrs">
+    <ns0:interleave>
+      <ns0:attribute name="office:version">
+        
+        <ns0:value>1.4</ns0:value>
+      </ns0:attribute>
+      <ns0:optional>
+        <ns0:attribute name="grddl:transformation">
+          <ns0:list>
+            <ns0:zeroOrMore>
+              <ns0:ref name="anyIRI" />
+            </ns0:zeroOrMore>
+          </ns0:list>
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### style-style-attlist \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-style-attlist">
+    <ns0:interleave>
+      <ns0:attribute name="style:name">
+        <ns0:ref name="styleName" />
+      </ns0:attribute>
+      <ns0:optional>
+        <ns0:attribute name="style:display-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:parent-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:next-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:list-level">
+          <ns0:choice>
+            <ns0:ref name="positiveInteger" />
+            <ns0:empty />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:list-style-name">
+          <ns0:choice>
+            <ns0:ref name="styleName" />
+            <ns0:empty />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:master-page-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:auto-update">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:data-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:percentage-data-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:class">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:default-outline-level">
+          <ns0:choice>
+            <ns0:ref name="positiveInteger" />
+            <ns0:empty />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### style-page-layout-attlist \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-page-layout-attlist">
+    <ns0:interleave>
+      <ns0:attribute name="style:name">
+        <ns0:ref name="styleName" />
+      </ns0:attribute>
+      
+      <ns0:optional>
+        <ns0:attribute name="style:page-usage">
+          <ns0:choice>
+            <ns0:value>all</ns0:value>
+            <ns0:value>left</ns0:value>
+            <ns0:value>right</ns0:value>
+            <ns0:value>mirrored</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### style-page-layout-properties-content-strict \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-page-layout-properties-content-strict">
+    <ns0:ref name="style-page-layout-properties-attlist" />
+    <ns0:ref name="style-page-layout-properties-elements" />
+  </ns0:define>
+  
+\n### style-master-page-attlist \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-master-page-attlist">
+    <ns0:interleave>
+      <ns0:attribute name="style:name">
+        <ns0:ref name="styleName" />
+      </ns0:attribute>
+      <ns0:optional>
+        <ns0:attribute name="style:display-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:attribute name="style:page-layout-name">
+        <ns0:ref name="styleNameRef" />
+      </ns0:attribute>
+      <ns0:optional>
+        <ns0:attribute name="draw:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:next-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### style-paragraph-properties-content-strict \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-paragraph-properties-content-strict">
+    <ns0:ref name="style-paragraph-properties-attlist" />
+    <ns0:ref name="style-paragraph-properties-elements" />
+  </ns0:define>
+  
+\n### style-text-properties-content-strict \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-text-properties-content-strict">
+    <ns0:ref name="style-text-properties-attlist" />
+    <ns0:ref name="style-text-properties-elements" />
+  </ns0:define>
+  
+\n### style-table-properties-content-strict \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-table-properties-content-strict">
+    <ns0:ref name="style-table-properties-attlist" />
+    <ns0:ref name="style-table-properties-elements" />
+  </ns0:define>
+  
+\n### style-table-column-properties-content-strict \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-table-column-properties-content-strict">
+    <ns0:ref name="style-table-column-properties-attlist" />
+    <ns0:ref name="style-table-column-properties-elements" />
+  </ns0:define>
+  
+\n### style-table-row-properties-content-strict \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-table-row-properties-content-strict">
+    <ns0:ref name="style-table-row-properties-attlist" />
+    <ns0:ref name="style-table-row-properties-elements" />
+  </ns0:define>
+  
+\n### style-table-cell-properties-content-strict \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-table-cell-properties-content-strict">
+    <ns0:ref name="style-table-cell-properties-attlist" />
+    <ns0:ref name="style-table-cell-properties-elements" />
+  </ns0:define>
+  
+\n### table-table-attlist \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="table:name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:template-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-first-row-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-last-row-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-first-column-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-last-column-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-banding-rows-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-banding-columns-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protected">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protection-key">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protection-key-digest-algorithm">
+          <ns0:ref name="anyIRI" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:print">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:print-ranges">
+          <ns0:ref name="cellRangeAddressList" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="xml-id" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:is-sub-table">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### table-table-column-attlist \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-column-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="table:number-columns-repeated">
+          <ns0:ref name="positiveInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:visibility">
+          <ns0:ref name="table-visibility-value" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:default-cell-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="xml-id" />
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### table-table-row-attlist \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-row-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="table:number-rows-repeated">
+          <ns0:ref name="positiveInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:default-cell-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:visibility">
+          <ns0:ref name="table-visibility-value" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="xml-id" />
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### table-table-cell-attlist \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-cell-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="table:number-columns-repeated">
+          <ns0:ref name="positiveInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:content-validation-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:formula">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="common-value-and-type-attlist" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protect">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protected">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="xml-id" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="common-in-content-meta-attlist" />
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### table-table-cell-attlist-extra \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-cell-attlist-extra">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="table:number-columns-spanned">
+          <ns0:ref name="positiveInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:number-rows-spanned">
+          <ns0:ref name="positiveInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:number-matrix-columns-spanned">
+          <ns0:ref name="positiveInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:number-matrix-rows-spanned">
+          <ns0:ref name="positiveInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+\n### paragraph-attrs \n <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="paragraph-attrs">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="text:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="text:class-names">
+          <ns0:ref name="styleNameRefs" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="text:cond-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:group>
+          <ns0:ref name="xml-id" />
+          <ns0:optional>
+            <ns0:attribute name="text:id">
+              <ns0:ref name="NCName" />
+            </ns0:attribute>
+          </ns0:optional>
+        </ns0:group>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="common-in-content-meta-attlist" />
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0mm" fo:margin-bottom="0mm" fo:line-height="100%"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="10pt"/>
+    </style:default-style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0mm" fo:margin-bottom="8mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="16pt"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:margin-bottom="3mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Recipient" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0mm" fo:margin-bottom="2mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Intro" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="16mm" fo:margin-bottom="7mm" fo:text-align="center"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="2mm" fo:margin-bottom="1mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0mm" fo:margin-bottom="0mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Centered" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0mm" fo:margin-bottom="0mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0mm" fo:margin-bottom="0mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="Note" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="2mm" fo:margin-bottom="0mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="Footer" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right" fo:margin-top="4mm" fo:margin-bottom="0mm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="8pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="210mm" fo:page-height="297mm" fo:margin-left="23mm" fo:margin-right="23mm" fo:margin-top="12mm" fo:margin-bottom="10mm"/>
+    </style:page-layout>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties fo:width="164mm"/>
+    </style:style>
+    <style:style style:name="SignatureTable" style:family="table">
+      <style:table-properties fo:width="80mm" fo:margin-left="84mm"/>
+    </style:style>
+    <style:style style:name="ColEqual" style:family="table-column">
+      <style:table-column-properties style:column-width="9.11mm"/>
+    </style:style>
+    <style:style style:name="Col24" style:family="table-column">
+      <style:table-column-properties style:column-width="24mm"/>
+    </style:style>
+    <style:style style:name="Col23" style:family="table-column">
+      <style:table-column-properties style:column-width="23mm"/>
+    </style:style>
+    <style:style style:name="Col34" style:family="table-column">
+      <style:table-column-properties style:column-width="34mm"/>
+    </style:style>
+    <style:style style:name="Col35" style:family="table-column">
+      <style:table-column-properties style:column-width="35mm"/>
+    </style:style>
+    <style:style style:name="Col40" style:family="table-column">
+      <style:table-column-properties style:column-width="40mm"/>
+    </style:style>
+    <style:style style:name="Col40b" style:family="table-column">
+      <style:table-column-properties style:column-width="40mm"/>
+    </style:style>
+    <style:style style:name="RowStandard" style:family="table-row">
+      <style:table-row-properties style:min-row-height="9mm"/>
+    </style:style>
+    <style:style style:name="RowTall" style:family="table-row">
+      <style:table-row-properties style:min-row-height="11mm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="1mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.7mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="EditCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.7mm" fo:background-color="#fffde0" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="LineCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:border-bottom="0.5pt solid #000000" fo:padding="0.7mm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="NoBorder" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0mm" style:vertical-align="middle"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Title">環境美化運動実施報告および補助金交付申請書</text:p>
+      <text:p text:style-name="Right">令和　年　月　日</text:p>
+      <text:p text:style-name="Recipient">飯綱町長　様</text:p>
+      <table:table table:name="申請者" table:style-name="SignatureTable">
+        <table:table-column table:style-name="Col40"/>
+        <table:table-column table:style-name="Col40b"/>
+        <table:table-row>
+          <table:table-cell table:style-name="LineCell"><text:p text:style-name="Body">子ども会・育成会名</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="LineCell"><text:p text:style-name="Body">代表者</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body">印</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Intro">下記のとおり環境美化運動事業実施しましたので、補助金の交付を申請します。</text:p>
+      <text:p text:style-name="Section">1.　実施した事業の概要</text:p>
+      <table:table table:name="実施した事業の概要" table:style-name="FormTable">
+        <table:table-column table:style-name="ColEqual" table:number-columns-repeated="18"/>
+        <table:table-row table:style-name="RowStandard">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">実施内容</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="16"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell table:number-columns-repeated="15"/>
+        </table:table-row>
+        <table:table-row table:style-name="RowStandard">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">実施期日</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">令和</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">年</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">月</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">日</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">～</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">令和</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">年</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">月</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">日</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowStandard">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">実施場所</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="16"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell table:number-columns-repeated="15"/>
+        </table:table-row>
+        <table:table-row table:style-name="RowStandard">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">参加者</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">子ども</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">名</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">指導員</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">名</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">育成会</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">名</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">合　計</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">名</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowStandard">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Body">協力団体</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="16"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell table:number-columns-repeated="15"/>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2" table:number-rows-spanned="2"><text:p text:style-name="Body">ゴミなどの<br/>収　集　量</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">可燃ゴミ</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">空き缶</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">空きビン</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">ペットボトル</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">プラスチック</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="2"><text:p text:style-name="Centered">金属類</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter" table:number-columns-spanned="4"><text:p text:style-name="Centered">その他</text:p></table:table-cell>
+          <table:covered-table-cell table:number-columns-repeated="3"/>
+        </table:table-row>
+        <table:table-row table:style-name="RowStandard">
+          <table:covered-table-cell table:number-columns-repeated="2"/>
+          <table:table-cell table:style-name="EditCell" table:number-columns-spanned="2"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">袋</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell" table:number-columns-spanned="2"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">袋</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell" table:number-columns-spanned="2"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">袋</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell" table:number-columns-spanned="2"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">袋</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell" table:number-columns-spanned="2"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">袋</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell" table:number-columns-spanned="2"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">袋</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell" table:number-columns-spanned="3"><text:p text:style-name="Body"/></table:table-cell>
+          <table:covered-table-cell table:number-columns-repeated="2"/>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">袋</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Section">2.　事業に伴う経費</text:p>
+      <table:table table:name="事業に伴う経費" table:style-name="FormTable">
+        <table:table-column table:style-name="Col24"/>
+        <table:table-column table:style-name="Col23"/>
+        <table:table-column table:style-name="Col34"/>
+        <table:table-column table:style-name="Col24"/>
+        <table:table-column table:style-name="Col23"/>
+        <table:table-column table:style-name="Col35"/>
+        <table:table-row table:style-name="RowStandard">
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">区　分</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">金　額</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">説　明</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">区　分</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">金　額</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p text:style-name="Centered">説　明</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">材　料　費</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">食　糧　費</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="RowTall">
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body">備品購入費</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="経費計算" table:style-name="SignatureTable">
+        <table:table-column table:style-name="Col40"/>
+        <table:table-column table:style-name="Col40b"/>
+        <table:table-row>
+          <table:table-cell table:style-name="LineCell"><text:p text:style-name="Body">※　経費の合計金額</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="LineCell"><text:p text:style-name="Body">※　上限額の計算　150 円　×</text:p></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Section">3.　補助金交付申請額</text:p>
+      <table:table table:name="補助金交付申請額" table:style-name="SignatureTable">
+        <table:table-column table:style-name="Col40"/>
+        <table:table-column table:style-name="Col40b"/>
+        <table:table-row>
+          <table:table-cell table:style-name="LineCell"><text:p text:style-name="Body"/></table:table-cell>
+          <table:table-cell table:style-name="EditCell"><text:p text:style-name="Body"/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Small">事業に伴う経費の合計金額と参加した子ども１人</text:p>
+      <text:p text:style-name="Small">につき150円(上限額)の金額との少ない方の額</text:p>
+
+      <text:p text:style-name="Section">4.　添付書類</text:p>
+      <text:p text:style-name="Body">　① 領収書(写)　　②開催通知等事業の実施がわかるもの</text:p>
+      <text:p text:style-name="Body">　③ 写真３枚程度（子どもの作業風景・集積したゴミ等）</text:p>
+      <text:p text:style-name="Note">※　「協力団体」欄には、育成会以外で一緒に行った団体がある場合に、その団体名を記載すること</text:p>
+      <text:p text:style-name="Note">※　「ゴミなどの収集量等」欄は、単位を袋としているが重さ(kg)などの単位への変更は自由</text:p>
+      <text:p text:style-name="Footer">環境美化運動事業補助金実施報告および交付申請書 230310</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+69,426

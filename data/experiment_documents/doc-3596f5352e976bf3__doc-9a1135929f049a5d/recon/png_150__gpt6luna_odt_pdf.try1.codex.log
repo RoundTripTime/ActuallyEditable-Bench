@@ -1,0 +1,1140 @@
+ <rng:ref name="office-spreadsheet-content-main"/>
+        <rng:ref name="office-spreadsheet-content-epilogue"/>
+  </rng:define>
+  <rng:define name="office-spreadsheet-content-prelude">
+    <rng:optional>
+      <rng:ref name="table-tracked-changes"/>
+    </rng:optional>
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-row-group">
+    <rng:element name="table:table-row-group">
+      <rng:ref name="table-table-row-group-attlist"/>
+      <rng:ref name="table-rows-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-rows">
+    <rng:element name="table:table-rows">
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-page-continuation-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:select-page">
+        <rng:choice>
+          <rng:value>previous</rng:value>
+          <rng:value>next</rng:value>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:string-value">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-page-number-attlist">
+    <rng:interleave>
+      <rng:interleave>
+        <rng:ref name="common-field-num-format-attlist"/>
+        <rng:ref name="common-field-fixed-attlist"/>
+      </rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:page-adjust">
+          <rng:ref name="integer"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:select-page">
+          <rng:choice>
+            <rng:value>previous</rng:value>
+            <rng:value>current</rng:value>
+            <rng:value>next</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-page-sequence">
+    <rng:element name="text:page-sequence">
+      <rng:oneOrMore>
+        <rng:ref name="text-page"/>
+      </rng:oneOrMore>
+    </rng:element>
+      <rng:attribute name="style:border-line-width-bottom">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-left">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+1243:      <rng:attribute name="fo:border">
+1248:      <rng:attribute name="fo:border-top">
+1253:      <rng:attribute name="fo:border-bottom">
+1258:      <rng:attribute name="fo:border-left">
+1263:      <rng:attribute name="fo:border-right">
+2616:    <rng:attribute name="table:style-name">
+2627:      <rng:attribute name="fo:text-align">
+5974:        <rng:attribute name="fo:min-height">
+11675:        <rng:attribute name="fo:min-height">
+11987:        <rng:attribute name="fo:min-height">
+12490:        <rng:attribute name="fo:text-align-last">
+12504:        <rng:attribute name="fo:keep-together">
+12777:        <rng:attribute name="style:parent-style-name">
+12803:        <rng:attribute name="style:master-page-name">
+12840:        <rng:attribute name="style:family">
+12848:        <rng:attribute name="style:family">
+12859:        <rng:attribute name="style:family">
+12867:        <rng:attribute name="style:family">
+12875:        <rng:attribute name="style:family">
+12883:        <rng:attribute name="style:family">
+12891:        <rng:attribute name="style:family">
+12899:        <rng:attribute name="style:family">
+12913:        <rng:attribute name="style:family">
+12930:        <rng:attribute name="style:family">
+12938:        <rng:attribute name="style:family">
+13170:        <rng:attribute name="style:column-width">
+13273:        <rng:attribute name="style:row-height">
+13290:        <rng:attribute name="fo:keep-together">
+13483:        <rng:attribute name="fo:font-size">
+14040:    <rng:attribute name="table:style-name">
+15978:        <rng:attribute name="table:style-name">
+16067:        <rng:attribute name="table:style-name">
+16167:        <rng:attribute name="table:style-name">
+16242:        <rng:attribute name="table:style-name">
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re,zlib; d=open(\"input/form.pdf\",\"rb\").read();
+for i,m in enumerate(re.finditer(rb\"stream\\r?\\n(.*?)\\r?\\nendstream\",d,re.S)):
+ b=m.group(1)
+ try: x=zlib.decompress(b)
+ except: continue
+ ss=re.findall(rb\"\\((?:\\\\.|["'^'"\\\\)])*\\)|<([0-9A-Fa-f]{4,})>\",x)
+ print(\"STREAM\",i,\"LEN\",len(x)); print(x[:1800].decode(\"latin1\",\"replace\"))'" in /tmp/fb_codex_pdf_h07kyvz4
+ succeeded in 0ms:
+STREAM 0 LEN 7764
+0.1 w
+/Artifact BMC
+q 0 0.028 595.276 841.861 re
+W* n
+/Artifact BMC
+1 1 1 rg
+88.6 622.939 418.15 42.45 re f*
+EMC
+/Artifact BMC
+88.6 593.639 28.35 29.25 re f*
+EMC
+/Artifact BMC
+117 593.639 72.15 29.25 re f*
+EMC
+/Artifact BMC
+189.2 593.639 141.05 29.25 re f*
+EMC
+/Artifact BMC
+330.3 593.639 83.95 29.25 re f*
+EMC
+/Artifact BMC
+414.3 593.639 92.45 29.25 re f*
+EMC
+EMC
+/Span<</MCID 0>>BDC
+q 0 0 0 rg
+BT
+85.15 748.989 Td /F1 10 Tf<0102030405060708090A0B0C0D>Tj
+ET
+Q
+EMC
+/Span<</MCID 1>>BDC
+q 0 0 0 RG
+0 0 0 rg
+BT
+2 Tr 0.53333 w
+149.25 707.439 Td /F1 16 Tf[<0E>2<0E>-1<0E>-1<0E>-1<0E>2<0E>]TJ
+ET
+Q
+q 1 0 0 1 149.25 707.439 cm
+0.9 w 0 0 0 RG
+0 -1.7 m 25.1 -1.7 l S
+Q
+EMC
+/Span<</MCID 2>>BDC
+q 0 0 0 RG
+0 0 0 rg
+BT
+2 Tr 0.53333 w
+174.35 707.439 Td /F1 16 Tf<0C0F10111213141505060708090A0B0C0D>Tj
+ET
+Q
+EMC
+/Span<</MCID 3>>BDC
+q 0 0 0 rg
+BT
+182.1 675.439 Td /F1 12 Tf<0C0D161704>Tj
+ET
+Q
+EMC
+/Span<</MCID 4>>BDC
+q 0 0 0 rg
+BT
+242.1 675.439 Td /F1 12 Tf[<0E>3<0E>-1<0E>-1<0E>]TJ
+ET
+Q
+q 1 0 0 1 242.1 675.439 cm
+0.7 w 0 0 0 RG
+0 -1.3 m 12.5 -1.3 l S
+Q
+EMC
+/Span<</MCID 5>>BDC
+q 0 0 0 rg
+BT
+254.65 675.439 Td /F1 12 Tf<18>Tj
+ET
+Q
+EMC
+/Span<</MCID 6>>BDC
+q 0 0 0 rg
+BT
+266.65 675.439 Td /F1 12 Tf[<0E>3<0E>-1<0E>-1<0E>]TJ
+ET
+Q
+q 1 0 0 1 266.65 675.439 cm
+0.7 w 0 0 0 RG
+0 -1.3 m 12.5 -1.3 l S
+Q
+EMC
+/Span<</MCID 7>>BDC
+q 0 0 0 rg
+BT
+279.2 675.439 Td /F1 12 Tf<19>Tj
+ET
+Q
+EMC
+/Span<</MCID 8>>BDC
+q 0 0 0 rg
+BT
+291.2 675.439 Td /F1 12 Tf[<0E>3<0E>-1<0E>-1<0E>]TJ
+ET
+Q
+q 1 0 0 1 291.2 675.439 cm
+0.7 w 0 0 0 RG
+0 -1.3 m 12.5 -1.3 l S
+Q
+EMC
+/Span<</MCID 9>>BDC
+q 0 0 0 rg
+BT
+303.75 675.439 Td /F1 12 Tf<1A1B1C>Tj
+ET
+Q
+EMC
+/Span<</MCID 10>>BDC
+q 0 0 0 rg
+BT
+339.75 675.439 Td /F1 12 Tf[<0E>3<0E>-1<0E>-1<0E>]TJ
+ET
+Q
+q 1 0 0 1 339.75 675.439 cm
+0.7 w 0 0 0 RG
+0 -1.3 m 12.5 -1.3 l S
+Q
+EMC
+/Span<</MCID 11>>BDC
+q 0 0 0 rg
+
+STREAM 1 LEN 4946
+0.1 w
+/Artifact BMC
+q 0 0.028 595.276 841.861 re
+W* n
+EMC
+/Span<</MCID 0>>BDC
+q 0 0 0 RG
+0 0 0 rg
+BT
+2 Tr 0.53333 w
+97.15 741.989 Td /F1 16 Tf<0102030405060708090A0B0C0D0E>Tj
+ET
+Q
+EMC
+/Span<</MCID 1>>BDC
+q 0 0 0 RG
+0 0 0 rg
+BT
+2 Tr 0.53333 w
+309.3 741.989 Td /F1 16 Tf<77786879>Tj
+ET
+Q
+EMC
+/Span<</MCID 2>>BDC
+q 0 0 0 rg
+BT
+94.35 705.389 Td /F1 14 Tf<547A0C0F10111F7B>Tj
+ET
+Q
+EMC
+/Standard<</MCID 3>>BDC
+q 0 0 0 rg
+BT
+107.35 686.739 Td /F2 14 Tf[<01>1<02>]TJ
+ET
+Q
+EMC
+/Span<</MCID 4>>BDC
+q 0 0 0 rg
+BT
+119.1 686.739 Td /F1 14 Tf<33357C1F6F7D46>Tj
+ET
+Q
+EMC
+/Standard<</MCID 5>>BDC
+q 0 0 0 rg
+BT
+107.35 667.689 Td /F2 14 Tf[<03>1<02>]TJ
+ET
+Q
+EMC
+/Span<</MCID 6>>BDC
+q 0 0 0 rg
+BT
+119.1 667.689 Td /F1 14 Tf<33577E4A7F808102828350511F7B46>Tj
+ET
+Q
+EMC
+/Span<</MCID 7>>BDC
+q 0 0 0 rg
+BT
+94.35 642.989 Td /F1 14 Tf<347A0C0D1617>Tj
+ET
+Q
+EMC
+/Span<</MCID 8>>BDC
+q 0 0 0 rg
+BT
+115.5 624.689 Td /F1 14 Tf<0C0D841B851A16300C0D1676473A3B46>Tj
+ET
+Q
+EMC
+/Span<</MCID 9>>BDC
+q 0 0 0 rg
+BT
+94.35 600.389 Td /F1 14 Tf<867A1D05060B1E1F7A2021>Tj
+ET
+Q
+EMC
+/Span<</MCID 10>>BDC
+q 0 0 0 rg
+BT
+115.5 582.089 Td /F1 14 Tf<1D05060B8788892C8A8B292E343A8C8B2E8D8E686A46>Tj
+ET
+Q
+EMC
+/Span<</MCID 11>>BDC
+q 0 0 0 rg
+BT
+94.35 557.789 Td /F1 14 Tf<037A2223>Tj
+ET
+Q
+EMC
+/Span<</MCID 12>>BDC
+q 0 0 0 rg
+BT
+115.5 539.489 Td /F1 14 Tf<8F90918414242526270B9222749346>Tj
+ET
+Q
+EMC
+/Span<</MCID 13>>BDC
+q 0 0 0 rg
+BT
+94.35 515.189 Td /F1 14 Tf<8D7A142426270B1E1F7A20217A2829>Tj
+ET
+Q
+EMC
+/Standard<</MCID 14>>BDC
+q 0 0 0 rg
+BT
+107.35 496.539 Td /F2 14 Tf[<01>1<02>]TJ
+ET
+Q
+EMC
+/Span<</MCID 15>>BDC
+q 0 0 0 rg
+BT
+119.1 496.539 Td /F1 14 Tf[<94909105068414242526270B1E1F7A>329<202130>329<3514242526270B1F9547>]TJ
+ET
+Q
+EMC
+/Span<</MCID 16>>BDC
+q 0 0 0 rg
+BT
+118.55 477.839 Td /F1 14 Tf<9646>Tj
+ET
+Q
+EMC
+/Standard<</MCID 17>>BDC
+q 0 0 0 rg
+BT
+1
+STREAM 2 LEN 8156
+true    @cmap/%    Ì  cvt *D*  à  Pfpgmÿ/j  0  glyf¥Ê¾  <  headÚÄ>  Ä   6hheaÔ.  ü   $hmtxî      @locaúf  `   "maxp8Å      nameËP)  ¤  post2 ÿ  ¬    prep72ß&  Ì                	
+
+                                                                                                                                                                                                                                                                                                                             ] ] I IÊ    ÿÕÿö"ÿöÿ Q QW G Gnn  ÿnn  ÿ \ \ K K<  Eÿø \ \ K K<<    EEÿø   [ [ I IÊÿöøÿöÿÕÿöý"ÿöÿ H H > >h èÿ ÿh èÿÿ H H > > [ [ I IÊ  ì  ÿÕÿöì"ÿöÿ ; ; , ,*ÿ~a âÿ ÿ2ÿva èÿÿ ; ; , ,Ë àa ààg ° , ° UXEY  K¸ QK°SZX°4°(Y`f UX°%a¹  cc#b!!° Y° C#D²  C`B-°,° `f-°,#!#!-°, d³ BC°C ``B±CB±%C°CTx °#°CCad°Px²C`B°!e!°CC²B °C#B²C`B#° PXeY²C`B-°,°+°CX#!#!°CC#° PXeY d °ÀP°&Z²(
+CEcE°EX!°%YR[X!#!X °PPX!°@Y °8PX!°8YY ±
+CEcEad°(PX!±
+CEcE °0PX!°0Y °ÀPX f a °
+PX` ° PX!°
+` °6PX!°6``YYY°%°Cc° RX° K°
+PX!°CK°PX!°Ka¸ c°Cc¸ bYYdaY°+YY#° PXeYY d°C#BY-°, E °%ad °CPX°#B°#B!!Y°`-°,#!#!°+ d±bB °#B°EX±
+CEc±
+C°
+`Ec°*! °C  °+±0%°&QX`PaRYX#Y!Y °@SX°+!°@Y#° PXeY-°,°	C+²  C`B-°,°	#B# ° #Ba°bf°c°`°*-°	,  E °Cc¸ b ° PX°@`Yf°c`D°`-°
+,²	 CEB*!²  C`B-°,° C#D²  C`B-°,  E °+#° C°%` E#a d ° PX!° °0PX° °@YY#° PXeY°%#aDD°`-°
+,  E °+#° C°%` E#a d°$PX° °@Y#° PXeY°%#aDD°`-°, ° #B³
+ EPX!#!Y*!-°,±E°daD-°,°`  °CJ° PX °#BY°CJ° RX °#BY-°, °bf°c ¸ c#a°C` ` °#B#-°,KTX±dDY$°
+e#x-°,KQXKSX±dDY!Y$°e#x-°,± CUX±C°aB°+Y° C°%B±%B±%B°# °%PX± C`°%B #a°*!#
+STREAM 3 LEN 498
+/CIDInit/ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo<<
+/Registry (Adobe)
+/Ordering (UCS)
+/Supplement 0
+>> def
+/CMapName/Adobe-Identity-UCS def
+/CMapType 2 def
+1 begincodespacerange
+<00> <FF>
+endcodespacerange
+15 beginbfchar
+<01> <0031>
+<02> <002E>
+<03> <0032>
+<04> <0033>
+<05> <0034>
+<06> <0035>
+<07> <0036>
+<08> <0028>
+<09> <0029>
+<0A> <0030>
+<0B> <002D>
+<0C> <002F>
+<0D> <0037>
+<0E> <0039>
+<0F> <0020>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+
+STREAM 4 LEN 28552
+true    @cmap®9L   Ì  dcvt       0   fpgm°Y!°  4   glyf&|ûØ  <  b|headµ^"  d¸   6hheaÞÿ  dð   $hmtxù   e  æloca¡¼á  gü  ¦maxp.   j¤    name:C  jÄ  post
+ ïÿ  oT    prep+~  ot             X     §                   # $ ' ( + . / 2 5 6 7 8 ; < ? B C F I L O P S T W X \ _ ` a d g h i j m p q r s t u x y z } ~                  ¡ ¤ ¥ ¨ © ª ¬ ¯ ° ³ ´ · » ¾ ¿ À Ã Ä Ç È É Ê Í Ð Ó Ö Ù Ú Û Ü Ý Þ ß à á ã æ é ì ï ñ ó ö ÷ ú û ü ý 
+ #&),-1258:;>?CDEHKLNO    ° ,° !-   K   µ ·    73#735#Kjj
+OO··
+ÿÿ ÿé ó Ð&    &         ÿé _ Æ   7#''254'7##5_%Æ<(?ËÝ  ]ÿé  Ð   7'67#p	
+
+g281°   ÿé ó Ï    73533##''255#&'99
+44## ÿÿ 
+ÿé ô Ï&         
+ÿé P Ï   7#5'6<
+"Ï7©2  Fÿé ô Ï   73533#3##5#535#'6q#<<EEOO+Æ!00;UU;
+& ÿÿ ÿé é Ç& 	    
+    ÿé é Ç    7#5##535#éªªªÇÞÞ½ª  / ! È ½    73'66"'&5533X
+p½M=53
+vr  pÿü      7"542"542    { ÿÿ ÿé ô Ð& 
+        ÿé \ Ï   73533#7#"''3255'75#
+!¥**1K
+;
+9   Uÿé ô Ð    $ (  #5'673'73#3#3#3'353535
+
++.3----5s+++++(-#"!"!!!2""4!!ÿÿ ÿë ô Ì&         ÿë ô É    7&'33#"''75#2,z
+PFÉ
+
+D`P  M  ð Ì   ( , @ D J N  73#3265#"'735#'#326565#"&55353533533#3#535#35#'67' G7
+ !&&5%.!(%%-£*!3((
+K1
+/Ì/	
+(0	ES&	
+ ÿÿ ÿé ò Ñ&           ò Ñ    73#'#'673#'#'67<!vG(
+Ñ
+
+
+   ÿé í        73#5##53'#3#5#
+STREAM 5 LEN 2336
+/CIDInit/ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo<<
+/Registry (Adobe)
+/Ordering (UCS)
+/Supplement 0
+>> def
+/CMapName/Adobe-Identity-UCS def
+/CMapType 2 def
+1 begincodespacerange
+<00> <FF>
+endcodespacerange
+100 beginbfchar
+<01> <9644>
+<02> <4EF6>
+<03> <56DB>
+<04> <FF1A>
+<05> <63A8>
+<06> <9078>
+<07> <7BA1>
+<08> <7406>
+<09> <8CA0>
+<0A> <8CAC>
+<0B> <4EBA>
+<0C> <516C>
+<0D> <544A>
+<0E> <0020>
+<0F> <5BD3>
+<10> <5927>
+<11> <5EC8>
+<12> <FF08>
+<13> <793E>
+<14> <5340>
+<15> <FF09>
+<16> <671F>
+<17> <9593>
+<18> <5E74>
+<19> <6708>
+<1A> <65E5>
+<1B> <8D77>
+<1C> <81F3>
+<1D> <88AB>
+<1E> <59D3>
+<1F> <540D>
+<20> <5730>
+<21> <5740>
+<22> <5E8F>
+<23> <865F>
+<24> <5206>
+<25> <6240>
+<26> <6709>
+<27> <6B0A>
+<28> <6BD4>
+<29> <4F8B>
+<2A> <7C3D>
+<2B> <7AE0>
+<2C> <5408>
+<2D> <8A08>
+<2E> <7B2C>
+<2F> <9801>
+<30> <FF0C>
+<31> <5171>
+<32> <8A3B>
+<33> <61C9>
+<34> <4E8C>
+<35> <4EE5>
+<36> <4E0A>
+<37> <66F8>
+<38> <9762>
+<39> <7D93>
+<3A> <5341>
+<3B> <5929>
+<3C> <5F8C>
+<3D> <751F>
+<3E> <6548>
+<3F> <FF1B>
+<40> <8209>
+<41> <6578>
+<42> <4E0D>
+<43> <5F97>
+<44> <589E>
+<45> <52A0>
+<46> <3002>
+<47> <70BA>
+<48> <6216>
+<49> <53E6>
+<4A> <4ED6>
+<4B> <6642>
+<4C> <4E4B>
+<4D> <591A>
+<4E> <8005>
+<4F> <4EFB>
+<50> <76F8>
+<51> <540C>
+<52> <8F03>
+<53> <6BCF>
+<54> <4E00>
+<55> <7B97>
+<56> <65B0>
+<57> <8207>
+<58> <539F>
+<59> <81EA>
+<5A> <6B21>
+<5B> <65BC>
+<5C> <6B04>
+<5D> <5167>
+<5E> <672A>
+<5F> <8A2D>
+<60> <4E3B>
+<61> <8981>
+<62> <51FA>
+<63> <5165>
+<64> <53E3>
+endbfchar
+66 beginbfchar
+<65> <660E>
+<66> <986F>
+<67> <8655>
+<68> <898F>
+<69> <7D04>
+<6A> <5B9A>
+<6B> <65B9>
+<6C> <5F0F>
+<6D> <6C11>
+<6E> <5DE5>
+<6F> <8868>
+<70> <516D>
+<71> <7533>
+<72> <8ACB>
+<73> <6848>
+<74> <7DE8>
+<75> <78BC>
+<76> <9650>
+<77> <586B>
+<78> <5BEB>
+<79> <7BC4>
+<7A> <3001>
+<7B> <7A31>
+<7C> <5168>
+<7D> <793A>
+<7E> <5176>
+<7F> <5831>
+<80>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:font-size="12pt" fo:line-height="120%"/>
+      <style:text-properties style:font-name="Noto Sans CJK TC" fo:font-size="12pt"/>
+    </style:default-style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0.4cm"/>
+    </style:style>
+    <style:style style:name="SmallText" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="10pt" fo:line-height="120%"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="paragraph">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Note" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="120%"/>
+    </style:style>
+    <style:style style:name="Indented" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.8cm" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="TableText" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:line-height="110%"/>
+      <style:text-properties fo:font-size="11pt"/>
+    </style:style>
+    <style:style style:name="CellText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.05cm" fo:margin-right="0.05cm" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="Layout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="2.4cm" fo:margin-bottom="2.3cm" fo:margin-left="3.1cm" fo:margin-right="3.1cm"/>
+    </style:page-layout>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="1cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="2.6cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="5.1cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="3.1cm"/>
+    </style:style>
+    <style:style style:name="Col5" style:family="table-column">
+      <style:table-column-properties style:column-width="3cm"/>
+    </style:style>
+    <style:style style:name="Grid" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04cm"/>
+    </style:style>
+    <style:style style:name="IntroCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm"/>
+    </style:style>
+    <style:style style:name="EntryRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.98cm"/>
+    </style:style>
+    <style:style style:name="HeadingRow" style:family="table-row">
+      <style:table-row-properties style:row-height="1.05cm"/>
+    </style:style>
+    <style:style style:name="IntroRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.95cm"/>
+    </style:style>
+    <style:style style:name="TotalRow" style:family="table-row">
+      <style:table-row-properties style:row-height="1cm"/>
+    </style:style>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties table:align="margins" style:width="14.8cm"/>
+    </style:style>
+    <style:style style:name="Page2Title" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0.55cm"/>
+      <style:text-properties fo:font-size="17pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Section" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.22cm" fo:margin-bottom="0.02cm"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="RuleText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.8cm" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="120%"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="BoxText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.35cm" fo:margin-right="0.35cm" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="120%"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+    <style:style style:name="Page2Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.06cm" fo:line-height="120%"/>
+      <style:text-properties fo:font-size="14pt"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="Layout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="SmallText">附件四：推選管理負責人公告</text:p>
+      <text:p text:style-name="Center"><text:span text:style-name="Bold">＿＿公寓大廈（社區）推選管理負責人公告</text:span></text:p>
+      <text:p text:style-name="Center">公告期間：__年__月__日起至__年__月__日</text:p>
+      <table:table table:name="推選管理負責人公告" table:style-name="FormTable">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-row table:style-name="IntroRow">
+          <table:table-cell table:style-name="IntroCell" table:number-columns-spanned="5"><text:p text:style-name="CellText">被推選人姓名：______地址：____________________</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row table:style-name="HeadingRow">
+          <table:table-cell table:style-name="Grid"><text:p text:style-name="TableText">序號</text:p></table:table-cell>
+          <table:table-cell table:style-name="Grid"><text:p text:style-name="TableText">區分所有權人</text:p><text:p text:style-name="TableText">姓名</text:p></table:table-cell>
+          <table:table-cell table:style-name="Grid"><text:p text:style-name="TableText">區分所有權地址</text:p></table:table-cell>
+          <table:table-cell table:style-name="Grid"><text:p text:style-name="TableText">區分所有權比例</text:p></table:table-cell>
+          <table:table-cell table:style-name="Grid"><text:p text:style-name="TableText">簽　章</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="EntryRow"><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell><table:table-cell table:style-name="Grid"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="TotalRow">
+          <table:table-cell table:style-name="Grid" table:number-columns-spanned="3"><text:p text:style-name="Right">合計</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Grid"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Grid"><text:p text:style-name="Right">人</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Right">第 頁，共 頁</text:p>
+      <text:p>附註：</text:p>
+      <text:p text:style-name="Note">1.被推選人應有區分所有權人二人以上書面推選，經公告十天後生效；公告期間推舉人數</text:p>
+      <text:p text:style-name="Indented">不得增加。</text:p>
+      <text:p text:style-name="Note">2.被推選人為數人或公告期間另有他人被推選時，以推選之區分所有權人人數多者任之；</text:p>
+      <text:p text:style-name="Indented">人數相同時，以區分所有權比例合計較多者任之。</text:p>
+      <text:p text:style-name="Note">3.區分所有權人人數以每一區分所有權人計算。</text:p>
+      <text:p text:style-name="Note">4.新被推選人與原被推選人不同為一人時，公告日數應自新被推選人被推選之次日算。</text:p>
+      <text:p text:style-name="Note">5.公告應於公寓大廈公告欄內為之，未設公告欄者，應於主要出入口明顯處所為之。</text:p>
+      <text:p text:style-name="Note">6.規約另有規定者，應以規約所定推選方式為之。</text:p>
+      <text:p text:style-name="Center">(民)工公寓(區)01-(民)表六-1/2</text:p>
+      <text:p>申請案編碼：5073009 公告期限：9天</text:p>
+      <text:p text:style-name="Page2Title">附件四：推選管理負責人公告 填寫規範</text:p>
+      <text:p text:style-name="BoxText"><text:span text:style-name="Section">一、公寓大廈名稱</text:span></text:p>
+      <text:p text:style-name="RuleText">1.應以全名表示。</text:p>
+      <text:p text:style-name="RuleText">2.應與其他報備文件使用相同名稱。</text:p>
+      <text:p text:style-name="Section">二、公告期間</text:p>
+      <text:p text:style-name="RuleText">公告的起迄日期，公告期限為十天。</text:p>
+      <text:p text:style-name="Section">三、被推選人姓名、地址</text:p>
+      <text:p text:style-name="RuleText">被推選人必需符合本條例第二十九條第五項規定。</text:p>
+      <text:p text:style-name="Section">四、序號</text:p>
+      <text:p text:style-name="RuleText">依連署的區分所有權人順序編列。</text:p>
+      <text:p text:style-name="Section">五、區分所有權人姓名、地址、比例</text:p>
+      <text:p text:style-name="RuleText">1.指連署推選的區分所有權人姓名、地址，以區分所有權人名冊為準。</text:p>
+      <text:p text:style-name="RuleText">2.任一區分所有權以一人計算。</text:p>
+      <text:p text:style-name="RuleText">3.區分所有權人比例指連署者的專有部分面積和／專有部分全部</text:p>
+      <text:p text:style-name="RuleText">面積總和。</text:p>
+      <text:p text:style-name="Section">六、簽章</text:p>
+      <text:p text:style-name="RuleText">由連署推選的區分所有權人簽名或蓋章。</text:p>
+      <text:p text:style-name="Section">七、合計</text:p>
+      <text:p text:style-name="RuleText">1.區分所有權人數及區分所有權比例的計算。</text:p>
+      <text:p text:style-name="RuleText">2.最後被推選人公告十天期限滿後，以推選的區分所有權人人數多</text:p>
+      <text:p text:style-name="RuleText">者為當選；區分所有權人人數相同時則以區分所有權比例多者</text:p>
+      <text:p text:style-name="RuleText">為當選。</text:p>
+      <text:p text:style-name="Section">八、編頁</text:p>
+      <text:p text:style-name="RuleText">依序號排列編頁。</text:p>
+      <text:p text:style-name="Center">(民)工公寓(區)01-(民)表六-2/2</text:p>
+      <text:p>申請案編碼：5073009 公告期限：9天</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+39,074

@@ -1,0 +1,775 @@
+al>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+
+exec
+/usr/bin/zsh -lc "sed -n '8370,8450p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12450,12530p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13030,13185p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13308,13375p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '14290,14330p' odf_spec/OpenDocument-v1.4-schema.rng; rg -n 'fo:break-before|fo:text-align|fo:font-size|style:vertical-align|fo:border|fo:padding' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_rwmkbqki
+ succeeded in 0ms:
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="paragraph-attrs">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:class-names">
+          <rng:ref name="styleNameRefs"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:cond-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:group>
+          <rng:ref name="xml-id"/>
+          <rng:optional>
+            <rng:attribute name="text:id">
+              <rng:ref name="NCName"/>
+            </rng:attribute>
+          </rng:optional>
+        </rng:group>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="paragraph-content">
+    <rng:choice>
+      <rng:text/>
+      <rng:element name="text:s">
+        <rng:optional>
+          <rng:attribute name="text:c">
+            <rng:ref name="nonNegativeInteger"/>
+          </rng:attribute>
+        </rng:optional>
+      </rng:element>
+      <rng:element name="text:tab">
+        <rng:ref name="text-tab-attr"/>
+      </rng:element>
+      <rng:element name="text:line-break">
+        <rng:empty/>
+      </rng:element>
+      <rng:ref name="text-soft-page-break"/>
+      <rng:element name="text:span">
+        <rng:optional>
+          <rng:attribute name="text:style-name">
+            <rng:ref name="styleNameRef"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+          <rng:attribute name="text:class-names">
+            <rng:ref name="styleNameRefs"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:zeroOrMore>
+          <rng:ref name="paragraph-content-or-hyperlink"/>
+        </rng:zeroOrMore>
+      </rng:element>
+      <rng:element name="text:meta">
+        <rng:ref name="text-meta-attlist"/>
+        <rng:zeroOrMore>
+          <rng:ref name="paragraph-content-or-hyperlink"/>
+        </rng:zeroOrMore>
+      </rng:element>
+      <rng:choice>
+        <rng:ref name="text-bookmark"/>
+        <rng:ref name="text-bookmark-start"/>
+        <rng:ref name="text-bookmark-end"/>
+      </rng:choice>
+      <rng:element name="text:reference-mark">
+        <rng:attribute name="text:name">
+          <rng:ref name="string"/>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+          <rng:choice>
+            <rng:value>start</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>justify</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:justify-single-word">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:keep-together">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>always</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:widows">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:orphans">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:tab-stop-distance">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3846 -->
+      <rng:optional>
+        <rng:attribute name="text:relative-tab-stop-position">
+        <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-table-cell-properties">
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:wrap-option">
+          <rng:choice>
+            <rng:value>no-wrap</rng:value>
+            <rng:value>wrap</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-rotation-angle-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:rotation-align">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>top</rng:value>
+            <rng:value>center</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:cell-protect">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>hidden-and-protected</rng:value>
+            <rng:list>
+              <rng:oneOrMore>
+                <rng:choice>
+                  <rng:value>protected</rng:value>
+                  <rng:value>formula-hidden</rng:value>
+                </rng:choice>
+              </rng:oneOrMore>
+            </rng:list>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:decimal-places">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:repeat-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:shrink-to-fit">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-content-strict">
+    <rng:ref name="style-table-cell-properties-attlist"/>
+    <rng:ref name="style-table-cell-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties">
+    <rng:element name="style:table-column-properties">
+      <rng:ref name="style-table-column-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-column-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:column-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-column-width">
+          <rng:ref name="relativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-column-width">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-break-attlist"/>
+    </rng:interleave>
+  <rng:define name="style-text-properties">
+    <rng:element name="style:text-properties">
+      <rng:ref name="style-text-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-text-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:font-variant">
+          <rng:ref name="fontVariant"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:text-transform">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>lowercase</rng:value>
+            <rng:value>uppercase</rng:value>
+            <rng:value>capitalize</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-window-font-color">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-outline">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-type">
+          <rng:ref name="lineType"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-style">
+          <rng:ref name="lineStyle"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-width">
+          <rng:ref name="lineWidth"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-color">
+          <rng:choice>
+            <rng:value>font-color</rng:value>
+            <rng:ref name="color"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-text">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-line-through-text-style">
+          <rng:ref name="styleNameRef"/>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+1243:      <rng:attribute name="fo:border">
+1248:      <rng:attribute name="fo:border-top">
+1253:      <rng:attribute name="fo:border-bottom">
+1258:      <rng:attribute name="fo:border-left">
+1263:      <rng:attribute name="fo:border-right">
+1297:      <rng:attribute name="fo:break-before">
+2232:      <rng:attribute name="fo:padding">
+2237:      <rng:attribute name="fo:padding-top">
+2242:      <rng:attribute name="fo:padding-bottom">
+2247:      <rng:attribute name="fo:padding-left">
+2252:      <rng:attribute name="fo:padding-right">
+2627:      <rng:attribute name="fo:text-align">
+10367:        <rng:attribute name="style:vertical-align">
+12490:        <rng:attribute name="fo:text-align-last">
+12616:        <rng:attribute name="style:vertical-align">
+13041:        <rng:attribute name="style:vertical-align">
+13483:        <rng:attribute name="fo:font-size">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:line-height="120%"/>
+      <style:text-properties fo:font-family="Noto Serif CJK JP" fo:font-size="11pt"/>
+    </style:default-style>
+    <style:style style:name="P" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.12cm"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.15cm" fo:margin-bottom="0.45cm"/>
+      <style:text-properties fo:font-size="13pt"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="end" fo:margin-top="0cm" fo:margin-bottom="0.6cm"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Note" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="115%"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-left="2.4cm" fo:margin-right="2.4cm" fo:margin-top="1.5cm" fo:margin-bottom="1.5cm"/>
+    </style:page-layout>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.6pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="115%"/>
+    </style:style>
+    <style:style style:name="CellCenter" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.6pt solid #000000" fo:padding="0.06cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="110%"/>
+    </style:style>
+    <style:style style:name="CellSmall" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.6pt solid #000000" fo:padding="0.04cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="108%"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="ColNarrow" style:family="table-column">
+      <style:table-column-properties style:column-width="0.8cm"/>
+    </style:style>
+    <style:style style:name="ColName" style:family="table-column">
+      <style:table-column-properties style:column-width="5cm"/>
+    </style:style>
+    <style:style style:name="ColStatus" style:family="table-column">
+      <style:table-column-properties style:column-width="3cm"/>
+    </style:style>
+    <style:style style:name="ColWide" style:family="table-column">
+      <style:table-column-properties style:column-width="7.4cm"/>
+    </style:style>
+    <style:style style:name="ColIndex2" style:family="table-column">
+      <style:table-column-properties style:column-width="0.8cm"/>
+    </style:style>
+    <style:style style:name="ColLaw2" style:family="table-column">
+      <style:table-column-properties style:column-width="10.1cm"/>
+    </style:style>
+    <style:style style:name="ColOffice2" style:family="table-column">
+      <style:table-column-properties style:column-width="5.3cm"/>
+    </style:style>
+    <style:style style:name="ColLaw" style:family="table-column">
+      <style:table-column-properties style:column-width="10.1cm"/>
+    </style:style>
+    <style:style style:name="ColOffice" style:family="table-column">
+      <style:table-column-properties style:column-width="5.3cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Right">（様式１－１）</text:p>
+      <text:p text:style-name="Title">関係法令手続き状況</text:p>
+      <text:p text:style-name="P">　産業廃棄物の処理に供する事業場について、次のとおり関係法令の手続き状</text:p>
+      <text:p text:style-name="P">況を報告します。</text:p>
+      <text:p text:style-name="P"/>
+      <text:p text:style-name="P">事業場の所在地：</text:p>
+      <text:p text:style-name="P"/>
+      <table:table table:name="関係法令手続き状況">
+        <table:table-column table:style-name="ColNarrow"/>
+        <table:table-column table:style-name="ColName"/>
+        <table:table-column table:style-name="ColStatus"/>
+        <table:table-column table:style-name="ColWide"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>関係法令等</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>規制区域等</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>確認状況</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>1</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>自然公園法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>2</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>自然環境保全法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>3</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>森林法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>4</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>農業振興地域の<text:line-break/>整備に関する法律</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>5</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>農地法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>6</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>建築基準法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>7</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>都市計画法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>8</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>沖縄県赤土等流出<text:line-break/>防止条例</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>9</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>文化財保護法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellCenter"><text:p>10</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>その他</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellCenter"><text:p>該当する<text:line-break/>該当しない</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Note">※　該当しないことを確認した場合は、確認した日にち、担当課及び担当者、連絡先を記入すること</text:p>
+      <text:p text:style-name="Note">※　関係法令について手続き中である場合は、申請書等の写しを添付すること</text:p>
+      <text:p text:style-name="Note">※　「10 その他」については、申請者がその他の関係法令で調整した状況がある場合又は保健所等から特に指示がある場合に記載すること</text:p>
+
+      <text:p text:style-name="PageStart">（様式１－１）</text:p>
+      <text:p text:style-name="Title">関係法令一覧</text:p>
+      <text:p text:style-name="P">○主要関係法令</text:p>
+      <table:table table:name="主要関係法令">
+        <table:table-column table:style-name="ColIndex2"/>
+        <table:table-column table:style-name="ColLaw2"/>
+        <table:table-column table:style-name="ColOffice2"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p text:style-name="Center">関係法令等</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p text:style-name="Center">調整機関</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>1</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>自然公園法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall" table:number-rows-spanned="2"><text:p>県自然保護課</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>2</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>自然環境保全法</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>3</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>森林法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>県森林緑地課</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>4</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>農業振興地域の整備に関する法律</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>市町村農振法担当課</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>5</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>農地法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>市町村農業委員会<text:line-break/>市町村農地法担当課</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>6</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>建築基準法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>県建築指導課</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>7</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>都市計画法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>県都市計画・モノレール課<text:line-break/>市町村都市計画課</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>8</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>沖縄県赤土等流出防止条例</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>各保健所、環境保全課</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p>9</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>文化財保護法</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p>市町村教育委員会<text:line-break/>文化財担当課</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="P">○環境関連法令</text:p>
+      <table:table table:name="環境関連法令">
+        <table:table-column table:style-name="ColIndex2"/>
+        <table:table-column table:style-name="ColLaw2"/>
+        <table:table-column table:style-name="ColOffice2"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p text:style-name="Center">関係法令等</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p text:style-name="Center">調整機関</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>1</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>沖縄県生活環境保全条例</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>各保健所</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>2</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>騒音規制法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>市町村環境担当課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>3</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>振動規制法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>市町村環境担当課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>4</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>悪臭防止法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>市町村環境担当課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>5</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>大気汚染防止法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>各保健所</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>6</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>水質汚濁防止法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>各保健所</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>7</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>土壌汚染対策法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>各保健所</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>8</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>沖縄県環境影響評価条例</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県環境政策課</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="P">○その他関連法令</text:p>
+      <table:table table:name="その他関連法令">
+        <table:table-column table:style-name="ColIndex2"/>
+        <table:table-column table:style-name="ColLaw"/>
+        <table:table-column table:style-name="ColOffice"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CellSmall"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p text:style-name="Center">関係法令等</text:p></table:table-cell>
+          <table:table-cell table:style-name="CellSmall"><text:p text:style-name="Center">調整機関</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>1</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>沖縄県県土保全条例</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県土・跡地利用対策課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>2</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>都市緑地法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県都市計画・モノレール課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>3</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>鳥獣保護及び狩猟に関する法律</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県自然保護課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>4</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>砂防法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県海岸防災課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>5</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>地すべり等防止法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県海岸防災課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>6</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>海岸法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県海岸防災課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>7</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>急傾斜地の崩壊による災害の防止に関する法律</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県海岸防災課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>8</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>港湾法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県港湾課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>9</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>河川法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県河川課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>10</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>都市公園法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県都市計画・モノレール課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>11</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>沖縄県景観形成条例</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>県都市計画・モノレール課</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="CellSmall"><text:p>12</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>消防法</text:p></table:table-cell><table:table-cell table:style-name="CellSmall"><text:p>各市町村の消防機関</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Note">※　各法令の概要については、県土・跡地利用対策課のウェブページにて閲覧することができます。また、市町村においても、独自の手続きが必要な場合があります、必ず各市町村に確認して下さい。</text:p>
+      <text:p text:style-name="Note">※　県土・跡地利用対策課の連絡先</text:p>
+      <text:p text:style-name="Note">　　TEL：098-866-2040</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+40,576

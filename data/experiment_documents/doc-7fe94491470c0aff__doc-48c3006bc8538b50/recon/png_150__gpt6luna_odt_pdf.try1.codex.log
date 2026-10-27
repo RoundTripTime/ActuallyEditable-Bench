@@ -1,0 +1,632 @@
+        <rng:ref name="office-presentation-attlist"/>
+        <rng:ref name="office-presentation-content-prelude"/>
+        <rng:ref name="office-presentation-content-main"/>
+        <rng:ref name="office-presentation-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:spreadsheet">
+        <rng:ref name="office-spreadsheet-attlist"/>
+        <rng:ref name="office-spreadsheet-content-prelude"/>
+        <rng:ref name="office-spreadsheet-content-main"/>
+        <rng:ref name="office-spreadsheet-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:chart">
+        <rng:ref name="office-chart-attlist"/>
+        <rng:ref name="office-chart-content-prelude"/>
+        <rng:ref name="office-chart-content-main"/>
+            <rng:value>into-default-style-data-style</rng:value>
+            <rng:value>into-english-number</rng:value>
+            <rng:value>keep-text</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document">
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+
+codex
+The PDF’s text is stored with a custom embedded font encoding, so its text layer isn’t directly readable with the permitted standard-library approach. I’m using the supplied page images for the exact wording and checking the XML structure and attributes against the local ODF 1.4 schema.
+exec
+/usr/bin/zsh -lc "sed -n '780,790p' ./odf_spec/OpenDocument-v1.4-os-part3-schema.txt && sed -n '1475,1500p' ./odf_spec/OpenDocument-v1.4-os-part3-schema.txt && sed -n '1688,1715p' ./odf_spec/OpenDocument-v1.4-os-part3-schema.txt && sed -n '1280,1315p' ./odf_spec/OpenDocument-v1.4-schema.rng && rg -n \"name=\\\"style-table-cell-properties\\\"|name=\\\"style-table-column-properties\\\"|name=\\\"text-p\\\"|name=\\\"text-line-break\\\"|name=\\\"style-style\\\"|name=\\\"style-master-styles\\\"|name=\\\"office-master-styles\\\"\" ./odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_pdf_gx7_w2iz
+ succeeded in 0ms:
+
+9.1.3 <table:table-row>
+
+9.1.4 <table:table-cell>
+
+9.1.5 <table:covered-table-cell>
+
+9.1.6 <table:table-column>
+
+9.1.7 <table:table-header-rows>
+
+16.3 <style:map>
+
+16.4 <style:default-style>
+
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+16.14 <style:header-left>
+
+16.15 <style:footer-left>
+
+
+16.45 Chart Styles
+
+17 Formatting Properties Elements
+
+17.1 General
+
+17.2 <style:page-layout-properties>
+
+17.3 <style:background-image>
+
+17.4 <style:footnote-sep>
+
+17.5 <style:header-footer-properties>
+
+17.6 <style:paragraph-properties>
+
+17.7 <style:tab-stops>
+
+17.8 <style:tab-stop>
+
+17.9 <style:drop-cap>
+
+17.10 <style:ruby-properties>
+
+17.11 <style:section-properties>
+
+17.12 <style:columns>
+      <rng:attribute name="style:border-line-width-bottom">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-left">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="style:border-line-width-right">
+        <rng:ref name="borderWidths"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="common-break-attlist">
+    <rng:optional>
+      <rng:attribute name="fo:break-before">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+          <rng:value>odd-page</rng:value>
+        </rng:choice>
+      </rng:attribute>
+    </rng:optional>
+    <rng:optional>
+      <rng:attribute name="fo:break-after">
+        <rng:choice>
+          <rng:value>auto</rng:value>
+          <rng:value>column</rng:value>
+          <rng:value>page</rng:value>
+          <!-- https://issues.oasis-open.org/browse/OFFICE-3751 -->
+          <rng:value>even-page</rng:value>
+538:        <rng:ref name="text-p"/>
+597:        <rng:ref name="text-p"/>
+668:        <rng:ref name="text-p"/>
+698:        <rng:ref name="text-p"/>
+930:        <rng:ref name="text-p"/>
+938:        <rng:ref name="text-p"/>
+997:          <rng:ref name="text-p"/>
+5931:        <rng:ref name="text-p"/>
+6838:            <rng:ref name="text-p"/>
+7643:          <rng:ref name="text-p"/>
+7737:        <rng:ref name="text-p"/>
+7808:      <rng:ref name="office-master-styles"/>
+7861:      <rng:ref name="office-master-styles"/>
+7937:  <rng:define name="office-master-styles">
+9622:      <rng:ref name="text-p"/>
+10116:          <rng:ref name="text-p"/>
+12757:  <rng:define name="style-style">
+12887:          <rng:ref name="style-table-column-properties"/>
+12903:          <rng:ref name="style-table-cell-properties"/>
+13033:  <rng:define name="style-table-cell-properties">
+13162:  <rng:define name="style-table-column-properties">
+13832:        <rng:ref name="style-style"/>
+14156:        <rng:ref name="text-p"/>
+15029:        <rng:ref name="text-p"/>
+15239:        <rng:ref name="text-p"/>
+16941:      <rng:ref name="text-p"/>
+17566:        <rng:ref name="text-p"/>
+17804:        <rng:ref name="text-p"/>
+17949:  <rng:define name="text-p">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-family="Noto Sans CJK KR" style:font-name="Noto Sans CJK KR" fo:font-size="10pt"/>
+    </style:default-style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #888888" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Label" style:family="table-cell" style:parent-style-name="Cell">
+      <style:table-cell-properties fo:background-color="#DFE7F7" fo:border="0.5pt solid #888888" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Mint" style:family="table-cell">
+      <style:table-cell-properties fo:background-color="#C8F0E2" fo:border="0.5pt solid #666666" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="P" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Left" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="start" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.35cm" fo:margin-bottom="0.25cm"/>
+      <style:text-properties fo:font-size="20pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Big" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.1cm" fo:margin-bottom="0.2cm"/>
+      <style:text-properties fo:font-size="26pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PB" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Red" style:family="text">
+      <style:text-properties fo:color="#FF0000"/>
+    </style:style>
+    <style:style style:name="Blue" style:family="text">
+      <style:text-properties fo:color="#0000FF"/>
+    </style:style>
+    <style:style style:name="Gray" style:family="text">
+      <style:text-properties fo:color="#999999"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.4cm" fo:margin-bottom="1.4cm" fo:margin-left="1.5cm" fo:margin-right="1.5cm"/>
+    </style:page-layout>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="3.2cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="4.5cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="5.1cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="5.2cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="PB"/>
+      <table:table table:name="Form1Header">
+        <table:table-column table:style-name="Col2"/>
+        <table:table-row><table:table-cell table:style-name="Mint"><text:p text:style-name="Bold">[유치부 · 초등 저학년부] 서식 1</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Title">2026 AI로 만드는 나만의 네컷만화 공모전 참가신청서</text:p>
+      <table:table table:name="Form1">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">접수번호</text:p><text:p text:style-name="P"><text:span text:style-name="Red">※ 신청인은 작성하지 마세요</text:span></text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">팀 명</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">참가 학생</text:p><text:p text:style-name="Bold">출생년도</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">참가 자격</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="P">□ 서초구 거주</text:p><text:p text:style-name="P">□ 서초구 소재 어린이집·유치원·초등학교 재원·재학</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">대표자</text:p><text:p text:style-name="P">연락가능 가족(보호자) 중 1인</text:p></table:table-cell>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">성명</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">휴대폰</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">주소</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">이메일</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">팀원 정보</text:p></table:table-cell>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">성명</text:p></table:table-cell>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">휴대폰 번호</text:p></table:table-cell>
+          <table:table-cell table:style-name="Label"><text:p text:style-name="Bold">이메일주소</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p><text:span text:style-name="Gray">없을 경우 미기재</text:span></text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p><text:span text:style-name="Gray">없을 경우 미기재</text:span></text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">만화내용 요약문</text:p></table:table-cell><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">만화 제목</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">스토리텔링</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p><text:span text:style-name="Gray">※ 만화 줄거리, 만화소개 등 설명 자유 기재 (1,000자 내외)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">활용 AI 툴</text:p></table:table-cell><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">활용 AI 이름</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">사용한 명령어 (프롬프트)</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p><text:span text:style-name="Gray">※ 입력했던 명령어 요약 기재 (1,000자 내외)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">준수사항 동의</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="P">본인은 ’2026 AI로 만드는 나만의 네컷만화 공모전’의 유의사항과 준수사항 등 제반규정을 숙지하였으며, 이를 준수하여 성실히 참가할 것에 동의합니다.</text:p><text:p text:style-name="P">동의함 □　 동의하지 않음 □</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="P">2026 년　 월　 일</text:p><text:p text:style-name="P">신청인 (대표자) : 성명　　(서명)</text:p><text:p text:style-name="Bold">서초1동주민자치위원장 귀하</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PB"/>
+      <table:table table:name="Form2Header"><table:table-column table:style-name="Col2"/><table:table-row><table:table-cell table:style-name="Mint"><text:p text:style-name="Bold">[초등 고학년부 · 시니어부] 서식 1</text:p></table:table-cell></table:table-row></table:table>
+      <text:p><text:span text:style-name="Red">※ 공모전 참가신청서는 최대 2페이지를 넘지 않게 작성</text:span></text:p>
+      <text:p text:style-name="Title">2026 AI로 만드는 나만의 네컷만화 공모전 참가신청서</text:p>
+      <table:table table:name="Form2">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">접수번호</text:p><text:p><text:span text:style-name="Red">※ 신청인은 작성하지 마세요</text:span></text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">참가 자격</text:p><text:p><text:span text:style-name="Blue">(모두 해당 시 중복 체크)</text:span></text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="P">□ 서초구 거주</text:p><text:p text:style-name="P">□ 서초구 소재 초등학교 재학</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">참가자 정보</text:p></table:table-cell><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">성명</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">휴대폰</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">주소</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">이메일</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">만화내용 요약문</text:p></table:table-cell><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">스토리 제목</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">스토리텔링</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p><text:span text:style-name="Gray">※ 만화 줄거리, 만화소개 등 설명 자유 기재 (1,000자 내외)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">활용 AI 툴</text:p></table:table-cell><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">활용 AI 이름</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Covered"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">사용한 명령어 (프롬프트)</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p><text:span text:style-name="Gray">※ 입력했던 명령어 요약 기재 (1,000자 내외)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">준수사항 동의</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="P">본인은 ’2026 AI로 만드는 나만의 네컷만화 공모전’의 유의사항과 준수사항 등 제반규정을 숙지하였으며, 이를 준수하여 성실히 참가할 것에 동의합니다.</text:p><text:p text:style-name="P">동의함 □　 동의하지 않음 □</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="P">2026 년　 월　 일</text:p><text:p text:style-name="P">신청인　:　성명　　　(서명)</text:p><text:p text:style-name="Bold">서초1동주민자치위원장 귀하</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p><text:span text:style-name="Red">※ 공모전 참가신청서는 최대 2페이지를 넘지 않게 작성</text:span></text:p>
+
+      <text:p text:style-name="PB"/>
+      <table:table table:name="PrivacyHeader"><table:table-column table:style-name="Col2"/><table:table-row><table:table-cell table:style-name="Mint"><text:p text:style-name="Bold">[공통] 서식 2</text:p></table:table-cell></table:table-row></table:table>
+      <text:p text:style-name="Title">개인정보 수집 · 이용 동의서</text:p>
+      <text:p text:style-name="P"><text:span text:style-name="Red">※ 공모 신청자(대표자)가 팀원 전원의 개인정보 수집·이용 동의서를 각각 작성하여 제출</text:span></text:p>
+      <table:table table:name="PrivacyForm">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">성　명</text:p></table:table-cell><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">생년월일</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">주　소</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">연락처 (휴대전화번호)</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="Left">□ 개인정보 수집 • 이용 내역</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">항목</text:p></table:table-cell><table:table-cell table:style-name="Label"><text:p text:style-name="Bold">수집·이용 목적</text:p></table:table-cell><table:table-cell table:style-name="Label" table:number-columns-spanned="2"><text:p text:style-name="Bold">보유 및 이용기간</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>성명, 생년월일, 주소, 연락처</text:p><text:p>보호자(법정대리인)의 성명 및 연락처</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>공모전 접수, 심사, 발표, 상장수여</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>응모신청서 접수일로부터 <text:span text:style-name="Blue">1년</text:span></text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p>※ 개인정보의 수집·이용에 대한 동의를 거부할 수 있으며, 동의하지 않을 경우 심사 및 선정에서 제외됩니다.</text:p><text:p>☞ 위와 같이 개인정보를 수집·이용하는데 동의하십니까?　 동의 □　　미동의 □</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="Left">□ 법정대리인 동의서　<text:span text:style-name="Red">※ 개인정보 주체가 미성년자인 경우, 추가로 기재</text:span></text:p><text:p>본인은 미성년자의 법정대리인으로 위의 개인정보 수집·이용에 동의합니다.</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>법정대리인 성명</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="P"><text:span text:style-name="Gray">(서명 또는 인)</text:span></text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>법정대리인 연락처</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>대상자와의 관계</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p>상기 본인은 「개인정보보호법」 제15조 제1항(개인정보의 수집·이용)에 의거하여 위와 같이 개인정보 수집 및 이용에 동의합니다.</text:p><text:p text:style-name="P">2026년　 월　 일</text:p><text:p text:style-name="P">성명 :　　　　　(서명 또는 인)</text:p><text:p text:style-name="Bold">서초1동주민자치위원장 귀하</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PB"/>
+      <table:table table:name="CopyrightHeader"><table:table-column table:style-name="Col2"/><table:table-row><table:table-cell table:style-name="Mint"><text:p text:style-name="Bold">[공통] 서식 3</text:p></table:table-cell></table:table-row></table:table>
+      <text:p text:style-name="Title">2026 AI로 만드는 나만의 네컷만화 공모전</text:p>
+      <text:p text:style-name="Big">저작권 귀속 및 이용에 관한 동의서</text:p>
+      <table:table table:name="CopyrightForm">
+        <table:table-column table:style-name="Col1"/><table:table-column table:style-name="Col2"/><table:table-column table:style-name="Col3"/><table:table-column table:style-name="Col4"/>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="Left">■ 제3자 저작권 등 관련</text:p><text:p text:style-name="Left">- 본인이 제출한 창작물은 타 공모전에 접수되지 않은 본인 순수저작물이며, 이미 발표되거나 모방 또는 차용하지 않았음을 확인합니다.</text:p><text:p text:style-name="Left">- 응모자는 창작물이 제3자의 저작권을 침해하지 않도록 주의의무를 다하여야 하며, 창작물에 사용한 이미지, 아이디어 등으로 제3자와 각종 지적재산권 및 기타 권리에 대한 분쟁이 발생되는 경우 이와 관련된 모든 민·형사상의 책임은 제안자 본인에게 있음을 확인합니다.</text:p><text:p text:style-name="Left">- 시상 이후에도 본인이 제출한 창작물이 부정한 방법에 의해 입상한 것으로 확인되는 경우에 입상결정은 무효이며, 지급받은 상장 부당이득을 반환할 것에 동의합니다.</text:p><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="Left">■ 저작원 귀속 및 저작물 이용</text:p><text:p text:style-name="Left">- 본 공모전 입상작은 별도의 권리 이전 절차 없이 지적재산권 일체 및 공표권, 원저작물을 각색, 변형할 수 있는 2차 저작물 작성권 등이 서초1동주민자치위원회에 귀속됩니다.</text:p><text:p text:style-name="Left">- 입상작은 공모전 종료 후 2차 저작물로 작성·복제·배포되어 향후 서초1동주민자치위원회 관련 SNS, 홍보물 제작 및 서울교육대학교 담장 갤러리 등 전시에 활용됩니다.</text:p><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="4"><text:p text:style-name="P">공모 신청자는 상기 내용에 대하여 거부할 권리가 있습니다. 단, 동의를 거부할 경우 본 공모전 심사 대상에서 제외될 수 있습니다.</text:p><text:p text:style-name="Bold">상기 내용에 동의합니다.</text:p><text:p text:style-name="Bold">□ 동의　　 □ 동의하지 않음</text:p><text:p text:style-name="P">2026 년　 월　 일</text:p><text:p text:style-name="P">동의자 :　　　　　　(서명 또는 인)</text:p><text:p text:style-name="Bold">서초1동주민자치위원장 귀하</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+43,892

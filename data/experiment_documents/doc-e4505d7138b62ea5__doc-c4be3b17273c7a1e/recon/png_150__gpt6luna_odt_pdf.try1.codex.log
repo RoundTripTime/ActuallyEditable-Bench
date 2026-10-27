@@ -1,0 +1,1206 @@
+",page)
+ print(s[:1000])' " in /tmp/fb_codex_pdf_fbz93uh_
+ exited 1 in 0ms:
+Traceback (most recent call last):
+  File "<string>", line 7, in <module>
+ValueError: too many values to unpack (expected 2)
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re,zlib; b=open(\"input/form.pdf\",\"rb\").read(); O={int(m.group(1)):m.group(3) for m in re.finditer(rb\"(\\d+) (\\d+) obj(.*?)endobj\",b,re.S)}; print(O[809][:1800]);
+for page,stream in [(1,2),(2,393)]:
+ s=O[stream].split(b\"stream\",1)[1].split(b\"endstream\",1)[0].strip(b\"\\r\\n\");
+ try:s=zlib.decompress(s)
+ except:pass
+ print(\"PAGE\",page,s[:400])' " in /tmp/fb_codex_pdf_fbz93uh_
+ succeeded in 0ms:
+b'\n<</Font 808 0 R/ProcSet[/PDF/Text]\n>>\n'
+PAGE 1 b'0.1 w\n/Artifact BMC\nq 0 0.028 595.276 841.861 re\nW* n\nEMC\n/Span<</MCID 0>>BDC\nq 0 0 0 rg\nBT\n147.95 808.839 Td /F1 16 Tf[<01>-187<02>-187<03>-187<03>-187<04>-187<05>-187<06>-187<07>-187<08>-187<09>-187<0A>-187<0B>-187<0C>-187<0D>-187<0E>-187<0F>]TJ\nET\nQ\nEMC\n/Span<</MCID 1>>BDC\nq 0 0 0 rg\nBT\n25.4 783.239 Td /F1 14 Tf<1011>Tj\nET\nQ\nEMC\n/Span<</MCID 2>>BDC\nq 0 0 0 rg\nBT\n25.4 771.239 Td /F1 14 Tf<1213>T'
+PAGE 2 b'0.1 w\n/Artifact BMC\nq 0 0.028 595.276 841.861 re\nW* n\nEMC\n/Standard<</MCID 0>>BDC\nq 0 0 0 rg\nBT\n117.55 818.089 Td /F2 12 Tf[<05>1<08>]TJ\nET\nQ\nEMC\n/Span<</MCID 1>>BDC\nq 0 0 0 rg\nBT\n127.6 818.089 Td /F1 12 Tf<685DBD>Tj\n1 0 0 1 163.6 818.089 Tm\n/F5 12 Tf<48494A>Tj\n1 0 0 1 199.6 818.089 Tm\n/F1 12 Tf<8A7677685DBB>Tj\n1 0 0 1 271.6 818.089 Tm\n/F5 12 Tf<4B>Tj\n1 0 0 1 283.6 818.089 Tm\n/F1 12 Tf<7A7BBD>Tj\n1'
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re; b=open(\"input/form.pdf\",\"rb\").read(); O={int(m.group(1)):m.group(3) for m in re.finditer(rb\"(\\d+) (\\d+) obj(.*?)endobj\",b,re.S)}; print(O[808][:3000])' " in /tmp/fb_codex_pdf_fbz93uh_
+ succeeded in 0ms:
+b'\n<</F1 802 0 R/F2 782 0 R/F3 792 0 R/F4 797 0 R/F5 807 0 R/F6 787 0 R\n>>\n'
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re,zlib; b=open(\"input/form.pdf\",\"rb\").read(); O={int(m.group(1)):m.group(3) for m in re.finditer(rb\"(\\d+) (\\d+) obj(.*?)endobj\",b,re.S)}; maps={}
+for n in [782,787,792,797,802,807]:
+ cm=int(re.search(rb\"/ToUnicode (\\d+)\",O[n]).group(1)); d=O[cm].split(b\"stream\",1)[1].split(b\"endstream\",1)[0].strip(b\"\\r\\n\")
+ try:d=zlib.decompress(d)
+ except:pass
+ mp={}
+ for block in re.findall(rb\"beginbfchar(.*?)endbfchar\",d,re.S):
+  for a,c in re.findall(rb\"<([0-9A-Fa-f]+)>\\s*<([0-9A-Fa-f]+)>\",block): mp[int(a,16)]=bytes.fromhex(c.decode()).decode(\"utf-16-be\",\"replace\")
+ for block in re.findall(rb\"beginbfrange(.*?)endbfrange\",d,re.S):
+  for a,z,c in re.findall(rb\"<([0-9A-Fa-f]+)>\\s*<([0-9A-Fa-f]+)>\\s*<([0-9A-Fa-f]+)>\",block):
+   aa,zz,cc=int(a,16),int(z,16),int(c,16)
+   for i in range(zz-aa+1):mp[aa+i]=chr(cc+i)
+ maps[n]=mp
+fm={\"F1\":802,\"F2\":782,\"F3\":792,\"F4\":797,\"F5\":807,\"F6\":787}
+for pg,sn in [(1,2),(2,393)]:
+ s=O[sn].split(b\"stream\",1)[1].split(b\"endstream\",1)[0].strip(b\"\\r\\n\")
+ try:s=zlib.decompress(s)
+ except:pass
+ s=s.decode(\"latin1\"); font=\"F1\"; y=x=0; lines=[]
+ # sequence tracking approximate line origins. Text matrices
+ toks=re.finditer(r\"/(F[1-6])\\s+[\\d.]+\\s+Tf|(-?[\\d.]+)\\s+(-?[\\d.]+)\\s+Td|1\\s+0\\s+0\\s+1\\s+(-?[\\d.]+)\\s+(-?[\\d.]+)\\s+Tm|((?:\\[["'^]]*'"\\]|<["'^>]*>)'"\\s*TJ|<["'^>]*>'"\\s*Tj)\",s)
+ for t in toks:
+  if t.group(1):font=t.group(1)
+  elif t.group(2): x=float(t.group(2)); y=float(t.group(3))
+  elif t.group(4): x=float(t.group(4)); y=float(t.group(5))
+  elif t.group(6):
+   raw=t.group(6).split(\" T\")[0]; pieces=re.findall(r\"<([0-9A-Fa-f]+)>\",raw); out=\"\".join(maps[fm[font]].get(int(p[i:i+2],16),\"?\") for p in pieces for i in range(0,len(p),2));
+   lines.append((round(y,1),round(x,1),out))
+ print(\"\\nPAGE\",pg)
+ for y,x,t in sorted(lines,key=lambda q:(-q[0],q[1])): print(f\"{y:6} {x:6} {t}\")' " in /tmp/fb_codex_pdf_fbz93uh_
+ succeeded in 0ms:
+
+PAGE 1
+ 808.8  147.9 新北市市有非公用不動產承購申請書
+ 789.2  358.7 申編
+ 787.0  397.5 年度
+ 787.0  439.0 字
+ 787.0  512.3 號
+ 783.2   25.4 受理
+ 783.2  210.5 收件
+ 777.2   61.8 新北市政府
+ 777.2  131.8        
+ 777.2  246.9     年   月  日
+ 777.2  358.7 購
+ 771.2   25.4 機關
+ 771.2  210.5 日期
+ 765.2  358.7 案號
+ 750.9  245.6 地             段
+ 744.6  107.8 市
+ 744.6  170.3 區
+ 744.6  376.6 地號
+ 744.6  404.6 /
+ 744.6  409.8 建號
+ 744.6  480.8 面積
+ 744.6  508.8 (
+ 744.6  511.8 平方公尺
+ 744.6  551.8 )
+ 738.2  242.2 段
+ 738.2  309.1 小段
+ 725.4   65.4 土
+ 716.0   25.4 申購
+ 713.4   65.4 地
+ 700.0   25.4 標的
+ 695.6  458.4 主建物
+ 690.1   65.4 房
+ 678.1   65.4 屋
+ 672.6  458.4 附屬建物
+ 671.1   85.8        市縣       區       村里      路
+ 671.1  216.4 /
+ 671.1  220.2 街      段巷    弄    號   樓之
+ 650.1  177.5 （出租土地併
+ 650.1  231.5 計
+ 650.1  240.5 市有
+ 650.1  258.5 可
+ 650.1  267.5 建
+ 650.1  276.5 築
+ 650.1  285.5 土地
+ 650.1  303.5  
+ 650.0   85.8  租用基
+ 650.0   88.9 □
+ 650.0  132.8 (
+ 650.0  136.3 房
+ 650.0  148.3 )
+ 650.0  151.9 地                         畸零
+ 650.0  242.4 □
+ 650.0  274.2 (
+ 650.0  277.9 裡
+ 650.0  289.9 )
+ 650.0  293.4 地   其他依新北市市有財產管理
+ 650.0  314.9 □
+ 649.6   27.4 申購類別
+ 638.3  186.5 面積未逾三
+ 638.3  231.5 百
+ 638.3  240.5 三十平方公尺）
+ 633.6   22.4 （請打
+ 633.6   52.4 "
+ 633.6   56.4 ｖ
+ 633.6   66.4 "
+ 633.6   70.5 ）
+ 632.0   85.8                                                          自治條第
+ 632.0  315.2 32
+ 632.0  331.3 條第
+ 632.0  355.3 __
+ 632.0  365.9 款
+ 614.8   27.4 附繳證件
+ 614.8   85.8 如應繳證件一覽表內編號第                     　號共　 　件 
+ 599.1   43.8 一
+ 599.1   54.8 .
+ 599.1   67.8 附繳之證件如有虛偽不實時，申購人願負法律責任，並無條件同意撤銷買賣關係，已完成移轉登記者，並願
+ 584.4   66.3 辦理回復市有登記。
+ 569.7   43.8 二
+ 569.7   54.8 .
+ 569.7   67.8 絕不以申購案經受理收件，認定管理機關已為承諾之表示。
+ 554.7   43.8 三
+ 554.7   54.8 .
+ 554.7   67.8 申購人如有二人以上，未註明承買持分，除承購已出租市有非公用不動產有約明承租持分外，同意以均分方
+ 540.0   66.3 式辦理；未指定代表人者，申購人願以申請書所填之第一人為代表人。
+ 525.3   43.8 四
+ 525.3   54.8 .
+ 525.3   67.8 申購人對讓售之非公用不動產，因地政機關測量登記錯誤，致實際面積較出售面積有所增減時，自繳款日起
+ 510.6   66.3 十五年內願照土地實際面積按讓售當時價格無息補退價款。
+ 495.9   43.8 五
+ 495.9   54.8 .
+ 495.9   67.8 管理機關依申請書所載住址所為之通知無法送達時，申購案任由管理機關註銷。
+ 480.9   43.8 六
+ 480.9   54.8 .
+ 480.9   67.8 申購之非公用土地，如為私設巷道或水溝使用時，申購人願於取得土地後，依相關法令規定使用，如有損害
+ 466.2   66.3 第三人權益，申購人願自行負責。
+ 451.5   43.8 七
+ 451.5   54.8 .
+ 451.5   67.8 申購人同意依新北市政府辦理市有非公用不動產讓售作業程序第六點第一項第七款規定，負擔申購之不動
+ 439.9   23.4 申
+ 436.8   66.3 產之地價稅、房屋稅、工程受益費等稅費，如有因遲延繳納而發生之滯納金、罰鍰等，亦願全部負責。
+ 423.9   23.4 購
+ 422.1   43.8 八
+ 422.1   54.8 .
+ 422.1   67.8 申購人向地政機關申辦承購之非公用不動產所有權移轉登記及申請辦理貸款繳價所發生之抵押權設定登記
+ 407.9   23.4 人
+ 407.4   66.3 規費、契稅等有關費用，及逾期申辦而發生之罰鍰，申購人願自行負擔。
+ 392.7   43.8 九
+ 392.7   54.8 .
+ 392.7   67.8 申購人向地政機關申辦所有權移轉登記應一併申報登錄不動產成交案件資訊，倘有逾期辦理申報作業或申
+ 391.9   23.4 承
+ 378.0   66.3 報不實等情形，概由申購人自行負擔相關法律責任，如因此致管理機關遭受損害，申購人應賠償管理機關之
+ 375.9   23.4 諾
+ 363.6   66.3 損失（含罰鍰等）。
+ 359.9   23.4 事
+ 348.9   43.8 十
+ 348.9   54.8 .
+ 348.9   67.8 同意管理機關依個人資
+ 348.9  177.8 料保護
+ 348.9  210.8 法第十五條規定，基於市有財產管理之
+ 348.9  393.9 特
+ 348.9  404.9 定
+ 348.9  415.9 目
+ 348.9  426.9 的，於
+ 348.9  456.1 必要範圍
+ 348.9  500.1 內
+ 348.9  511.1 蒐集
+ 348.9  533.1 或
+ 348.9  544.1 處
+ 348.9  555.1 理申
+ 343.9   23.4 項
+ 334.2   66.3 購人及代理人之個人資
+ 334.2  176.3 料
+ 334.2  187.3 ，並依同法第十六條規定，依法定
+ 334.2  352.4 職務
+ 334.2  374.4 為
+ 334.2  385.4 必要
+ 334.2  407.4 之
+ 334.2  418.4 利
+ 334.2  429.4 用。
+ 319.5   43.8 十一
+ 319.5   65.8 .
+ 319.5   77.3 申購之非公用土地於通知繳款時，未有辦理地
+ 319.5  294.2 籍圖重
+ 319.5  327.2 測成
+ 319.5  349.2 果
+ 319.5  360.2 公
+ 319.5  371.2 告
+ 319.5  382.2 之情形，申購人同意依土地產權移轉證明
+ 304.8   77.3 書
+ 304.8   88.3 核
+ 304.8   99.3 發當時之土地登記
+ 304.8  187.3 謄本
+ 304.8  209.3 記載之土地面積
+ 304.8  286.4 計
+ 304.8  297.4 價承購，日後
+ 304.8  361.2 該
+ 304.8  372.2 申購土地辦理
+ 304.8  438.2 重
+ 304.8  449.2 測，
+ 304.8  469.2 重
+ 304.8  480.2 測後面積
+ 304.8  524.2 縱
+ 304.8  535.2 有增減，
+ 290.4   77.3 一律
+ 290.4   99.3 互
+ 290.4  110.3 不補退價款；
+ 290.4  176.3 位
+ 290.4  187.3 屬地
+ 290.4  209.3 籍圖重
+ 290.4  242.3 測區內
+ 290.4  275.4 且
+ 290.4  286.4 已辦理
+ 290.4  319.4 重
+ 290.4  330.4 測成
+ 290.4  352.4 果
+ 290.4  363.4 公
+ 290.4  374.4 告
+ 290.4  385.4 者，於地政機關辦理土地標示
+ 290.4  528.4 變更
+ 290.4  550.4 登記
+ 276.0   77.3 前
+ 276.0   88.3 ，申購人同意依
+ 276.0  163.2 重
+ 276.0  174.2 測成
+ 276.0  196.2 果
+ 276.0  207.2 公
+ 276.0  218.2 告
+ 276.0  229.2 之面積
+ 276.0  262.2 計
+ 276.0  273.2 價，並
+ 276.0  304.2 俟
+ 276.0  315.2 地政機關辦理土地標示
+ 276.0  425.2 變更
+ 276.0  447.2 登記後，依
+ 276.0  500.1 重
+ 276.0  511.1 測後面積相
+ 276.0  566.1 互
+ 261.6   77.3 補退價款。
+ 246.9   43.8 十二
+ 246.9   65.8 .
+ 246.9   77.3 申購之非公用不動產倘日後
+ 246.9  209.3 查
+ 246.9  220.3 證屬出售時有依法不得私有或不得出售之情形，致買賣契約及移轉所有權
+ 232.2   77.3 之物權行為無
+ 232.2  143.3 效
+ 232.2  154.3 ，經依法
+ 232.2  198.3 塗
+ 232.2  209.3 銷移轉登記時，同意管理機關無息退
+ 232.2  385.4 還
+ 232.2  396.4 已繳之價款，絕不
+ 232.2  484.4 提
+ 232.2  495.4 出
+ 232.2  506.4 異議
+ 232.2  528.4 。
+ 216.8   43.8 十三
+ 216.8   65.8 .
+ 216.8   77.3 其他因個案情形
+ 216.8  154.3 須
+ 216.8  165.3 承諾事項
+ 216.8  209.3 ：
+ 216.8  220.3                                              
+ 216.8  361.6 。
+ 185.6   43.8                            以上事項
+ 185.6  128.6 ※
+ 185.6  186.7 確
+ 185.6  198.7 係
+ 185.6  210.7 本
+ 185.6  222.7 申購人
+ 185.6  258.6          
+ 185.6  286.9 承諾無誤。申購人
+ 185.6  382.9 蓋章
+ 185.6  406.9 :
+ 185.6  410.2  
+ 170.8   19.8 身
+ 170.8   31.8 分
+ 170.8   50.4 姓名
+ 170.8  220.5 出生日期及
+ 164.8  312.6 住址
+ 164.8  447.0 聯絡電話
+ 164.8  525.2 蓋章
+ 158.8   19.8 類別
+ 158.8   50.4 身
+ 158.8   76.2 分證
+ 158.8  128.1 統
+ 158.8  153.9 一編號
+ 158.8  220.5 承買持分
+ 143.8   26.7 申
+ 140.5  245.9   年  月  日
+ 130.8   26.7 購
+ 120.6  220.5 持分
+ 117.8   26.7 人
+ 104.1   27.2 代
+  91.1   27.2 理
+  90.2  253.2 年  月  日
+  78.1   27.2 人
+  64.4   56.7 填表
+  64.4   80.7 說
+  64.4   92.7 明
+  64.4  104.7 ：
+  64.4  116.7 1.
+  64.4  126.8 「
+  64.4  138.8 收件日期
+  64.4  186.8 」
+  64.4  198.8 及
+  64.4  210.8 「
+  64.4  222.8 申購案編號
+  64.4  282.8 」粗框欄
+  64.4  330.8    　　　申購人請
+  64.4  424.1 勿
+  64.4  436.1 填
+  64.4  448.1 寫
+  64.4  460.1 。
+  52.4  117.5 2.
+  52.4  127.6 請依
+  52.4  151.6 本
+  52.4  163.6 申請書
+  52.4  199.6 背
+  52.4  211.6 面
+  52.4  223.6 「
+  52.4  235.6 申購類別
+  52.4  283.6 」欄
+  52.4  307.6 所
+  52.4  319.6 列
+  52.4  331.6 有
+  52.4  343.6 "
+  52.4  348.4 ｖ
+  52.4  362.4 "
+  52.4  367.3 符
+  52.4  379.3 號項
+  52.4  403.3 目檢
+  52.4  427.3 送證件。
+  32.4   85.2 申請案件編號
+  32.4  145.2 ：
+  32.4  155.1 020603 
+  32.4  192.0 公
+  32.4  202.0 告
+  32.4  212.0 期
+  32.4  222.0 限：
+  32.4  241.9 20
+  32.4  255.3 天
+  32.4  265.4      
+  32.4  278.4 (
+  32.4  281.4 民
+  32.4  291.4 )
+  32.4  294.4 財非公
+  32.4  326.4 02-(
+  32.4  344.1 民
+  32.4  354.1 )
+  32.4  357.1 表一
+  32.4  377.1 -
+  32.4  380.2 1
+  32.4  385.9 /
+  32.4  389.6 2
+
+PAGE 2
+ 818.1  117.5 3.
+ 818.1  127.6 法人或
+ 818.1  163.6 寺廟在
+ 818.1  199.6 未完成法人設
+ 818.1  271.6 立
+ 818.1  283.6 登記或
+ 818.1  319.6 寺廟
+ 818.1  343.6 登記
+ 818.1  367.6 前
+ 818.1  379.6 以公推之代表人名義申請。
+ 799.8  213.3 應繳一
+ 799.8  270.4 般
+ 799.8  289.4 證件一覽表
+ 785.7  456.3 申 購 類 別
+ 779.3   30.8 類
+ 779.3   51.0 編
+ 772.9  442.1 租
+ 772.9  489.1 畸
+ 772.9  536.8 其
+ 761.1  143.1 證件
+ 761.1  191.1 名稱
+ 761.1  331.9 核
+ 761.1  348.9 發機關
+ 760.9  442.1 用
+ 760.9  489.1 零
+ 748.9  442.1 基
+ 748.9  472.9  （裡）
+ 739.3   30.8 別
+ 739.3   51.0 號
+ 736.9  442.1 地
+ 736.9  489.1 地
+ 736.9  536.8 他
+ 722.2   81.1 申請人
+ 722.2  123.1 身
+ 722.2  137.1 分證明
+ 722.2  179.1 文
+ 722.2  193.1 件（以
+ 722.2  235.1 下
+ 722.2  249.1 任繳一
+ 708.2   30.8 共
+ 708.2   54.0 1
+ 708.2  165.1 種
+ 708.2  179.1 ）
+ 708.2  193.1 ：
+ 693.5   63.9 （
+ 693.5   77.8 1
+ 693.5   85.8 ）自
+ 693.5  108.2 然
+ 693.5  122.2 人
+ 693.5  136.2 ：身
+ 693.5  158.6 分證
+ 693.5  186.6 影本
+ 693.5  214.6 (
+ 693.5  218.8 戶口名簿影本
+ 680.2   30.8 通
+ 679.5  104.4 或
+ 679.5  118.5 戶籍謄本免
+ 679.5  189.3 附，由管理機關自
+ 665.5  104.4 行
+ 665.5  118.4 查
+ 665.5  132.4 證
+ 665.5  146.4 )
+ 665.5  150.6 。
+ 652.2   30.8 性
+ 652.2  329.1 （自    
+ 652.2  371.8 備
+ 652.2  385.8 ）
+ 652.2  441.1 ｖ
+ 652.2  488.1 ｖ
+ 652.2  535.8 ｖ
+ 650.7   65.2 （
+ 650.7   79.2 2
+ 650.7   87.2 ）法人
+ 650.7  125.0 ：
+ 650.7  134.8 法人登記證明
+ 650.7  218.8 文
+ 650.7  232.8 件或法人設
+ 636.7  104.4 立
+ 636.7  118.5 或
+ 636.7  132.7 變更
+ 636.7  161.0 登記表
+ 636.7  203.4 影本
+ 636.7  231.8 ，
+ 636.7  245.9 與
+ 636.7  260.1 其代表
+ 624.2   30.8 申
+ 622.7  104.4 人資格證明及
+ 622.7  196.5 身
+ 622.7  211.8 分證明
+ 622.7  257.9 文
+ 622.7  273.2 件
+ 622.7  288.6 影
+ 608.7  104.4 本
+ 608.7  118.4 。
+ 596.2   30.8 購
+ 592.7   65.2 （
+ 592.7   79.2 3
+ 592.7   87.2 ）其他得為權
+ 592.7  166.9 利
+ 592.7  180.9 主
+ 592.7  194.9 體
+ 592.7  208.9 者
+ 592.7  222.9 ：
+ 592.7  232.8 有
+ 592.7  246.8 效
+ 592.7  260.8 期
+ 592.7  274.8 限
+ 592.7  288.8 內
+ 578.7  104.4 之主管機關
+ 578.7  181.2 立
+ 578.7  196.5 案或
+ 578.7  227.2 核備文
+ 578.7  273.2 件
+ 578.7  288.6 影
+ 568.2   30.8 文
+ 564.7  104.4 本
+ 564.7  118.5 ，
+ 564.7  132.7 與
+ 564.7  146.8 其代表人資格證明及
+ 564.7  274.2 身
+ 564.7  288.4 分
+ 550.7  104.4 證明
+ 550.7  132.4 文
+ 550.7  146.4 件
+ 550.7  160.4 影本
+ 550.7  188.4 。
+ 540.2   30.8 件
+ 534.6   54.0 2
+ 534.6  329.1 （自    
+ 534.6  371.8 備
+ 534.6  385.8 ）
+ 534.6  441.1 ｖ
+ 534.6  488.1 ｖ
+ 534.6  535.8 ｖ
+ 533.8   69.4 申購之非公用不動產
+ 533.8  195.4 最近
+ 533.8  226.2 3
+ 533.8  237.0 個月內登
+ 518.8   69.4 記
+ 518.8   83.4 謄本
+ 518.8  111.4 。（
+ 518.8  130.1 免
+ 518.8  144.1 附，由管理機關自行
+ 518.8  265.4 查
+ 518.8  279.4 證）
+ 503.8   54.0 3
+ 503.8  329.1 （自    
+ 503.8  371.8 備
+ 503.8  385.8 ）
+ 503.8  441.1 ｖ
+ 503.8  488.1 ｖ
+ 503.8  535.8 ｖ
+ 503.0   69.4 申購之非公用不動產
+ 503.0  195.4 最近
+ 503.0  226.2 3
+ 503.0  237.0 個月內地
+ 488.0   69.4 籍圖謄本
+ 488.0  125.4 。（
+ 488.0  150.3 免
+ 488.0  164.3 附，由管理機關自行
+ 488.0  288.8 查
+ 473.0   69.4 證）
+ 458.1   54.0 4
+ 458.1  441.1 ｖ
+ 458.1  488.1 ｖ
+ 458.1  535.8 ｖ
+ 457.3   69.4 都
+ 457.3   83.4 市
+ 457.3   97.4 計畫
+ 457.3  125.4 土地使用分區證明。（
+ 457.3  260.8 本
+ 457.3  274.8 市
+ 457.3  288.8 境
+ 450.1  305.6 區公所
+ 442.3   69.4 內
+ 442.3   83.4 免
+ 442.3   97.4 附，由管理機關自行
+ 442.3  223.4 查
+ 442.3  237.4 證）
+ 427.3   54.0 5
+ 427.3  329.1 （自    
+ 427.3  371.8 備
+ 427.3  385.8 ）
+ 427.3  441.1 ｖ
+ 427.3  488.1 ｖ
+ 427.3  535.8 ｖ
+ 426.5   69.4 委託
+ 426.5   97.4 他人代為申辦者，應附
+ 426.5  235.1 具委託
+ 426.5  277.1 書。
+ 411.5   69.4 但
+ 411.5   83.4 已於申請書載明
+ 411.5  181.4 委
+ 411.5  195.4 任關係者，
+ 411.5  263.1 免
+ 411.5  277.1 附。
+ 396.6   54.0 6
+ 396.6  329.1 （自    
+ 396.6  371.8 備
+ 396.6  385.8 ）
+ 396.6  441.1 ｖ
+ 396.6  488.1 ｖ
+ 396.6  535.8 ｖ
+ 395.8   69.4 非屬公
+ 395.8  111.4 職
+ 395.8  125.4 人
+ 395.8  139.4 員利
+ 395.8  167.4 益
+ 395.8  181.4 衝突迴避
+ 395.8  237.4 法不得交
+ 380.8   69.4 易
+ 380.8   83.4 之公
+ 380.8  111.4 職
+ 380.8  125.4 人
+ 380.8  139.4 員
+ 380.8  153.4 或其關係人
+ 380.8  223.4 切結
+ 380.8  251.4 書
+ 380.8  265.4 。
+ 365.8   30.8 依
+ 365.8   54.0 7
+ 365.8  329.1 （自    
+ 365.8  371.8 備
+ 365.8  385.8 ）
+ 365.8  441.1 ｖ
+ 365.0   69.4 市有基地租
+ 365.0  139.4 賃
+ 365.0  153.4 契約。
+ 365.0  195.3 (
+ 365.0  199.6 租約
+ 365.0  227.6 遺
+ 365.0  241.6 失附
+ 365.0  269.6 切結
+ 350.0   69.4 書及
+ 350.0   97.4 印鑑
+ 350.0  125.4 證明
+ 350.0  153.4 )
+ 337.8   30.8 申
+ 335.1   54.0 8
+ 335.1  329.1 （自    
+ 335.1  371.8 備
+ 335.1  385.8 ）
+ 335.1  441.1 ｖ
+ 334.3   69.4 地上房屋所有權證明
+ 334.3  195.4 文
+ 334.3  209.4 件。
+ 309.9   54.0 9
+ 309.9  305.6 建
+ 309.9  326.2 築
+ 309.9  346.9 主管機關
+ 309.9  472.9 ｖ
+ 309.8   30.8 購
+ 309.1   69.4 有
+ 309.1   83.4 效
+ 309.1   97.4 期
+ 309.1  111.4 限
+ 309.1  125.4 內之畸零（裡）地
+ 309.1  232.8 合
+ 309.1  246.8 併使用證
+ 294.1   69.4 明書
+ 294.1   97.4 正本
+ 294.1  125.4 。
+ 281.8   30.8 類
+ 279.1   50.0 10
+ 279.1  329.1 （自    
+ 279.1  371.8 備
+ 279.1  385.8 ）
+ 279.1  441.1 ｖ
+ 279.1  488.1 ｖ
+ 279.1  535.8 ｖ
+ 278.3   69.4 合
+ 278.3   84.0 併使用
+ 278.3  128.0 範圍
+ 278.3  157.3 內
+ 278.3  171.9 各筆
+ 278.3  201.2 土地
+ 278.3  230.6 最近
+ 278.3  262.6 3
+ 278.3  274.1 個月
+ 263.3   69.4 內登記
+ 263.3  111.4 謄本
+ 263.3  139.4 及地
+ 263.3  167.4 籍圖謄本
+ 263.3  223.4 。（
+ 263.3  248.3 免
+ 263.3  262.3 附，由
+ 253.8   30.8 別
+ 248.3   69.4 管理機關自行
+ 248.3  153.4 查
+ 248.3  167.4 證）
+ 233.4   50.0 11
+ 233.4  329.1 （自    
+ 233.4  371.8 備
+ 233.4  385.8 ）
+ 233.4  488.1 ｖ
+ 232.6   69.4 合
+ 232.6   83.4 併使用
+ 232.6  125.4 範圍
+ 232.6  153.4 內未
+ 232.6  181.4 會
+ 232.6  195.4 同申購之私有土
+ 225.8   30.8 應
+ 217.6   69.4 地所有權人承購權
+ 217.6  181.4 拋棄
+ 217.6  209.4 書及
+ 217.6  237.4 印鑑
+ 217.6  265.4 證明。
+ 202.6   50.0 12
+ 202.6  329.1 （自    
+ 202.6  371.8 備
+ 202.6  385.8 ）
+ 202.6  441.1 ｖ
+ 201.8   69.4 房屋共同使用
+ 201.8  153.4 範圍協議
+ 201.8  209.4 書（租用基地或
+ 197.8   30.8 附
+ 186.8   69.4 非共同使用者
+ 186.8  153.4 免
+ 186.8  167.4 附）。
+ 171.9   50.0 13
+ 171.9  329.1 （自    
+ 171.9  371.8 備
+ 171.9  385.8 ）
+ 171.9  441.1 ｖ
+ 171.9  488.1 ｖ
+ 171.9  535.8 ｖ
+ 171.1   69.4 其他依申購類別或個案應
+ 171.1  223.4 加
+ 171.1  237.4 附之
+ 171.1  265.4 文
+ 171.1  279.4 件。
+ 169.8   30.8 文
+ 156.1   69.4 (
+ 156.1   73.6 如
+ 156.1   87.6 :
+ 156.1   91.3 機關
+ 156.1  119.3 核准函
+ 156.1  161.3 、承諾書、
+ 156.1  222.9 切結
+ 156.1  250.9 書、同意
+ 141.8   30.8 件
+ 141.1   69.4 書
+ 141.1   83.4 )
+ 120.6   85.2 註
+ 120.6   99.2 ：
+ 120.6  113.2 所附
+ 120.6  141.2 影印本
+ 120.6  183.2 應自行
+ 120.6  225.2 核
+ 120.6  239.2 對
+ 120.6  253.2 與正本
+ 120.6  295.1 相
+ 120.6  309.1 符
+ 120.6  323.1 並註明認
+ 120.6  379.1 章
+ 120.6  393.1 。
+  32.4   85.2 申請案件編號
+  32.4  145.2 ：
+  32.4  155.1 020603 
+  32.4  192.0 公
+  32.4  202.0 告
+  32.4  212.0 期
+  32.4  222.0 限：
+  32.4  241.9 20
+  32.4  255.3 天
+  32.4  265.4      
+  32.4  278.4 (
+  32.4  281.4 民
+  32.4  291.4 )
+  32.4  294.4 財非公
+  32.4  326.4 02-(
+  32.4  344.1 民
+  32.4  354.1 )
+  32.4  357.1 表一
+  32.4  377.1 -
+  32.4  380.2 2
+  32.4  385.9 /
+  32.4  389.6 2
+
+exec
+/usr/bin/zsh -lc "sed -n '6295,6310p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1470,1510p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1690,1718p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '784,810p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '3800,3825p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '5125,5140p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '5600,5610p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_pdf_fbz93uh_
+ succeeded in 0ms:
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+
+The <office:document> element is a root element.
+
+The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+
+The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+
+The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+
+16.1 General
+
+16.2 <style:style>
+
+16.3 <style:map>
+
+16.4 <style:default-style>
+
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+16.14 <style:header-left>
+
+16.15 <style:footer-left>
+
+16.16 <style:region-left>
+
+16.17 <style:region-center>
+
+16.18 <style:region-right>
+
+16.19 <presentation:notes>
+
+16.20 <table:table-template>
+
+
+17 Formatting Properties Elements
+
+17.1 General
+
+17.2 <style:page-layout-properties>
+
+17.3 <style:background-image>
+
+17.4 <style:footnote-sep>
+
+17.5 <style:header-footer-properties>
+
+17.6 <style:paragraph-properties>
+
+17.7 <style:tab-stops>
+
+17.8 <style:tab-stop>
+
+17.9 <style:drop-cap>
+
+17.10 <style:ruby-properties>
+
+17.11 <style:section-properties>
+
+17.12 <style:columns>
+
+17.13 <style:column>
+
+
+9.1.5 <table:covered-table-cell>
+
+9.1.6 <table:table-column>
+
+9.1.7 <table:table-header-rows>
+
+9.1.8 <table:table-rows>
+
+9.1.9 <table:table-row-group>
+
+9.1.10 <table:table-column-group>
+
+9.1.11 <table:table-header-columns>
+
+9.1.12 <table:table-columns>
+
+9.1.13 <table:title>
+
+9.1.14 <table:desc>
+
+9.2 Advanced Tables
+
+9.2.1 Referencing Table Cells
+
+9.2.2 Absolute and relative cell addressing
+
+
+19.677.15 <table:table-template>
+
+19.678 table:null-year
+
+19.679 table:number-columns-repeated
+
+19.679.1 General
+
+19.679.2 <table:covered-table-cell>
+
+19.679.3 <table:table-cell>
+
+19.679.4 <table:table-column>
+
+19.680 table:number-columns-spanned
+
+19.681 table:number-rows-repeated
+
+19.682 table:number-rows-spanned
+
+19.683 table:number-matrix-columns-spanned
+
+19.684 table:number-matrix-rows-spanned
+
+19.685 table:object-name
+20.183.6 fo:border-top
+
+20.184 fo:break-after
+
+20.185 fo:break-before
+
+20.186 fo:clip
+
+20.187 fo:color
+
+20.188 fo:country
+
+20.189 fo:font-family
+
+20.190 fo:font-size
+
+
+20.404.3 <style:page-layout-properties>
+
+20.404.4 <style:paragraph-properties>
+
+20.404.5 <style:section-properties>
+
+20.404.6 <style:table-cell-properties>
+
+20.404.7 <style:table-properties>
+
+
+exec
+/usr/bin/zsh -lc "grep -n 'name=\"office:document\"\\|name=\"office:body\"\\|name=\"office:text\"\\|name=\"style:page-layout\"\\|name=\"style:master-page\"\\|name=\"table:table\"\\|name=\"table:table-cell\"\\|name=\"table:covered-table-cell\"\\|name=\"text:p\"' odf_spec/OpenDocument-v1.4-schema.rng | head -30" in /tmp/fb_codex_pdf_fbz93uh_
+ succeeded in 0ms:
+2560:    <rng:attribute name="table:table">
+7687:    <rng:element name="office:body">
+7693:      <rng:element name="office:text">
+7799:    <rng:element name="office:document">
+12141:    <rng:element name="style:master-page">
+12213:    <rng:element name="style:page-layout">
+14299:    <rng:element name="table:covered-table-cell">
+14947:        <rng:attribute name="table:table">
+15313:        <rng:attribute name="table:table">
+15940:    <rng:element name="table:table">
+16053:    <rng:element name="table:table-cell">
+17950:    <rng:element name="text:p">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:text-properties fo:font-family="Noto Sans CJK TC" fo:font-size="8pt"/>
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+    </style:default-style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:text-properties fo:font-size="16pt"/>
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:text-properties fo:font-size="7pt"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="0.45cm" fo:margin-bottom="0.45cm" fo:margin-left="0.65cm" fo:margin-right="0.65cm"/>
+    </style:page-layout>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="PlainCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0.02cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Narrow" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.02cm" style:vertical-align="middle"/>
+      <style:text-properties fo:font-size="7pt"/>
+    </style:style>
+    <style:style style:name="CenterCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.03cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="ColumnWide" style:family="table-column">
+      <style:table-column-properties style:column-width="10cm"/>
+    </style:style>
+    <style:style style:name="ColumnNarrow" style:family="table-column">
+      <style:table-column-properties style:column-width="1cm"/>
+    </style:style>
+    <style:style style:name="ColumnMedium" style:family="table-column">
+      <style:table-column-properties style:column-width="4cm"/>
+    </style:style>
+    <style:style style:name="ColumnSmall" style:family="table-column">
+      <style:table-column-properties style:column-width="2cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <table:table table:name="PageOne" table:style-name="FormTable">
+        <table:table-column table:style-name="ColumnWide"/>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell">
+            <text:p text:style-name="Title">新北市市有非公用不動產承購申請書</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell">
+            <text:p>受理機關　新北市政府＿＿＿　　收件日期　　年　月　日　　申編購案號　年度　字　號</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell">
+            <text:p>申購標的　土地　　市　　　　區　　　　地段　　段　　小段　　地號/建號　　面積(平方公尺)</text:p>
+            <text:p>　　　　　　　　房屋　　　　　　　　　　　　　　　　　　　　　　　　　主建物</text:p>
+            <text:p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　附屬建物</text:p>
+            <text:p>　　　　　　　　　市縣　　區　　村里　　路/街　　段巷　弄　號　樓之</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell">
+            <text:p>申購類別（請打"ｖ"）　□租用基(房)地　（出租土地併計市有可建築土地面積未逾三百三十平方公尺）　□畸零(裡)地　□其他依新北市市有財產管理自治條例第32條第__款</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell">
+            <text:p>附繳證件　如應繳證件一覽表內編號第＿＿＿＿號共＿＿件</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell">
+            <text:p>一．　附繳之證件如有虛偽不實時，申購人願負法律責任，並無條件同意撤銷買賣關係，已完成移轉登記者，並願辦理回復市有登記。</text:p>
+            <text:p>二．　絕不以申購案經受理收件，認定管理機關已為承諾之表示。</text:p>
+            <text:p>三．　申購人如有二人以上，未註明承買持分，除承購已出租市有非公用不動產有約明承租持分外，同意以均分方式辦理；未指定代表人者，申購人願以申請書所填之第一人為代表人。</text:p>
+            <text:p>四．　申購人對讓售之非公用不動產，因地政機關測量登記錯誤，致實際面積較出售面積有所增減時，自繳款日起十五年內願照土地實際面積按讓售當時價格無息補退價款。</text:p>
+            <text:p>五．　管理機關依申請書所載住址所為之通知無法送達時，申購案任由管理機關註銷。</text:p>
+            <text:p>六．　申購之非公用土地，如為私設巷道或水溝使用時，申購人願於取得土地後，依相關法令規定使用，如有損害第三人權益，申購人願自行負責。</text:p>
+            <text:p>七．　申購人同意依新北市政府辦理市有非公用不動產讓售作業程序第六點第一項第七款規定，負擔申購之不動產之地價稅、房屋稅、工程受益費等稅費，如有因遲延繳納而發生之滯納金、罰鍰等，亦願全部負責。</text:p>
+            <text:p>八．　申購人向地政機關申辦承購之非公用不動產所有權移轉登記及申請辦理貸款繳價所發生之抵押權設定登記規費、契稅等有關費用，及逾期申辦而發生之罰鍰，申購人願自行負擔。</text:p>
+            <text:p>九．　申購人向地政機關申辦所有權移轉登記應一併申報登錄不動產成交案件資訊，倘有逾期辦理申報作業或申報不實等情形，概由申購人自行負擔相關法律責任，如因此致管理機關遭受損害，申購人應賠償管理機關之損失（含罰鍰等）。</text:p>
+            <text:p>十．　同意管理機關依個人資料保護法第十五條規定，基於市有財產管理之特定目的，於必要範圍內蒐集或處理申購人及代理人之個人資料，並依同法第十六條規定，依法定職務為必要之利用。</text:p>
+            <text:p>十一．　申購之非公用土地於通知繳款時，未有辦理地籍圖重測成果公告之情形，申購人同意依土地產權移轉證明書核發當時之土地登記謄本記載之土地面積計價承購，日後該申購土地辦理重測，重測後面積縱有增減，一律互不補退價款；位屬地籍圖重測區內且已辦理重測成果公告者，於地政機關辦理土地標示變更登記前，申購人同意依重測成果公告之面積計價，並俟地政機關辦理土地標示變更登記後，依重測後面積相互補退價款。</text:p>
+            <text:p>十二．　申購之非公用不動產倘日後查證屬出售時有依法不得私有或不得出售之情形，致買賣契約及移轉所有權之物權行為無效，經依法塗銷移轉登記時，同意管理機關無息退還已繳之價款，絕不提出異議。</text:p>
+            <text:p>十三．　其他因個案情形須承諾事項：＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿。</text:p>
+            <text:p text:style-name="Center">※以上事項確係本申購人＿＿＿承諾無誤。申購人蓋章：</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell">
+            <text:p>身分類別　姓名　身分證統一編號　出生日期及承買持分　住址　聯絡電話　蓋章</text:p>
+            <text:p>申購人　　　　　　　　　　　　　　　　　　年　月　日</text:p>
+            <text:p>代理人　　　　　　　　　　　　　　　　　　年　月　日</text:p>
+          </table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Small">填表說明：1.「收件日期」及「申購案編號」粗框欄　申購人請勿填寫。</text:p>
+      <text:p text:style-name="Small">　　　　　2.請依本申請書背面「申購類別」欄所列有"ｖ"符號項目檢送證件。</text:p>
+      <text:p text:style-name="Small">申請案件編號：020603　公告期限：20天　(民)財非公02-(民)表一-1/2</text:p>
+
+      <text:p text:style-name="PageBreak"/>
+      <text:p>3.法人或寺廟在未完成法人設立登記或寺廟登記前以公推之代表人名義申請。</text:p>
+      <table:table table:name="PageTwo" table:style-name="FormTable">
+        <table:table-column table:style-name="ColumnNarrow"/>
+        <table:table-column table:style-name="ColumnNarrow"/>
+        <table:table-column table:style-name="ColumnWide"/>
+        <table:table-column table:style-name="ColumnMedium"/>
+        <table:table-column table:style-name="ColumnSmall"/>
+        <table:table-column table:style-name="ColumnSmall"/>
+        <table:table-column table:style-name="ColumnSmall"/>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="7" table:style-name="CenterCell">
+            <text:p text:style-name="Title">應繳一般證件一覽表</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>類別</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>編號</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>證件名稱</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>核發機關</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="CenterCell"><text:p>申購類別</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>共通性申購文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>1</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>申請人身分證明文件（以下任繳一種）：</text:p><text:p>（1）自然人：身分證影本(戶口名簿影本或戶籍謄本免附，由管理機關自行查證)。</text:p><text:p>（2）法人：法人登記證明文件或法人設立或變更登記表影本，與其代表人資格證明及身分證明文件影本。</text:p><text:p>（3）其他得為權利主體者：有效期限內之主管機關立案或核備文件影本，與其代表人資格證明及身分證明文件影本。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>共通性申購文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>2</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>申購之非公用不動產最近3個月內登記謄本。（免附，由管理機關自行查證）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>共通性申購文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>3</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>申購之非公用不動產最近3個月內地籍圖謄本。（免附，由管理機關自行查證）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>共通性申購文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>4</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>都市計畫土地使用分區證明。（本市境內免附，由管理機關自行查證）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>區公所</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>共通性申購文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>5</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>委託他人代為申辦者，應附具委託書。但已於申請書載明委任關係者，免附。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>共通性申購文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>6</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>非屬公職人員利益衝突迴避法不得交易之公職人員或其關係人切結書。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>依申購類別應附文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>7</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>市有基地租賃契約。（租約遺失附切結書及印鑑證明）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>依申購類別應附文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>8</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>地上房屋所有權證明文件。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>依申購類別應附文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>9</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>有效期限內之畸零（裡）地合併使用證明書正本。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>建築主管機關</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>依申購類別應附文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>10</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>合併使用範圍內各筆土地最近3個月內登記謄本及地籍圖謄本。（免附，由管理機關自行查證）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>依申購類別應附文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>11</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>合併使用範圍內未會同申購之私有土地所有權人承購權拋棄書及印鑑證明。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>依申購類別應附文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>12</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>房屋共同使用範圍協議書（租用基地或非共同使用者免附）。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p></text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="CenterCell"><text:p>依申購類別應附文件</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>13</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>其他依申購類別或個案應加附之文件。(如:機關核准函、承諾書、切結書、同意書)</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>（自備）</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+          <table:table-cell table:style-name="CenterCell"><text:p>ｖ</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p>註：所附影印本應自行核對與正本相符並註明認章。</text:p>
+      <text:p text:style-name="Small">申請案件編號：020603　公告期限：20天　(民)財非公02-(民)表一-2/2</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+77,662

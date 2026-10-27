@@ -1,0 +1,1216 @@
+1-b96a-563878a2d18f
+--------
+user
+The attached images are the pages (in order) of one blank form document. Reconstruct it as ONE editable OpenDocument
+text document that a person could open in a word processor and fill in.
+
+The same document is also attached as a digital PDF with a text layer: ./input/form.pdf (the file the page images were
+rendered from, unchanged). Use the PDF together with the page images.
+
+The official OASIS OpenDocument 1.4 specification is attached in the directory ./odf_spec/:
+- OpenDocument-v1.4-os-part3-schema.txt  (Part 3: OpenDocument Schema, plain text of the OASIS Standard)
+- OpenDocument-v1.4-os-part2-packages.txt (Part 2: Packages)
+- OpenDocument-v1.4-schema.rng            (normative RELAX NG schema)
+Read these files (for example with grep or sed) and, before you answer, verify with them that every element and attribute
+you use is allowed where you use it.
+You may read the PDF with read-only commands, including python3 with its standard library only (for example zlib to
+decompress its streams). Do not run any other command, and do not use any PDF library, converter or office application.
+
+Output format: a single OpenDocument XML file (Part 3, section 3.1.2 <office:document>) with
+office:mimetype="application/vnd.oasis.opendocument.text" and office:version="1.4", declaring every namespace you use.
+Define page size and margins in a style:page-layout used by a style:master-page, put styles in office:styles and
+office:automatic-styles, and put the content in office:body/office:text.
+
+Rules:
+- Reproduce every printed text exactly as shown (same language and characters); do not translate, summarise or fill anything in.
+- Use real ODF tables (table:table with table:table-column, table:table-row, table:table-cell) for tabular layouts, with
+  table:number-columns-spanned / table:number-rows-spanned and table:covered-table-cell for merged cells; keep empty input cells empty.
+- Keep blank input areas as they appear (empty cells, underscores, spaces, brackets, "( )" etc.); checkboxes as □ or ☐ as printed.
+- Keep headings, paragraph order, alignment and line structure; start every new page with a paragraph whose style has fo:break-before="page".
+- Set widths, borders, alignment and font sizes through styles where they matter for the layout. No scripts, no external resources, no images.
+- Answer with the complete XML document only (from <?xml version="1.0" encoding="UTF-8"?> to </office:document>), nothing else.
+
+warning: Codex could not find bubblewrap on PATH. Install bubblewrap with your OS package manager. See the sandbox prerequisites: https://developers.openai.com/codex/concepts/sandboxing#prerequisites. Codex will use the bundled bubblewrap in the meantime.
+codex
+I’ll inspect the PDF text and the relevant ODF schema/package rules, then produce a single XML document matching the page layout.
+exec
+/usr/bin/zsh -lc 'ls -R' in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+.:
+input
+odf_spec
+
+./input:
+form.pdf
+
+./odf_spec:
+OpenDocument-v1.4-os-part2-packages.txt
+OpenDocument-v1.4-os-part3-schema.txt
+OpenDocument-v1.4-schema.rng
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re,zlib; b=open(\"input/form.pdf\",\"rb\").read(); print(\"bytes\",len(b));
+for i,m in enumerate(re.finditer(rb\"stream\\r?\\n(.*?)\\r?\\nendstream\",b,re.S)):
+ d=m.group(1)
+ try: d=zlib.decompress(d)
+ except: pass
+ if b\"BT\" in d: print(\"---STREAM\",i,\"---\"); print(d.decode(\"latin1\",\"replace\")[:12000])'" in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+bytes 36878
+---STREAM 0 ---
+0.1 w
+/Artifact BMC
+q 0 0.028 595.276 841.861 re
+W* n
+EMC
+/Span<</MCID 0>>BDC
+q 0 0 0 rg
+BT
+71 757.189 Td /F1 10.5 Tf<010203040506070805090A0B0C0D>Tj
+ET
+Q
+EMC
+/Span<</MCID 1>>BDC
+q 0 0 0 rg
+BT
+472.05 739.189 Td /F1 10.5 Tf<0E0F100F11>Tj
+ET
+Q
+q 0 0 0 rg
+BT
+524.55 739.189 Td /F1 10.5 Tf<12>Tj
+ET
+Q
+EMC
+/Span<</MCID 2>>BDC
+q 0 0 0 rg
+BT
+71 703.189 Td /F1 10.5 Tf<0F13141516170F0F0F0F0F0F03>Tj
+ET
+Q
+EMC
+/Span<</MCID 3>>BDC
+q 0 0 0 rg
+BT
+461.55 649.189 Td /F1 10.5 Tf<18191A0F1B1C>Tj
+ET
+Q
+q 0 0 0 rg
+BT
+524.55 649.189 Td /F1 10.5 Tf<12>Tj
+ET
+Q
+EMC
+/Span<</MCID 4>>BDC
+q 0 0 0 rg
+BT
+440.55 631.189 Td /F1 10.5 Tf<1D1E1F201E212223>Tj
+ET
+Q
+q 0 0 0 rg
+BT
+524.55 631.189 Td /F1 10.5 Tf<12>Tj
+ET
+Q
+EMC
+/Span<</MCID 5>>BDC
+q 0 0 0 rg
+BT
+482.55 613.189 Td /F1 10.5 Tf<24251A1E>Tj
+ET
+Q
+q 0 0 0 rg
+BT
+524.55 613.189 Td /F1 10.5 Tf<12>Tj
+ET
+Q
+EMC
+/Span<</MCID 6>>BDC
+q 0 0 0 rg
+BT
+182.25 559.189 Td /F1 10.5 Tf<131415262728292A2B2C2D2E2F3031>Tj
+ET
+Q
+EMC
+/Span<</MCID 7>>BDC
+q 0 0 0 rg
+BT
+339.75 559.189 Td /F1 10.5 Tf<32333435181936>Tj
+ET
+Q
+EMC
+/Span<</MCID 8>>BDC
+q 0 0 0 rg
+BT
+71 523.189 Td /F1 10.5 Tf<0F0F0F0F0E0F100F1113141537380F0F050F07393A3B3C3D3E3C3F1640414243>Tj
+ET
+Q
+EMC
+/Span<</MCID 9>>BDC
+q 0 0 0 rg
+BT
+408.55 523.189 Td /F1 10.5 Tf<131415262728292A2B2C2D>Tj
+ET
+Q
+EMC
+/Span<</MCID 10>>BDC
+q 0 0 0 rg
+BT
+71 505.189 Td /F1 10.5 Tf[<2E>-28<2F>-28<30>-28<31>]TJ
+ET
+Q
+EMC
+/Span<</MCID 11>>BDC
+q 0 0 0 rg
+BT
+114.2 505.189 Td /F1 10.5 Tf[<44>-28<45>-28<46>-28<47>-28<48>-28<49>-28<3C>-28<4A>-28<4B>-28<4C>-28<3A>-28<3B>-28<3D>-28<3E>-28<3C>-28<4D>-28<4E>-28<3C>-28<32>-28<33>-28<4F>-28<50>-28<43>-28<46>-28<3C>-28<39>-28<34>-28<35>-28<51>-28<52>-28<53>-28<54>-28<55>-28<56>]TJ
+ET
+Q
+EMC
+/Span<</MCID 12>>BDC
+q 0 0 0 rg
+BT
+481.6 505.189 Td /F1 10.5 Tf[<13>-28<14>-28<15>-28<26>]TJ
+ET
+Q
+EMC
+/Span<</MCID 13>>BDC
+q 0 0 0 rg
+BT
+71 487.189 Td /F1 10.5 Tf<2728292A2B2C2D2E2F3031>Tj
+ET
+Q
+EMC
+/Span<</MCID 14>>BDC
+q 0 0 0 rg
+BT
+187 487.189 Td /F1 10.5 Tf<3A3B575805090A05595A0559073C5B3E44554C480B0C365C4F5D5E471819505F>Tj
+ET
+Q
+EMC
+/Span<</MCID 15>>BDC
+q 0 0 0 rg
+BT
+71 469.189 Td /F1 10.5 Tf<6061>Tj
+ET
+Q
+EMC
+/Span<</MCID 16>>BDC
+q 0 0 0 rg
+BT
+292.5 433.189 Td /F1 10.5 Tf<02>Tj
+ET
+Q
+EMC
+/Span<</MCID 17>>BDC
+q 0 0 0 rg
+BT
+71 397.189 Td /F1 10.5 Tf<590F32333C6263>Tj
+ET
+Q
+EMC
+/Span<</MCID 18>>BDC
+q 0 0 0 rg
+BT
+71 343.189 Td /F1 10.5 Tf<640F32333C4D4E>Tj
+ET
+Q
+EMC
+/Span<</MCID 19>>BDC
+q 0 0 0 rg
+BT
+71 289.189 Td /F1 10.5 Tf<060F5D3B365C>Tj
+ET
+Q
+EMC
+/Span<</MCID 20>>BDC
+q 0 0 0 rg
+BT
+71 271.189 Td /F1 10.5 Tf<0F0F>Tj
+ET
+Q
+EMC
+/Span<</MCID 21>>BDC
+q 0 0 0 rg
+BT
+92 271.189 Td /F1 10.5 Tf<08590D>Tj
+ET
+Q
+EMC
+/Span<</MCID 22>>BDC
+q 0 0 0 rg
+BT
+123.5 271.189 Td /F1 10.5 Tf<1765666736>Tj
+ET
+Q
+EMC
+/Span<</MCID 23>>BDC
+q 0 0 0 rg
+BT
+176 271.189 Td /F1 10.5 Tf<08010203040559070D>Tj
+ET
+Q
+EMC
+/Span<</MCID 24>>BDC
+q 0 0 0 rg
+BT
+71 253.189 Td /F1 10.5 Tf<0F0F>Tj
+ET
+Q
+EMC
+/Span<</MCID 25>>BDC
+q 0 0 0 rg
+BT
+92 253.189 Td /F1 10.5 Tf<08640D1765>Tj
+ET
+Q
+EMC
+/Span<</MCID 26>>BDC
+q 0 0 0 rg
+BT
+144.5 253.189 Td /F1 10.5 Tf<68696A6B36>Tj
+ET
+Q
+EMC
+/Span<</MCID 27>>BDC
+q 0 0 0 rg
+BT
+197 253.189 Td /F1 10.5 Tf<08010203040564070D>Tj
+ET
+Q
+EMC
+Q 
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re,zlib; b=open(\"input/form.pdf\",\"rb\").read();
+for m in re.finditer(rb\"(\\d+) 0 obj(.*?)endobj\",b,re.S):
+ d=m.group(2)
+ if any(x in d for x in [b\"ToUnicode\",b\"begincmap\",b\"/Type /Font\",b\"/MediaBox\"]): print(\"OBJ\",m.group(1),\"\\n\",d[:5000].decode(\"latin1\",\"replace\"))'" in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+OBJ b'50' 
+ 
+<</Type/Font/Subtype/TrueType/BaseFont/BAAAAA+MS-Mincho
+/FirstChar 0
+/LastChar 107
+/Widths[0 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+1000 1000 500 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000
+1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 1000 ]
+/FontDescriptor 48 0 R
+/ToUnicode 49 0 R
+>>
+
+OBJ b'1' 
+ 
+<</Type/Page/Parent 45 0 R/Resources 52 0 R/MediaBox[0 0 595.303937007874 841.889763779528]/Tabs/S
+/StructParents 0
+/Contents 2 0 R>>
+
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re,zlib; b=open(\"input/form.pdf\",\"rb\").read(); m=re.search(rb\"49 0 obj(.*?)endobj\",b,re.S); print(m.group(1).decode(\"latin1\",\"replace\"))'" in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+
+<</Length 763/Filter/FlateDecode>>
+stream
+x]ËÚ@E÷|ÉbD¿»-!$?°Ä"e`p3A
+fÁß§ï-ò\Ìèº]Õuúv¹XvÛ~;oËÏóyÿoÕá8s¾ßæ}®^òëqZhSÇýíñÄÿûÓî²XÜçûõOÛép^­Ë/åÝõ6ß«wÍx~ÉïËOóçãôZ½ûÖ=çç·ËåG>åéV©Åz]ùPöù°»|ÜòYOÛ±¼>ÞîO%åOÀ×û%WÏZPöç1_/»}wÓk^¬ZW«aX/ò4þ÷N+%9/ý÷Ý\buõÆøuÑ¦èÔèmuOí3¨Ú[ÓAÖÑ:"Æ:q]1·ºÁ1hè¶èÚ7º+Ú
+u/¹ß`ÏMtÐCÑV£-VZqî¯ÁüüüJÆ?)°iÇxÃxòG~¨%ünZhðGo[ÓëàOJ1¾%³'üÁ8Öèè&¿+G*z ?âYbøc= ×i -c"#Ûü)îÓÂ+©{Ô2zÀMMÝÁCÓsÁïÛïg7à÷ªa.øS×r}`ÝëV±gÔµà¯u;µä¯ywþu-ý7µ,ùN$<ü¡:Éy+üë
+×®Óÿ
+ûÓv³ÿ#<´ô¿­©Á_+
+íÄ³8-½çìøïÁì¬ÃçEÁÿZüZüWðÄ?´º0»VrÉ#üþësÂÏûuÒÿ58½ð{xâüàô~ôðc/ü¼_/ü	þÁfþT'pzößR?¾_jð×ýï[g]öOòðßÓÿ~`­ìÏZÂü8W~sðG§À¬|¨0N´ÇäÿÎ±à9¯ú*öû<DÙ<!É÷EÞ7àÒWô$´ouü»æ(ý¯ù\íßæ¹Ìfþp(c§üûãr¾ ?vÏ
+endstream
+
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import re,zlib; b=open(\"input/form.pdf\",\"rb\").read(); m=re.search(rb\"49 0 obj(.*?)endobj\",b,re.S); d=zlib.decompress(re.search(rb\"stream\\r?\\n(.*?)\\r?\\nendstream\",m.group(1),re.S).group(1)); print(d.decode(\"latin1\"))'" in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+/CIDInit/ProcSet findresource begin
+12 dict begin
+begincmap
+/CIDSystemInfo<<
+/Registry (Adobe)
+/Ordering (UCS)
+/Supplement 0
+>> def
+/CMapName/Adobe-Identity-UCS def
+/CMapType 2 def
+1 begincodespacerange
+<00> <FF>
+endcodespacerange
+100 beginbfchar
+<01> <5225>
+<02> <8A18>
+<03> <69D8>
+<04> <5F0F>
+<05> <7B2C>
+<06> <FF13>
+<07> <53F7>
+<08> <FF08>
+<09> <FF19>
+<0A> <6761>
+<0B> <95A2>
+<0C> <4FC2>
+<0D> <FF09>
+<0E> <5E74>
+<0F> <3000>
+<10> <6708>
+<11> <65E5>
+<12> <0020>
+<13> <6803>
+<14> <6728>
+<15> <770C>
+<16> <77E5>
+<17> <4E8B>
+<18> <7533>
+<19> <8ACB>
+<1A> <8005>
+<1B> <4F4F>
+<1C> <6240>
+<1D> <6C0F>
+<1E> <540D>
+<1F> <53C8>
+<20> <306F>
+<21> <79F0>
+<22> <53CA>
+<23> <3073>
+<24> <4EE3>
+<25> <8868>
+<26> <30B9>
+<27> <30DD>
+<28> <30FC>
+<29> <30C4>
+<2A> <5408>
+<2B> <5BBF>
+<2C> <958B>
+<2D> <50AC>
+<2E> <8CBB>
+<2F> <88DC>
+<30> <52A9>
+<31> <91D1>
+<32> <5909>
+<33> <66F4>
+<34> <627F>
+<35> <8A8D>
+<36> <66F8>
+<37> <6307>
+<38> <4EE4>
+<39> <3067>
+<3A> <4EA4>
+<3B> <4ED8>
+<3C> <306E>
+<3D> <6C7A>
+<3E> <5B9A>
+<3F> <901A>
+<40> <304C>
+<41> <3042>
+<42> <3063>
+<43> <305F>
+<44> <306B>
+<45> <3064>
+<46> <3044>
+<47> <3066>
+<48> <3001>
+<49> <6B21>
+<4A> <3068>
+<4B> <304A>
+<4C> <308A>
+<4D> <5185>
+<4E> <5BB9>
+<4F> <3092>
+<50> <3057>
+<51> <304F>
+<52> <3060>
+<53> <3055>
+<54> <308B>
+<55> <3088>
+<56> <3046>
+<57> <8981>
+<58> <7DB1>
+<59> <FF11>
+<5A> <9805>
+<5B> <898F>
+<5C> <985E>
+<5D> <6DFB>
+<5E> <3048>
+<5F> <307E>
+<60> <3059>
+<61> <3002>
+<62> <7406>
+<63> <7531>
+<64> <FF12>
+endbfchar
+7 beginbfchar
+<65> <696D>
+<66> <8A08>
+<67> <753B>
+<68> <53CE>
+<69> <652F>
+<6A> <4E88>
+<6B> <7B97>
+endbfchar
+endcmap
+CMapName currentdict /CMap defineresource pop
+end
+end
+
+
+exec
+/usr/bin/zsh -lc 'rg -n "style:page-layout|style:master-page|fo:break-before|table:number-columns-spanned|table:covered-table-cell|office:document|fo:page-width|style:family" odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -60' in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+177:3.1.2 <office:document>(Single OpenDocument XML Files)
+183:3.1.3.2 <office:document-content>
+185:3.1.3.3 <office:document-styles>
+187:3.1.3.4 <office:document-meta>
+189:3.1.3.5 <office:document-settings>
+785:9.1.5 <table:covered-table-cell>
+1479:16.5 <style:page-layout>
+1487:16.9 <style:master-page>
+1695:17.2 <style:page-layout-properties>
+2503:19.219.27 <style:master-page>
+3175:19.480 style:family
+3217:19.501 style:master-page-name
+3223:19.502.2 <number:boolean-style>, <number:currency-style>, <number:date-style>, <number:num-list-format>, <number:number-style>, <number:percentage-style>, <number:text-style>, <number:time-style>, <style:master-page>, <style:page-layout>, <style:presentation-page-layout>, <style:style>, <text:list-style>, <text:outline-style>
+3231:19.503.2 <style:master-page>
+3243:19.508 style:page-layout-name
+3809:19.679.2 <table:covered-table-cell>
+3815:19.680 table:number-columns-spanned
+3867:19.700.2 <table:covered-table-cell>
+3941:19.730.4 <table:covered-table-cell>
+5129:20.185 fo:break-before
+5195:20.216 fo:page-width
+5601:20.404.3 <style:page-layout-properties>
+6122:B.2.1)<office:document-content> 3.1.3.2 or <math:math> 14.6 for files named content.xml, 
+6124:B.2.2)<office:document-styles> 3.1.3.3 for files named styles.xml, 
+6126:B.2.3)<office:document-meta> 3.1.3.4 for files named meta.xml, 
+6128:B.2.4)<office:document-settings> 3.1.3.5 for files named settings.xml. 
+6130:B.3)If the XML root element of a file is <office:document-content>, <office:document-styles>, <office:document-meta> or <office:document-settings>, then the XML file shall be valid with respect to the schema defined in appendix A. 
+6137:C.2)the XML root element of the file shall be <office:document>. 
+6157:B.1)If the XML root element of a file is <office:document-content> 3.1.3.2, <office:document-styles> 3.1.3.3, <office:document-meta> 3.1.3.4 or <office:document-settings> 3.1.3.5, then the XML file shall be valid with respect to the schema defined in appendix A, after the following processing of foreign elements has taken place: 
+6168:A)The <office:document> 3.1.2 element shall have an office:mimetype 3.1.2 attribute with one of these values: "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.text-master" or "application/vnd.oasis.opendocument.text-master-template". 
+6178:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.spreadsheet" or "application/vnd.oasis.opendocument.spreadsheet-template". 
+6192:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.graphics" or "application/vnd.oasis.opendocument.graphics-template". 
+6202:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.presentation" or "application/vnd.oasis.opendocument.presentation-template". 
+6212:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.chart" or "application/vnd.oasis.opendocument.chart-template". 
+6222:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with one of these values: "application/vnd.oasis.opendocument.image" or "application/vnd.oasis.opendocument.image-template". 
+6240:A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with the value "application/vnd.oasis.opendocument.base".  
+6295:3.1.2 <office:document>(Single OpenDocument XML Files)
+6297:The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+6299:The <office:document> element is a root element.
+6301:The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+6303:The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+6305:The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+6315:3.1.3.2 <office:document-content>
+6317:The <office:document-content> root element contains document content and automatic styles used in a document. The file within a package for the <office:document-content> element is content.xml. 
+6319:The <office:document-content> element is a root element.
+6321:The <office:document-content> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+6323:The <office:document-content> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14 and <office:scripts> 3.12.
+6325:3.1.3.3 <office:document-styles>
+6327:The <office:document-styles> root element contains styles used in document content and automatic styles used in styles. The file within a package for the <office:document-styles> element is styles.xml.
+6329:The <office:document-styles> element is a root element.
+6331:The <office:document-styles> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+6333:The <office:document-styles> element has the following child elements: <office:automatic-styles> 3.15.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4 and <office:styles> 3.15.2.
+6335:3.1.3.4 <office:document-meta>
+6337:The <office:document-meta> root element contains document metadata elements. The file within a package for the <office:document-meta> element is meta.xml.
+6339:The <office:document-meta> element is a root element.
+6341:The <office:document-meta> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+6343:The <office:document-meta> element has the following child element: <office:meta> 3.2.
+6345:3.1.3.5 <office:document-settings>
+6347:The <office:document-settings> root element contains implementation-dependent settings. The file within a package for the <office:document-settings> element is settings.xml. 
+6349:The <office:document-settings> element is a root element.
+
+exec
+/usr/bin/zsh -lc "sed -n '1460,1510p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1685,1715p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '6288,6310p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '3140,3185p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '5105,5145p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; rg -n \"table:table-cell|table:table-row|table:table-column|table:number-columns-spanned|table:covered-table-cell\" odf_spec/OpenDocument-v1.4-schema.rng | head -30" in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+
+15.5 <anim:audio>
+
+15.6 Animation Command Elements
+
+15.6.1 <anim:command>
+
+15.6.2 <anim:param>
+
+16 Styles
+
+16.1 General
+
+16.2 <style:style>
+
+16.3 <style:map>
+
+16.4 <style:default-style>
+
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+16.14 <style:header-left>
+
+16.15 <style:footer-left>
+
+16.16 <style:region-left>
+
+16.17 <style:region-center>
+
+16.18 <style:region-right>
+
+16.19 <presentation:notes>
+
+16.20 <table:table-template>
+
+16.43 <style:presentation-page-layout>
+
+16.44 <presentation:placeholder>
+
+16.45 Chart Styles
+
+17 Formatting Properties Elements
+
+17.1 General
+
+17.2 <style:page-layout-properties>
+
+17.3 <style:background-image>
+
+17.4 <style:footnote-sep>
+
+17.5 <style:header-footer-properties>
+
+17.6 <style:paragraph-properties>
+
+17.7 <style:tab-stops>
+
+17.8 <style:tab-stop>
+
+17.9 <style:drop-cap>
+
+17.10 <style:ruby-properties>
+
+17.11 <style:section-properties>
+
+17.12 <style:columns>
+
+OpenDocument defines two methods of document representation:
+
+•A single XML document. 
+
+•A collection of files within a package ([ODF1.4-Part-2:Packages]), each of which stores a part of a complete document. 
+
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+
+The <office:document> element is a root element.
+
+The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+
+The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+
+The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+
+19.473.12 <text:modification-time>
+
+19.473.13 <text:print-date>
+
+19.473.14 <text:print-time>
+
+19.473.15 <text:table-formula>
+
+19.473.16 <text:time>
+
+19.473.17 <text:user-defined>
+
+19.473.18 <text:user-field-get>
+
+19.473.19 <text:user-field-input>
+
+19.473.20 <text:variable-get>
+
+19.473.21 <text:variable-input>
+
+19.473.22 <text:variable-set>
+
+19.474 style:default-outline-level
+
+19.475 style:display
+
+19.476 style:display-name
+
+19.477 style:distance
+
+19.478 style:distance-before-sep
+
+19.479 style:distance-after-sep
+
+19.480 style:family
+
+19.481 style:filter-name
+
+19.482 style:font-adornments
+
+19.483 style:font-charset
+
+19.484 style:font-family-generic
+
+19.485 style:font-pitch
+20.179 draw:visible-area-width
+
+20.180 draw:unit
+
+20.181 draw:wrap-influence-on-position
+
+20.182 fo:background-color
+
+20.183 fo Border Properties
+
+20.183.1 General
+
+20.183.2 fo:border
+
+20.183.3 fo:border-bottom
+
+20.183.4 fo:border-left
+
+20.183.5 fo:border-right
+
+20.183.6 fo:border-top
+
+20.184 fo:break-after
+
+20.185 fo:break-before
+
+20.186 fo:clip
+
+20.187 fo:color
+
+20.188 fo:country
+
+20.189 fo:font-family
+
+20.190 fo:font-size
+
+20.191 fo:font-style
+
+20.192 fo:font-variant
+
+20.193 fo:font-weight
+14299:    <rng:element name="table:covered-table-cell">
+16053:    <rng:element name="table:table-cell">
+16105:        <rng:attribute name="table:number-columns-spanned">
+16154:    <rng:element name="table:table-column">
+16187:    <rng:element name="table:table-column-group">
+16200:    <rng:element name="table:table-columns">
+16224:    <rng:element name="table:table-row">
+16262:    <rng:element name="table:table-row-group">
+16275:    <rng:element name="table:table-rows">
+
+exec
+/usr/bin/zsh -lc "rg -n \"<rng:element name=\\\"office:document\\\"|<rng:element name=\\\"office:styles\\\"|<rng:element name=\\\"style:page-layout\\\"|<rng:element name=\\\"style:master-page\\\"|<rng:element name=\\\"style:page-layout-properties\\\"|<rng:element name=\\\"style:style\\\"|<rng:element name=\\\"text:p\\\"|<rng:element name=\\\"text:line-break\\\"\" odf_spec/OpenDocument-v1.4-schema.rng | head -30; cat odf_spec/OpenDocument-v1.4-os-part2-packages.txt | sed -n '1,30p'" in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+7799:    <rng:element name="office:document">
+8280:      <rng:element name="office:styles">
+8418:      <rng:element name="text:line-break">
+12141:    <rng:element name="style:master-page">
+12213:    <rng:element name="style:page-layout">
+12248:    <rng:element name="style:page-layout-properties">
+12758:    <rng:element name="style:style">
+17950:    <rng:element name="text:p">
+
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages
+
+OASIS Standard
+
+6 October 2025
+
+This stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.pdf
+
+Previous stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+
+Latest stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+
+
+exec
+/usr/bin/zsh -lc "sed -n '7799,7865p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12135,12275p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12758,12860p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '17950,18010p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '8418,8430p' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_pdf_9a_sjkrz
+ succeeded in 0ms:
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="office:document-content">
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-meta">
+    <rng:element name="office:document-meta">
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-settings">
+    <rng:element name="office:document-settings">
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-settings"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-styles">
+    <rng:element name="office:document-styles">
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-drawing-attlist">
+    <rng:empty/>
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-page-continuation-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:select-page">
+        <rng:choice>
+          <rng:value>previous</rng:value>
+          <rng:value>next</rng:value>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:string-value">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-page-number-attlist">
+    <rng:interleave>
+      <rng:interleave>
+        <rng:ref name="common-field-num-format-attlist"/>
+        <rng:ref name="common-field-fixed-attlist"/>
+      </rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:page-adjust">
+          <rng:ref name="integer"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:select-page">
+          <rng:choice>
+            <rng:value>previous</rng:value>
+            <rng:value>current</rng:value>
+            <rng:value>next</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-page-sequence">
+    <rng:element name="text:page-sequence">
+      <rng:oneOrMore>
+        <rng:ref name="text-page"/>
+      </rng:oneOrMore>
+    </rng:element>
+      <rng:element name="text:line-break">
+        <rng:empty/>
+      </rng:element>
+      <rng:ref name="text-soft-page-break"/>
+      <rng:element name="text:span">
+        <rng:optional>
+          <rng:attribute name="text:style-name">
+            <rng:ref name="styleNameRef"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+          <rng:attribute name="text:class-names">
+            <rng:ref name="styleNameRefs"/>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:line-height="18pt"/>
+      <style:text-properties fo:font-family="'MS Mincho'" fo:font-size="10.5pt"/>
+    </style:style>
+    <style:style style:name="First" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="10mm"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:text-align="right"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="SectionGap" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="3mm"/>
+    </style:style>
+    <style:style style:name="ListGap" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="6mm"/>
+    </style:style>
+    <style:style style:name="AttachGap" style:family="paragraph" style:parent-style-name="Body">
+      <style:paragraph-properties fo:margin-top="7mm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="210mm" fo:page-height="297mm" fo:margin-left="25mm" fo:margin-right="25mm" fo:margin-top="20mm" fo:margin-bottom="20mm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="First">別記様式第３号（第９条関係）</text:p>
+      <text:p text:style-name="Right">年　月　日</text:p>
+      <text:p>　栃木県知事　　様</text:p>
+      <text:p text:style-name="Right">申請者　住所</text:p>
+      <text:p text:style-name="Right">氏名又は名称及び</text:p>
+      <text:p text:style-name="Right">代表者名</text:p>
+      <text:p text:style-name="Center">栃木県スポーツ合宿開催費補助金変更承認申請書</text:p>
+      <text:p>　　　　年　月　日栃木県指令　　第　号で交付の決定の通知があった栃木県スポーツ合宿開催<text:line-break/>費補助金について、次のとおり交付決定の内容の変更をしたいので承認くださるよう栃木県ス<text:line-break/>ポーツ合宿開催費補助金交付要綱第９条第１項第１号の規定により、関係書類を添えて申請しま<text:line-break/>す。</text:p>
+      <text:p text:style-name="Center">記</text:p>
+      <text:p text:style-name="ListGap">１　変更の理由</text:p>
+      <text:p text:style-name="ListGap">２　変更の内容</text:p>
+      <text:p text:style-name="AttachGap">３　添付書類</text:p>
+      <text:p>　　（１）事業計画書（別記様式第１号）</text:p>
+      <text:p>　　（２）事業収支予算書（別記様式第２号）</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+56,199

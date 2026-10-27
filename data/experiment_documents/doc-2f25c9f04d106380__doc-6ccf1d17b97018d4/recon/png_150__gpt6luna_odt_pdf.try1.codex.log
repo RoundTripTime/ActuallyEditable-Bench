@@ -1,0 +1,639 @@
+ue Blowfish CFB. Package consumers that support encryption shall support the values Blowfish CFB and urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#blowfish. 
+
+Note: An errata for [Schneier] is available at [Schneier-Errata].
+
+The manifest:algorithm-name attribute is usable with the following element: <manifest:algorithm> 4.5.
+
+The values of the manifest:algorithm-name attribute are Blowfish CFB or a value of type anyURI 7.2.
+
+4.16.2 manifest:checksum
+
+The manifest:checksum attribute specifies a digest in base64Binary encoding that can be used to detect password correctness as specified by a manifest:checksum-type attribute 4.16.3 .
+
+The manifest:checksum attribute is usable with the following element: <manifest:encryption-data> 4.4.
+
+The manifest:checksum attribute has the data type base64Binary 7.2.
+
+4.16.3 manifest:checksum-type
+
+The manifest:checksum-type attribute specifies the name of a digest algorithm that can be used to check password correctness. The digest is build from the compressed unencrypted file.
+
+The defined values for the manifest:checksum-type attribute are:
+
+•SHA1/1K: SHA1 algorithm (see [RFC3174]) applied to first 1024 bytes of the compressed unencrypted file. 
+
+•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha1-1k: The same as SHA1/1K. 
+
+•urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k: SHA256 algorithm (see [RFC3174]) applied to first 1024 bytes of the compressed unencrypted file. 
+
+•An IRI listed in §5.7 of [xmlenc-core]: The algorithm specified in §5.7 of [xmlenc-core] for this IRI. 
+
+•The implementation-defined IRI of an alternative algorithm as specified in §5.1 of [xmlenc-core]. Alternative algorithms may be specified by extended conforming packages only. They shall not be specified by conforming packages. 
+
+Package producers should use the SHA1/1K value and method when compatibility with older versions of consumers is important. In other cases, producers that support encryption should use the urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k value and method. 
+
+Note: manifest:checksum is used to confirm that a decryption is successful. It should not be regarded as a security feature.
+
+Package consumers that support encryption shall support the values SHA1/1K, urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha1-1k and urn:oasis:names:tc:opendocument:xmlns:manifest:1.0#sha256-1k.
+
+The manifest:checksum-type attribute is usable with the following element: <manifest:encryption-data> 4.4.
+
+The values of the manifest:checksum-type attribute are SHA1/1K or a value of type anyURI 7.2.
+
+4.16.4 manifest:full-path
+
+The manifest:full-path attribute describes the location of a file or directory within the package. It's value is the name of a file or folder within the Zip file for which the manifest entry defines additional information, including its relative path in the package. The notation is the same as for the “filename” fields of the Zip file's central directory.
+
+The attribute value "/" denotes a manifest entry for the package itself.
+
+Note: The Zip file's central directory and the manifest file may have different text encodings.
+
+The manifest:full-path attribute is usable with the following element: <manifest:file-entry> 4.3.
+
+The manifest:full-path attribute has the data type string 7.2.
+
+4.16.5 manifest:initialisation-vector
+
+The manifest:initialisation-vector attribute value provides the byte-sequence for the initialization vector used by the encryption algorithm when delivery of a required initialization vector is not specified as part of the encryption algorithm definition. The initialization vector is a base64Binary encoded sequence. The format and length of an initialization vector, in bytes, shall be as required by its encryption algorithm specification.
+
+The manifest:initialisation-vector attribute is usable with the following element: <manifest:algorithm> 4.5.
+
+The manifest:initialisation-vector attribute has the data type base64Binary 7.2.
+
+4.16.6 manifest:start-key-generation-name
+
+The manifest:start-key-generation-name attribute specifies the algorithm used to generate a start key from the user password.
+
+The defined values for the manifest:start-key-generation-name attribute are:
+
+
+exec
+/usr/bin/zsh -lc "rg -n -C 2 'name=\"style-table-column-properties|name=\"style-table-cell-properties|name=\"style-table-properties|name=\"style-paragraph-properties|name=\"style:text-properties|name=\"text:p\"|name=\"office-text\"|name=\"table-table\"' odf_spec/OpenDocument-v1.4-schema.rng; rg -n -C 2 'table:number-columns-spanned|table:number-rows-spanned|table:covered-table-cell|fo:page-width|fo:break-before' odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -80" in /tmp/fb_codex_pdf_krvkxh67
+ succeeded in 0ms:
+481-      <!-- https://issues.oasis-open.org/browse/OFFICE-2123 -->
+482-      <rng:optional>
+483:        <rng:ref name="table-table"/>
+484-      </rng:optional>
+485-    </rng:element>
+--
+5103-          <rng:ref name="draw-floating-frame"/>
+5104-          <rng:ref name="draw-plugin"/>
+5105:          <rng:ref name="table-table"/>
+5106-        </rng:choice>
+5107-      </rng:zeroOrMore>
+--
+5932-        <rng:ref name="text-list"/>
+5933-        <!-- https://issues.oasis-open.org/browse/OFFICE-3761 -->
+5934:        <rng:ref name="table-table"/>
+5935-      </rng:choice>
+5936-    </rng:zeroOrMore>
+--
+6838-            <rng:ref name="text-p"/>
+6839-            <rng:ref name="text-list"/>
+6840:            <rng:ref name="table-table"/>
+6841-            <rng:ref name="text-section"/>
+6842-            <rng:ref name="text-table-of-content"/>
+--
+8266-  <rng:define name="office-spreadsheet-content-main">
+8267-    <rng:zeroOrMore>
+8268:      <rng:ref name="table-table"/>
+8269-    </rng:zeroOrMore>
+8270-  </rng:define>
+--
+12449-    </rng:interleave>
+12450-  </rng:define>
+12451:  <rng:define name="style-paragraph-properties">
+12452-    <rng:element name="style:paragraph-properties">
+12453:      <rng:ref name="style-paragraph-properties-content-strict"/>
+12454-    </rng:element>
+12455-  </rng:define>
+12456:  <rng:define name="style-paragraph-properties-attlist">
+12457-    <rng:interleave>
+12458-      <rng:optional>
+--
+12639-    </rng:interleave>
+12640-  </rng:define>
+12641:  <rng:define name="style-paragraph-properties-content-strict">
+12642:    <rng:ref name="style-paragraph-properties-attlist"/>
+12643:    <rng:ref name="style-paragraph-properties-elements"/>
+12644-  </rng:define>
+12645:  <rng:define name="style-paragraph-properties-elements">
+12646-    <rng:interleave>
+12647-      <rng:ref name="style-tab-stops"/>
+--
+12850-        </rng:attribute>
+12851-        <rng:optional>
+12852:          <rng:ref name="style-paragraph-properties"/>
+12853-        </rng:optional>
+12854-        <rng:optional>
+--
+12877-        </rng:attribute>
+12878-        <rng:optional>
+12879:          <rng:ref name="style-table-properties"/>
+12880-        </rng:optional>
+12881-      </rng:group>
+--
+12885-        </rng:attribute>
+12886-        <rng:optional>
+12887:          <rng:ref name="style-table-column-properties"/>
+12888-        </rng:optional>
+12889-      </rng:group>
+--
+12901-        </rng:attribute>
+12902-        <rng:optional>
+12903:          <rng:ref name="style-table-cell-properties"/>
+12904-        </rng:optional>
+12905-        <rng:optional>
+12906:          <rng:ref name="style-paragraph-properties"/>
+12907-        </rng:optional>
+12908-        <rng:optional>
+--
+12921-        </rng:optional>
+12922-        <rng:optional>
+12923:          <rng:ref name="style-paragraph-properties"/>
+12924-        </rng:optional>
+12925-        <rng:optional>
+--
+12946-        </rng:optional>
+12947-        <rng:optional>
+12948:          <rng:ref name="style-paragraph-properties"/>
+12949-        </rng:optional>
+12950-        <rng:optional>
+--
+13031-    </rng:optional>
+13032-  </rng:define>
+13033:  <rng:define name="style-table-cell-properties">
+13034-    <rng:element name="style:table-cell-properties">
+13035:      <rng:ref name="style-table-cell-properties-content-strict"/>
+13036-    </rng:element>
+13037-  </rng:define>
+13038:  <rng:define name="style-table-cell-properties-attlist">
+13039-    <rng:interleave>
+13040-      <rng:optional>
+--
+13151-    </rng:interleave>
+13152-  </rng:define>
+13153:  <rng:define name="style-table-cell-properties-content-strict">
+13154:    <rng:ref name="style-table-cell-properties-attlist"/>
+13155:    <rng:ref name="style-table-cell-properties-elements"/>
+13156-  </rng:define>
+13157:  <rng:define name="style-table-cell-properties-elements">
+13158-    <rng:ref name="style-background-image"/>
+13159-    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+13160-    <rng:ref name="style-background-fill"/>
+13161-  </rng:define>
+13162:  <rng:define name="style-table-column-properties">
+13163-    <rng:element name="style:table-column-properties">
+13164:      <rng:ref name="style-table-column-properties-content-strict"/>
+13165-    </rng:element>
+13166-  </rng:define>
+13167:  <rng:define name="style-table-column-properties-attlist">
+13168-    <rng:interleave>
+13169-      <rng:optional>
+--
+13185-    </rng:interleave>
+13186-  </rng:define>
+13187:  <rng:define name="style-table-column-properties-content-strict">
+13188:    <rng:ref name="style-table-column-properties-attlist"/>
+13189:    <rng:ref name="style-table-column-properties-elements"/>
+13190-  </rng:define>
+13191:  <rng:define name="style-table-column-properties-elements">
+13192-    <rng:empty/>
+13193-  </rng:define>
+13194:  <rng:define name="style-table-properties">
+13195-    <rng:element name="style:table-properties">
+13196:      <rng:ref name="style-table-properties-content-strict"/>
+13197-    </rng:element>
+13198-  </rng:define>
+13199:  <rng:define name="style-table-properties-attlist">
+13200-    <rng:interleave>
+13201-      <rng:optional>
+--
+13254-    </rng:interleave>
+13255-  </rng:define>
+13256:  <rng:define name="style-table-properties-content-strict">
+13257:    <rng:ref name="style-table-properties-attlist"/>
+13258:    <rng:ref name="style-table-properties-elements"/>
+13259-  </rng:define>
+13260:  <rng:define name="style-table-properties-elements">
+13261-    <rng:ref name="style-background-image"/>
+13262-    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+--
+13307-  </rng:define>
+13308-  <rng:define name="style-text-properties">
+13309:    <rng:element name="style:text-properties">
+13310-      <rng:ref name="style-text-properties-content-strict"/>
+13311-    </rng:element>
+--
+14895-    <rng:element name="table:dde-link">
+14896-      <rng:ref name="office-dde-source"/>
+14897:      <rng:ref name="table-table"/>
+14898-    </rng:element>
+14899-  </rng:define>
+--
+15937-    </rng:interleave>
+15938-  </rng:define>
+15939:  <rng:define name="table-table">
+15940-    <rng:element name="table:table">
+15941-      <rng:ref name="table-table-attlist"/>
+--
+16942-      <rng:ref name="text-list"/>
+16943-      <rng:ref name="text-numbered-paragraph"/>
+16944:      <rng:ref name="table-table"/>
+16945-      <rng:ref name="text-section"/>
+16946-      <rng:ref name="text-soft-page-break"/>
+--
+17948-  </rng:define>
+17949-  <rng:define name="text-p">
+17950:    <rng:element name="text:p">
+17951-      <rng:ref name="paragraph-attrs"/>
+17952-      <rng:zeroOrMore>
+783-9.1.4 <table:table-cell>
+784-
+785:9.1.5 <table:covered-table-cell>
+786-
+787-9.1.6 <table:table-column>
+--
+3807-19.679.1 General
+3808-
+3809:19.679.2 <table:covered-table-cell>
+3810-
+3811-19.679.3 <table:table-cell>
+--
+3813-19.679.4 <table:table-column>
+3814-
+3815:19.680 table:number-columns-spanned
+3816-
+3817-19.681 table:number-rows-repeated
+3818-
+3819:19.682 table:number-rows-spanned
+3820-
+3821-19.683 table:number-matrix-columns-spanned
+--
+3865-19.700.1 General
+3866-
+3867:19.700.2 <table:covered-table-cell>
+3868-
+3869-19.700.3 <table:scenario>
+--
+3939-19.730.3 <table:body>
+3940-
+3941:19.730.4 <table:covered-table-cell>
+3942-
+3943-19.730.5 <table:even-columns>
+--
+5127-20.184 fo:break-after
+5128-
+5129:20.185 fo:break-before
+5130-
+5131-20.186 fo:clip
+--
+5193-20.215 fo:page-height
+5194-
+5195:20.216 fo:page-width
+5196-
+5197-20.217 fo:padding
+--
+7027-The <text:h> element represents a heading in a document. Headings define the division structure for a document. A chapter or section begins with a heading and extends to the next heading at the same or higher level.
+7028-
+7029:The <text:h> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7030-
+7031-The <text:h> element has the following attributes: text:class-names 19.775, text:cond-style-name 19.781, text:id 19.815, text:is-list-header 19.822, text:outline-level 19.850, text:restart-numbering 19.863, text:start-value 19.874, text:style-name 19.880, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+--
+7037-The <text:p> element represents a paragraph, which is the basic unit of text in an OpenDocument file.
+7038-
+7039:The <text:p> element is usable within the following elements: <chart:data-label> 11.15, <chart:equation> 11.19, <chart:footer> 11.2.3, <chart:label-separator> 17.24, <chart:legend> 11.4, <chart:subtitle> 11.2.2, <chart:title> 11.2.1, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <form:textarea> 13.5.3, <office:annotation> 14.1, <office:change-info> 5.5.7, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <style:region-center> 16.17, <style:region-left> 16.16, <style:region-right> 16.18, <table:change-track-table-cell> 9.9.16, <table:covered-table-cell> 9.1.5, <table:error-message> 9.4.7, <table:help-message> 9.4.6, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+7040-
+7041-The <text:p> element has the following attributes: text:class-names 19.775, text:cond-style-name 19.781, text:id 19.815, text:style-name 19.880, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+--
+7079-Every list, including sub-lists, may have a list style which is applied to its list items and sub-lists. A list style specified for a sub-list overrides the list style specified for the list in which the sub-list is contained.
+7080-
+7081:The <text:list> element is usable within the following elements: <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <office:annotation> 14.1, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4 and <text:section> 5.4.
+7082-
+7083-The <text:list> element has the following attributes: text:continue-list 19.785, text:continue-numbering 19.786, text:style-name 19.880 and xml:id 19.920.
+--
+7145-Note: This text can be used by consumers that do not support numbering.
+7146-
+7147:The <text:numbered-paragraph> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+7148-
+7149-The <text:numbered-paragraph> element has the following attributes: text:continue-numbering 19.786, text:level 19.834, text:list-id 19.835, text:start-value 19.874, text:style-name 19.880 and xml:id 19.920.
+--
+7177-Linked external content may have an arbitrary file format. Consumers may process links to external content and the external content itself to update the content that appears in a section. 
+7178-
+7179:The <text:section> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+7180-
+7181-The <text:section> element has the following attributes: text:condition 19.782, text:display 19.802, text:name 19.841, text:protected 19.855, text:protection-key 19.856, text:protection-key-digest-algorithm 19.857, text:style-name 19.880 and xml:id 19.920.
+--
+7291- The <text:change-start> element marks the start of a region with content where text has been inserted or the format has been changed.
+7292-
+7293:The <text:change-start> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:a> 6.1.8, <text:deletion> 5.5.5, <text:h> 5.1.2, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:note-body> 6.3.4, <text:p> 5.1.3, <text:ruby-base> 6.4.2, <text:section> 5.4 and <text:span> 6.1.7.
+7294-
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0in" fo:margin-bottom="0in" fo:line-height="100%"/>
+      <style:text-properties fo:font-family="Calibri" fo:font-size="11pt"/>
+    </style:default-style>
+    <style:style style:name="PageOne" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0in" fo:margin-bottom="0.12in"/>
+    </style:style>
+    <style:style style:name="PageTwoStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0in" fo:margin-bottom="0.18in" fo:text-align="center"/>
+      <style:text-properties fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.04in" fo:margin-bottom="0.12in"/>
+      <style:text-properties fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="LogoText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.02in" fo:margin-bottom="0in"/>
+      <style:text-properties fo:font-family="Calibri" fo:font-size="11pt" fo:font-weight="bold" fo:color="#344b58"/>
+    </style:style>
+    <style:style style:name="Label" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="end" fo:margin-right="0.24in"/>
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="BodyText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-bottom="0.05in"/>
+    </style:style>
+    <style:style style:name="BulletText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.18in" fo:text-indent="-0.18in" fo:margin-bottom="0.07in"/>
+    </style:style>
+    <style:style style:name="UnderlinedBold" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0.12in" fo:margin-bottom="0.06in"/>
+      <style:text-properties fo:font-weight="bold" style:text-underline-style="solid"/>
+    </style:style>
+    <style:style style:name="CenterBold" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="CellText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.08in" fo:margin-right="0.06in" fo:margin-top="0.03in" fo:margin-bottom="0.03in"/>
+    </style:style>
+    <style:style style:name="CellHeader" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.08in" fo:margin-right="0.06in" fo:margin-top="0.04in" fo:margin-bottom="0.04in"/>
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="FooterText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-left="0.5in" fo:margin-right="0.5in" fo:text-align="justify"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PortraitLayout">
+      <style:page-layout-properties fo:page-width="8.5in" fo:page-height="11in" fo:margin-left="0.8in" fo:margin-right="0.8in" fo:margin-top="0.5in" fo:margin-bottom="0.55in"/>
+    </style:page-layout>
+    <style:page-layout style:name="LandscapeLayout">
+      <style:page-layout-properties fo:page-width="11in" fo:page-height="8.5in" fo:margin-left="0.5in" fo:margin-right="0.5in" fo:margin-top="0.55in" fo:margin-bottom="0.55in"/>
+    </style:page-layout>
+    <style:style style:name="SummaryTable" style:family="table">
+      <style:table-properties table:align="margins" style:width="6.9in"/>
+    </style:style>
+    <style:style style:name="SummaryLabelCol" style:family="table-column">
+      <style:table-column-properties style:column-width="1.65in"/>
+    </style:style>
+    <style:style style:name="SummaryBodyCol" style:family="table-column">
+      <style:table-column-properties style:column-width="5.25in"/>
+    </style:style>
+    <style:style style:name="LogTable" style:family="table">
+      <style:table-properties table:align="margins" style:width="9.9in"/>
+    </style:style>
+    <style:style style:name="LogCol1" style:family="table-column">
+      <style:table-column-properties style:column-width="2.6in"/>
+    </style:style>
+    <style:style style:name="LogCol2" style:family="table-column">
+      <style:table-column-properties style:column-width="2.25in"/>
+    </style:style>
+    <style:style style:name="LogCol3" style:family="table-column">
+      <style:table-column-properties style:column-width="3.55in"/>
+    </style:style>
+    <style:style style:name="LogCol4" style:family="table-column">
+      <style:table-column-properties style:column-width="1.5in"/>
+    </style:style>
+    <style:style style:name="RevisionTable" style:family="table">
+      <style:table-properties table:align="margins" style:width="6.9in"/>
+    </style:style>
+    <style:style style:name="RevCol1" style:family="table-column">
+      <style:table-column-properties style:column-width="1.3in"/>
+    </style:style>
+    <style:style style:name="RevCol2" style:family="table-column">
+      <style:table-column-properties style:column-width="1.3in"/>
+    </style:style>
+    <style:style style:name="RevCol3" style:family="table-column">
+      <style:table-column-properties style:column-width="4.3in"/>
+    </style:style>
+    <style:style style:name="BorderCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.03in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="LogBorderCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.75pt solid #000000" fo:padding="0.05in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="DataRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.4in"/>
+    </style:style>
+    <style:style style:name="LogHeaderRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.4in"/>
+    </style:style>
+    <style:style style:name="MetaRow" style:family="table-row">
+      <style:table-row-properties style:row-height="0.45in"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="PortraitPage" style:page-layout-name="PortraitLayout" style:next-style-name="PortraitPage">
+      <style:footer>
+        <text:p text:style-name="FooterText">Training Log Version 1.0<text:tab/>1 of 2<text:tab/>24Apr2013</text:p>
+      </style:footer>
+    </style:master-page>
+    <style:master-page style:name="LandscapePage" style:page-layout-name="LandscapeLayout" style:next-style-name="LandscapePage">
+      <style:footer>
+        <text:p text:style-name="FooterText">Training Log Version 1.0<text:tab/>1 of 2<text:tab/>24Apr2013</text:p>
+      </style:footer>
+    </style:master-page>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="LogoText">NIH &gt; National Center for Complementary and Integrative Health</text:p>
+      <text:p text:style-name="Title">Tool Summary Sheet</text:p>
+      <table:table table:name="Summary" table:style-name="SummaryTable">
+        <table:table-column table:style-name="SummaryLabelCol"/>
+        <table:table-column table:style-name="SummaryBodyCol"/>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="Label">Tool:</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BodyText">Training Log</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="Label">Purpose:</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BodyText">To record all training completed by site study staff members that is not otherwise documented by a training completion certificate</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="Label">Audience/User:</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BodyText">Study coordinators, principal investigators, other site staff, clinical monitor</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="Label">Details:</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BodyText">This tracking log should provide a comprehensive list of all training completed by site study staff that is not documented by other written means, such as a completion certificate. It is required for both observational and interventional clinical research studies.</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-rows-spanned="7">
+            <text:p text:style-name="Label">Best Practice Recommendations:</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BulletText">•　Record training in the log as it is completed, to ensure completeness and accuracy of the data.</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BulletText">•　This log need not include training that is documented by a completion certificate or other written documentation.</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BulletText">•　The site study staff member listed on each line should sign to verify that the training has been completed.</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BulletText">•　Number each page and maintain this log in the Essential Documents Binder, behind the Clinical Research and Study Training tab. (Synonyms for this binder include Investigator Binder, Regulatory Binder, Investigator Site File [ISF], and Study File.)</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BulletText">•　Store pages in reverse chronological order, with the newest pages of the log placed at the front of the section.</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BulletText">•　At the conclusion of the study, identify the final page of the log by checking the box in the footer.</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="BulletText">•　Remove this Tool Summary Sheet before use of the log.</text:p>
+          </table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="UnderlinedBold">Tool Revision History:</text:p>
+      <table:table table:name="RevisionHistory" table:style-name="RevisionTable">
+        <table:table-column table:style-name="RevCol1"/>
+        <table:table-column table:style-name="RevCol2"/>
+        <table:table-column table:style-name="RevCol3"/>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell" table:number-columns-spanned="2">
+            <text:p text:style-name="CenterBold">Version</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p/>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="CenterBold">Number</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="CenterBold">Date</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="CellHeader">Summary of Revisions Made:</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="CenterBold">1.0</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="CenterBold">24Apr2013</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="BorderCell">
+            <text:p text:style-name="CellText">First approved version</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="DataRow">
+          <table:table-cell table:style-name="BorderCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="BorderCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="PageTwoStart" style:master-page-name="LandscapePage">Training Log</text:p>
+      <table:table table:name="TrainingLogMetadata" table:style-name="LogTable">
+        <table:table-column table:style-name="LogCol1"/>
+        <table:table-column table:style-name="LogCol2"/>
+        <table:table-column table:style-name="LogCol3"/>
+        <table:table-column table:style-name="LogCol4"/>
+        <table:table-row table:style-name="MetaRow">
+          <table:table-cell table:style-name="LogBorderCell" table:number-columns-spanned="2">
+            <text:p text:style-name="CellHeader">Investigator Name:</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="LogBorderCell">
+            <text:p text:style-name="CellHeader">Protocol:</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="LogBorderCell">
+            <text:p text:style-name="CellHeader">Site Number:</text:p>
+          </table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p/>
+      <table:table table:name="TrainingEntries" table:style-name="LogTable">
+        <table:table-column table:style-name="LogCol1"/>
+        <table:table-column table:style-name="LogCol2"/>
+        <table:table-column table:style-name="LogCol3"/>
+        <table:table-column table:style-name="LogCol4"/>
+        <table:table-row table:style-name="LogHeaderRow">
+          <table:table-cell table:style-name="LogBorderCell">
+            <text:p text:style-name="CellHeader">Printed Name</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="LogBorderCell">
+            <text:p text:style-name="CellHeader">Signature</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="LogBorderCell">
+            <text:p text:style-name="CellHeader">Title of Training</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="LogBorderCell">
+            <text:p text:style-name="CellHeader">Date of Training</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row table:style-name="DataRow"><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell><table:table-cell table:style-name="LogBorderCell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="BodyText" fo:text-align="end">Check if final page of log: □</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+66,841

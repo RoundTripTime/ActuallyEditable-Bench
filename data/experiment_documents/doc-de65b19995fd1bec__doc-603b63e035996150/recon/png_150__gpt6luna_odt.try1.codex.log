@@ -1,0 +1,709 @@
+sues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:wrap-option">
+          <rng:choice>
+            <rng:value>no-wrap</rng:value>
+            <rng:value>wrap</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-rotation-angle-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:rotation-align">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>top</rng:value>
+            <rng:value>center</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:cell-protect">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>hidden-and-protected</rng:value>
+            <rng:list>
+              <rng:oneOrMore>
+                <rng:choice>
+                  <rng:value>protected</rng:value>
+                  <rng:value>formula-hidden</rng:value>
+                </rng:choice>
+              </rng:oneOrMore>
+            </rng:list>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:decimal-places">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:repeat-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:shrink-to-fit">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-content-strict">
+    <rng:ref name="style-table-cell-properties-attlist"/>
+    <rng:ref name="style-table-cell-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties">
+    <rng:element name="style:table-column-properties">
+      <rng:ref name="style-table-column-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-column-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:column-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-column-width">
+          <rng:ref name="relativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-column-width">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-break-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-column-properties-content-strict">
+    <rng:ref name="style-table-column-properties-attlist"/>
+    <rng:ref name="style-table-column-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-table-properties">
+    <rng:element name="style:table-properties">
+      <rng:ref name="style-table-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-width">
+          <rng:ref name="percent"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>margins</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <rng:ref name="common-page-number-attlist"/>
+      <rng:ref name="common-break-attlist"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-charset">
+          <rng:ref name="textEncoding"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-charset-asian">
+          <rng:ref name="textEncoding"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-charset-complex">
+          <rng:ref name="textEncoding"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:font-size">
+          <rng:choice>
+            <rng:ref name="positiveLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-size-asian">
+          <rng:choice>
+            <rng:ref name="positiveLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-size-complex">
+          <rng:choice>
+            <rng:ref name="positiveLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-size-rel">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+        <rng:ref name="table-subtotal-field"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-subtotal-rule-attlist">
+    <rng:attribute name="table:group-by-field-number">
+      <rng:ref name="nonNegativeInteger"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="table-subtotal-rules">
+    <rng:element name="table:subtotal-rules">
+      <rng:ref name="table-subtotal-rules-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-sort-groups"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="table-subtotal-rule"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-subtotal-rules-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:bind-styles-to-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:case-sensitive">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:page-breaks-on-group-change">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+    <rng:optional>
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body">
+    <rng:element name="office:body">
+      <rng:ref name="office-body-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body-content">
+    <rng:choice>
+      <rng:element name="office:text">
+        <rng:ref name="office-text-attlist"/>
+        <rng:ref name="office-text-content-prelude"/>
+        <rng:ref name="office-text-content-main"/>
+        <rng:ref name="office-text-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:drawing">
+        <rng:ref name="office-drawing-attlist"/>
+        <rng:ref name="office-drawing-content-prelude"/>
+        <rng:ref name="office-drawing-content-main"/>
+        <rng:ref name="office-drawing-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:presentation">
+        <rng:ref name="office-presentation-attlist"/>
+        <rng:ref name="office-presentation-content-prelude"/>
+        <rng:ref name="office-presentation-content-main"/>
+        <rng:ref name="office-presentation-content-epilogue"/>
+      </rng:element>
+An OpenDocument Formula document shall meet all requirements of a Conforming OpenDocument Document, as well as the following additional requirements: 
+
+A)If the document is an OpenDocument package, the package shall contain a file named mimetype with content being the string "application/vnd.oasis.opendocument.formula".  
+
+B)The package "content.xml" file shall have a <math:math> 14.6 root element.  
+
+2.2.10 OpenDocument Database Front End Document
+
+An OpenDocument Database Front End document shall meet all requirements of a Conforming OpenDocument Document, as well as the following additional requirements: 
+
+A)The <office:document> 3.1.2 element shall have an office:mimetype 19.379 attribute with the value "application/vnd.oasis.opendocument.base".  
+
+B)If the document is an OpenDocument package then it shall contain a file named mimetype containing the string " application/vnd.oasis.opendocument.base".  
+
+C)The <office:body> 3.3 element shall have the child element <office:database> 12.1.  
+
+2.3 Producers
+
+2.3.1 OpenDocument Producer
+
+An OpenDocument producer is a program that creates at least one conforming OpenDocument document, and that meets the following additional requirements:
+
+A)It may produce conforming OpenDocument extended documents, but it shall have a mode of operation where it creates conforming OpenDocument documents. 
+
+B)It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument producer. 
+
+2.3.2 OpenDocument Extended Producer
+
+An OpenDocument extended producer is a program that creates at least one conforming OpenDocument extended document, and that meets the following additional requirements:
+
+A)It shall be accompanied by a document that defines all implementation-defined values used by the OpenDocument extended producer. 
+
+B)It should be accompanied by a document that defines all foreign elements and attributes used by the OpenDocument extended producer. 
+
+2.4 Consumer
+
+An OpenDocument consumer is a program that can parse and interpret OpenDocument documents according to the semantics defined by this specification, and that meets the following additional requirements:
+
+A)It shall be able to parse and interpret OpenDocument documents of one or more of the document types defined by this specification (see 3.3), but it need not interpret the semantics of all elements, attributes and attribute values. 
+
+B)It may be able to parse and interpret OpenDocument documents stored as a single XML document, but it need not interpret the semantics of all elements, attributes and attribute values. 
+
+C)It shall interpret those elements and attributes it does interpret consistent with the semantics defined for the element or attribute by this specification. 
+
+D)It should be able to parse and interpret conforming OpenDocument extended documents, but it need not interpret the semantics of all elements, attributes and attribute values. 
+
+E)The XML parser used to parse the files contained in a package listed in 2.2.1, item B) or the single document listed in 2.2.1, item C) meets the following requirements: 
+E.1)It shall be a nonvalidating XML processor with regard to the XML 1.0 specification [XML1.0] 
+
+E.2)It shall be and be a conforming processor with regard to the XML Namespaces specification [XML-Names]. 
+
+E.3)It shall conform to the xml-id specification [XML-ID]. 
+
+3 Document Structure
+
+3.1 Document Representation 
+
+3.1.1 General
+
+OpenDocument defines two methods of document representation:
+
+•A single XML document. 
+
+•A collection of files within a package ([ODF1.4-Part-2:Packages]), each of which stores a part of a complete document. 
+
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+
+The <office:document> element is a root element.
+
+The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+
+The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+
+The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+ The potential root elements for an OpenDocument document represented as a package are defined in OpenDocument Document, 2.2.1.
+
+A package may also contain image files, embedded objects and implementation-dependent files.
+
+3.1.3.2 <office:document-content>
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.pdf
+
+Latest stage:
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+
+https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.pdf
+
+Technical Committee:
+
+OASIS Open Document Format for Office Applications (OpenDocument) TC
+
+Chairs:
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Editors:
+
+Francis Cave (francis@franciscave.com), Individual
+
+Patrick Durusau (patrick@durusau.net), Individual
+
+Svante Schubert (svante.schubert@gmail.com), Individual
+
+Michael Stahl (michael.stahl@allotropia.de), allotropia software GmbH
+
+Additional artifacts:
+
+This prose specification is one component of a Work Product which includes:
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 1: Introduction. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part1-introduction/OpenDocument-v1.4-os-part1-introduction.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 2: Packages. (this part) https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 3: OpenDocument Schema. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part3-schema/OpenDocument-v1.4-os-part3-schema.html. 
+
+•Open Document Format for Office Applications (OpenDocument) Version 1.4. Part 4: Recalculated Formula (OpenFormula) Format. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part4-formula/OpenDocument-v1.4-os-part4-formula.html. 
+
+•XML/RNG schemas and OWL ontologies. https://docs.oasis-open.org/office/OpenDocument/v1.4/os/schemas/. 
+
+Related work:
+
+This specification replaces or supersedes:
+
+•OASIS Open Document Format for Office Applications (OpenDocument) Version 1.4.  27 April 2021. OASIS Standard. Latest stage: https://docs.oasis-open.org/office/OpenDocument/v1.3/OpenDocument-v1.3-part2-packages.html. 
+
+Declared XML namespaces:
+
+urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+
+urn:oasis:names:tc:opendocument:xmlns:digitalsignature:1.0
+
+http://docs.oasis-open.org/ns/office/1.2/meta/pkg#
+
+Abstract:
+
+This document is Part 2 of the Open Document Format for Office Applications (OpenDocument) Version 1.4 specification and defines a package format for OpenDocument documents, the digital signing of such documents, along with metadata that may be supplied with them.
+
+Status:
+
+This document was last revised or approved by the OASIS Open Document Format for Office Applications (OpenDocument) TC on the above date. The level of approval is also listed above. Check the "Latest stage" location noted above for possible later revisions of this document. Any other numbered Versions and other technical work produced by the Technical Committee (TC) are listed at https://groups.oasis-open.org/communities/tc-community-home2?CommunityKey=4bf06d41-79ad-4c58-9e8e-018dc7d05da8#technical.
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="10pt" fo:font-weight="normal"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0.1cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="10pt"/>
+    </style:style>
+    <style:style style:name="BoldCenter" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="10pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="8.5pt"/>
+    </style:style>
+    <style:style style:name="SmallBold" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="9pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties style:width="25.9cm" table:align="center"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.04cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="PrivacyCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt dotted #555555" fo:padding="0.08cm" fo:background-color="#e6e6e6" style:vertical-align="middle"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="29.7cm" fo:page-height="21cm" fo:margin="1.9cm" style:print-orientation="landscape"/>
+    </style:page-layout>
+    <style:style style:name="Col1" style:family="table-column"><style:table-column-properties style:column-width="1.98cm"/></style:style>
+    <style:style style:name="Col2" style:family="table-column"><style:table-column-properties style:column-width="3.20cm"/></style:style>
+    <style:style style:name="Col3" style:family="table-column"><style:table-column-properties style:column-width="2.56cm"/></style:style>
+    <style:style style:name="Col4" style:family="table-column"><style:table-column-properties style:column-width="3.36cm"/></style:style>
+    <style:style style:name="Col5" style:family="table-column"><style:table-column-properties style:column-width="2.78cm"/></style:style>
+    <style:style style:name="Col6" style:family="table-column"><style:table-column-properties style:column-width="3.15cm"/></style:style>
+    <style:style style:name="Col7" style:family="table-column"><style:table-column-properties style:column-width="2.89cm"/></style:style>
+    <style:style style:name="Col8" style:family="table-column"><style:table-column-properties style:column-width="3.06cm"/></style:style>
+    <style:style style:name="Col9" style:family="table-column"><style:table-column-properties style:column-width="2.92cm"/></style:style>
+    <style:style style:name="PrivacyLeft" style:family="table-column"><style:table-column-properties style:column-width="4.8cm"/></style:style>
+    <style:style style:name="PrivacyRight" style:family="table-column"><style:table-column-properties style:column-width="21.1cm"/></style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Title">주민세 사업소분 건축물 사용명세서(건물 소유자 작성)　문의전화 : 032-509-8920 (fax.032-509-8928)</text:p>
+      <table:table table:name="사용명세서" table:style-name="FormTable">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-column table:style-name="Col6"/>
+        <table:table-column table:style-name="Col7"/>
+        <table:table-column table:style-name="Col8"/>
+        <table:table-column table:style-name="Col9"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="BoldCenter">건축물 소재지</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p text:style-name="Body">도로명 주소:</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="BoldCenter">건축물 소유자</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">성 명(법인명)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p/></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">생년월일(법인등록번호)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="BoldCenter">연면적(가설건축물 포함)</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p text:style-name="Body">m²</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">연 락 처</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="9"><text:p text:style-name="BoldCenter">사 용 현 황(7월 1일 기준)</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p text:style-name="Center">①구분<br/>(층별,호수)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p text:style-name="Center">②사용현황<br/>(자가,임대,공실 등)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p text:style-name="Center">③사용면적(m²)<br/>(전용+공용)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p text:style-name="Center">④상 호</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p text:style-name="BoldCenter">⑤사 용 자</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">성 명<br/>(법인명)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">생년월일<br/>(법인등록번호)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">사업자등록번호</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">사용기간 (임대·<br/>공실 포함)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">연락처</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="BoldCenter">⑥합 계</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p text:style-name="Body">⑦비 고 :</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="9">
+            <text:p text:style-name="BoldCenter">작성일 :　 년　 월　 일</text:p>
+            <text:p text:style-name="BoldCenter">확인자(건물 소유자)　　　　　　　　　(인 또는 서명)</text:p>
+            <text:p text:style-name="SmallBold">※ 작성방법</text:p>
+            <text:p text:style-name="Small">① 구분란에는 건물 내 사용 중인 사업장별(공실 포함) 층, 호수를 표시합니다. (ex. 3층 302호), ② 사용현황란에는 자가(건물주 직접사용), 임대(임차인 사용), 공실(미사용)</text:p>
+            <text:p text:style-name="Small">③ 사용면적(m²)는 전용면적과 공용면적 합계를 기재하되, 공용면적 사용 구분이 명백하지 않은 경우 전용면적 비율로 나눈 면적을 공용면적으로 계산합니다.</text:p>
+            <text:p text:style-name="Small">④ 상호란에는 사용하는 사업장 이름을 기재합니다. ⑤ 사용자는 건물주 또는 임차인 등 해당 사용자의 관련사항을 기재합니다.(사용기간은 임대, 공실의 경우에도 그 기간을 기재)⑥</text:p>
+            <text:p text:style-name="Small">사용면적 합계는 건축물 연면적과 동일해야 합니다. ⑦ 비고란에는 임차인이 휴업, 폐업, 전출하여 사업자가 없는 경우에는 그 사유와 발생일을 기재합니다.</text:p>
+            <text:p text:style-name="SmallBold">※ 「지방세법」제75조2항 및 같은 법 시행령 제80조에 따라 건축물 소유자에게도 제2차 납세의무를 지울 수 있으므로 성실히 작성하여 주시기 바랍니다.</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Body"/>
+      <table:table table:name="개인정보동의" table:style-name="FormTable">
+        <table:table-column table:style-name="PrivacyLeft"/>
+        <table:table-column table:style-name="PrivacyRight"/>
+        <table:table-row>
+          <table:table-cell table:style-name="PrivacyCell"><text:p text:style-name="BoldCenter">개인정보<br/>수집· 동의 안내</text:p></table:table-cell>
+          <table:table-cell table:style-name="PrivacyCell">
+            <text:p text:style-name="Body">개인정보의 수집 및 이용에 동의하십니까?　　■ 동의함　 □동의안함</text:p>
+            <text:p text:style-name="Body">※ 「개인정보보호법」에 따라 수집·보유 및 처리하는 개인정보(성명, 생년월일, 법인등록번호, 전화번호)는 주민세(사업소분) 과세 목적으로 사용 할</text:p>
+            <text:p text:style-name="Body">예정이며, 문서보존기간 종료 즉시 안전한 방법으로 폐기 처리할 예정입니다.</text:p>
+          </table:table-cell>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+40,219

@@ -1,0 +1,972 @@
+:optional>
+      <ns0:optional>
+        <ns0:ref name="draw-layer-set" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="office-forms" />
+      </ns0:optional>
+      <ns0:zeroOrMore>
+        <ns0:ref name="shape" />
+      </ns0:zeroOrMore>
+      <ns0:optional>
+        <ns0:ref name="animation-element" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="presentation-notes" />
+      </ns0:optional>
+    </ns0:element>
+  </ns0:define>
+  
+--- style-page-layout ---
+<ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-page-layout">
+    <ns0:element name="style:page-layout">
+      <ns0:ref name="style-page-layout-attlist" />
+      <ns0:ref name="style-page-layout-content" />
+    </ns0:element>
+  </ns0:define>
+  
+--- table-covered-table-cell ---
+<ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-covered-table-cell">
+    <ns0:element name="table:covered-table-cell">
+      <ns0:ref name="table-table-cell-attlist" />
+      <ns0:ref name="table-table-cell-content" />
+    </ns0:element>
+  </ns0:define>
+  
+--- table-table ---
+<ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table">
+    <ns0:element name="table:table">
+      <ns0:ref name="table-table-attlist" />
+      <ns0:optional>
+        <ns0:ref name="table-title" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="table-desc" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="table-table-source" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="office-dde-source" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="table-scenario" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="office-forms" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="table-shapes" />
+      </ns0:optional>
+      <ns0:ref name="table-columns-and-groups" />
+      <ns0:ref name="table-rows-and-groups" />
+      <ns0:optional>
+        <ns0:ref name="table-named-expressions" />
+      </ns0:optional>
+    </ns0:element>
+  </ns0:define>
+  
+--- table-table-cell ---
+<ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-cell">
+    <ns0:element name="table:table-cell">
+      <ns0:ref name="table-table-cell-attlist" />
+      <ns0:ref name="table-table-cell-attlist-extra" />
+      <ns0:ref name="table-table-cell-content" />
+    </ns0:element>
+  </ns0:define>
+  
+--- table-table-column ---
+<ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-column">
+    <ns0:element name="table:table-column">
+      <ns0:ref name="table-table-column-attlist" />
+      <ns0:empty />
+    </ns0:element>
+  </ns0:define>
+  
+--- table-table-row ---
+<ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-row">
+    <ns0:element name="table:table-row">
+      <ns0:ref name="table-table-row-attlist" />
+      <ns0:oneOrMore>
+        <ns0:choice>
+          <ns0:ref name="table-table-cell" />
+          <ns0:ref name="table-covered-table-cell" />
+        </ns0:choice>
+      </ns0:oneOrMore>
+    </ns0:element>
+  </ns0:define>
+  
+--- text-p ---
+<ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="text-p">
+    <ns0:element name="text:p">
+      <ns0:ref name="paragraph-attrs" />
+      <ns0:zeroOrMore>
+        <ns0:ref name="paragraph-content-or-hyperlink" />
+      </ns0:zeroOrMore>
+    </ns0:element>
+  </ns0:define>
+  
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import xml.etree.ElementTree as E; r=E.parse(\"odf_spec/OpenDocument-v1.4-schema.rng\").getroot(); want=[\"office-document-attrs\",\"office-document-common-attrs\",\"style-master-page-attlist\",\"style-page-layout-attlist\",\"style-page-layout-content\",\"style-page-layout-properties-attlist\",\"table-table-attlist\",\"table-table-cell-attlist\",\"table-table-cell-content\",\"table-number-columns-spanned\",\"table-number-rows-spanned\",\"paragraph-attrs\",\"style-style-attlist\",\"style-paragraph-properties-attlist\",\"style-text-properties-attlist\"];
+for d in r.iter():
+ if d.tag.endswith(\"define\") and d.get(\"name\") in want: print(\"---\",d.get(\"name\"),\"---\",E.tostring(d,encoding=\"unicode\")[:3500])'" in /tmp/fb_codex_pdf_pzue0klv
+ succeeded in 0ms:
+--- office-document-attrs --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="office-document-attrs">
+    <ns0:attribute name="office:mimetype">
+      <ns0:ref name="string" />
+    </ns0:attribute>
+  </ns0:define>
+  
+--- office-document-common-attrs --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="office-document-common-attrs">
+    <ns0:interleave>
+      <ns0:attribute name="office:version">
+        
+        <ns0:value>1.4</ns0:value>
+      </ns0:attribute>
+      <ns0:optional>
+        <ns0:attribute name="grddl:transformation">
+          <ns0:list>
+            <ns0:zeroOrMore>
+              <ns0:ref name="anyIRI" />
+            </ns0:zeroOrMore>
+          </ns0:list>
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+--- paragraph-attrs --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="paragraph-attrs">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="text:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="text:class-names">
+          <ns0:ref name="styleNameRefs" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="text:cond-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:group>
+          <ns0:ref name="xml-id" />
+          <ns0:optional>
+            <ns0:attribute name="text:id">
+              <ns0:ref name="NCName" />
+            </ns0:attribute>
+          </ns0:optional>
+        </ns0:group>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="common-in-content-meta-attlist" />
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+--- style-master-page-attlist --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-master-page-attlist">
+    <ns0:interleave>
+      <ns0:attribute name="style:name">
+        <ns0:ref name="styleName" />
+      </ns0:attribute>
+      <ns0:optional>
+        <ns0:attribute name="style:display-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:attribute name="style:page-layout-name">
+        <ns0:ref name="styleNameRef" />
+      </ns0:attribute>
+      <ns0:optional>
+        <ns0:attribute name="draw:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:next-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+--- style-page-layout-attlist --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-page-layout-attlist">
+    <ns0:interleave>
+      <ns0:attribute name="style:name">
+        <ns0:ref name="styleName" />
+      </ns0:attribute>
+      
+      <ns0:optional>
+        <ns0:attribute name="style:page-usage">
+          <ns0:choice>
+            <ns0:value>all</ns0:value>
+            <ns0:value>left</ns0:value>
+            <ns0:value>right</ns0:value>
+            <ns0:value>mirrored</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+--- style-page-layout-content --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-page-layout-content">
+    <ns0:optional>
+      <ns0:ref name="style-page-layout-properties" />
+    </ns0:optional>
+    <ns0:optional>
+      <ns0:ref name="style-header-style" />
+    </ns0:optional>
+    <ns0:optional>
+      <ns0:ref name="style-footer-style" />
+    </ns0:optional>
+  </ns0:define>
+  
+--- style-page-layout-properties-attlist --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-page-layout-properties-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="fo:page-width">
+          <ns0:ref name="length" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:page-height">
+          <ns0:ref name="length" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="common-num-format-attlist" />
+      </ns0:optional>
+      <ns0:ref name="common-num-format-prefix-suffix-attlist" />
+      <ns0:optional>
+        <ns0:attribute name="style:paper-tray-name">
+          <ns0:choice>
+            <ns0:value>default</ns0:value>
+            <ns0:ref name="string" />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:print-orientation">
+          <ns0:choice>
+            <ns0:value>portrait</ns0:value>
+            <ns0:value>landscape</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:ref name="common-horizontal-margin-attlist" />
+      <ns0:ref name="common-vertical-margin-attlist" />
+      <ns0:ref name="common-margin-attlist" />
+      
+      <ns0:optional>
+        <ns0:attribute name="style:margin-gutter">
+         <ns0:ref name="nonNegativeLength" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:ref name="common-border-attlist" />
+      <ns0:ref name="common-border-line-width-attlist" />
+      <ns0:ref name="common-padding-attlist" />
+      <ns0:ref name="common-shadow-attlist" />
+      <ns0:ref name="common-background-color-attlist" />
+      <ns0:optional>
+        <ns0:attribute name="style:register-truth-ref-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:print">
+          <ns0:list>
+            <ns0:zeroOrMore>
+              <ns0:choice>
+                <ns0:value>headers</ns0:value>
+                <ns0:value>grid</ns0:value>
+                <ns0:value>annotations</ns0:value>
+                <ns0:value>objects</ns0:value>
+                <ns0:value>charts</ns0:value>
+                <ns0:value>drawings</ns0:value>
+                <ns0:value>formulas</ns0:value>
+                <ns0:value>zero-values</ns0:value>
+              </ns0:choice>
+            </ns0:zeroOrMore>
+          </ns0:list>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:print-page-order">
+          <ns0:choice>
+            <ns0:value>ttb</ns0:value>
+            <ns0:value>ltr</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:first-page-number">
+          <ns0:choice>
+            
+            <ns0:ref name="integer" />
+            <ns0:value>continue</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:choice>
+        <ns0:optional>
+          <ns0:attribute name="style:scale-to">
+            <ns0:ref name="percent" />
+          </ns0:attribute>
+        </ns0:optional>
+        <ns0:optional>
+          <ns0:attribute name="style:scale-to-pages">
+            <ns0:ref name="positiveInteger" />
+          </ns0:attribute>
+        </ns0:optional>
+        <ns0:group>
+          <ns0:optional>
+            <ns0:attribute name="style:scale-to-X">
+              <ns0:ref n
+--- style-paragraph-properties-attlist --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-paragraph-properties-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="style:contextual-spacing">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      
+      <ns0:optional>
+        <ns0:attribute name="fo:line-height">
+          <ns0:choice>
+            <ns0:value>normal</ns0:value>
+            <ns0:ref name="nonNegativeLength" />
+            <ns0:ref name="percent" />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:line-height-at-least">
+          <ns0:ref name="nonNegativeLength" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:line-spacing">
+          <ns0:ref name="length" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:font-independent-line-spacing">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:ref name="common-text-align" />
+      <ns0:optional>
+        <ns0:attribute name="fo:text-align-last">
+          <ns0:choice>
+            <ns0:value>start</ns0:value>
+            <ns0:value>center</ns0:value>
+            <ns0:value>justify</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:justify-single-word">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:keep-together">
+          <ns0:choice>
+            <ns0:value>auto</ns0:value>
+            <ns0:value>always</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:widows">
+          <ns0:ref name="nonNegativeInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:orphans">
+          <ns0:ref name="nonNegativeInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:tab-stop-distance">
+          <ns0:ref name="nonNegativeLength" />
+        </ns0:attribute>
+      </ns0:optional>
+      
+      <ns0:optional>
+        <ns0:attribute name="text:relative-tab-stop-position">
+        <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:hyphenation-keep">
+          <ns0:choice>
+            <ns0:value>auto</ns0:value>
+            <ns0:value>page</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:hyphenation-ladder-count">
+          <ns0:choice>
+            <ns0:value>no-limit</ns0:value>
+            <ns0:ref name="positiveInteger" />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:register-true">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:ref name="common-horizontal-margin-attlist" />
+      <ns0:optional>
+        <ns0:attribute name="fo:text-indent">
+          <ns0:choice>
+            <ns0:ref name="length" />
+            <ns0:ref name="percent" />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:
+--- style-style-attlist --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-style-attlist">
+    <ns0:interleave>
+      <ns0:attribute name="style:name">
+        <ns0:ref name="styleName" />
+      </ns0:attribute>
+      <ns0:optional>
+        <ns0:attribute name="style:display-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:parent-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:next-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:list-level">
+          <ns0:choice>
+            <ns0:ref name="positiveInteger" />
+            <ns0:empty />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:list-style-name">
+          <ns0:choice>
+            <ns0:ref name="styleName" />
+            <ns0:empty />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:master-page-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:auto-update">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:data-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:percentage-data-style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:class">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:default-outline-level">
+          <ns0:choice>
+            <ns0:ref name="positiveInteger" />
+            <ns0:empty />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+--- style-text-properties-attlist --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="style-text-properties-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="fo:font-variant">
+          <ns0:ref name="fontVariant" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:text-transform">
+          <ns0:choice>
+            <ns0:value>none</ns0:value>
+            <ns0:value>lowercase</ns0:value>
+            <ns0:value>uppercase</ns0:value>
+            <ns0:value>capitalize</ns0:value>
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:color">
+          <ns0:ref name="color" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:use-window-font-color">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:text-outline">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:text-line-through-type">
+          <ns0:ref name="lineType" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:text-line-through-style">
+          <ns0:ref name="lineStyle" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:text-line-through-width">
+          <ns0:ref name="lineWidth" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:text-line-through-color">
+          <ns0:choice>
+            <ns0:value>font-color</ns0:value>
+            <ns0:ref name="color" />
+          </ns0:choice>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:text-line-through-text">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:text-line-through-text-style">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:text-position">
+          <ns0:list>
+            <ns0:choice>
+              <ns0:ref name="percent" />
+              <ns0:value>super</ns0:value>
+              <ns0:value>sub</ns0:value>
+            </ns0:choice>
+            <ns0:optional>
+              <ns0:ref name="percent" />
+            </ns0:optional>
+          </ns0:list>
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:font-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:font-name-asian">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:font-name-complex">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="fo:font-family">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:font-family-asian">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="style:font-family-complex">
+          <ns0:ref name="string" /
+--- table-table-attlist --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="table:name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:template-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-first-row-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-last-row-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-first-column-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-last-column-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-banding-rows-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:use-banding-columns-styles">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protected">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protection-key">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protection-key-digest-algorithm">
+          <ns0:ref name="anyIRI" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:print">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:print-ranges">
+          <ns0:ref name="cellRangeAddressList" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="xml-id" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:is-sub-table">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+--- table-table-cell-attlist --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-cell-attlist">
+    <ns0:interleave>
+      <ns0:optional>
+        <ns0:attribute name="table:number-columns-repeated">
+          <ns0:ref name="positiveInteger" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:style-name">
+          <ns0:ref name="styleNameRef" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:content-validation-name">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:formula">
+          <ns0:ref name="string" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="common-value-and-type-attlist" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protect">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:attribute name="table:protected">
+          <ns0:ref name="boolean" />
+        </ns0:attribute>
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="xml-id" />
+      </ns0:optional>
+      <ns0:optional>
+        <ns0:ref name="common-in-content-meta-attlist" />
+      </ns0:optional>
+    </ns0:interleave>
+  </ns0:define>
+  
+--- table-table-cell-content --- <ns0:define xmlns:ns0="http://relaxng.org/ns/structure/1.0" name="table-table-cell-content">
+    <ns0:optional>
+      <ns0:ref name="table-cell-range-source" />
+    </ns0:optional>
+    <ns0:optional>
+      <ns0:ref name="office-annotation" />
+    </ns0:optional>
+    <ns0:optional>
+      <ns0:ref name="table-detective" />
+    </ns0:optional>
+    <ns0:zeroOrMore>
+      <ns0:ref name="text-content" />
+    </ns0:zeroOrMore>
+  </ns0:define>
+  
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="12pt" fo:language="ja" fo:country="JP"/>
+    </style:default-style>
+    <style:style style:name="Normal" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="12pt" fo:language="ja" fo:country="JP"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph" style:parent-style-name="Normal">
+      <style:paragraph-properties fo:break-before="page" fo:text-align="end"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph" style:parent-style-name="Normal">
+      <style:paragraph-properties fo:text-align="end"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph" style:parent-style-name="Normal">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph" style:parent-style-name="Normal">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.45cm" fo:margin-bottom="0.45cm"/>
+      <style:text-properties fo:font-family="serif" fo:font-size="14pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Gap" style:family="paragraph" style:parent-style-name="Normal">
+      <style:paragraph-properties fo:margin-top="2.5cm"/>
+    </style:style>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties table:align="left"/>
+    </style:style>
+    <style:style style:name="Col1" style:family="table-column">
+      <style:table-column-properties style:column-width="0.7cm"/>
+    </style:style>
+    <style:style style:name="Col2" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="Col3" style:family="table-column">
+      <style:table-column-properties style:column-width="2.5cm"/>
+    </style:style>
+    <style:style style:name="Col4" style:family="table-column">
+      <style:table-column-properties style:column-width="2.7cm"/>
+    </style:style>
+    <style:style style:name="Col5" style:family="table-column">
+      <style:table-column-properties style:column-width="2.7cm"/>
+    </style:style>
+    <style:style style:name="Col6" style:family="table-column">
+      <style:table-column-properties style:column-width="4.5cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:padding="0cm" fo:border="none"/>
+    </style:style>
+    <style:style style:name="InputCell" style:family="table-cell">
+      <style:table-cell-properties fo:padding="0cm" fo:border="none" fo:border-bottom="0.5pt solid #000000"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" style:print-orientation="portrait" fo:margin-left="2.7cm" fo:margin-right="2.7cm" fo:margin-top="2.8cm" fo:margin-bottom="2.6cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <table:table table:name="派遣依頼書" table:style-name="FormTable">
+        <table:table-column table:style-name="Col1"/>
+        <table:table-column table:style-name="Col2"/>
+        <table:table-column table:style-name="Col3"/>
+        <table:table-column table:style-name="Col4"/>
+        <table:table-column table:style-name="Col5"/>
+        <table:table-column table:style-name="Col6"/>
+
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p text:style-name="PageStart">年　　月　　日</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>大府市消防長殿</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="Cell"><text:p>名　称</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell" table:number-columns-spanned="3"/>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>代　表　者</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>訓練担当者</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="InputCell" table:number-columns-spanned="2"/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>電　話</text:p></table:table-cell>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="InputCell" table:number-columns-spanned="4"/>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p text:style-name="Title">職員の派遣について（依頼）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6">
+            <text:p>このことについて、下記のとおり＿＿＿＿＿＿＿＿訓練を実施しますので職員の派遣方</text:p>
+            <text:p>お願いします。</text:p>
+          </table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p text:style-name="Center">記</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>１</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>実施日時</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>年　　月　　日　　　時　　分～　　時　　分</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>２</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>実施場所</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="InputCell" table:number-columns-spanned="3"/>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>３</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>訓練予定人員</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="InputCell" table:number-columns-spanned="2"/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>名</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>４</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>派遣人員</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="InputCell" table:number-columns-spanned="2"/>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>名</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>５</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>派遣消防車両名</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="InputCell"/>
+          <table:table-cell table:style-name="Cell"><text:p>車</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="1"><text:p>　※試乗・写真撮影目的の派遣はしません。</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>　（消防車両の活動内容：　　　　　　　　　　　　　　　　　　　　　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>６　必要資機材等　①訓練用水消火器＿＿＿本　　②水消火器用の＿＿＿個</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>　　　　　　　　　③ビデオ、DVD　（タイトル名：　　　　　　　　　　　　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>　　　　　　　　　④その他（　　　　　　　　　　　　　　　　　　　　　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>７　訓練種別　１１９通報・避難・消火・講評・防火講話・救急・その他</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>　（　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>８</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="5"><text:p>訓練等概要</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p text:style-name="Gap">注意　◆別紙等があれば添付してください。</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>　　　◆中止の場合は、決定後速やかに（最低でも１時間前まで）「大府市消防署」</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>　　　　【電話47-0119】まで連絡してください。</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>　　　◆１１９通報訓練を実施する場合は、おおよそ通報１０分前に「知多広域消防</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="6"><text:p>　　　　指令センター」【電話0569-20-1119】へその旨を連絡してください。</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+62,066

@@ -1,0 +1,452 @@
+.2, <text:index-title> 8.2.3, <text:note-body> 6.3.4 and <text:section> 5.4.
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import zlib,re; b=open(\"input/form.pdf\",\"rb\").read(); print(b[:100]); print(\"pages\",len(re.findall(rb\"/Type\\\\s*/Page\\\\b\",b)),\"streams\",len(re.findall(rb\"\\\\bstream\\\\r?\\\\n\",b))); [(print(\"STREAM\",i,len(x),x[:200])) for i,m in enumerate(re.finditer(rb\"<<(.*?)>>\\\\s*stream\\\\r?\\\\n\",b,re.S)) for d in [m.group(1)] for start in [m.end()] for end in [b.find(b\"endstream\",start)] for raw in [b[start:end].rstrip(b\"\\\\r\\\\n\")] for x in [zlib.decompress(raw) if b\"FlateDecode\" in d else b\"\"] if b\"BT\" in x]'" in /tmp/fb_codex_pdf_gaau266a
+ succeeded in 1235ms:
+b'%PDF-1.7\n%\xc3\xa4\xc3\xbc\xc3\xb6\xc3\x9f\n2 0 obj\n<</Length 3 0 R/Filter/FlateDecode>>\nstream\nx\x9c\xbd=\xdb\x8e\xec\xb8\x8d\xef\xfd\x15\x05\xf4[\x80\xe3\x11u\x17Ph\xc0\xd7E\x82\xe4!\xc9'
+pages 0 streams 0
+
+exec
+/usr/bin/zsh -lc "python3 -c 'import zlib,re; b=open(\"input/form.pdf\",\"rb\").read(); print(\"/Type /Page\",b.count(b\"/Type /Page\")); pos=0; i=0
+while True:
+ s=b.find(b\"stream\\n\",pos)
+ if s<0: break
+ e=b.find(b\"endstream\",s); raw=b[s+7:e].rstrip(b\"\\r\\n\"); pos=e+9
+ try: x=zlib.decompress(raw)
+ except: i+=1; continue
+ if b\"BT\" in x: print(\"STREAM\",i,len(x),repr(x[:300]))
+ i+=1'" in /tmp/fb_codex_pdf_gaau266a
+ succeeded in 0ms:
+/Type /Page 0
+STREAM 0 26166 b'0.1 w\n/Artifact BMC\nq 0 0.028 595.276 841.861 re\nW* n\n/Artifact BMC\n0.8 1 0.8 rg\n42.6 799.839 63.45 20.75 re f*\nEMC\n/Artifact BMC\n54.6 573.639 70.25 20.45 re f*\nEMC\n/Artifact BMC\n288.5 573.639 52.05 20.45 re f*\nEMC\n/Artifact BMC\n54.6 542.439 70.25 31.15 re f*\nEMC\n/Artifact BMC\n288.5 542.439 52.05 31'
+STREAM 1 40295 b'0.1 w\n/Artifact BMC\nq 0 0.028 595.276 841.861 re\nW* n\n/Artifact BMC\n0.8 1 0.8 rg\n51.7 718.639 27.25 91.45 re f*\nEMC\n/Artifact BMC\n51.7 629.539 27.25 89.05 re f*\nEMC\n/Artifact BMC\n79 698.739 83.15 19.85 re f*\nEMC\n/Artifact BMC\n79 679.939 83.15 18.75 re f*\nEMC\n/Artifact BMC\n79 629.539 83.15 50.35 re f'
+
+exec
+/usr/bin/zsh -lc "sed -n '6295,6310p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '6631,6665p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1479,1497p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '1695,1717p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '3780,3830p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '5090,5140p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt; sed -n '6980,7050p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt" in /tmp/fb_codex_pdf_gaau266a
+ succeeded in 0ms:
+3.1.2 <office:document>(Single OpenDocument XML Files)
+
+The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+
+The <office:document> element is a root element.
+
+The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+
+The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+
+The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+
+3.1.3 Package OpenDocument Files
+
+3.1.3.1 General
+
+The <office:styles> element is usable within the following elements: <office:document> 3.1.2 and <office:document-styles> 3.1.3.3.
+
+The <office:styles> element has no attributes.
+
+The <office:styles> element has the following child elements: <draw:fill-image> 16.42.6, <draw:gradient> 16.42.1, <draw:hatch> 16.42.5, <draw:marker> 16.42.8, <draw:opacity> 16.42.7, <draw:stroke-dash> 16.42.9, <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:default-page-layout> 16.8, <style:default-style> 16.4, <style:presentation-page-layout> 16.43, <style:style> 16.2, <svg:linearGradient> 16.42.2, <svg:radialGradient> 16.42.3, <table:table-template> 16.20, <text:bibliography-configuration> 16.31.6, <text:linenumbering-configuration> 16.31.1, <text:list-style> 16.32, <text:notes-configuration> 16.31.3 and <text:outline-style> 16.36.
+
+3.15.3 <office:automatic-styles>
+
+The <office:automatic-styles> element contains automatic styles used in a document. 
+
+An automatic style is a set of formatting properties treated as properties of the object to which the style is assigned. 
+
+Note: Common and automatic styles behave differently in OpenDocument editing consumers. Common styles present to a user as a named set of formatting properties. The formatting properties of an automatic style present to a user as properties of the object to which the style is applied. 
+
+The <office:automatic-styles> element is usable within the following elements: <office:document> 3.1.2, <office:document-content> 3.1.3.2 and <office:document-styles> 3.1.3.3.
+
+The <office:automatic-styles> element has no attributes.
+
+The <office:automatic-styles> element has the following child elements: <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:page-layout> 16.5, <style:style> 16.2 and <text:list-style> 16.32.
+
+3.15.4 <office:master-styles>
+
+The <office:master-styles> element contains master styles that are used in a document. A master style contains formatting and other content that is displayed with document content when the style is used. 
+
+The <office:master-styles> element is usable within the following elements: <office:document> 3.1.2 and <office:document-styles> 3.1.3.3.
+
+The <office:master-styles> element has no attributes.
+
+The <office:master-styles> element has the following child elements: <draw:layer-set> 10.2.2, <style:handout-master> 10.2.1 and <style:master-page> 16.9.
+
+3.16 Document Signatures
+
+An OpenDocument document that is stored in a package may have one or more digital signatures applied to the package.
+
+Document signatures are stored in a file called META-INF/documentsignatures.xml in the package as described in section 3.5 of the OpenDocument specification Part2. Document signatures shall contain a <ds:Reference> element for each file within the package, with the exception that <ds:Reference> elements for the META-INF/documentsignatures.xml file containing the signature, and any files contained in the package whose relative path starts with "external-data/" should be omitted.
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+16.14 <style:header-left>
+17.2 <style:page-layout-properties>
+
+17.3 <style:background-image>
+
+17.4 <style:footnote-sep>
+
+17.5 <style:header-footer-properties>
+
+17.6 <style:paragraph-properties>
+
+17.7 <style:tab-stops>
+
+17.8 <style:tab-stop>
+
+17.9 <style:drop-cap>
+
+17.10 <style:ruby-properties>
+
+17.11 <style:section-properties>
+
+17.12 <style:columns>
+
+17.13 <style:column>
+
+19.677.5 <table:data-pilot-group-member>
+
+19.677.6 <table:data-pilot-member>
+
+19.677.7 <table:data-pilot-table>
+
+19.677.8 <table:database-range>
+
+19.677.9 <table:named-expression>
+
+19.677.10 <table:named-range>
+
+19.677.11 <table:operation>
+
+19.677.12 <table:source-cell-range>
+
+19.677.13 <table:source-service>
+
+19.677.14 <table:table>
+
+19.677.15 <table:table-template>
+
+19.678 table:null-year
+
+19.679 table:number-columns-repeated
+
+19.679.1 General
+
+19.679.2 <table:covered-table-cell>
+
+19.679.3 <table:table-cell>
+
+19.679.4 <table:table-column>
+
+19.680 table:number-columns-spanned
+
+19.681 table:number-rows-repeated
+
+19.682 table:number-rows-spanned
+
+19.683 table:number-matrix-columns-spanned
+
+19.684 table:number-matrix-rows-spanned
+
+19.685 table:object-name
+
+19.686 table:on-update-keep-size
+
+19.687 table:on-update-keep-styles
+
+
+20.172 draw:symbol-color
+
+20.173 draw:textarea-horizontal-align
+
+20.174 draw:textarea-vertical-align
+
+20.175 draw:tile-repeat-offset
+
+20.176 draw:visible-area-height
+
+20.177 draw:visible-area-left
+
+20.178 draw:visible-area-top
+
+20.179 draw:visible-area-width
+
+20.180 draw:unit
+
+20.181 draw:wrap-influence-on-position
+
+20.182 fo:background-color
+
+20.183 fo Border Properties
+
+20.183.1 General
+
+20.183.2 fo:border
+
+20.183.3 fo:border-bottom
+
+20.183.4 fo:border-left
+
+20.183.5 fo:border-right
+
+20.183.6 fo:border-top
+
+20.184 fo:break-after
+
+20.185 fo:break-before
+
+20.186 fo:clip
+
+20.187 fo:color
+
+20.188 fo:country
+
+20.189 fo:font-family
+
+20.190 fo:font-size
+
+
+4.3.2.17 <meta:editing-duration>
+
+The <meta:editing-duration> element specifies the total time spent editing a document.
+
+The <meta:editing-duration> element is usable within the following element: <office:meta> 3.2.
+
+The <meta:editing-duration> element has no attributes.
+
+The <meta:editing-duration> element has no child elements.
+
+The <meta:editing-duration> element has content of data type duration 18.2.
+
+4.3.2.18 <meta:document-statistic>
+
+The <meta:document-statistic> element represents statistics about a document.
+
+The <meta:document-statistic> element is usable within the following element: <office:meta> 3.2.
+
+The <meta:document-statistic> element has the following attributes: meta:cell-count 19.321, meta:character-count 19.322, meta:draw-count 19.325, meta:frame-count 19.326, meta:image-count 19.327, meta:non-whitespace-character-count 19.329, meta:object-count 19.330, meta:ole-object-count 19.331, meta:page-count 19.332, meta:paragraph-count 19.333, meta:row-count 19.334, meta:sentence-count 19.335, meta:syllable-count 19.336, meta:table-count 19.337 and meta:word-count 19.339.
+
+The <meta:document-statistic> element has no child elements.
+
+4.3.3 <meta:user-defined>
+
+The <meta:user-defined> element specifies any additional user-defined metadata for a document.
+
+The <meta:user-defined> element is usable within the following element: <office:meta> 3.2.
+
+The <meta:user-defined> element has the following attributes: meta:name 19.328, meta:value-type 19.338.
+
+The <meta:user-defined> element has no child elements.
+
+The <meta:user-defined> element has character data content, or depending on the value of the meta:value-type attribute content of type double 18.2, date 18.2, dateTime 18.2, duration 18.2, boolean 18.3.3 or string 18.2.
+
+5 Text Content
+
+5.1 Headings, Paragraphs and Basic Text Structure
+
+5.1.1 General
+
+The <text:h> and <text:p> elements represent headings and paragraphs, respectively. 
+
+Headings and paragraphs are collectively referred to as paragraph elements.
+
+5.1.2 <text:h>
+
+The <text:h> element represents a heading in a document. Headings define the division structure for a document. A chapter or section begins with a heading and extends to the next heading at the same or higher level.
+
+The <text:h> element is usable within the following elements: <draw:text-box> 10.4.3, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <table:covered-table-cell> 9.1.5, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+
+The <text:h> element has the following attributes: text:class-names 19.775, text:cond-style-name 19.781, text:id 19.815, text:is-list-header 19.822, text:outline-level 19.850, text:restart-numbering 19.863, text:start-value 19.874, text:style-name 19.880, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+
+The <text:h> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:annotation> 14.1, <office:annotation-end> 14.2, <presentation:date-time> 10.9.4.5, <presentation:footer> 10.9.4.3, <presentation:header> 10.9.4.1, <text:a> 6.1.8, <text:alphabetical-index-mark> 8.1.10, <text:alphabetical-index-mark-end> 8.1.9, <text:alphabetical-index-mark-start> 8.1.8, <text:author-initials> 7.3.7.2, <text:author-name> 7.3.7.1, <text:bibliography-mark> 8.1.11, <text:bookmark> 6.2.1.2, <text:bookmark-end> 6.2.1.4, <text:bookmark-ref> 7.7.6, <text:bookmark-start> 6.2.1.3, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:chapter> 7.3.8, <text:character-count> 7.5.18.5, <text:conditional-text> 7.7.3, <text:creation-date> 7.5.3, <text:creation-time> 7.5.4, <text:creator> 7.5.17, <text:database-display> 7.6.3, <text:database-name> 7.6.7, <text:database-next> 7.6.4, <text:database-row-number> 7.6.6, <text:database-row-select> 7.6.5, <text:date> 7.3.2, <text:dde-connection> 7.7.12, <text:description> 7.5.5, <text:drop-down> 7.4.16, <text:editing-cycles> 7.5.13, <text:editing-duration> 7.5.14, <text:execute-macro> 7.7.10, <text:expression> 7.4.14, <text:file-name> 7.3.9, <text:hidden-paragraph> 7.7.11, <text:hidden-text> 7.7.4, <text:image-count> 7.5.18.7, <text:initial-creator> 7.5.2, <text:keywords> 7.5.12, <text:line-break> 6.1.5, <text:measure> 7.7.13, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:modification-date> 7.5.16, <text:modification-time> 7.5.15, <text:note> 6.3.2, <text:note-ref> 7.7.7, <text:number> 6.1.10, <text:object-count> 7.5.18.8, <text:page-continuation> 7.3.5, <text:page-count> 7.5.18.2, <text:page-number> 7.3.4, <text:page-variable-get> 7.7.1.3, <text:page-variable-set> 7.7.1.2, <text:paragraph-count> 7.5.18.3, <text:placeholder> 7.7.2, <text:print-date> 7.5.8, <text:print-time> 7.5.7, <text:printed-by> 7.5.9, <text:reference-mark> 6.2.2.2, <text:reference-mark-end> 6.2.2.4, <text:reference-mark-start> 6.2.2.3, <text:reference-ref> 7.7.5, <text:ruby> 6.4, <text:s> 6.1.3, <text:script> 7.7.9, <text:sender-city> 7.3.6.13, <text:sender-company> 7.3.6.10, <text:sender-country> 7.3.6.15, <text:sender-email> 7.3.6.7, <text:sender-fax> 7.3.6.9, <text:sender-firstname> 7.3.6.2, <text:sender-initials> 7.3.6.4, <text:sender-lastname> 7.3.6.3, <text:sender-phone-private> 7.3.6.8, <text:sender-phone-work> 7.3.6.11, <text:sender-position> 7.3.6.6, <text:sender-postal-code> 7.3.6.14, <text:sender-state-or-province> 7.3.6.16, <text:sender-street> 7.3.6.12, <text:sender-title> 7.3.6.5, <text:sequence> 7.4.13, <text:sequence-ref> 7.7.8, <text:sheet-name> 7.3.11, <text:soft-page-break> 5.6, <text:span> 6.1.7, <text:subject> 7.5.11, <text:tab> 6.1.4, <text:table-count> 7.5.18.6, <text:table-formula> 7.7.14, <text:template-name> 7.3.10, <text:text-input> 7.4.15, <text:time> 7.3.3, <text:title> 7.5.10, <text:toc-mark> 8.1.4, <text:toc-mark-end> 8.1.3, <text:toc-mark-start> 8.1.2, <text:user-defined> 7.5.6, <text:user-field-get> 7.4.9, <text:user-field-input> 7.4.10, <text:user-index-mark> 8.1.7, <text:user-index-mark-end> 8.1.6, <text:user-index-mark-start> 8.1.5, <text:variable-get> 7.4.5, <text:variable-input> 7.4.6, <text:variable-set> 7.4.4 and <text:word-count> 7.5.18.4.
+
+5.1.3 <text:p>
+
+The <text:p> element represents a paragraph, which is the basic unit of text in an OpenDocument file.
+
+The <text:p> element is usable within the following elements: <chart:data-label> 11.15, <chart:equation> 11.19, <chart:footer> 11.2.3, <chart:label-separator> 17.24, <chart:legend> 11.4, <chart:subtitle> 11.2.2, <chart:title> 11.2.1, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:image> 10.4.4, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <draw:text-box> 10.4.3, <form:textarea> 13.5.3, <office:annotation> 14.1, <office:change-info> 5.5.7, <office:text> 3.4, <style:footer> 16.12, <style:footer-first> 16.13, <style:footer-left> 16.15, <style:header> 16.10, <style:header-first> 16.11, <style:header-left> 16.14, <style:region-center> 16.17, <style:region-left> 16.16, <style:region-right> 16.18, <table:change-track-table-cell> 9.9.16, <table:covered-table-cell> 9.1.5, <table:error-message> 9.4.7, <table:help-message> 9.4.6, <table:table-cell> 9.1.4, <text:deletion> 5.5.5, <text:index-body> 8.2.2, <text:index-title> 8.2.3, <text:list-header> 5.3.3, <text:list-item> 5.3.4, <text:note-body> 6.3.4, <text:numbered-paragraph> 5.3.6 and <text:section> 5.4.
+
+The <text:p> element has the following attributes: text:class-names 19.775, text:cond-style-name 19.781, text:id 19.815, text:style-name 19.880, xhtml:about 19.911, xhtml:content 19.912, xhtml:datatype 19.913, xhtml:property 19.914 and xml:id 19.920.
+
+The <text:p> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:annotation> 14.1, <office:annotation-end> 14.2, <presentation:date-time> 10.9.4.5, <presentation:footer> 10.9.4.3, <presentation:header> 10.9.4.1, <text:a> 6.1.8, <text:alphabetical-index-mark> 8.1.10, <text:alphabetical-index-mark-end> 8.1.9, <text:alphabetical-index-mark-start> 8.1.8, <text:author-initials> 7.3.7.2, <text:author-name> 7.3.7.1, <text:bibliography-mark> 8.1.11, <text:bookmark> 6.2.1.2, <text:bookmark-end> 6.2.1.4, <text:bookmark-ref> 7.7.6, <text:bookmark-start> 6.2.1.3, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:chapter> 7.3.8, <text:character-count> 7.5.18.5, <text:conditional-text> 7.7.3, <text:creation-date> 7.5.3, <text:creation-time> 7.5.4, <text:creator> 7.5.17, <text:database-display> 7.6.3, <text:database-name> 7.6.7, <text:database-next> 7.6.4, <text:database-row-number> 7.6.6, <text:database-row-select> 7.6.5, <text:date> 7.3.2, <text:dde-connection> 7.7.12, <text:description> 7.5.5, <text:drop-down> 7.4.16, <text:editing-cycles> 7.5.13, <text:editing-duration> 7.5.14, <text:execute-macro> 7.7.10, <text:expression> 7.4.14, <text:file-name> 7.3.9, <text:hidden-paragraph> 7.7.11, <text:hidden-text> 7.7.4, <text:image-count> 7.5.18.7, <text:initial-creator> 7.5.2, <text:keywords> 7.5.12, <text:line-break> 6.1.5, <text:measure> 7.7.13, <text:meta> 6.1.9, <text:meta-field> 7.5.19, <text:modification-date> 7.5.16, <text:modification-time> 7.5.15, <text:note> 6.3.2, <text:note-ref> 7.7.7, <text:object-count> 7.5.18.8, <text:page-continuation> 7.3.5, <text:page-count> 7.5.18.2, <text:page-number> 7.3.4, <text:page-variable-get> 7.7.1.3, <text:page-variable-set> 7.7.1.2, <text:paragraph-count> 7.5.18.3, <text:placeholder> 7.7.2, <text:print-date> 7.5.8, <text:print-time> 7.5.7, <text:printed-by> 7.5.9, <text:reference-mark> 6.2.2.2, <text:reference-mark-end> 6.2.2.4, <text:reference-mark-start> 6.2.2.3, <text:reference-ref> 7.7.5, <text:ruby> 6.4, <text:s> 6.1.3, <text:script> 7.7.9, <text:sender-city> 7.3.6.13, <text:sender-company> 7.3.6.10, <text:sender-country> 7.3.6.15, <text:sender-email> 7.3.6.7, <text:sender-fax> 7.3.6.9, <text:sender-firstname> 7.3.6.2, <text:sender-initials> 7.3.6.4, <text:sender-lastname> 7.3.6.3, <text:sender-phone-private> 7.3.6.8, <text:sender-phone-work> 7.3.6.11, <text:sender-position> 7.3.6.6, <text:sender-postal-code> 7.3.6.14, <text:sender-state-or-province> 7.3.6.16, <text:sender-street> 7.3.6.12, <text:sender-title> 7.3.6.5, <text:sequence> 7.4.13, <text:sequence-ref> 7.7.8, <text:sheet-name> 7.3.11, <text:soft-page-break> 5.6, <text:span> 6.1.7, <text:subject> 7.5.11, <text:tab> 6.1.4, <text:table-count> 7.5.18.6, <text:table-formula> 7.7.14, <text:template-name> 7.3.10, <text:text-input> 7.4.15, <text:time> 7.3.3, <text:title> 7.5.10, <text:toc-mark> 8.1.4, <text:toc-mark-end> 8.1.3, <text:toc-mark-start> 8.1.2, <text:user-defined> 7.5.6, <text:user-field-get> 7.4.9, <text:user-field-input> 7.4.10, <text:user-index-mark> 8.1.7, <text:user-index-mark-end> 8.1.6, <text:user-index-mark-start> 8.1.5, <text:variable-get> 7.4.5, <text:variable-input> 7.4.6, <text:variable-set> 7.4.4 and <text:word-count> 7.5.18.4.
+
+5.2 <text:page-sequence>
+
+5.2.1 General
+
+The <text:page-sequence> element contains at least one <text:page> element. If there is more than one <text:page> element, the text:master-page-name attribute of the first <text:page> element specifies the default master style for a document. 
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-family="Noto Sans CJK JP" fo:font-size="9pt"/>
+    </style:default-style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Centered" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="text">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" style:print-orientation="portrait" fo:margin-top="0.8cm" fo:margin-bottom="0.8cm" fo:margin-left="1.5cm" fo:margin-right="1.5cm"/>
+    </style:page-layout>
+    <style:style style:name="Grid" style:family="table">
+      <style:table-properties style:width="18cm" table:align="margins"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.7pt solid #000000" fo:padding="0.04cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Green" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.7pt solid #000000" fo:padding="0.04cm" fo:background-color="#ccffcc" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="LargeBold" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="16pt" fo:font-weight="bold"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p>申請年月日　　　　　　　　　年　　　月　　　日</text:p>
+      <text:p>障がい福祉サービス等　　　　支給申請書</text:p>
+      <text:p>障がい児通所給付費　　　　　兼 負担上限月額認定申請書</text:p>
+      <text:p>地域相談支援給付費　　　　　兼 変更申請書</text:p>
+      <text:p>計画相談支援給付費　　　　　兼 取下げ書</text:p>
+      <text:p>障がい児相談支援給付費</text:p>
+      <text:p text:style-name="LargeBold">(18 歳到達用)</text:p>
+      <text:p/>
+      <text:p>福山市長　様</text:p>
+      <text:p>1. 申請する障がい福祉サービス等の給付要件の確認のため、福山市が保有する私に係る介護保険資格・給付情報、介護保険認定</text:p>
+      <text:p>　情報及び介護予防・生活支援サービス事業に係る基本チェックリスト、加入医療保険情報及び生活保護受給情報の目的外利用に同</text:p>
+      <text:p>　意します。（同意しない場合はこの一文を削除してください。）</text:p>
+      <text:p>2. 障がい福祉サービス等の利用者負担上限月額の認定のため、私及び私の配偶者（利用者が児童の場合は児童が属する世帯全員）</text:p>
+      <text:p>　に係る個人情報（市民税課税情報・生活保護受給情報・個人番号など）の目的外利用に同意します。（同意しない場合はこの一文を</text:p>
+      <text:p>　削除してください。利用者負担額の認定のため市町村民税の課税（非課税）証明書の提出が必要です。）</text:p>
+      <text:p>3. 利用者負担の多子軽減措置に係る申請をする場合は、福山市が保有する支給決定に係る児童と同一世帯の未就学児童の幼稚園</text:p>
+      <text:p>　等の入所状況等の情報の目的外利用に同意します。（同意しない場合はこの一文を削除してください。）</text:p>
+      <text:p>1　申請者（利用者の名前を記入してください。）</text:p>
+      <table:table table:name="Applicant" table:style-name="Grid">
+        <table:table-column table:style-name="Cell" table:number-columns-repeated="6"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Green"><text:p>ふ　り　が　な</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p/></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Green"><text:p>個人番号</text:p><text:p>(マイナンバー)</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Green"><text:p>名　　前</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p/></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Green"><text:p>生年月日</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>年　　　月　　　日（　　　）歳</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Green"><text:p>住　　所</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="8" table:style-name="Cell"><text:p>〒　　　－</text:p><text:p>　　　　　　　　　　　　　　　　　　　　　　　　　電話番号</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Green"><text:p>受給者証番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="Green"><text:p>障がい福祉</text:p><text:p>サービス等</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Green"><text:p>障がい児通所</text:p><text:p>給　付　費</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Green"><text:p>地域相談支援</text:p><text:p>給　付　費</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p>3　申請の内容（希望する項目に✓印をしてください。）</text:p>
+      <table:table table:name="ApplicationType" table:style-name="Grid">
+        <table:table-column table:style-name="Cell"/>
+        <table:table-column table:style-name="Cell"/>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>□　すべてのサービス等の更新を希望します。（利用者負担上限月額の更新を申請します。）</text:p><text:p>□　更新を希望しないため、利用中のサービス等をすべて取り下げます。</text:p><text:p>□　サービス等の変更（支給量の変更・種類の追加・一部取消し）を希望します。変更内容を下に記入し、</text:p><text:p>　それ以外の現在支給されているサービス等は更新を希望します。（利用者負担上限月額の更新を申請します。）</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p>※変更を希望する場合、変更に係る内容のみを記入してください。</text:p>
+      <table:table table:name="Services" table:style-name="Grid">
+        <table:table-column table:style-name="Cell" table:number-columns-repeated="4"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Green"><text:p>給付区分</text:p></table:table-cell>
+          <table:table-cell table:style-name="Green"><text:p>サービス種類及びサービス量</text:p></table:table-cell>
+          <table:table-cell table:style-name="Green"><text:p>給付区分</text:p></table:table-cell>
+          <table:table-cell table:style-name="Green"><text:p>サービス種類及びサービス量</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Green"><text:p>介護給付</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>□居宅介護（身体介護　時間（1回当たり　時間）</text:p><text:p>　家事援助　時間（1回当たり　時間）</text:p><text:p>　通院等介助　時間、乗降介助　回）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>地域生活支援事業</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>□移動支援　　　　　　　　　　　　　　　時間</text:p><text:p>□日中一時支援（基本・生活・重心）　　　日</text:p><text:p>□児童発達支援（基本・難聴・重心）　　　日</text:p><text:p>□放課後等デイサービス（基本・重心）　　日</text:p><text:p>□保育所等訪問支援　　　　　　　　　　　日</text:p><text:p>□居宅訪問型児童発達支援　　　　　　　　日</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>訓練等給付</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□重度訪問介護　　　　　　　　　　　　　時間</text:p><text:p>□同行援護（基本・盲ろう）　　　　　　　時間</text:p><text:p>□行動援護　　　　　　　　　　　　　　　時間</text:p><text:p>□短期入所　　　　　　　　　　　　　　　日</text:p><text:p>□生活介護　　　　　　　　　　　　　　　日</text:p><text:p>□重度包括支援</text:p><text:p>□宿泊型自立訓練　　　　　　　　　　　　日</text:p><text:p>□自立訓練（機能・生活）　　　　　　　　日</text:p><text:p>□就労選択支援　　　　　　　　　　　　　日</text:p><text:p>□就労移行支援（基本・養成）　　　　　　日</text:p><text:p>□就労継続支援（A型・B型）　　　　　　　日</text:p><text:p>□就労定着支援</text:p><text:p>□自立生活援助</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>児童通所支援</text:p><text:p>地域相談</text:p><text:p>その他</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□地域移行支援</text:p><text:p>□地域定着支援</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="4" table:style-name="Green"><text:p>申請に係る具体的内容</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p>希望する事業所・施設名：</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="LargeBold">（ 裏面につづく ）</text:p>
+      <text:p text:style-name="PageBreak">4　手帳等の所持状況等（利用者の所持している手帳等に✓印をしてください。）</text:p>
+      <table:table table:name="Certificates" table:style-name="Grid">
+        <table:table-column table:style-name="Cell" table:number-columns-repeated="4"/>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>障がいの種類及び程度</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□身体障がい者手帳（口人工透析受療中）[　　級]</text:p><text:p>□療育手帳　　　　　　[総合判定　　　　　]</text:p><text:p>□精神障がい者保健福祉手帳　　　　　[　　級]</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>手帳障がい名</text:p><text:p>次回判定年月</text:p><text:p>有効期限</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>　　　年　　月末　□定めない</text:p><text:p>　　　年　　月末　□定めない</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>サービスの利用状況</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>手帳以外</text:p><text:p>□自立支援医療（精神通院）　□診断書　□特別児童扶養手当受給</text:p><text:p>□障がい年金等の受給者証　□難病等（□特定疾患医療受給者証　□診断書）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>有効期限</text:p><text:p>年　　月末　□定めない</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>障がい支援区分</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>（区分）　　　　　（認定有効期間）　　　　年　　月　　日 ～　　年　　月　　日</text:p></table:table-cell><table:table-cell table:style-name="Green"><text:p>保健医療サービス</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>利用中のサービスの種類と内容等</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>介護保険サービス</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>要介護認定　有・無　　　要介護度　要支援・要介護 1 2 3 4 5</text:p><text:p>非該当・未申請・申請中　　有効期間　年　月　日 ～ 年　月　日</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>利用中のサービスの種類と内容等</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p>5　障害年金の受給状況等（就労継続支援のサービスを申請する者に限り記入要。）</text:p>
+      <table:table table:name="Pension" table:style-name="Grid"><table:table-column table:style-name="Green"/><table:table-column table:style-name="Cell"/><table:table-row><table:table-cell table:style-name="Green"><text:p>障害基礎年金1級受給の有無</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>有　・　無</text:p></table:table-cell></table:table-row></table:table>
+      <text:p>6　当該障がい者又は児童の置かれている環境（※該当する場合、✓印をしてください。）</text:p>
+      <table:table table:name="Household" table:style-name="Grid">
+        <table:table-column table:style-name="Cell" table:number-columns-repeated="3"/>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>世帯の状況</text:p></table:table-cell><table:table-cell table:style-name="Green"><text:p>名　前</text:p></table:table-cell><table:table-cell table:style-name="Green"><text:p>世帯員の名前</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>本　人</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>保護者</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>本人の配偶者</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Green"><text:p>世帯員</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p>7　主治医（介護給付を申請する場合に記入してください。児童の場合は記入不要。）</text:p>
+      <table:table table:name="Doctor" table:style-name="Grid"><table:table-column table:style-name="Cell" table:number-columns-repeated="4"/><table:table-row><table:table-cell table:style-name="Green"><text:p>医療機関名</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Green"><text:p>診療科名</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>科　　　主治医の名前　　　医師</text:p></table:table-cell></table:table-row><table:table-row><table:table-cell table:style-name="Green"><text:p>所　在　地</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>〒　　　－</text:p></table:table-cell><table:table-cell table:style-name="Green"><text:p>電 話 番 号</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table></table>
+      <text:p>8　認定調査に係る連絡票（介護給付又は訓練等給付を申請する場合に記入してください。児童の場合は記入不要。）</text:p>
+      <table:table table:name="Contact" table:style-name="Grid"><table:table-column table:style-name="Cell" table:number-columns-repeated="4"/><table:table-row><table:table-cell table:style-name="Green"><text:p>調査実施場所の希望</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□住民票の所在地</text:p><text:p>□住民票の所在地以外（右欄へ記入してください）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>病院・施設名等</text:p><text:p>住所（所在地）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row><table:table-row><table:table-cell table:style-name="Green"><text:p>日程調整をする人</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>ふりがな</text:p><text:p>名　前</text:p><text:p>電話番号</text:p><text:p>備　考</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>申請者との関係</text:p><text:p>できるだけ日中に連絡がとれる番号を記入してください。</text:p><text:p>連絡のとれる時間帯などを記入してください。</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row></table:table>
+      <text:p>※　負担上限月額等認定申請書を添付すること。</text:p>
+      <text:p>　　セルフプラン又はケアプランで支給決定を希望される場合、セルフプラン又はケアプランの添付が必要です。</text:p>
+      <text:p>9　転入状況</text:p>
+      <table:table table:name="Transfer" table:style-name="Grid"><table:table-column table:style-name="Green"/><table:table-column table:style-name="Cell"/><table:table-row><table:table-cell table:style-name="Green"><text:p>対象年1月1日の住民票の住所</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□福山市内　□福山市外　［　　　　都道府県　　　　市区町村］</text:p></table:table-cell></table:table-row></table:table>
+      <text:p>10　申請書提出者（✓印をしてください。申請者本人以外の者が提出する場合は、名前等を記入してください。）</text:p>
+      <table:table table:name="Submitter" table:style-name="Grid"><table:table-column table:style-name="Cell" table:number-columns-repeated="4"/><table:table-row><table:table-cell table:style-name="Green"><text:p>申請書提出者</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>□申請者本人</text:p><text:p>□申請者本人以外</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/></table:table-row><table:table-row><table:table-cell table:style-name="Cell"><text:p>ふりがな</text:p><text:p>名　前</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>申請者との関係</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row><table:table-row><table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□申請者と同じ　〒　　　－</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row><table:table-row><table:table-cell table:style-name="Cell"><text:p>電話番号</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□申請者と同じ</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>【計画相談についての説明　□済】</text:p></table:table-cell></table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+45,255

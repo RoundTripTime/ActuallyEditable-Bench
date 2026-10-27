@@ -1,0 +1,792 @@
+ng:define name="office-document-content">
+    <rng:element name="office:document-content">
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:choice>
+          <rng:ref name="table-error-message"/>
+          <rng:group>
+            <rng:ref name="table-error-macro"/>
+            <rng:ref name="office-event-listeners"/>
+          </rng:group>
+        </rng:choice>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+1297:      <rng:attribute name="fo:break-before">
+1376:      <rng:attribute name="style:name">
+2075:      <rng:attribute name="fo:margin-left">
+2083:      <rng:attribute name="fo:margin-right">
+2130:      <rng:attribute name="fo:margin">
+2414:        <rng:attribute name="text:protected">
+2419:        <rng:attribute name="text:protection-key">
+2424:        <rng:attribute name="text:protection-key-digest-algorithm">
+2616:    <rng:attribute name="table:style-name">
+2806:      <rng:attribute name="fo:margin-top">
+2814:      <rng:attribute name="fo:margin-bottom">
+7371:      <rng:attribute name="style:name">
+7813:    <rng:attribute name="office:mimetype">
+7819:      <rng:attribute name="office:version">
+8520:      <rng:element name="text:page-number">
+8524:      <rng:element name="text:page-continuation">
+8748:      <rng:element name="text:print-time">
+8760:      <rng:element name="text:print-date">
+8772:      <rng:element name="text:printed-by">
+8834:          <rng:name>text:page-count</rng:name>
+8835:          <rng:name>text:paragraph-count</rng:name>
+8871:      <rng:element name="text:page-variable-set">
+8875:      <rng:element name="text:page-variable-get">
+8879:      <rng:element name="text:placeholder">
+9040:              <rng:name>text:pages</rng:name>
+9041:              <rng:name>text:publisher</rng:name>
+10818:      <rng:attribute name="style:name">
+12056:        <rng:attribute name="fo:margin-left">
+12182:      <rng:attribute name="style:name">
+12220:      <rng:attribute name="style:name">
+12656:      <rng:attribute name="style:name">
+12768:      <rng:attribute name="style:name">
+12803:        <rng:attribute name="style:master-page-name">
+12840:        <rng:attribute name="style:family">
+12848:        <rng:attribute name="style:family">
+12859:        <rng:attribute name="style:family">
+12867:        <rng:attribute name="style:family">
+12875:        <rng:attribute name="style:family">
+12883:        <rng:attribute name="style:family">
+12891:        <rng:attribute name="style:family">
+12899:        <rng:attribute name="style:family">
+12913:        <rng:attribute name="style:family">
+12930:        <rng:attribute name="style:family">
+12938:        <rng:attribute name="style:family">
+14040:    <rng:attribute name="table:style-name">
+15978:        <rng:attribute name="table:style-name">
+16053:    <rng:element name="table:table-cell">
+16062:        <rng:attribute name="table:number-columns-repeated">
+16067:        <rng:attribute name="table:style-name">
+16110:        <rng:attribute name="table:number-rows-spanned">
+16162:        <rng:attribute name="table:number-columns-repeated">
+16167:        <rng:attribute name="table:style-name">
+16242:        <rng:attribute name="table:style-name">
+16696:        <rng:attribute name="text:prefix">
+17638:      <rng:attribute name="style:name">
+17945:    <rng:attribute name="style:name">
+17950:    <rng:element name="text:p">
+17958:    <rng:element name="text:page">
+17990:        <rng:attribute name="text:page-adjust">
+18006:    <rng:element name="text:page-sequence">
+
+exec
+/usr/bin/zsh -lc "sed -n '12000,12125p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12620,12720p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16045,16135p' odf_spec/OpenDocument-v1.4-schema.rng; rg -n 'name=\"table-table\"|name=\"table-table-column\"|name=\"table-table-row\"|name=\"style-table-cell-properties\"|name=\"style-table-column-properties\"|name=\"style-table-row-properties\"|name=\"text-p-attlist\"|name=\"style-paragraph-properties\"' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_pdf_qafnbgxw
+ succeeded in 0ms:
+        <rng:attribute name="style:dynamic-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-header-footer-properties-content-strict">
+    <rng:ref name="style-header-footer-properties-attlist"/>
+    <rng:ref name="style-header-footer-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-header-footer-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-header-left">
+    <rng:element name="style:header-left">
+      <rng:ref name="common-style-header-footer-attlist"/>
+      <rng:ref name="header-footer-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-header-style">
+    <rng:element name="style:header-style">
+      <rng:optional>
+        <rng:ref name="style-header-footer-properties"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-list-level-label-alignment">
+    <rng:optional>
+      <rng:element name="style:list-level-label-alignment">
+        <rng:ref name="style-list-level-label-alignment-attlist"/>
+        <rng:empty/>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-list-level-label-alignment-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:label-followed-by">
+        <rng:choice>
+          <rng:value>listtab</rng:value>
+          <rng:value>space</rng:value>
+          <rng:value>nothing</rng:value>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:list-tab-stop-position">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:text-indent">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:margin-left">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-list-level-properties">
+    <rng:element name="style:list-level-properties">
+      <rng:ref name="style-list-level-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-list-level-properties-attlist">
+    <rng:interleave>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="text:space-before">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:min-label-width">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:min-label-distance">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:height">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-vertical-rel-attlist"/>
+      <rng:ref name="common-vertical-pos-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:list-level-position-and-space-mode">
+          <rng:choice>
+            <rng:value>label-width-and-position</rng:value>
+            <rng:value>label-alignment</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-list-level-properties-content-strict">
+    <rng:ref name="style-list-level-properties-attlist"/>
+    <rng:ref name="style-list-level-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-list-level-properties-elements">
+    <rng:ref name="style-list-level-label-alignment"/>
+  </rng:define>
+  <rng:define name="style-map">
+    <rng:element name="style:map">
+      <rng:ref name="style-map-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-map-attlist">
+            <rng:value>bottom</rng:value>
+            <rng:value>auto</rng:value>
+            <rng:value>baseline</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:writing-mode-automatic">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:snap-to-layout-grid">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-page-number-attlist"/>
+      <rng:ref name="common-background-transparency-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-content-strict">
+    <rng:ref name="style-paragraph-properties-attlist"/>
+    <rng:ref name="style-paragraph-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-tab-stops"/>
+      <rng:ref name="style-drop-cap"/>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-presentation-page-layout">
+    <rng:element name="style:presentation-page-layout">
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="presentation-placeholder"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-center">
+    <rng:element name="style:region-center">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-left">
+    <rng:element name="style:region-left">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-region-right">
+    <rng:element name="style:region-right">
+      <rng:ref name="region-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties">
+    <rng:element name="style:ruby-properties">
+      <rng:ref name="style-ruby-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-ruby-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:ruby-position">
+          <rng:choice>
+            <rng:value>above</rng:value>
+            <rng:value>below</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:ruby-align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>distribute-letter</rng:value>
+            <rng:value>distribute-space</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-ruby-properties-content-strict">
+    <rng:ref name="style-ruby-properties-attlist"/>
+    <rng:ref name="style-ruby-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-ruby-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-section-properties">
+    <rng:element name="style:section-properties">
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+483:        <rng:ref name="table-table"/>
+5105:          <rng:ref name="table-table"/>
+5934:        <rng:ref name="table-table"/>
+6840:            <rng:ref name="table-table"/>
+8268:      <rng:ref name="table-table"/>
+12451:  <rng:define name="style-paragraph-properties">
+12852:          <rng:ref name="style-paragraph-properties"/>
+12887:          <rng:ref name="style-table-column-properties"/>
+12895:          <rng:ref name="style-table-row-properties"/>
+12903:          <rng:ref name="style-table-cell-properties"/>
+12906:          <rng:ref name="style-paragraph-properties"/>
+12923:          <rng:ref name="style-paragraph-properties"/>
+12948:          <rng:ref name="style-paragraph-properties"/>
+13033:  <rng:define name="style-table-cell-properties">
+13162:  <rng:define name="style-table-column-properties">
+13265:  <rng:define name="style-table-row-properties">
+14196:        <rng:ref name="table-table-column"/>
+14897:      <rng:ref name="table-table"/>
+15595:        <rng:ref name="table-table-row"/>
+15939:  <rng:define name="table-table">
+16153:  <rng:define name="table-table-column">
+16202:        <rng:ref name="table-table-column"/>
+16209:        <rng:ref name="table-table-column"/>
+16219:        <rng:ref name="table-table-row"/>
+16223:  <rng:define name="table-table-row">
+16280:        <rng:ref name="table-table-row"/>
+16944:      <rng:ref name="table-table"/>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:text-properties fo:font-size="11pt" style:font-name="serif"/>
+      <style:paragraph-properties fo:margin-top="0pt" fo:margin-bottom="0pt"/>
+    </style:default-style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08in" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="LabelCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08in" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="WideCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08in" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="ColumnA" style:family="table-column">
+      <style:table-column-properties style:column-width="2.1in"/>
+    </style:style>
+    <style:style style:name="ColumnB" style:family="table-column">
+      <style:table-column-properties style:column-width="4.8in"/>
+    </style:style>
+    <style:style style:name="Table" style:family="table">
+      <style:table-properties style:width="6.9in" table:align="margins"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="8.27in" fo:page-height="11.69in" fo:margin-top="0.65in" fo:margin-bottom="0.65in" fo:margin-left="0.7in" fo:margin-right="0.7in"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p>様式第二号の十三（第八条の十七の二関係）</text:p>
+      <text:p text:style-name="Center">（第１面）</text:p>
+      <table:table table:name="Page1" table:style-name="Table">
+        <table:table-column table:style-name="ColumnA"/>
+        <table:table-column table:style-name="ColumnB"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="LabelCell"><text:p>特別管理産業廃棄物処理計画書</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="Right"><text:p>年　　　月　　　日</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>奈良県知事　殿</text:p></table:table-cell><table:table-cell table:style-name="Right"><text:p>提出者</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Right"><text:p>住所</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Right"><text:p>氏名</text:p><text:p>（法人にあっては、名称及び代表者の氏名）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Right"><text:p>電話番号</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>廃棄物の処理及び清掃に関する法律第12条の２第10項の規定に基づき、特別管理産業廃棄物の減量その他の処理に関する計画を作成したので、提出します。</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>事 業 場 の 名 称</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>事 業 場 の 所 在 地</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>計　画　期　間</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>当該事業場において現に行っている事業に関する事項</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>① 事 業 の 種 類</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>② 事 業 の 規 模</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>③ 従 業 員 数</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>④ 特別管理産業廃棄物の一連の処理の工程</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Right">（日本産業規格　A列４番）</text:p>
+
+      <text:p text:style-name="PageBreak">（第２面）</text:p>
+      <table:table table:name="Page2" table:style-name="Table">
+        <table:table-column table:style-name="ColumnA"/><table:table-column table:style-name="ColumnB"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>特別管理産業廃棄物の処理に係る管理体制に関する事項</text:p><text:p>（管理体制図）</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>特別管理産業廃棄物の排出の抑制に関する事項</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>①現状</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【前年度（　　　　年度）実績】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>排　出　量　　　　　　　　　t　　　　　　　　　t</text:p><text:p>（これまでに実施した取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>②計画</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【目標】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>排　出　量　　　　　　　　　t　　　　　　　　　t</text:p><text:p>（今後実施する予定の取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>特別管理産業廃棄物の分別に関する事項</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>①現状</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>（分別している特別管理産業廃棄物の種類及び分別に関する取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>②計画</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>（今後分別する予定の特別管理産業廃棄物の種類及び分別に関する取組）</text:p></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageBreak">（第３面）</text:p>
+      <table:table table:name="Page3" table:style-name="Table">
+        <table:table-column table:style-name="ColumnA"/><table:table-column table:style-name="ColumnB"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>自ら行う特別管理産業廃棄物の再生利用に関する事項</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>①現状</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【前年度（　　　　年度）実績】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>自ら再生利用を行った特別管理産業廃棄物の量　　　　　　　　t　　　　　　　　t</text:p><text:p>（これまでに実施した取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>②計画</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【目標】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>自ら再生利用を行う特別管理産業廃棄物の量　　　　　　　　t　　　　　　　　t</text:p><text:p>（今後実施する予定の取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>自ら行う産業廃棄物の中間処理に関する事項</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>①現状</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【前年度（　　　　年度）実績】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>自ら熱回収を行った特別管理産業廃棄物の量　　　　　　　　t　　　　　　　　t</text:p><text:p>自ら中間処理により減量した特別管理産業廃棄物の量　　　　t　　　　　　　　t</text:p><text:p>（これまでに実施した取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>②計画</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【目標】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>自ら再生利用を行う特別管理産業廃棄物の量　　　　　　　　t　　　　　　　　t</text:p><text:p>自ら中間処理により減量する特別管理産業廃棄物の量　　　　t　　　　　　　　t</text:p><text:p>（今後実施する予定の取組）</text:p></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageBreak">（第４面）</text:p>
+      <table:table table:name="Page4" table:style-name="Table">
+        <table:table-column table:style-name="ColumnA"/><table:table-column table:style-name="ColumnB"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>自ら行う特別管理産業廃棄物の埋立処分に関する事項</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>①現状</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【前年度（　　　　年度）実績】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>自ら埋立処分を行った特別管理産業廃棄物の量　　　　　　　　t　　　　　　　　t</text:p><text:p>（これまでに実施した取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>②計画</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【目標】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>自ら埋立処分を行う特別管理産業廃棄物の量　　　　　　　　t　　　　　　　　t</text:p><text:p>（今後実施する予定の取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell"><text:p>特別管理産業廃棄物の処理の委託に関する事項</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>①現状</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【前年度（　　　　年度）実績】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>全処理委託量　　　　　　　　　t　　　　　　　　　t</text:p><text:p>優良認定処理業者への処理委託量　　　　　　　　　t　　　　t</text:p><text:p>再生利用業者への処理委託量　　　　　　　　　　　t　　　　t</text:p><text:p>認定熱回収業者への処理委託量　　　　　　　　　　t　　　　t</text:p><text:p>認定熱回収業者以外の熱回収を行う業者への処理委託量　t　t</text:p><text:p>（これまでに実施した取組）</text:p></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageBreak">（第５面）</text:p>
+      <table:table table:name="Page5" table:style-name="Table">
+        <table:table-column table:style-name="ColumnA"/><table:table-column table:style-name="ColumnB"/>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>②計画</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【目標】</text:p><text:p>特別管理産業廃棄物の種類</text:p><text:p>全処理委託量　　　　　　　　　t　　　　　　　　　t</text:p><text:p>優良認定処理業者への処理委託量　　　　　　　　　t　　　　t</text:p><text:p>再生利用業者への処理委託量　　　　　　　　　　　t　　　　t</text:p><text:p>認定熱回収業者への処理委託量　　　　　　　　　　t　　　　t</text:p><text:p>認定熱回収業者以外の熱回収を行う業者への処理委託量　t　t</text:p><text:p>（今後実施する予定の取組）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>電子情報処理組織の使用に関する事項</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>【前年度（　　　　年度）実績】</text:p><text:p>特別管理産業廃棄物排出量（ポリ塩化ビフェニル廃棄物を除く。）　　　　　　　　　t</text:p><text:p>（今後実施する予定の取組等）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>※事務処理欄</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageBreak">（第６面）</text:p>
+      <table:table table:name="Page6Notes" table:style-name="Table">
+        <table:table-column table:style-name="ColumnA"/><table:table-column table:style-name="ColumnB"/>
+        <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="WideCell">
+          <text:p>備考</text:p>
+          <text:p>１　前年度の特別管理産業廃棄物の発生量が50トン以上の事業場ごとに１枚作成すること。</text:p>
+          <text:p>２　当該年度の６月30日までに提出すること。</text:p>
+          <text:p>３　「当該事業場において現に行っている事業に関する事項」の欄は、以下に従って記入すること。</text:p>
+          <text:p>（1）　①欄には、日本標準産業分類の区分を記入すること。</text:p>
+          <text:p>（2）　②欄には、製造業の場合における製造品出荷額（前年度実績）、建設業の場合における元請完成工事高（前年度実績）、医療機関の場合における病床数（前年度末時点）等の業種に応じ事業規模が分かるような前年度の実績を記入すること。</text:p>
+          <text:p>（3）　④欄には、当該事業場において生ずる特別管理産業廃棄物についての発生から最終処分が終了するまでの一連の処理の工程（当該処理を委託する場合には、委託の内容を含む。）を記入すること。</text:p>
+          <text:p>４　「自ら行う特別管理産業廃棄物の中間処理に関する事項」の欄には、特別管理産業廃棄物の種類ごとに、自ら中間処理を行うに際して熱回収を行った場合における熱回収を行った特別管理産業廃棄物の量と、自ら中間処理を行うことによって減量した量について、前年度の実績、目標及び取組を記入すること。</text:p>
+          <text:p>５　「自ら行う特別管理産業廃棄物の埋立処分に関する事項」の欄には、特別管理産業廃棄物の種類ごとに、埋立処分した量を記入すること。なお、中間処理を行うことにより特別管理産業廃棄物に該当しなくなった産業廃棄物を海洋投入処分するときは、その量も含めて記入すること。</text:p>
+          <text:p>６　「特別管理産業廃棄物の処理の委託に関する事項」の欄には、特別管理産業廃棄物の種類ごとに、全処理委託量を記入するほか、その内数として、優良認定処理業者（廃棄物の処理及び清掃に関する法律施行令（以下「令」という。）第６条の14第２号に該当する者）への処理委託量、処理業者への再生利用委託量、認定熱回収施設設置者（廃棄物の処理及び清掃に関する法律第15条の３の３第１項の認定を受けた者）である処理業者への焼却処理委託量及び認定熱回収施設設置者以外の熱回収を行っている処理業者への焼却処理委託量について、前年度実績、目標及び取組を記入すること。</text:p>
+          <text:p>７　「電子情報処理組織の使用に関する事項」の欄には、前年度の特別管理産業廃棄物の全発生量（ポリ塩化ビフェニル廃棄物（令第２条の４第５号イからヘまでに掲げるものをいう。）を除く。）を記入すること。その量が50トンを超える者にあっては、今後の電子情報処理組織の使用に関する取組等（情報処理センターへの登録が困難な場合にあって廃棄物の処理及び清掃に関する法律施行規則第８条の31の４に該当するときは、その旨及び理由を含む。）について記入すること。</text:p>
+          <text:p>８　それぞれの欄に記入すべき事項の全てを記入することができないときは、当該欄に「別紙のとおり」と記入し、当該欄に記入すべき内容を記入した別紙を添付すること。また、特別管理産業廃棄物の種類が３以上あるときは、前年度実績及び目標の欄に「別紙のとおり」と記入し、当該欄に記入すべき内容を記入した別紙を添付すること。また、それぞれの欄に記入すべき事項がないときは、「－」を記入すること。</text:p>
+          <text:p>９　※欄は記入しないこと。</text:p>
+        </table:table-cell><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <table:table table:name="Contact" table:style-name="Table">
+        <table:table-column table:style-name="ColumnA"/><table:table-column table:style-name="ColumnB"/>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>担当者</text:p><text:p>連絡先</text:p></table:table-cell><table:table-cell table:style-name="WideCell"><text:p>所属</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>メールアドレス</text:p></table:table-cell><table:table-cell table:style-name="WideCell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>職名</text:p><text:p>氏名</text:p></table:table-cell><table:table-cell table:style-name="WideCell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="LabelCell"><text:p>電話番号</text:p></table:table-cell><table:table-cell table:style-name="WideCell"/></table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+48,809

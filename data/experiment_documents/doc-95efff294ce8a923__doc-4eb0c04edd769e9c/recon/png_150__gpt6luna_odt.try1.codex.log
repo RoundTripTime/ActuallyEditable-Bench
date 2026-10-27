@@ -1,0 +1,671 @@
+:optional>
+        <rng:attribute name="fo:height">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-vertical-rel-attlist"/>
+      <rng:ref name="common-vertical-pos-attlist"/>
+      <rng:optional>
+        <rng:attribute name="text:list-level-position-and-space-mode">
+          <rng:choice>
+            <rng:value>label-width-and-position</rng:value>
+            <rng:value>label-alignment</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-list-level-properties-content-strict">
+    <rng:ref name="style-list-level-properties-attlist"/>
+    <rng:ref name="style-list-level-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-list-level-properties-elements">
+    <rng:ref name="style-list-level-label-alignment"/>
+  </rng:define>
+  <rng:define name="style-map">
+    <rng:element name="style:map">
+      <rng:ref name="style-map-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-map-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:condition">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="style:apply-style-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:base-cell-address">
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:optional>
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body">
+    <rng:element name="office:body">
+      <rng:ref name="office-body-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body-content">
+    <rng:choice>
+      <rng:element name="office:text">
+        <rng:ref name="office-text-attlist"/>
+        <rng:ref name="office-text-content-prelude"/>
+        <rng:ref name="office-text-content-main"/>
+        <rng:ref name="office-text-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:drawing">
+        <rng:ref name="office-drawing-attlist"/>
+        <rng:ref name="office-drawing-content-prelude"/>
+        <rng:ref name="office-drawing-content-main"/>
+        <rng:ref name="office-drawing-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:presentation">
+        <rng:ref name="office-presentation-attlist"/>
+        <rng:ref name="office-presentation-content-prelude"/>
+        <rng:ref name="office-presentation-content-main"/>
+        <rng:ref name="office-presentation-content-epilogue"/>
+      </rng:element>
+      <rng:element name="office:spreadsheet">
+        <rng:ref name="office-spreadsheet-attlist"/>
+        <rng:ref name="office-spreadsheet-content-prelude"/>
+        <rng:ref name="office-spreadsheet-content-main"/>
+        <rng:ref name="office-spreadsheet-content-epilogue"/>
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-rows">
+    <rng:element name="table:table-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-source">
+    <rng:element name="table:table-source">
+      <rng:ref name="table-table-source-attlist"/>
+      <rng:ref name="table-linked-source-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-source-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:mode">
+          <rng:choice>
+            <rng:value>copy-all</rng:value>
+            <rng:value>copy-results-only</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+177:3.1.2 <office:document>(Single OpenDocument XML Files)
+178-
+179-3.1.3 Package OpenDocument Files
+180-
+181-3.1.3.1 General
+182-
+183-3.1.3.2 <office:document-content>
+184-
+185-3.1.3.3 <office:document-styles>
+186-
+187-3.1.3.4 <office:document-meta>
+188-
+189-3.1.3.5 <office:document-settings>
+190-
+191-3.1.4 Summary of Document Representation
+192-
+193-3.2 <office:meta>
+194-
+195-3.3 <office:body>
+196-
+197-3.4 <office:text>
+198-
+199-3.5 <office:drawing>
+200-
+201-3.6 <office:presentation>
+202-
+203-3.7 <office:spreadsheet>
+204-
+205-3.8 <office:chart>
+--
+6295:3.1.2 <office:document>(Single OpenDocument XML Files)
+6296-
+6297-The <office:document> element is the root element of a document in OpenDocument format which is represented as a single XML document. It contains the entire document. 
+6298-
+6299-The <office:document> element is a root element.
+6300-
+6301-The <office:document> element is usable within the following elements: <db:component> 12.25.5 and <draw:object> 10.4.6.2.
+6302-
+6303-The <office:document> element has the following attributes: grddl:transformation 19.320, office:mimetype 19.379 and office:version 19.390.
+6304-
+6305-The <office:document> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14, <office:master-styles> 3.15.4, <office:meta> 3.2, <office:scripts> 3.12, <office:settings> 3.10 and <office:styles> 3.15.2.
+6306-
+6307-3.1.3 Package OpenDocument Files
+6308-
+6309-3.1.3.1 General
+6310-
+6311- The potential root elements for an OpenDocument document represented as a package are defined in OpenDocument Document, 2.2.1.
+6312-
+6313-A package may also contain image files, embedded objects and implementation-dependent files.
+6314-
+6315-3.1.3.2 <office:document-content>
+6316-
+6317-The <office:document-content> root element contains document content and automatic styles used in a document. The file within a package for the <office:document-content> element is content.xml. 
+6318-
+6319-The <office:document-content> element is a root element.
+6320-
+6321-The <office:document-content> element has the following attributes: grddl:transformation 19.320 and office:version 19.390.
+6322-
+6323-The <office:document-content> element has the following child elements: <office:automatic-styles> 3.15.3, <office:body> 3.3, <office:font-face-decls> 3.14 and <office:scripts> 3.12.
+
+exec
+/usr/bin/zsh -lc "grep -n 'rng:define name=\"style-style\"\\|rng:define name=\"style-style-attlist\"\\|rng:define name=\"style-style-content' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '11800,11935p' ./odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12248,12345p' ./odf_spec/OpenDocument-v1.4-schema.rng; grep -n -A15 'rng:define name=\"text-content\"' ./odf_spec/OpenDocument-v1.4-schema.rng; grep -n -A10 'rng:define name=\"table-columns-and-groups\"\\|rng:define name=\"table-rows-and-groups\"' ./odf_spec/OpenDocument-v1.4-schema.rng; grep -n 'rng:attribute name=\"fo:font-size\"\\|rng:attribute name=\"fo:font-weight\"\\|rng:attribute name=\"fo:text-align\"\\|rng:attribute name=\"fo:margin-top\"\\|rng:attribute name=\"fo:margin-bottom\"\\|rng:attribute name=\"fo:page-width\"\\|rng:attribute name=\"fo:page-height\"\\|rng:attribute name=\"fo:break-before\"' ./odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_abz2glcc
+ succeeded in 0ms:
+12757:  <rng:define name="style-style">
+12766:  <rng:define name="style-style-attlist">
+12837:  <rng:define name="style-style-content">
+      <rng:optional>
+        <rng:attribute name="style:wrap-contour-mode">
+          <rng:choice>
+            <rng:value>full</rng:value>
+            <rng:value>outside</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:run-through">
+          <rng:choice>
+            <rng:value>foreground</rng:value>
+            <rng:value>background</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:flow-with-text">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:overflow-behavior">
+          <rng:choice>
+            <rng:value>clip</rng:value>
+            <rng:value>auto-create-new-frame</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:mirror">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>vertical</rng:value>
+            <rng:ref name="horizontal-mirror"/>
+            <rng:list>
+              <rng:value>vertical</rng:value>
+              <rng:ref name="horizontal-mirror"/>
+            </rng:list>
+            <rng:list>
+              <rng:ref name="horizontal-mirror"/>
+              <rng:value>vertical</rng:value>
+            </rng:list>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:clip">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:ref name="clipShape"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:wrap-influence-on-position">
+          <rng:choice>
+            <rng:value>iterative</rng:value>
+            <rng:value>once-concurrent</rng:value>
+            <rng:value>once-successive</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:optional>
+        <rng:attribute name="draw:frame-display-scrollbar">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:frame-display-border">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:frame-margin-horizontal">
+          <rng:ref name="nonNegativePixelLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:frame-margin-vertical">
+          <rng:ref name="nonNegativePixelLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:visible-area-left">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:visible-area-top">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:visible-area-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:visible-area-height">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:draw-aspect">
+          <rng:choice>
+            <rng:value>content</rng:value>
+            <rng:value>thumbnail</rng:value>
+            <rng:value>icon</rng:value>
+            <rng:value>print-view</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="draw:ole-draw-aspect">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-graphic-properties-content-strict">
+    <rng:ref name="style-graphic-properties-attlist"/>
+    <rng:ref name="style-graphic-fill-properties-attlist"/>
+    <rng:ref name="style-graphic-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-graphic-properties-elements">
+    <rng:interleave>
+      <rng:optional>
+        <rng:ref name="text-list-style"/>
+      </rng:optional>
+      <rng:ref name="style-background-image"/>
+      <rng:ref name="style-columns"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-handout-master">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-page-order">
+          <rng:choice>
+            <rng:value>ttb</rng:value>
+            <rng:value>ltr</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:first-page-number">
+          <rng:choice>
+            <!-- https://issues.oasis-open.org/browse/OFFICE-3953 -->
+            <rng:ref name="integer"/>
+            <rng:value>continue</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:choice>
+        <rng:optional>
+          <rng:attribute name="style:scale-to">
+            <rng:ref name="percent"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+          <rng:attribute name="style:scale-to-pages">
+16938:  <rng:define name="text-content">
+16939-    <rng:choice>
+16940-      <rng:ref name="text-h"/>
+16941-      <rng:ref name="text-p"/>
+16942-      <rng:ref name="text-list"/>
+16943-      <rng:ref name="text-numbered-paragraph"/>
+16944-      <rng:ref name="table-table"/>
+16945-      <rng:ref name="text-section"/>
+16946-      <rng:ref name="text-soft-page-break"/>
+16947-      <rng:ref name="text-table-of-content"/>
+16948-      <rng:ref name="text-illustration-index"/>
+16949-      <rng:ref name="text-table-index"/>
+16950-      <rng:ref name="text-object-index"/>
+16951-      <rng:ref name="text-user-index"/>
+16952-      <rng:ref name="text-alphabetical-index"/>
+16953-      <rng:ref name="text-bibliography"/>
+14200:  <rng:define name="table-columns-and-groups">
+14201-    <rng:oneOrMore>
+14202-      <rng:choice>
+14203-        <rng:ref name="table-table-column-group"/>
+14204-        <rng:ref name="table-columns-no-group"/>
+14205-      </rng:choice>
+14206-    </rng:oneOrMore>
+14207-  </rng:define>
+14208-  <rng:define name="table-columns-no-group">
+14209-    <rng:choice>
+14210-      <rng:group>
+--
+15599:  <rng:define name="table-rows-and-groups">
+15600-    <rng:oneOrMore>
+15601-      <rng:choice>
+15602-        <rng:ref name="table-table-row-group"/>
+15603-        <rng:ref name="table-rows-no-group"/>
+15604-      </rng:choice>
+15605-    </rng:oneOrMore>
+15606-  </rng:define>
+15607-  <rng:define name="table-rows-no-group">
+15608-    <rng:choice>
+15609-      <rng:group>
+1297:      <rng:attribute name="fo:break-before">
+2627:      <rng:attribute name="fo:text-align">
+2806:      <rng:attribute name="fo:margin-top">
+2814:      <rng:attribute name="fo:margin-bottom">
+12255:        <rng:attribute name="fo:page-width">
+12260:        <rng:attribute name="fo:page-height">
+13483:        <rng:attribute name="fo:font-size">
+13680:        <rng:attribute name="fo:font-weight">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="10pt" fo:line-height="120%" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+    </style:style>
+    <style:style style:name="PB" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:font-size="10pt" fo:line-height="120%" fo:margin-top="0cm" fo:margin-bottom="0.15cm"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:font-size="10pt" fo:line-height="120%" fo:margin-top="0cm" fo:margin-bottom="0.08cm"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:font-size="17pt" fo:line-height="120%" fo:margin-top="1.2cm" fo:margin-bottom="0.5cm"/>
+    </style:style>
+    <style:style style:name="Heading" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="11pt" fo:margin-top="0.2cm" fo:margin-bottom="0.08cm"/>
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="CellP" style:family="paragraph">
+      <style:paragraph-properties fo:font-size="9pt" fo:line-height="115%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="CenterCellP" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:font-size="9pt" fo:line-height="115%" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="2cm" fo:margin-bottom="2cm" fo:margin-left="2.5cm" fo:margin-right="2.5cm" style:print-orientation="portrait"/>
+    </style:page-layout>
+    <style:style style:name="Tbl" style:family="table">
+      <style:table-properties style:width="16cm" table:align="left"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="5cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="11cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="NoBorder" style:family="table-cell">
+      <style:table-cell-properties fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="NarrowCol" style:family="table-column">
+      <style:table-column-properties style:column-width="2.67cm"/>
+    </style:style>
+    <style:style style:name="WideCol" style:family="table-column">
+      <style:table-column-properties style:column-width="8cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Body">様式第１</text:p>
+      <text:p text:style-name="Title">特定建築物維持管理状況報告書</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　年　　　月　　　日</text:p>
+      <text:p text:style-name="Body">宮崎市保健所長　殿</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　届出者住所</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　氏　　　名</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　電話番号</text:p>
+      <text:p text:style-name="Center">年度分の特定建築物の維持管理状況を下記のとおり報告します。</text:p>
+      <table:table table:name="BuildingInfo" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">特定建築物の名称</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">特定建築物の所在地</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">建築物環境衛生管理技術者</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">他の特定建築物との兼任</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">兼任：[※　有　・　無　]</text:p><text:p text:style-name="CellP">確認書の作成の有無：[※　有　・　無　]</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Heading">維持管理状況</text:p>
+      <text:p text:style-name="Body">　注１：[※　　]の箇所は、該当項目を○で囲むこと</text:p>
+      <text:p text:style-name="Heading">（１）空気環境の調整の状況［※　該当有　・　該当無　］</text:p>
+      <table:table table:name="AirEnvironment" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">換気方法</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">［※　中央管理（空気調和）・中央管理（機械換気）</text:p><text:p text:style-name="CellP">　　　個別（空気調和）・個別（機械換気・その他）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">測定実施者（会社名等）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">空気環境測定実施年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">測定結果</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">別紙のとおり（写しの添付）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">粉じん計の較正年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">較正票</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">別紙のとおり（写しの添付）</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Center">ホルムアルデヒド量の測定［※　該当有　・　該当無　］</text:p>
+      <table:table table:name="Formaldehyde" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">新築竣工日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">大規模改修日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">測定実施者（会社名等）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">測定実施年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">測定結果</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">別紙のとおり（写しの添付）</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="PB">（２）空気調和設備の管理［※　該当有　・　該当無　］</text:p>
+      <table:table table:name="AirConditioning" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">供給水の種類</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">冷却塔（　　　　　　　　　　　）・加湿装置（　　　　　　　　　　　）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">冷却塔の使用期間</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">　　　　　　年　　月　　日～　　　　　　年　　月　　日</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">冷却塔点検実施者（会社名等）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">冷却塔定期清掃　実施年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">冷却塔の水管洗浄</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">方法</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">冷却水のレジオネラ属菌の検査</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">［※　実施　・　未実施　］</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">加湿装置の使用期間</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">　　　　　　年　　月　　日～　　　　　　年　　月　　日</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">加湿装置・排水受け定期点検等実施者（会社名等）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">加湿装置・排水受け定期点検等実施年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">［※　汚れ等の検知センサー有　・　無　］</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">加湿装置定期清掃　実施年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Heading">（３）給水・給湯の管理</text:p>
+      <table:table table:name="WaterSupply" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">給水の区分</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">［※専用水道・簡易専用水道・小規模貯水槽水道・直結］</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">残留塩素濃度測定　実施者（会社名等）・測定箇所</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">検査結果</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">別紙のとおり（写しの添付）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">水質検査　水質検査機関</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">実施年月日　［※16項目・省略項目］　［※16項目・省略項目］　消毒副生成物（6～9月実施）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">検査結果</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">別紙のとおり（写しの添付）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">簡易専用水道法定検査　実施年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">検査結果</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">別紙のとおり（写しの添付）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">貯水槽の清掃　貯水槽の種別</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">実施者（会社名等）　　　実施年月日</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">受水槽（有効容量　　ｍ³）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">高置水槽（有効容量　　ｍ³）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">その他　（　　　　　　　　　）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">滅菌器使用</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">［※　有　・　無　］</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">塩素剤の保管・管理の状況</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">防錆剤使用</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">［※　有　・　無　］</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table table:name="HotWater" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">給湯方式</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">［※　中央式（貯湯槽あり・なし）　・　局所式　］</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">水質検査</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">水質検査機関</text:p><text:p text:style-name="CellP">実施年月日</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">貯湯槽の清掃</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">実施者（会社名等）</text:p><text:p text:style-name="CellP">実施年月日</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="PB">（４）雑用水の管理状況［※　該当有　・　該当無　］</text:p>
+      <text:p text:style-name="Body">雑用水の使用　　　　　　　　　　　　　用途　　　　　　　　　原水　　　　　　　　　補給水</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　水洗便所</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　散水</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　修景施設</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　清掃</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　その他</text:p>
+      <table:table table:name="MiscWater" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">残留塩素・pH値・臭気・外観測定</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">実施者（会社名等）</text:p><text:p text:style-name="CellP">検査結果</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">水質検査（濁度・大腸菌）</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">水質検査機関</text:p><text:p text:style-name="CellP">実施年月日</text:p><text:p text:style-name="CellP">検査結果</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">雑用水の水槽の清掃年月日</text:p>
+      <text:p text:style-name="Heading">（５）排水の管理状況</text:p>
+      <table:table table:name="Drainage" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CenterCellP">排水設備名</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CenterCellP">実施年月日　　　　　　　　　　　　　実施者名（会社名等）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"/><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Heading">（６）清掃の管理状況</text:p>
+      <table:table table:name="Cleaning" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">日常清掃</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">実施頻度</text:p><text:p text:style-name="CellP">実施者名（会社名等）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">大掃除</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">実施年月日</text:p><text:p text:style-name="CellP">実施者名（会社名等）</text:p><text:p text:style-name="CellP">実施内容</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Body">備考</text:p>
+      <text:p text:style-name="Heading">（７）ねずみ・昆虫の防除状況</text:p>
+      <table:table table:name="PestControl" table:style-name="Tbl">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">食糧を取扱う区域</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">［※　該当有　・　該当無　］</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">実施年月日</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">実施者名（会社名等）</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="CellP">備考</text:p></table:table-cell><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Heading">（８）特記事項</text:p>
+      <table:table table:name="SpecialNotes" table:style-name="Tbl">
+        <table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"/></table:table-row>
+      </table:table>
+      <text:p text:style-name="PB">添付書類</text:p>
+      <text:p text:style-name="Body">（１）空気環境の測定関係</text:p>
+      <text:p text:style-name="Body">・空気環境測定記録の写し</text:p>
+      <text:p text:style-name="Body">・粉じん計較正票の写し</text:p>
+      <text:p text:style-name="Body">・ホルムアルデヒド測定記録の写し</text:p>
+      <text:p text:style-name="Body">（２）空気調和設備の管理関係</text:p>
+      <text:p text:style-name="Body">・冷却水のレジオネラ属菌について自主検査をした場合は、検査結果の写し</text:p>
+      <text:p text:style-name="Body">（３）給水・給湯関係の管理関係</text:p>
+      <text:p text:style-name="Body">・飲料水及び給湯水（中央式給湯の場合）の残留塩素測定結果及び水質検査結果の写し</text:p>
+      <text:p text:style-name="Body">・貯水槽及び貯湯槽の清掃記録の写し</text:p>
+      <text:p text:style-name="Body">・防錆剤使用施設は、防錆剤含有率検査結果の写し</text:p>
+      <text:p text:style-name="Body">（４）雑用水の管理関係</text:p>
+      <text:p text:style-name="Body">・残留塩素・pH値・臭気・外観の測定結果の写し</text:p>
+      <text:p text:style-name="Body">・濁度・大腸菌の検査結果の写し</text:p>
+      <text:p text:style-name="Body">・雑用水の水槽清掃記録の写し</text:p>
+      <text:p text:style-name="Body">（６）大掃除（定期清掃）の実施記録</text:p>
+      <text:p text:style-name="Body">（７）ねずみ等の防除関係</text:p>
+      <text:p text:style-name="Body">・生息状況等調査記録の写し</text:p>
+      <text:p text:style-name="Body">・（防除作業をした場合）防除の措置内容が分かる実施記録の写し</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+46,119

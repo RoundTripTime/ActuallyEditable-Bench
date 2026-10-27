@@ -1,0 +1,952 @@
+e-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-master-page">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+  <rng:define name="office-styles">
+    <rng:optional>
+      <rng:element name="office:styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-default-style"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-default-page-layout"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-outline-style"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="text-notes-configuration"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="text-bibliography-configuration"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="text-linenumbering-configuration"/>
+          </rng:optional>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-gradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-linearGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="svg-radialGradient"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-hatch"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-fill-image"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-opacity"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="style-presentation-page-layout"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="table-table-template"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-text-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:global">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:use-soft-page-breaks">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-text-content-epilogue">
+    <rng:ref name="table-functions"/>
+  </rng:define>
+  <rng:define name="office-text-content-main">
+    <rng:choice>
+      <rng:zeroOrMore>
+        <rng:ref name="text-content"/>
+      </rng:zeroOrMore>
+      <rng:group>
+        <rng:ref name="text-page-sequence"/>
+        <rng:zeroOrMore>
+          <rng:choice>
+            <rng:ref name="shape"/>
+          </rng:choice>
+        </rng:zeroOrMore>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="office-text-content-prelude">
+    <rng:ref name="office-forms"/>
+    <rng:ref name="text-tracked-changes"/>
+    <rng:ref name="text-decls"/>
+    <rng:ref name="table-decls"/>
+  </rng:define>
+  <rng:define name="paragraph-attrs">
+    <rng:interleave>
+      <rng:optional>
+
+Namespace
+
+anim
+
+Elements and attributes that describe animation content.
+
+urn:oasis:names:tc:opendocument:xmlns:animation:1.0
+
+chart
+
+Elements and attributes that describe chart content.
+
+urn:oasis:names:tc:opendocument:xmlns:chart:1.0
+
+config
+
+Elements and attributes that describe application specific settings.
+
+urn:oasis:names:tc:opendocument:xmlns:config:1.0
+
+db
+
+For elements and attributes that describe database specific objects.
+
+urn:oasis:names:tc:opendocument:xmlns:database:1.0
+
+dr3d
+
+Elements and attributes that describe 3D graphic content.
+
+urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0
+
+draw
+
+Elements and attributes that describe graphic content.
+
+urn:oasis:names:tc:opendocument:xmlns:drawing:1.0
+
+form
+
+Elements and attributes that describe forms and controls.
+
+urn:oasis:names:tc:opendocument:xmlns:form:1.0
+
+manifest
+
+Elements and attribute contained in the package manifest.
+
+urn:oasis:names:tc:opendocument:xmlns:manifest:1.0
+
+236-
+237-3.15.3 <office:automatic-styles>
+238-
+239:3.15.4 <office:master-styles>
+240-
+241-3.16 Document Signatures
+242-
+--
+6626-
+6627-3.15.2 <office:styles>
+6628-
+6629:The <office:styles> element contains common styles used in a document. A common style is a style chosen by a user for a document or portion thereof.
+6630-
+6631:The <office:styles> element is usable within the following elements: <office:document> 3.1.2 and <office:document-styles> 3.1.3.3.
+6632-
+6633:The <office:styles> element has no attributes.
+6634-
+6635:The <office:styles> element has the following child elements: <draw:fill-image> 16.42.6, <draw:gradient> 16.42.1, <draw:hatch> 16.42.5, <draw:marker> 16.42.8, <draw:opacity> 16.42.7, <draw:stroke-dash> 16.42.9, <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:default-page-layout> 16.8, <style:default-style> 16.4, <style:presentation-page-layout> 16.43, <style:style> 16.2, <svg:linearGradient> 16.42.2, <svg:radialGradient> 16.42.3, <table:table-template> 16.20, <text:bibliography-configuration> 16.31.6, <text:linenumbering-configuration> 16.31.1, <text:list-style> 16.32, <text:notes-configuration> 16.31.3 and <text:outline-style> 16.36.
+6636-
+6637-3.15.3 <office:automatic-styles>
+6638-
+6639:The <office:automatic-styles> element contains automatic styles used in a document. 
+6640-
+6641-An automatic style is a set of formatting properties treated as properties of the object to which the style is assigned. 
+6642-
+6643-Note: Common and automatic styles behave differently in OpenDocument editing consumers. Common styles present to a user as a named set of formatting properties. The formatting properties of an automatic style present to a user as properties of the object to which the style is applied. 
+6644-
+6645:The <office:automatic-styles> element is usable within the following elements: <office:document> 3.1.2, <office:document-content> 3.1.3.2 and <office:document-styles> 3.1.3.3.
+6646-
+6647:The <office:automatic-styles> element has no attributes.
+6648-
+6649:The <office:automatic-styles> element has the following child elements: <number:boolean-style> 16.29.24, <number:currency-style> 16.29.8, <number:date-style> 16.29.11, <number:num-list-format> 16.29.30, <number:number-style> 16.29.2, <number:percentage-style> 16.29.10, <number:text-style> 16.29.26, <number:time-style> 16.29.19, <style:page-layout> 16.5, <style:style> 16.2 and <text:list-style> 16.32.
+6650-
+6651:3.15.4 <office:master-styles>
+6652-
+6653:The <office:master-styles> element contains master styles that are used in a document. A master style contains formatting and other content that is displayed with document content when the style is used. 
+6654-
+6655:The <office:master-styles> element is usable within the following elements: <office:document> 3.1.2 and <office:document-styles> 3.1.3.3.
+6656-
+6657:The <office:master-styles> element has no attributes.
+6658-
+6659:The <office:master-styles> element has the following child elements: <draw:layer-set> 10.2.2, <style:handout-master> 10.2.1 and <style:master-page> 16.9.
+6660-
+6661-3.16 Document Signatures
+6662-
+--
+23400-
+23401-•page layout  
+23402-
+23403:•style – With the style:family 19.480 attribute, the style:name attribute uniquely identifies a style. The <office:styles> 3.15.2, <office:automatic-styles> 3.15.3 and <office:master-styles> 3.15.4 elements each shall not contain two styles with the same family and the same name. 
+23404-
+23405-For automatic styles, the name may be generated by OpenDocument producers. For each style family or style element, producers should generate distinct sets of names for automatic styles stored in the content.xml 3.1.3.2 and styles.xml 3.1.3.3 files. The names should also be distinct from the names used in the <office:styles> element inside the styles.xml files.
+23406-
+
+exec
+/usr/bin/zsh -lc "sed -n '12245,12355p' odf_spec/OpenDocument-v1.4-schema.rng; rg -n -C 2 'fo:page-width|fo:page-height|fo:margin-left|fo:margin-top' odf_spec/OpenDocument-v1.4-schema.rng | head -70; rg -n -C 2 'The <office:master-styles>|The <office:automatic-styles>|The <office:body>|The <office:text> element' odf_spec/OpenDocument-v1.4-os-part3-schema.txt | head -70; rg -n -C 2 'odt|application/vnd.oasis.opendocument.text' odf_spec/OpenDocument-v1.4-os-part2-packages.txt | head -40" in /tmp/fb_codex_odt_t3gdsvfl
+ succeeded in 0ms:
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-page-order">
+          <rng:choice>
+            <rng:value>ttb</rng:value>
+            <rng:value>ltr</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:first-page-number">
+          <rng:choice>
+            <!-- https://issues.oasis-open.org/browse/OFFICE-3953 -->
+            <rng:ref name="integer"/>
+            <rng:value>continue</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:choice>
+        <rng:optional>
+          <rng:attribute name="style:scale-to">
+            <rng:ref name="percent"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+          <rng:attribute name="style:scale-to-pages">
+            <rng:ref name="positiveInteger"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:group>
+          <rng:optional>
+            <rng:attribute name="style:scale-to-X">
+              <rng:ref name="positiveInteger"/>
+            </rng:attribute>
+          </rng:optional>
+          <rng:optional>
+2073-  <rng:define name="common-horizontal-margin-attlist">
+2074-    <rng:optional>
+2075:      <rng:attribute name="fo:margin-left">
+2076-        <rng:choice>
+2077-          <rng:ref name="length"/>
+--
+2804-  <rng:define name="common-vertical-margin-attlist">
+2805-    <rng:optional>
+2806:      <rng:attribute name="fo:margin-top">
+2807-        <rng:choice>
+2808-          <rng:ref name="nonNegativeLength"/>
+--
+12054-      </rng:optional>
+12055-      <rng:optional>
+12056:        <rng:attribute name="fo:margin-left">
+12057-          <rng:ref name="length"/>
+12058-        </rng:attribute>
+--
+12253-    <rng:interleave>
+12254-      <rng:optional>
+12255:        <rng:attribute name="fo:page-width">
+12256-          <rng:ref name="length"/>
+12257-        </rng:attribute>
+12258-      </rng:optional>
+12259-      <rng:optional>
+12260:        <rng:attribute name="fo:page-height">
+12261-          <rng:ref name="length"/>
+12262-        </rng:attribute>
+6170-B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.text-template", "application/vnd.oasis.opendocument.text-master" or "application/vnd.oasis.opendocument.text-master-template". 
+6171-
+6172:C)The <office:body> 3.3 element shall have the child element <office:text> 3.4. 
+6173-
+6174-2.2.4 OpenDocument Spreadsheet Document
+--
+6180-B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.spreadsheet" or "application/vnd.oasis.opendocument.spreadsheet-template". 
+6181-
+6182:C)The <office:body> 3.3 element shall have the child element <office:spreadsheet> 3.7. 
+6183-
+6184-D)All namespace prefixes used in the values of table:formula attributes values shall be bound to the "urn:oasis:names:tc:opendocument:xmlns:of:1.2 " namespace. 
+--
+6194-B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.graphics" or "application/vnd.oasis.opendocument.graphics-template". 
+6195-
+6196:C)The <office:body> 3.3 element shall have the child element <office:drawing> 3.5. 
+6197-
+6198-2.2.6 OpenDocument Presentation Document
+--
+6204-B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.presentation" or "application/vnd.oasis.opendocument.presentation-template". 
+6205-
+6206:C)The <office:body> 3.3 element shall have the child element 3.6 <office:presentation>. 
+6207-
+6208-2.2.7 OpenDocument Chart Document
+--
+6214-B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.chart" or "application/vnd.oasis.opendocument.chart-template". 
+6215-
+6216:C)The <office:body> 3.3 element shall have the child element <office:chart> 19.379. 
+6217-
+6218-2.2.8 OpenDocument Image Document
+--
+6224-B)If the document is an OpenDocument package then it shall contain a file named mimetype containing one of these strings: "application/vnd.oasis.opendocument.image" or "application/vnd.oasis.opendocument.image-template". 
+6225-
+6226:C)The <office:body> 3.3 element shall have the child element <office:image> 3.9. 
+6227-
+6228-2.2.9 OpenDocument Formula Document
+--
+6242-B)If the document is an OpenDocument package then it shall contain a file named mimetype containing the string " application/vnd.oasis.opendocument.base".  
+6243-
+6244:C)The <office:body> 3.3 element shall have the child element <office:database> 12.1.  
+6245-
+6246-2.3 Producers
+--
+6437-3.3 <office:body>
+6438-
+6439:The <office:body> element contains the elements that represent the content of a document. 
+6440-
+6441:The <office:body> element is usable within the following elements: <office:document> 3.1.2 and <office:document-content> 3.1.3.2.
+6442-
+6443:The <office:body> element has no attributes.
+6444-
+6445:The <office:body> element has the following child elements: <office:chart> 3.8, <office:database> 12.1, <office:drawing> 3.5, <office:image> 3.9, <office:presentation> 3.6, <office:spreadsheet> 3.7 and <office:text> 3.4.
+6446-
+6447-3.4 <office:text>
+6448-
+6449:The <office:text> element represents the content of a text document. 
+6450-
+6451:The <office:text> element is usable within the following element: <office:body> 3.3.
+6452-
+6453:The <office:text> element has the following attributes: text:global 19.812 and text:use-soft-page-breaks 19.903.
+6454-
+6455:The <office:text> element has the following child elements: <dr3d:scene> 10.5.2, <draw:a> 10.4.12, <draw:caption> 10.3.11, <draw:circle> 10.3.8, <draw:connector> 10.3.10, <draw:control> 10.3.13, <draw:custom-shape> 10.6.1, <draw:ellipse> 10.3.9, <draw:frame> 10.4.2, <draw:g> 10.3.15, <draw:line> 10.3.3, <draw:measure> 10.3.12, <draw:page-thumbnail> 10.3.14, <draw:path> 10.3.7, <draw:polygon> 10.3.5, <draw:polyline> 10.3.4, <draw:rect> 10.3.2, <draw:regular-polygon> 10.3.6, <office:forms> 13.2, <table:calculation-settings> 9.4.1, <table:consolidation> 9.7, <table:content-validations> 9.4.4, <table:data-pilot-tables> 9.6.2, <table:database-ranges> 9.4.14, <table:dde-links> 9.8, <table:label-ranges> 9.4.10, <table:named-expressions> 9.4.11, <table:table> 9.1.2, <text:alphabetical-index> 8.8, <text:alphabetical-index-auto-mark-file> 8.8.3, <text:bibliography> 8.9, <text:change> 5.5.8.4, <text:change-end> 5.5.8.3, <text:change-start> 5.5.8.2, <text:dde-connection-decls> 14.7.2, <text:h> 5.1.2, <text:illustration-index> 8.4, <text:list> 5.3.1, <text:numbered-paragraph> 5.3.6, <text:object-index> 8.6, <text:p> 5.1.3, <text:page-sequence> 5.2, <text:section> 5.4, <text:sequence-decls> 7.4.11, <text:soft-page-break> 5.6, <text:table-index> 8.5, <text:table-of-content> 8.3, <text:tracked-changes> 5.5.2, <text:user-field-decls> 7.4.7, <text:user-index> 8.7 and <text:variable-decls> 7.4.2.
+6456-
+6457-3.5 <office:drawing>
+--
+6637-3.15.3 <office:automatic-styles>
+6638-
+6639:The <office:automatic-styles> element contains automatic styles used in a document. 
+6640-
+6641-An automatic style is a set of formatting properties treated as properties of the object to which the style is assigned. 
+--
+11-This stage:
+12-
+13:https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.odt (Authoritative)
+14-
+15-https://docs.oasis-open.org/office/OpenDocument/v1.4/os/part2-packages/OpenDocument-v1.4-os-part2-packages.html
+--
+19-Previous stage:
+20-
+21:https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.odt (Authoritative)
+22-
+23-https://docs.oasis-open.org/office/OpenDocument/v1.4/cs01/part2-packages/OpenDocument-v1.4-cs01-part2-packages.html
+--
+27-Latest stage:
+28-
+29:https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.odt (Authoritative)
+30-
+31-https://docs.oasis-open.org/office/OpenDocument/v1.4/OpenDocument-v1.4-part2-packages.html
+--
+1071-<ds:Reference> elements contained within a <ds:SignedInfo> element shall be resolved according to the following specification:
+1072-
+1073:1.A <ds:Reference> element which has a Type attribute value of "http://docs.oasis-open.org/office/v1.2/OS/OpenDocument-v1.2.odt" shall refer to a file in the same package in the accordance with the procedure for resolving IRIs 3.7, except that the file entry path shall be the name of the signature file with its relative path omitted.  
+1074-Note: Consequently, an IRI-Reference consisting entirely of "#" followed by an ifragment (§2.2 of [RFC3987]) refers to the ID of an XML element within the same XML document containing this <ds:signature> element. 
+1075-
+1076-2.A <ds:Reference> element which has a Type attribute with a value of "http://uri.etsi.org/01903#SignedProperties" refers to an XAdES SignedProperties element.. A <ds:Reference> element which refers to the XAdES SignedProperties element (if present) shall be as specified in [XAdES] section 6.3.1. 
+1077-
+1078:3.A <ds:Reference> element which does not have a Type attribute shall be processed the same a <ds:Reference> element which has a Type attribute with a value of "http://docs.oasis-open.org/office/v1.2/OS/OpenDocument-v1.2.odt". 
+1079-
+1080-The only permitted <ds:Transform> elements which apply to files contained within the archive shall be canonicalization transforms, as specified in [xmldsig-core], section 6.5.
+
+exec
+/usr/bin/zsh -lc "rg -n '<rng:define name=\"styles\"|<rng:define name=\"office-master-styles\"|<rng:define name=\"office-automatic-styles\"|<rng:define name=\"text-content\"' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7650,7687p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '7788,7828p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12280,12320p' odf_spec/OpenDocument-v1.4-schema.rng;" in /tmp/fb_codex_odt_t3gdsvfl
+ succeeded in 0ms:
+7669:  <rng:define name="office-automatic-styles">
+7937:  <rng:define name="office-master-styles">
+13829:  <rng:define name="styles">
+16938:  <rng:define name="text-content">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="office:display">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-office-annotation-name-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-annotation-end">
+    <rng:element name="office:annotation-end">
+      <rng:ref name="office-annotation-end-attlist"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-annotation-end-attlist">
+    <rng:ref name="common-office-annotation-name-attlist"/>
+  </rng:define>
+  <rng:define name="office-automatic-styles">
+    <rng:optional>
+      <rng:element name="office:automatic-styles">
+        <rng:interleave>
+          <rng:ref name="styles"/>
+          <rng:zeroOrMore>
+            <rng:ref name="style-page-layout"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-binary-data">
+    <rng:element name="office:binary-data">
+      <rng:ref name="base64Binary"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-body">
+    <rng:element name="office:body">
+        <rng:attribute name="office:conversion-mode">
+          <rng:choice>
+            <rng:value>into-default-style-data-style</rng:value>
+            <rng:value>into-english-number</rng:value>
+            <rng:value>keep-text</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document">
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+
+exec
+/usr/bin/zsh -lc "sed -n '7930,7950p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13829,13870p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16938,16965p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12135,12145p' odf_spec/OpenDocument-v1.4-os-part3-schema.txt;" in /tmp/fb_codex_odt_t3gdsvfl
+ succeeded in 0ms:
+  </rng:define>
+  <rng:define name="office-image-content-main">
+    <rng:ref name="draw-frame"/>
+  </rng:define>
+  <rng:define name="office-image-content-prelude">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="office-master-styles">
+    <rng:optional>
+      <rng:element name="office:master-styles">
+        <rng:interleave>
+          <rng:zeroOrMore>
+            <rng:ref name="style-master-page"/>
+          </rng:zeroOrMore>
+          <rng:optional>
+            <rng:ref name="style-handout-master"/>
+          </rng:optional>
+          <rng:optional>
+            <rng:ref name="draw-layer-set"/>
+          </rng:optional>
+        </rng:interleave>
+  <rng:define name="styles">
+    <rng:interleave>
+      <rng:zeroOrMore>
+        <rng:ref name="style-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="text-list-style"/>
+      </rng:zeroOrMore>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4108 -->
+      <rng:zeroOrMore>
+        <rng:ref name="number-num-list-format"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-number-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-currency-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-percentage-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-date-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-time-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-boolean-style"/>
+      </rng:zeroOrMore>
+      <rng:zeroOrMore>
+        <rng:ref name="number-text-style"/>
+      </rng:zeroOrMore>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="svg-definition-src">
+    <rng:element name="svg:definition-src">
+      <rng:ref name="common-svg-font-face-xlink-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="svg-desc">
+  <rng:define name="text-content">
+    <rng:choice>
+      <rng:ref name="text-h"/>
+      <rng:ref name="text-p"/>
+      <rng:ref name="text-list"/>
+      <rng:ref name="text-numbered-paragraph"/>
+      <rng:ref name="table-table"/>
+      <rng:ref name="text-section"/>
+      <rng:ref name="text-soft-page-break"/>
+      <rng:ref name="text-table-of-content"/>
+      <rng:ref name="text-illustration-index"/>
+      <rng:ref name="text-table-index"/>
+      <rng:ref name="text-object-index"/>
+      <rng:ref name="text-user-index"/>
+      <rng:ref name="text-alphabetical-index"/>
+      <rng:ref name="text-bibliography"/>
+      <rng:ref name="shape"/>
+      <rng:ref name="change-marks"/>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="text-database-display-attlist">
+    <rng:interleave>
+      <rng:ref name="common-field-database-table"/>
+      <rng:ref name="common-field-data-style-name-attlist"/>
+      <rng:attribute name="text:column-name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+    </rng:interleave>
+
+The <db:table-representation> element is usable within the following element: <db:table-representations> 12.32.
+
+The <db:table-representation> element has the following attributes: db:catalog-name 19.37, db:default-row-style-name 19.46, db:description 19.48, db:name 19.70, db:schema-name 19.77, db:style-name 19.80 and db:title 19.84.
+
+The <db:table-representation> element has the following child elements: <db:columns> 12.34, <db:filter-statement> 12.30 and <db:order-statement> 12.29.
+
+12.34 <db:columns>
+
+The <db:columns> element is a collection of <db:column> elements.
+
+
+exec
+/usr/bin/zsh -lc "rg -n '<rng:define name=\"style-default-style\"|<rng:define name=\"style-paragraph-properties\"|<rng:define name=\"style-paragraph-properties-content' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '11550,11610p' odf_spec/OpenDocument-v1.4-schema.rng;" in /tmp/fb_codex_odt_t3gdsvfl
+ succeeded in 0ms:
+10412:  <rng:define name="style-default-style">
+12451:  <rng:define name="style-paragraph-properties">
+12641:  <rng:define name="style-paragraph-properties-content-strict">
+          <rng:ref name="angle"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="dr3d:close-front">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="dr3d:close-back">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="dr3d:lighting-mode">
+          <rng:choice>
+            <rng:value>standard</rng:value>
+            <rng:value>double-sided</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="dr3d:normals-kind">
+          <rng:choice>
+            <rng:value>object</rng:value>
+            <rng:value>flat</rng:value>
+            <rng:value>sphere</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="dr3d:normals-direction">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:value>inverse</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="dr3d:texture-generation-mode-x">
+          <rng:choice>
+            <rng:value>object</rng:value>
+            <rng:value>parallel</rng:value>
+            <rng:value>sphere</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="dr3d:texture-generation-mode-y">
+          <rng:choice>
+            <rng:value>object</rng:value>
+            <rng:value>parallel</rng:value>
+            <rng:value>sphere</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="dr3d:texture-kind">
+          <rng:choice>
+            <rng:value>luminance</rng:value>
+            <rng:value>intensity</rng:value>
+
+exec
+/usr/bin/zsh -lc "sed -n '10412,10445p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12445,12465p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12635,12665p' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_t3gdsvfl
+ succeeded in 0ms:
+  <rng:define name="style-default-style">
+    <rng:element name="style:default-style">
+      <rng:ref name="style-style-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-drawing-page-properties">
+    <rng:element name="style:drawing-page-properties">
+      <rng:ref name="style-drawing-page-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-drawing-page-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="presentation:transition-type">
+          <rng:choice>
+            <rng:value>manual</rng:value>
+            <rng:value>automatic</rng:value>
+            <rng:value>semi-automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="presentation:transition-style">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>fade-from-left</rng:value>
+            <rng:value>fade-from-top</rng:value>
+            <rng:value>fade-from-right</rng:value>
+            <rng:value>fade-from-bottom</rng:value>
+            <rng:value>fade-from-upperleft</rng:value>
+            <rng:value>fade-from-upperright</rng:value>
+            <rng:value>fade-from-lowerleft</rng:value>
+            <rng:value>fade-from-lowerright</rng:value>
+            <rng:value>move-from-left</rng:value>
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <rng:ref name="style-columns"/>
+      <rng:ref name="style-footnote-sep"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-page-number-attlist"/>
+      <rng:ref name="common-background-transparency-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-content-strict">
+    <rng:ref name="style-paragraph-properties-attlist"/>
+    <rng:ref name="style-paragraph-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-tab-stops"/>
+      <rng:ref name="style-drop-cap"/>
+      <rng:ref name="style-background-image"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+      <rng:ref name="style-background-fill"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-presentation-page-layout">
+    <rng:element name="style:presentation-page-layout">
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="presentation-placeholder"/>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles/>
+  <office:automatic-styles>
+    <style:page-layout style:name="PL1">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-left="2cm" fo:margin-right="2cm" fo:margin-top="2cm" fo:margin-bottom="2cm" style:print-orientation="portrait"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Default" style:page-layout-name="PL1"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p/>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+32,818

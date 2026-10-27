@@ -1,0 +1,872 @@
+zeroOrMore>
+            <rng:ref name="draw-marker"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-stroke-dash"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="draw-opacity"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="style-presentation-page-layout"/>
+          </rng:zeroOrMore>
+          <rng:zeroOrMore>
+            <rng:ref name="table-table-template"/>
+          </rng:zeroOrMore>
+        </rng:interleave>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="office-text-attlist">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+    </rng:attribute>
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:percentage-data-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:class">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:default-outline-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-style-content">
+    <rng:choice>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>text</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>paragraph</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>section</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-section-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>ruby</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-ruby-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-column</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-column-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-row</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-row-properties"/>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:attribute name="style:family">
+          <rng:value>table-cell</rng:value>
+        </rng:attribute>
+        <rng:optional>
+          <rng:ref name="style-table-cell-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-paragraph-properties"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-text-properties"/>
+        </rng:optional>
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-page-order">
+          <rng:choice>
+            <rng:value>ttb</rng:value>
+            <rng:value>ltr</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:first-page-number">
+          <rng:choice>
+            <!-- https://issues.oasis-open.org/browse/OFFICE-3953 -->
+            <rng:ref name="integer"/>
+            <rng:value>continue</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:choice>
+        <rng:optional>
+          <rng:attribute name="style:scale-to">
+            <rng:ref name="percent"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:optional>
+          <rng:attribute name="style:scale-to-pages">
+            <rng:ref name="positiveInteger"/>
+          </rng:attribute>
+        </rng:optional>
+        <rng:group>
+          <rng:optional>
+            <rng:attribute name="style:scale-to-X">
+              <rng:ref name="positiveInteger"/>
+            </rng:attribute>
+          </rng:optional>
+          <rng:optional>
+            <rng:attribute name="style:scale-to-Y">
+              <rng:ref name="positiveInteger"/>
+            </rng:attribute>
+          </rng:optional>
+        </rng:group>
+      </rng:choice>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3857 -->
+      <rng:optional>
+        <rng:attribute name="style:table-centering">
+          <rng:choice>
+            <rng:value>horizontal</rng:value>
+            <rng:value>vertical</rng:value>
+            <rng:value>both</rng:value>
+            <rng:value>none</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:footnote-max-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-mode">
+        <rng:attribute name="style:layout-grid-mode">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>line</rng:value>
+            <rng:value>both</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-standard-mode">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-base-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-ruby-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-lines">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-base-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-ruby-below">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-display">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:layout-grid-snap-to">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-content-strict">
+    <rng:ref name="style-page-layout-properties-attlist"/>
+    <rng:ref name="style-page-layout-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-elements">
+    <rng:interleave>
+      <rng:ref name="style-background-image"/>
+      <rng:ref name="style-columns"/>
+      <rng:ref name="style-footnote-sep"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+          <rng:choice>
+            <rng:value>start</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>justify</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:justify-single-word">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:keep-together">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>always</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:widows">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:orphans">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    <rng:element name="style:table-properties">
+      <rng:ref name="style-table-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-width">
+          <rng:ref name="percent"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>margins</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <rng:ref name="common-page-number-attlist"/>
+      <rng:ref name="common-break-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-keep-with-next-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:may-break-between-rows">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:border-model">
+          <rng:choice>
+            <rng:value>collapsing</rng:value>
+            <rng:value>separating</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:optional>
+        <rng:attribute name="table:display">
+          <rng:ref name="boolean"/>
+
+19.679.3 <table:table-cell>
+
+19.679.4 <table:table-column>
+
+19.680 table:number-columns-spanned
+
+19.681 table:number-rows-repeated
+
+19.682 table:number-rows-spanned
+
+19.683 table:number-matrix-columns-spanned
+
+19.684 table:number-matrix-rows-spanned
+
+19.685 table:object-name
+
+17.5 <style:header-footer-properties>
+
+17.6 <style:paragraph-properties>
+
+17.7 <style:tab-stops>
+
+17.8 <style:tab-stop>
+
+17.9 <style:drop-cap>
+
+17.10 <style:ruby-properties>
+
+17.11 <style:section-properties>
+
+17.12 <style:columns>
+
+17.13 <style:column>
+
+17.14 <style:column-sep>
+
+17.15 <style:table-properties>
+
+17.16 <style:table-column-properties>
+
+17.17 <style:table-row-properties>
+
+17.18 <style:table-cell-properties>
+
+17.19 <style:list-level-properties>
+
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="Normal" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.12cm" fo:line-height="120%"/>
+      <style:text-properties fo:font-family="serif" style:font-name-asian="serif" fo:font-size="11pt" style:font-size-asian="11pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-family="serif" style:font-name-asian="serif" fo:font-size="11pt" style:font-size-asian="11pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.7cm" fo:margin-bottom="0.7cm"/>
+      <style:text-properties fo:font-family="serif" style:font-name-asian="serif" fo:font-size="18pt" style:font-size-asian="18pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Tbl" style:family="table">
+      <style:table-properties style:width="15.8cm" table:align="left" table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="Col" style:family="table-column">
+      <style:table-column-properties style:rel-column-width="1*"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="120%"/>
+      <style:text-properties fo:font-family="serif" style:font-name-asian="serif" fo:font-size="10pt" style:font-size-asian="10pt"/>
+    </style:style>
+    <style:style style:name="VertCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle" style:writing-mode="tb-rl"/>
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="120%"/>
+      <style:text-properties fo:font-family="serif" style:font-name-asian="serif" fo:font-size="10pt" style:font-size-asian="10pt"/>
+    </style:style>
+    <style:style style:name="PlainCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-family="serif" style:font-name-asian="serif" fo:font-size="10pt" style:font-size-asian="10pt"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" style:print-orientation="portrait" fo:margin-top="2cm" fo:margin-bottom="2cm" fo:margin-left="2.5cm" fo:margin-right="2cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Normal">様式第 116 号（条例第 74 条の 3 関係）</text:p>
+      <text:p text:style-name="Title">固定資産現所有者申告書</text:p>
+      <text:p text:style-name="Normal">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　年　　　月　　　日</text:p>
+      <text:p text:style-name="Normal">基山町長　　　　　　　　　様</text:p>
+      <text:p text:style-name="Normal">固定資産課税台帳に登録されている下記の所有者が死亡したため、基山町税条例第74 条の 3 の規定に基づき、地方税法第 384 条の 3 に規定する「現所有者」を次のとおり申告します。</text:p>
+
+      <table:table table:name="現所有者（相続人）" table:style-name="Tbl">
+        <table:table-column table:style-name="Col" table:number-columns-repeated="6"/>
+        <table:table-row>
+          <table:table-cell table:style-name="VertCell" table:number-rows-spanned="4"><text:p>現所有者の代表者（相続人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>フリガナ</text:p><text:p>氏　名（又は名称）</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>被相続人との続柄</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-rows-spanned="2"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>個人番号（右詰）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜　｜</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="5"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>生年月日</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>年　　　月　　　日</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>電話番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>－　　　－</text:p></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Normal"/>
+      <table:table table:name="被相続人" table:style-name="Tbl">
+        <table:table-column table:style-name="Col" table:number-columns-repeated="4"/>
+        <table:table-row>
+          <table:table-cell table:style-name="VertCell" table:number-rows-spanned="2"><text:p>被相続人（固定資産課税台帳の所有者）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>フリガナ</text:p><text:p>氏　名</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>死亡年月日</text:p><text:p>年　　　月　　　日</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Normal"/>
+      <table:table table:name="その他の現所有者" table:style-name="Tbl">
+        <table:table-column table:style-name="Col" table:number-columns-repeated="6"/>
+        <table:table-row>
+          <table:table-cell table:style-name="VertCell" table:number-rows-spanned="12"><text:p>その他の現所有者（相続人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>フリガナ</text:p><text:p>氏　名（又は名称）</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>被相続人との続柄</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-rows-spanned="2"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>個人番号（右詰）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="5"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>生年月日</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>年　　月　　日</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>電話番号</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>－　　－</text:p></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>フリガナ</text:p><text:p>氏　名（又は名称）</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>被相続人との続柄</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-rows-spanned="2"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>個人番号（右詰）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</p></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="5"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>生年月日</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>年　　月　　日</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>電話番号</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>－　　－</text:p></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>フリガナ</text:p><text:p>氏　名（又は名称）</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>被相続人との続柄</text:p></table:cell>
+          <table:table-cell table:style-name="PlainCell" table:number-rows-spanned="2"><text:p/></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>個人番号（右詰）</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="5"><text:p/></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>生年月日</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>年　　月　　日</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>電話番号</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>－　　－</text:p></table:cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="Normal">※裏面につづく</text:p>
+      <text:p text:style-name="Normal">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</text:p>
+
+      <text:p text:style-name="PageBreak"/>
+      <table:table table:name="その他の現所有者続き" table:style-name="Tbl">
+        <table:table-column table:style-name="Col" table:number-columns-repeated="6"/>
+        <table:table-row>
+          <table:table-cell table:style-name="VertCell" table:number-rows-spanned="12"><text:p>その他の現所有者（相続人）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>フリガナ</text:p><text:p>氏　名（又は名称）</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>被相続人との続柄</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-rows-spanned="2"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>個人番号（右詰）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜　｜</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="5"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>生年月日</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>年　　月　　日</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>電話番号</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>－　　－</text:p></table:cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>フリガナ</text:p><text:p>氏　名（又は名称）</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>被相続人との続柄</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-rows-spanned="2"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>個人番号（右詰）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="5"><text:p/></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>生年月日</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>年　　月　　日</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>電話番号</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>－　　－</text:p></table:cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>フリガナ</text:p><text:p>氏　名（又は名称）</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>被相続人との続柄</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell" table:number-rows-spanned="2"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>個人番号（右詰）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>｜　｜　｜</text:p></table:cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>住　所</text:p></table:cell>
+          <table:table-cell table:style-name="PlainCell" table:number-columns-spanned="5"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>生年月日</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>年　　月　　日</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>電話番号</text:p></table:cell>
+          <table:table-cell table:style-name="Cell"><text:p>－　　－</text:p></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <table:table table:name="相続登記の状況" table:style-name="Tbl">
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-column table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="3"><text:p>相続登記の状況</text:p><text:p>（該当する番号に○印をしてください。）</text:p></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p>1　相続登記は　　　　年　　　月　　　日に完了しています。</text:p></table:table-cell>
+          <table:table-cell table:style-name="CoveredCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p>2　相続登記は　　　　年　　　月　　　日頃までに完了する予定です。</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="PlainCell" table:number-columns-spanned="2"><text:p>3　相続登記は当面予定ありません。</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Normal">※　記入欄が足りない場合は、任意の別紙を添付してください。</text:p>
+      <text:p text:style-name="Normal">※　現所有者であることを知った日の翌日から３月を経過した日までに申告書を町長に提出しなければなりません。</text:p>
+      <text:p text:style-name="Normal"/>
+      <text:p text:style-name="Normal">※町記入欄</text:p>
+      <table:table table:name="町記入欄" table:style-name="Tbl">
+        <table:table-column table:style-name="Col" table:number-columns-repeated="3"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>受　付</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>入　力</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>確　認</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="PlainCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageBreak"/>
+      <table:table table:name="裏面記入欄" table:style-name="Tbl">
+        <table:table-column table:style-name="Col" table:number-columns-repeated="3"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>納付書渡し</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>口座閉鎖</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>家屋所有者変更申請書渡し</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>済・無</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>済・無</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>済・無</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+36,396

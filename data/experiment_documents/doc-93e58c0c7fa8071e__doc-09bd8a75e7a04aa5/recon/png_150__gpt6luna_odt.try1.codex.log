@@ -1,0 +1,836 @@
+ts
+
+1 Introduction
+
+1.1 Introduction
+
+1.2 Terminology
+
+1.3 Normative References
+
+1.4 Non Normative References
+
+1.5 Namespaces
+
+2 Packages, Package Consumers and Package Producers
+
+2.1 Introduction
+
+2.2 Package Conformance
+
+2.2.1 OpenDocument Package
+
+2.2.2 OpenDocument Extended Package
+
+2.3 Producers
+
+2.3.1 OpenDocument Package Producer
+
+2.3.2 OpenDocument Package Extended Producer
+
+2.4 OpenDocument Package Consumer
+
+3 Packages
+
+3.1 General
+
+3.2 Manifest
+
+3.3 MIME Media Type
+
+3.4 Encryption
+
+3.4.1 General
+
+3.4.2 Encryption Process
+
+3.5 Digital Signatures
+
+3.6 Metadata
+
+3.7 Usage of IRIs Within Packages
+
+3.8 Preview Image
+
+3.9 Interactions Between Encryption and Digital Signatures
+
+4 Manifest File
+
+4.1 Introduction
+
+4.2 <manifest:manifest>
+
+4.3 <manifest:file-entry>
+
+4.4 <manifest:encryption-data>
+
+4.5 <manifest:algorithm>
+
+4.6 <manifest:start-key-generation>
+
+4.7 <manifest:key-derivation>
+
+4.8 <manifest:encrypted-key>
+
+4.9 <manifest:encryption-method>
+
+4.10 <manifest:keyinfo>
+
+4.11 <manifest:PGPData>
+
+4.12 <manifest:PGPKeyID>
+
+4.13 <manifest:PGPKeyPacket>
+
+4.14 <manifest:CipherData>
+
+4.15 <manifest:CipherValue>
+
+4.16 Manifest Attributes
+
+4.16.1 manifest:algorithm-name
+
+4.16.2 manifest:checksum
+
+1297:      <rng:attribute name="fo:break-before">
+2406:        <rng:attribute name="text:style-name">
+7799:    <rng:element name="office:document">
+7835:    <rng:element name="office:document-content">
+7844:    <rng:element name="office:document-meta">
+7850:    <rng:element name="office:document-settings">
+7856:    <rng:element name="office:document-styles">
+8376:        <rng:attribute name="text:style-name">
+8424:          <rng:attribute name="text:style-name">
+8488:          <rng:attribute name="text:style-name">
+8499:            <rng:attribute name="text:style-name">
+9323:        <rng:attribute name="style:page-layout-name">
+11951:      <rng:attribute name="style:page-layout-name">
+12141:    <rng:element name="style:master-page">
+12190:      <rng:attribute name="style:page-layout-name">
+12213:    <rng:element name="style:page-layout">
+12248:    <rng:element name="style:page-layout-properties">
+12452:    <rng:element name="style:paragraph-properties">
+12803:        <rng:attribute name="style:master-page-name">
+13034:    <rng:element name="style:table-cell-properties">
+13163:    <rng:element name="style:table-column-properties">
+14299:    <rng:element name="table:covered-table-cell">
+16105:        <rng:attribute name="table:number-columns-spanned">
+16500:        <rng:attribute name="text:style-name">
+16552:      <rng:attribute name="text:style-name">
+16759:      <rng:attribute name="text:style-name">
+17166:    <rng:attribute name="text:style-name">
+17221:        <rng:attribute name="text:style-name">
+17266:        <rng:attribute name="text:style-name">
+17296:        <rng:attribute name="text:style-name">
+17305:        <rng:attribute name="text:style-name">
+17314:        <rng:attribute name="text:style-name">
+17323:        <rng:attribute name="text:style-name">
+17333:        <rng:attribute name="text:style-name">
+17365:        <rng:attribute name="text:style-name">
+17388:      <rng:attribute name="text:style-name">
+17416:        <rng:attribute name="text:style-name">
+17442:        <rng:attribute name="text:style-name">
+17507:        <rng:attribute name="text:style-name">
+17581:        <rng:attribute name="text:style-name">
+17605:        <rng:attribute name="text:style-name">
+17820:        <rng:attribute name="text:style-name">
+17916:        <rng:attribute name="text:style-name">
+18280:      <rng:attribute name="text:style-name">
+18427:      <rng:attribute name="text:style-name">
+
+exec
+/usr/bin/zsh -lc "sed -n '7799,7834p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12141,12248p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '12452,12535p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '13034,13108p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '14270,14335p' odf_spec/OpenDocument-v1.4-schema.rng; sed -n '16085,16125p' odf_spec/OpenDocument-v1.4-schema.rng; rg -n 'office:version|office:mimetype|table:table-cell|table:table-row|table:table-column|style:font-name|fo:font-size|fo:text-align|fo:border|fo:margin|fo:padding' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_odt_n345yiic
+ succeeded in 0ms:
+    <rng:element name="office:document">
+      <rng:ref name="office-document-attrs"/>
+      <rng:ref name="office-document-common-attrs"/>
+      <rng:ref name="office-meta"/>
+      <rng:ref name="office-settings"/>
+      <rng:ref name="office-scripts"/>
+      <rng:ref name="office-font-face-decls"/>
+      <rng:ref name="office-styles"/>
+      <rng:ref name="office-automatic-styles"/>
+      <rng:ref name="office-master-styles"/>
+      <rng:ref name="office-body"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="office-document-attrs">
+    <rng:attribute name="office:mimetype">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="office-document-common-attrs">
+    <rng:interleave>
+      <rng:attribute name="office:version">
+        <!-- https://issues.oasis-open.org/browse/OFFICE-4140 -->
+        <rng:value>1.4</rng:value>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="grddl:transformation">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:ref name="anyIRI"/>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="office-document-content">
+    <rng:element name="style:master-page">
+      <rng:ref name="style-master-page-attlist"/>
+      <rng:optional>
+        <rng:ref name="style-header"/>
+        <rng:optional>
+          <rng:ref name="style-header-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-header-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="style-footer"/>
+        <rng:optional>
+          <rng:ref name="style-footer-left"/>
+        </rng:optional>
+        <rng:optional>
+          <rng:ref name="style-footer-first"/>
+        </rng:optional>
+        <!-- https://issues.oasis-open.org/browse/OFFICE-3789 -->
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="draw-layer-set"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:zeroOrMore>
+        <rng:ref name="shape"/>
+      </rng:zeroOrMore>
+      <rng:optional>
+        <rng:ref name="animation-element"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="presentation-notes"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-master-page-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:attribute name="style:page-layout-name">
+        <rng:ref name="styleNameRef"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="draw:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-num-letter-sync-attlist">
+    <rng:optional>
+      <rng:attribute name="style:num-letter-sync">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout">
+    <rng:element name="style:page-layout">
+      <rng:ref name="style-page-layout-attlist"/>
+      <rng:ref name="style-page-layout-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+          <rng:choice>
+            <rng:value>start</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>justify</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:justify-single-word">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:keep-together">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>always</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:widows">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:orphans">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:tab-stop-distance">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3846 -->
+      <rng:optional>
+        <rng:attribute name="text:relative-tab-stop-position">
+        <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:hyphenation-keep">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:wrap-option">
+          <rng:choice>
+            <rng:value>no-wrap</rng:value>
+            <rng:value>wrap</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-rotation-angle-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:rotation-align">
+          <rng:choice>
+            <rng:value>none</rng:value>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-content-validation">
+    <rng:element name="table:content-validation">
+      <rng:ref name="table-validation-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-help-message"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:choice>
+          <rng:ref name="table-error-message"/>
+          <rng:group>
+            <rng:ref name="table-error-macro"/>
+            <rng:ref name="office-event-listeners"/>
+          </rng:group>
+        </rng:choice>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+1243:      <rng:attribute name="fo:border">
+1248:      <rng:attribute name="fo:border-top">
+1253:      <rng:attribute name="fo:border-bottom">
+1258:      <rng:attribute name="fo:border-left">
+1263:      <rng:attribute name="fo:border-right">
+2075:      <rng:attribute name="fo:margin-left">
+2083:      <rng:attribute name="fo:margin-right">
+2130:      <rng:attribute name="fo:margin">
+2232:      <rng:attribute name="fo:padding">
+2237:      <rng:attribute name="fo:padding-top">
+2242:      <rng:attribute name="fo:padding-bottom">
+2247:      <rng:attribute name="fo:padding-left">
+2252:      <rng:attribute name="fo:padding-right">
+2627:      <rng:attribute name="fo:text-align">
+2806:      <rng:attribute name="fo:margin-top">
+2814:      <rng:attribute name="fo:margin-bottom">
+7813:    <rng:attribute name="office:mimetype">
+7819:      <rng:attribute name="office:version">
+12056:        <rng:attribute name="fo:margin-left">
+12086:        <rng:attribute name="style:font-name">
+12490:        <rng:attribute name="fo:text-align-last">
+13393:        <rng:attribute name="style:font-name">
+13398:        <rng:attribute name="style:font-name-asian">
+13403:        <rng:attribute name="style:font-name-complex">
+13483:        <rng:attribute name="fo:font-size">
+16053:    <rng:element name="table:table-cell">
+16154:    <rng:element name="table:table-column">
+16187:    <rng:element name="table:table-column-group">
+16200:    <rng:element name="table:table-columns">
+16224:    <rng:element name="table:table-row">
+16262:    <rng:element name="table:table-row-group">
+16275:    <rng:element name="table:table-rows">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties style:font-name="Noto Serif CJK JP" style:font-name-asian="Noto Serif CJK JP" fo:font-size="9pt"/>
+    </style:default-style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1cm" fo:margin-bottom="1cm" fo:margin-left="1cm" fo:margin-right="1cm"/>
+    </style:page-layout>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.08cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="8.5pt"/>
+    </style:style>
+    <style:style style:name="Tiny" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="95%"/>
+      <style:text-properties fo:font-size="7pt"/>
+    </style:style>
+    <style:style style:name="Centered" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0.1cm"/>
+      <style:text-properties fo:font-size="16pt"/>
+    </style:style>
+    <style:style style:name="PageBreak" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Grid" style:family="table">
+      <style:table-properties style:width="19cm" table:align="margins"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.05cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="NarrowCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.025cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="ColA" style:family="table-column">
+      <style:table-column-properties style:column-width="3.8cm"/>
+    </style:style>
+    <style:style style:name="ColB" style:family="table-column">
+      <style:table-column-properties style:column-width="5.4cm"/>
+    </style:style>
+    <style:style style:name="ColC" style:family="table-column">
+      <style:table-column-properties style:column-width="3cm"/>
+    </style:style>
+    <style:style style:name="ColD" style:family="table-column">
+      <style:table-column-properties style:column-width="6.8cm"/>
+    </style:style>
+    <style:style style:name="Line" style:family="table-row">
+      <style:table-row-properties style:min-row-height="0.48cm"/>
+    </style:style>
+    <style:style style:name="TallLine" style:family="table-row">
+      <style:table-row-properties style:min-row-height="0.7cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Tiny">様式第17号（第21条関係）</text:p>
+      <text:p text:style-name="Title">介護保険負担限度額認定申請書</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　年　　　月　　　日</text:p>
+      <text:p text:style-name="Body">岸和田市長　様</text:p>
+      <text:p text:style-name="Body">次のとおり関係書類を添えて、食費・居住費（滞在費）に係る負担限度額認定を申請します。</text:p>
+      <table:table table:name="申請書">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">個人番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>　　　　　　　　　　　　　　　　</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">被保険者番号　０ ０ ０</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Tiny">フ　リ　ガ　ナ</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>　　　　　　　　　　　　　　　　　</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p text:style-name="Centered">生年月日　　明・大・昭　　年　　月　　日</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">被保険者氏名</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>　　　　　　　　　　　　　　　　　</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">被保険者住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>　　　　　　　　　　　　　　　　　連絡先　（　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">介護保険施設等の</text:p><text:p text:style-name="Centered">所在地及び名称（※）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>　　　　　　　　　　　　　　　　　連絡先　（　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">入所(院)年月日（※）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Centered">年　　　　月　　　　日</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>※介護保険施設に入所（院）していない場合及びショートステイを利用している場合は、記載不要</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">配偶者の有無</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Centered">有　　　・　　　無</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell" table:number-rows-spanned="2"><text:p>「無」の場合は、「配偶者に関する事項」については、記載不要</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">個人番号</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>　　　　　　　　　　　　　　　　</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Tiny">フ　リ　ガ　ナ</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>　　　　　　　　　　　　　　　　　</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">生 年 月 日　　明・大・昭・平　　年　　月　　日</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">氏　名</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>　　　　　　　　　　　　　　　　　</text:p></table:table-cell>
+          <table:covered-table-cell/>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">住　所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>　　　　　　　　　　　　　　　　　連絡先　（　　　　　）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">年１月</text:p><text:p text:style-name="Centered">１日現在の住所</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>（現住所と異なる場合）</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">課 税 状 況</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>市町村民税　　　　課税　　　・　　　非課税</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+
+      <table:table table:name="収入等と預貯金等に関する申告">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">収入等と預貯金等に関する申告</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>□　生活保護受給者又は省令第83条の5第1項第2号に該当する者</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="3"><text:p>市町村民税世帯非課税者（岸和田市市税条例（平成12年条例第２号）で定めるところにより市民税が免除された者を含む。）であって、次のいずれかに該当します。</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>老齢福祉年金の受給権を有する者であって、</text:p><text:p>預貯金、有価証券等の金額の合計が2,000万円（配偶者がない場合にあっては、1,000万円）以下です。</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>課税年金収入額と合計所得金額と非課税年金収入額の合計額が80.9万円以下であって、預貯金、有価証券等の金額の合計が1,650万円（配偶者がない場合にあっては、650万円）以下です。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>第１号被保険者</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>課税年金収入額と合計所得金額と非課税年金収入額の合計額が80.9万円を超え120万円以下であって、預貯金、有価証券等の金額の合計が1,550万円（配偶者がない場合にあっては、550万円）以下です。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>（65歳以上の被保険者）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>課税年金収入額と合計所得金額と非課税年金収入額の合計額が120万円を超え、預貯金、有価証券等の金額の合計が1,500万円（配偶者がない場合にあっては、500万円）以下です。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>第２号被保険者</text:p><text:p>（40歳以上65歳未満）</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>預貯金、有価証券等の金額の合計が2,000万円（配偶者がない場合にあっては、1,000万円）以下です。課税年金収入額と合計所得金額と非課税年金収入額の合計額が　□　80.9万円以下　　□　80.9万円を超え120万円以下　　□　120万円超</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>受給している非課税年金に○を記入してください。</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>年金の種類</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>遺族年金※・障害年金　※寡婦年金、かん夫年金、母子年金、準母子年金、遺児年金を含みます。</text:p></table:table-cell>
+          <table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p>預貯金額</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>　　　　　　円</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>有価証券（評価額概算額）　　　　　　円</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>その他（現金・負債を含む。）　（　　　　　　）※　　　　円</text:p></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Tiny">※預貯金、有価証券にかかる通帳等の写しは別添のとおり　　　　　　　　　　　　　　　※内容を記入してください。</text:p>
+      <text:p text:style-name="Body">申請者が被保険者本人の場合には、以下について記載は不要です。</text:p>
+      <table:table table:name="申請者">
+        <table:table-column table:style-name="ColA"/>
+        <table:table-column table:style-name="ColB"/>
+        <table:table-column table:style-name="ColC"/>
+        <table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>申請者氏名又は名称</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>連絡先　（　　　　　）</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>申請者住所又は所在地</text:p></table:table-cell><table:covered-table-cell/><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p>本人との関係</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="Tiny">備考　（1）この申請書における「配偶者」については、世帯分離をしている配偶者又は内縁関係の者を含みます。</text:p>
+      <text:p text:style-name="Tiny">　　　（2）預貯金等については、同じ種類の預貯金等を複数所有している場合は、その全てを記入し、通帳等の写しを添付してください。</text:p>
+      <text:p text:style-name="PageBreak"/>
+      <text:p text:style-name="Tiny">（3）書き切れない場合は、余白に記入するか又は別紙に記入の上添付してください。</text:p>
+      <text:p text:style-name="Tiny">（4）虚偽の申告により不正に特定入所者介護サービス費等の支給を受けた場合には、介護保険法第22条第1項の規定に基づき、支給された額及び最大２倍の加算金を返還していただくことがあります。</text:p>
+      <text:p text:style-name="Body">様式第17号の２（第21条関係）</text:p>
+      <text:p text:style-name="Title">同意書</text:p>
+      <text:p text:style-name="Body">岸和田市長　様</text:p>
+      <text:p text:style-name="Body">　　介護保険負担限度額認定のために必要があるときは、官公署、年金保険者又は銀行、信託会社その他の関係機関（以下「銀行等」という。）に私及び私の配偶者（内縁関係の者を含む。以下同じ。）の課税状況及び保有する預貯金並びに有価証券等の残高について、報告を求めることに同意します。</text:p>
+      <text:p text:style-name="Body">　　また、貴市長の報告要求に対し、銀行等が報告することについて、私及び私の配偶者が同意している旨を銀行等に伝えて構いません。</text:p>
+      <text:p text:style-name="Body">年　　　月　　　日</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　被保険者</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　【本人】</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　住所</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　氏名　　　　　　　　　　　　　　　㊞</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　【配偶者】</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　住所</text:p>
+      <text:p text:style-name="Body">　　　　　　　　　　　　　　　　　　　　　　　　　氏名　　　　　　　　　　　　　　　㊞</text:p>
+      <table:table table:name="市記入欄">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">市記入欄</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">所得状況等確認</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Centered">減額認定内容</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>　</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□ 市民税世帯非課税</text:p><text:p>□ 合計所得金額＋課税年金額＋非課税年金 ≤80.9万円/年（第２段階）</text:p><text:p>□ 80.9万円/年＜合計所得金額＋課税年金額＋非課税年金 ≤120万円/年（第３段階①）</text:p><text:p>□ 120万円/年＜合計所得金額＋課税年金額＋非課税年金（第３段階②）</text:p><text:p>□ 老齢福祉年金受給者</text:p><text:p>□ 生活保護受給者</text:p><text:p>□ 生活保護特例却下</text:p><text:p>□ 預貯金基準以下</text:p></table:table-cell><table:table-cell table:style-name="Cell" table:number-columns-spanned="2"><text:p text:style-name="Centered">承認する</text:p><text:p>食費（単位：日額）　　　　居住費（単位：日額）</text:p><text:p>□第１段階　300円　　　ユニット型 880円　　ユニット型個室的多床室 550円　　従来型（特養等）380円　　従来型（老健・療養等）550円　　多床室 0円</text:p><text:p>□第２段階　390円【600円】　　880円　550円　480円　550円　430円</text:p><text:p>□第３段階①　650円【1,000円】　　1,370円　1,370円　880円　1,370円　430円</text:p><text:p>□第３段階②　1,360円【1,300円】　　1,370円　1,370円　880円　1,370円　430円</text:p><text:p text:style-name="Centered">□第４段階　　　　承認しない</text:p><text:p>交付年月日　　　　　　　　　適用年月日　　　　　　　　　有効期限</text:p><text:p>R　　年　　月　　日　　　R　　年　　月　　日　　　R８年７月３１日</text:p><text:p>送付先　本人・施設・その他（　　　　　　　　　）</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <text:p text:style-name="PageBreak"/>
+      <text:p text:style-name="Body">上記のとおり本件認定してよろしいか</text:p>
+      <table:table table:name="決裁欄">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/><table:table-column table:style-name="ColC"/><table:table-column table:style-name="ColD"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">課長</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">参事</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">担当長</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">担当員</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>　</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>　</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>　</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>　</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <table:table table:name="決裁日">
+        <table:table-column table:style-name="ColA"/><table:table-column table:style-name="ColB"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p text:style-name="Centered">決裁日</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>　　　　　　　　　　　　　　　　　</text:p></table:table-cell></table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+29,351

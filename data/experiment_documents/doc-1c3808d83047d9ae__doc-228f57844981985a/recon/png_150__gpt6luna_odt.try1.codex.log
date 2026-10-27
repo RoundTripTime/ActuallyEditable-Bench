@@ -1,0 +1,765 @@
+ptional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:wrap-option">
+          <rng:choice>
+            <rng:value>no-wrap</rng:value>
+            <rng:value>wrap</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-rotation-angle-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:rotation-align">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>top</rng:value>
+            <rng:value>center</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:cell-protect">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>hidden-and-protected</rng:value>
+            <rng:list>
+              <rng:oneOrMore>
+                <rng:choice>
+                  <rng:value>protected</rng:value>
+                  <rng:value>formula-hidden</rng:value>
+                </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-columns">
+    <rng:choice>
+      <rng:ref name="table-table-columns"/>
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="table-columns-and-groups">
+    <rng:oneOrMore>
+      <rng:choice>
+        <rng:ref name="table-table-column-group"/>
+        <rng:ref name="table-columns-no-group"/>
+      </rng:choice>
+    </rng:oneOrMore>
+  </rng:define>
+  <rng:define name="table-columns-no-group">
+    <rng:choice>
+      <rng:group>
+        <rng:ref name="table-columns"/>
+        <rng:optional>
+          <rng:ref name="table-table-header-columns"/>
+          <rng:optional>
+            <rng:ref name="table-columns"/>
+          </rng:optional>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:ref name="table-table-header-columns"/>
+        <rng:optional>
+          <rng:ref name="table-columns"/>
+        </rng:optional>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="table-consolidation">
+    <rng:element name="table:consolidation">
+      <rng:ref name="table-consolidation-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-consolidation-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:function">
+        <rng:choice>
+          <rng:value>average</rng:value>
+          <rng:value>count</rng:value>
+          <rng:value>countnums</rng:value>
+          <rng:value>max</rng:value>
+          <rng:value>min</rng:value>
+          <rng:value>product</rng:value>
+          <rng:value>stdev</rng:value>
+          <rng:value>stdevp</rng:value>
+          <rng:value>sum</rng:value>
+          <rng:value>var</rng:value>
+          <rng:value>varp</rng:value>
+          <rng:ref name="string"/>
+        </rng:choice>
+      </rng:attribute>
+      <rng:attribute name="table:source-cell-range-addresses">
+        <rng:ref name="cellRangeAddressList"/>
+      </rng:attribute>
+      <rng:attribute name="table:target-cell-address">
+        <rng:ref name="cellAddress"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="table:use-labels">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>row</rng:value>
+            <rng:value>column</rng:value>
+            <rng:value>both</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:link-to-source-data">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-content-validation">
+    <rng:element name="table:content-validation">
+      <rng:ref name="table-validation-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-help-message"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:choice>
+          <rng:ref name="table-error-message"/>
+          <rng:group>
+            <rng:ref name="table-error-macro"/>
+            <rng:ref name="office-event-listeners"/>
+          </rng:group>
+        </rng:choice>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table">
+    <rng:element name="table:table">
+      <rng:ref name="table-table-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-title"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-desc"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-table-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-dde-source"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-scenario"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="office-forms"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="table-shapes"/>
+      </rng:optional>
+      <rng:ref name="table-columns-and-groups"/>
+      <rng:ref name="table-rows-and-groups"/>
+      <rng:optional>
+        <rng:ref name="table-named-expressions"/>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:template-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-row-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-first-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-last-column-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-rows-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:name">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-column-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+      <rng:attribute name="table:last-row-spanned">
+        <rng:ref name="positiveInteger"/>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+    <rng:attribute name="style:name">
+      <rng:ref name="styleName"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-p">
+    <rng:element name="text:p">
+      <rng:ref name="paragraph-attrs"/>
+      <rng:zeroOrMore>
+        <rng:ref name="paragraph-content-or-hyperlink"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page">
+    <rng:element name="text:page">
+      <rng:ref name="text-page-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="text-page-attlist">
+    <rng:attribute name="text:master-page-name">
+      <rng:ref name="styleNameRef"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="text-page-continuation-attlist">
+    <rng:interleave>
+      <rng:attribute name="text:select-page">
+        <rng:choice>
+          <rng:value>previous</rng:value>
+          <rng:value>next</rng:value>
+        </rng:choice>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="text:string-value">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-page-number-attlist">
+    <rng:interleave>
+      <rng:interleave>
+        <rng:ref name="common-field-num-format-attlist"/>
+        <rng:ref name="common-field-fixed-attlist"/>
+      </rng:interleave>
+      <rng:optional>
+        <rng:attribute name="text:page-adjust">
+          <rng:ref name="integer"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="text:select-page">
+          <rng:choice>
+            <rng:value>previous</rng:value>
+            <rng:value>current</rng:value>
+            <rng:value>next</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="text-page-sequence">
+    <rng:element name="text:page-sequence">
+      <rng:oneOrMore>
+        <rng:ref name="text-page"/>
+      </rng:oneOrMore>
+    </rng:element>
+177:3.1.2 <office:document>(Single OpenDocument XML Files)
+6295:3.1.2 <office:document>(Single OpenDocument XML Files)
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:style style:name="P" style:family="paragraph"><style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.08cm" fo:line-height="100%"/></style:style>
+    <style:style style:name="Center" style:family="paragraph"><style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0.05cm" fo:line-height="100%"/></style:style>
+    <style:style style:name="Right" style:family="paragraph"><style:paragraph-properties fo:text-align="right" fo:margin-top="0cm" fo:margin-bottom="0.05cm"/></style:style>
+    <style:style style:name="Title" style:family="paragraph"><style:paragraph-properties fo:text-align="center" fo:margin-top="0.2cm" fo:margin-bottom="0.25cm"/><style:text-properties fo:font-size="18pt" fo:font-weight="bold"/></style:style>
+    <style:style style:name="Section" style:family="paragraph"><style:paragraph-properties fo:margin-top="0.2cm" fo:margin-bottom="0.12cm"/><style:text-properties fo:font-size="16pt" fo:font-weight="bold"/></style:style>
+    <style:style style:name="PageStart" style:family="paragraph"><style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/></style:style>
+    <style:style style:name="Cell" style:family="table-cell"><style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="0.04cm" style:vertical-align="middle"/><style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="95%"/><style:text-properties fo:font-size="10pt"/></style:style>
+    <style:style style:name="LeftCell" style:family="table-cell"><style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="0.06cm" style:vertical-align="middle"/><style:paragraph-properties fo:text-align="start" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/><style:text-properties fo:font-size="10pt"/></style:style>
+    <style:style style:name="BigCell" style:family="table-cell"><style:table-cell-properties fo:border="0.5pt solid #333333" fo:padding="0.1cm" style:vertical-align="middle"/><style:paragraph-properties fo:text-align="center" fo:margin-top="0cm" fo:margin-bottom="0cm"/><style:text-properties fo:font-size="12pt"/></style:style>
+    <style:style style:name="Col" style:family="table-column"><style:table-column-properties style:column-width="2.5cm"/></style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout"><style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.8cm" fo:margin-bottom="1.8cm" fo:margin-left="2cm" fo:margin-right="2cm"/></style:page-layout-properties>
+  </office:automatic-styles>
+  <office:master-styles><style:master-page style:name="Default" style:page-layout-name="PageLayout"/></office:master-styles>
+  <office:body><office:text>
+    <text:p>[별지 제1호서식 : 제34조제1항 관련]</text:p>
+    <text:p text:style-name="Title">농림축산식품 사업 신청서</text:p>
+    <table:table table:name="신청서">
+      <table:table-column table:number-columns-repeated="8" style:style-name="Col"/>
+      <table:table-row>
+        <table:table-cell table:number-rows-spanned="5" table:style-name="Cell"><text:p>신<br/>청<br/>자</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>생산자단체<br/>등의 명칭</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>개인</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>법인등록번호</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell>
+      </table:table-row>
+      <table:table-row>
+        <table:covered-table-cell/><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>성　명<br/>(대표자명)</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell>
+        <table:table-cell table:style-name="Cell"><text:p>농업경영체<br/>등록번호</text:p></table:table-cell>
+        <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        <table:table-cell table:style-name="Cell"><text:p>생년월일</text:p></table:table-cell>
+        <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+      </table:table-row>
+      <table:table-row>
+        <table:covered-table-cell/><table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p>주　소</text:p></table:table-cell>
+        <table:table-cell table:style-name="Cell"><text:p>전화번호</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell>
+      </table:table-row>
+      <table:table-row>
+        <table:covered-table-cell/><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>영농(림)<br/>종사경력</text:p></table:table-cell>
+        <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        <table:table-cell table:style-name="Cell"><text:p>영농교육</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>분야,　　월　　주</text:p></table:cell>
+      </table:table-row>
+      <table:table-row>
+        <table:covered-table-cell/><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>생산자단체<br/>등의 형태</text:p></table:cell>
+        <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p/></table:cell>
+        <table:table-cell table:style-name="Cell"><text:p>참여농가수</text:p></table:cell>
+        <table:table-cell table:style-name="Cell"><text:p>호</text:p></table:cell>
+      </table:table-row>
+      <table:table-row>
+        <table:table-cell table:number-rows-spanned="6" table:style-name="Cell"><text:p>신<br/>청<br/>내<br/>용</text:p></table:cell>
+        <table:table-cell table:style-name="Cell"><text:p>사 업 명</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="6" table:style-name="Cell"><text:p/></table:table-cell>
+      </table:table-row>
+      <table:table-row>
+        <table:table-cell table:style-name="Cell"><text:p>사업예정지<br/>(동·리<br/>번지까지 기재)</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="3" table:number-rows-spanned="2" table:style-name="Cell"><text:p/></table:table-cell>
+        <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>농지이용계획</text:p></table:cell>
+      </table:table-row>
+      <table:table-row>
+        <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>농업진흥지역안</text:p></table:cell><table:table-cell table:style-name="Cell"><text:p>지구</text:p></table:cell>
+      </table:table-row>
+      <table:table-row>
+        <table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>사업 비<br/>(천 원)</text:p></table:cell>
+        <table:table-cell table:style-name="Cell"><text:p>계</text:p></table:cell>
+        <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>정부지원(재원명 기재)</text:p></table:cell>
+        <table:table-cell table:style-name="Cell"><text:p>지방비</text:p></table:cell>
+        <table:table-cell table:style-name="Cell"><text:p>자부담</text:p></table:cell>
+      </table:table-row>
+      <table:table-row>
+        <table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>국고계</text:p></table:cell><table:table-cell table:style-name="Cell"><text:p>보조</text:p></table:cell><table:table-cell table:style-name="Cell"><text:p>융자</text:p></table:cell><table:covered-table-cell/><table:covered-table-cell/>
+      </table:table-row>
+      <table:table-row>
+        <table:covered-table-cell/><table:covered-table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/>
+      </table:table-row>
+      <table:table-row>
+        <table:table-cell table:style-name="Cell"><text:p>사업내용별 규모<br/>(㏊)</text:p></table:table-cell>
+        <table:table-cell table:number-columns-spanned="7" table:style-name="Cell"><text:p/></table:table-cell>
+      </table:table-row>
+    </table:table>
+    <text:p text:style-name="P">농림축산식품분야 재정사업관리 기본규정 제34조제1항에 의하여 신청하며 사업신청과 관련하여 사업대상자 선정기관이 본인의 아래의 개인정보를 처리하는 것에 동의합니다.</text:p>
+    <text:p text:style-name="P">또한, 사업시행지침에 따라 충실히 사업을 추진할 것을 동의합니다. 사업시행지침을 위반한 경우 사업시행지침에 따른 환수·회수 및 제재 등 처분을 받는 것에 동의합니다.</text:p>
+    <text:p text:style-name="P"/>
+    <text:p text:style-name="P">사업신청과 관련된 붙임의 개인정보의 수집·이용에 동의합니다.</text:p>
+    <text:p text:style-name="P">사업신청과 관련된 붙임의 개인정보의 제공에 동의합니다.</text:p>
+    <text:p text:style-name="P">사업시행지침 위반 시 사업시행지침에 따른 환수·회수 및 제재 등 처분을 받는 것에 동의합니다.</text:p>
+    <text:p text:style-name="Right">2026년　 월　 일</text:p>
+    <text:p text:style-name="Right">신청자　　　　　　(서명 또는 인)</text:p>
+    <text:p>거창군수 귀하</text:p>
+    <text:p text:style-name="P"/>
+    <text:p>첨부서류 : 1. 사업계획서 1부.</text:p>
+    <text:p>　　　　2. 대출신청자료 1부(대출신청이 있는 경우에 한함)</text:p>
+    <text:p>　　　　3. 농업·임업 경영체 등록 확인증 1부.</text:p>
+    <text:p>　　　　4. 견적서 1부.</text:p>
+    <text:p>　　　　5. 토지등기부등본(해당자에 한함)</text:p>
+    <text:p>　　　　6. 경영실태를 확인할 수 있는 자료(경영장부, 경영일지 등)사본 1부(기록실적이 있는 경우에 한함)</text:p>
+    <text:p text:style-name="PageStart"/>
+    <text:p text:style-name="Title">사업신청과 관련된 개인정보 수집·이용 및 제공에 관한 사항</text:p>
+    <text:p text:style-name="Section">※ 개인정보 수집·이용 동의 사항</text:p>
+    <text:p>1. 개인정보의 수집·이용 목적 : 농업인 지원을 위한 농림축산식품사업 보조·융자 등의 사업추진시, 적합한 대상자 선정 및 사업관리</text:p>
+    <text:p/>
+    <text:p>2. 수집하려는 개인정보의 항목 : 사업신청서의 각 항목(이름, 생년월일, 주소 및 연락처 등)</text:p>
+    <text:p/>
+    <text:p>3. 개인정보의 보유 및 이용기간 : 농림축산식품사업 보조·융자 등의 사업 기간 및 사후관리 등에 필요한 기간</text:p>
+    <text:p/>
+    <text:p>4. 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른 불이익이 있는 경우에는 그 불이익의 내용</text:p>
+    <text:p>　• 동의하지 않는 경우 적합한 대상자인지 확인이 불가능하여 사업대상자로 선정되지 않을 수 있음</text:p>
+    <text:p/>
+    <text:p text:style-name="Section">※ 개인정보의 제공 동의 사항</text:p>
+    <text:p>1. 개인정보를 제공받는 자 : 농림축산식품사업 보조·융자 등의 정책사업과 연관된 사업의 수행기관</text:p>
+    <text:p/>
+    <text:p>2. 개인정보를 제공받는 자의 개인정보 이용 목적 : 농림축산식품사업 정책사업과 연관된 업무를 추진하기 위한 확인 및 대조 등의 업무처리</text:p>
+    <text:p/>
+    <text:p>3. 제공하는 개인정보의 항목 : 사업신청서의 각 항목(이름, 생년월일, 주소 및 연락처 등)</text:p>
+    <text:p/>
+    <text:p>4. 개인정보를 제공받는 자의 개인정보 보유 및 이용기간 : 농림축산식품사업과 연관된 업무의 추진기간 및 사후관리기간</text:p>
+    <text:p/>
+    <text:p>5. 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른 불이익이 있는 경우에는 그 불이익의 내용</text:p>
+    <text:p>　• 동의하지 않는 경우 적합한 대상자인지 확인이 불가능하여 사업대상자로 선정되지 않을 수 있음</text:p>
+    <text:p text:style-name="PageStart"/>
+    <text:p text:style-name="Title">농림축산식품 사업 계획서</text:p>
+    <text:p text:style-name="Section">1. 현 황</text:p>
+    <table:table table:name="현황">
+      <table:table-column table:number-columns-repeated="8" style:style-name="Col"/>
+      <table:table-row><table:table-cell table:number-rows-spanned="3" table:style-name="Cell"><text:p>영농<br/>규모<br/>(ha)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>임야</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>논</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>밭</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>과수원</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>목초지</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/><br/></table:table-cell><table:table-cell table:style-name="Cell"><text:p>계</text:p></table:table-cell></table:table-row>
+      <table:table-row><table:table-cell table:style-name="Cell"><text:p>소유</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+      <table:table-row><table:table-cell table:style-name="Cell"><text:p>임차</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+      <table:table-row><table:table-cell table:style-name="Cell"><text:p>계</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+      <table:table-row><table:table-cell table:number-rows-spanned="2" table:style-name="Cell"><text:p>재 배 현 황<br/>(ha)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>호두</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>더덕</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>산양삼</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>밤</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell table:style-name="Cell"><text:p>계</text:p></table:table-cell></table:table-row>
+      <table:table-row><table:covered-table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+      <table:table-row><table:table-cell table:number-rows-spanned="4" table:style-name="Cell"><text:p>시설<br/>현황</text:p></table:table-cell><table:table-cell table:number-rows-spanned="3" table:style-name="Cell"><text:p>개별<br/>시설</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>관수시설</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>저온저장고</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>일반저장고</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>선과기</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>기 타</text:p></table:table-cell></table:table-row>
+      <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>관 정 :</text:p></table:table-cell><table:table-cell/><table:table-cell table:style-name="Cell"><text:p>㎡</text:p></table:table-cell><table:table-cell/><table:table-cell table:style-name="Cell"><text:p>대</text:p></table:table-cell><table:table-cell/></table:table-row>
+      <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>점적관수 :</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+      <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>스프링클러 :</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell table:style-name="Cell"><text:p>(　 톤)</text:p></table:table-cell><table:table-cell/></table:table-row>
+      <table:table-row><table:covered-table-cell/><table:table-cell table:number-rows-spanned="2" table:style-name="Cell"><text:p>공동<br/>시설</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>저온저장고</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>선과장</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>인공수분기</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>수송차량</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>교육장</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>기 타</text:p></table:table-cell></table:table-row>
+      <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="Cell"><text:p>㎡</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>개소<br/>(　 톤)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>식</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>대<br/>(　 톤)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>㎡</text:p></table:table-cell><table:table-cell/></table:table-row>
+      <table:table-row><table:covered-table-cell/><table:table-cell table:number-columns-spanned="7" table:style-name="LeftCell"><text:p>(주) : 1. 선과기의 (　)안은 1일 8시간 기준 선과능력</text:p><text:p>　　 2. 수송차량의 (　)안은 보유대수에 관한 적재량을 기재</text:p></table:table-cell></table:table-row>
+      <table:table-row><table:table-cell table:style-name="Cell"><text:p>기타<br/>사항</text:p></table:table-cell><table:table-cell table:number-columns-spanned="7" table:number-rows-spanned="1" table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+    </table:table>
+    <text:p text:style-name="PageStart"/>
+    <text:p text:style-name="Section">2. 사업계획</text:p>
+    <text:p>·　사업명 :</text:p>
+    <text:p>·　세부사업내용</text:p>
+    <text:p text:style-name="Right">(단위 : 백만원)</text:p>
+    <table:table table:name="사업계획표">
+      <table:table-column table:number-columns-repeated="10" style:style-name="Col"/>
+      <table:table-row><table:table-cell table:number-rows-spanned="2" table:number-columns-spanned="2" table:style-name="Cell"><text:p>세부사업명</text:p></table:table-cell><table:table-cell table:number-rows-spanned="2" table:style-name="Cell"><text:p>규격</text:p></table:table-cell><table:table-cell table:number-rows-spanned="2" table:style-name="Cell"><text:p>단가</text:p></table:table-cell><table:table-cell table:number-rows-spanned="2" table:style-name="Cell"><text:p>사업량</text:p></table:table-cell><table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>사　 업　 비</text:p></table:table-cell></table:table-row>
+      <table:table-row><table:table-cell table:style-name="Cell"><text:p>합계</text:p></table:table-cell><table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>정부지원(재원명기재)</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>지방비</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>자담</text:p></table:table-cell></table:table-row>
+      <table:table-row><table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>계</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+      <table:table-row><table:table-cell table:number-rows-spanned="1" table:style-name="Cell"><text:p>농가</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>○ ○ ○ ○<br/>○ ○ ○ ○<br/>○ ○ ○ ○</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+      <table:table-row><table:table-cell table:style-name="Cell"><text:p>생산자단체 등,<br/>회사, 기타</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>공동시설<br/>○ ○ ○ ○<br/>○ ○ ○ ○<br/>기타시설<br/>○ ○ ○ ○<br/>○ ○ ○ ○</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+    </table:table>
+    <text:p>·　자부담금 확보계획 :</text:p>
+    <text:p>·　부지확보 계획(건축공사가 있는 경우) : 부지확보 완료 등기부등본 참고</text:p>
+    <text:p>·　세부사업별 추진일정</text:p>
+    <table:table table:name="추진일정">
+      <table:table-column table:number-columns-repeated="5" style:style-name="Col"/>
+      <table:table-row><table:table-cell table:style-name="Cell"><text:p>세부사업명</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>1/4분기</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>2/4</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>3/4</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>4/4</text:p></table:table-cell></table:table-row>
+      <table:table-row><table:table-cell table:style-name="Cell"><text:p>○ ○ ○ ○<br/>○ ○ ○ ○<br/>○ ○ ○ ○</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>←□□□→</text:p></table:table-cell><table:table-cell/><table:table-cell/><table:table-cell/></table:table-row>
+    </table:table>
+    <text:p>　*. "←□□□→"로 표시</text:p>
+    <text:p/>
+    <text:p>＜작성요령＞</text:p>
+    <text:p>·　"1.현황"은 "과실생산유통사업"의 예이므로, 각 사업별 특성에 따라 작성항목을 변경할 수 있음</text:p>
+    <text:p>·　생산자단체등의 경우 당해조직의 활성화 방안, 공동출하계획, 시설물의 활용계획 등을 작성하고, 구성원의 현황(성명, 영농규모 등)을 첨부하여야함</text:p>
+    <text:p>·　개별농가의 경우 앞으로의 영농(림)계획 등 작성</text:p>
+  </office:text></office:body>
+</office:document>
+tokens used
+45,535

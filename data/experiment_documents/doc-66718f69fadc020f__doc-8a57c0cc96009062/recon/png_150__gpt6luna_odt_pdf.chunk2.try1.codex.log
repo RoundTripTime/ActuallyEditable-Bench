@@ -1,0 +1,860 @@
+ name="style-page-layout-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:page-usage">
+          <rng:choice>
+            <rng:value>all</rng:value>
+            <rng:value>left</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>mirrored</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-page-layout-content">
+    <rng:optional>
+      <rng:ref name="style-page-layout-properties"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-header-style"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="style-footer-style"/>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-page-layout-properties">
+    <rng:element name="style:page-layout-properties">
+      <rng:ref name="style-page-layout-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-page-layout-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="fo:page-width">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="fo:page-height">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-num-format-attlist"/>
+      </rng:optional>
+      <rng:ref name="common-num-format-prefix-suffix-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:paper-tray-name">
+          <rng:choice>
+            <rng:value>default</rng:value>
+            <rng:ref name="string"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-orientation">
+          <rng:choice>
+            <rng:value>portrait</rng:value>
+            <rng:value>landscape</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-4105 -->
+      <rng:optional>
+        <rng:attribute name="style:margin-gutter">
+         <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-attlist"/>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:register-truth-ref-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print">
+          <rng:list>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:value>headers</rng:value>
+                <rng:value>grid</rng:value>
+                <rng:value>annotations</rng:value>
+                <rng:value>objects</rng:value>
+                <rng:value>charts</rng:value>
+                <rng:value>drawings</rng:value>
+                <rng:value>formulas</rng:value>
+                <rng:value>zero-values</rng:value>
+              </rng:choice>
+            </rng:zeroOrMore>
+          </rng:list>
+        </rng:attribute>
+      </rng:optional>
+    <rng:attribute name="style:char">
+      <rng:ref name="character"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="style-tab-stops">
+    <rng:optional>
+      <rng:element name="style:tab-stops">
+        <rng:zeroOrMore>
+          <rng:ref name="style-tab-stop"/>
+        </rng:zeroOrMore>
+      </rng:element>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="style-table-cell-properties">
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-border-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-tl-br-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:diagonal-bl-tr-widths">
+          <rng:ref name="borderWidths"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-border-line-width-attlist"/>
+      <rng:ref name="common-padding-attlist"/>
+      <rng:optional>
+        <rng:attribute name="fo:wrap-option">
+          <rng:choice>
+            <rng:value>no-wrap</rng:value>
+            <rng:value>wrap</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-rotation-angle-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:rotation-align">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>top</rng:value>
+            <rng:value>center</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:cell-protect">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>hidden-and-protected</rng:value>
+            <rng:list>
+              <rng:oneOrMore>
+                <rng:choice>
+                  <rng:value>protected</rng:value>
+                  <rng:value>formula-hidden</rng:value>
+                </rng:choice>
+              </rng:oneOrMore>
+            </rng:list>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:print-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:decimal-places">
+          <rng:ref name="nonNegativeInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:repeat-content">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:shrink-to-fit">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-content-strict">
+    <rng:ref name="style-table-cell-properties-attlist"/>
+    <rng:ref name="style-table-cell-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-elements">
+    <rng:ref name="style-background-image"/>
+    <!-- https://issues.oasis-open.org/browse/OFFICE-4125 -->
+    <rng:ref name="style-background-fill"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties">
+    <rng:element name="style:table-column-properties">
+      <rng:ref name="style-table-column-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-column-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:column-width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-column-width">
+          <rng:ref name="relativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:use-optimal-column-width">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-break-attlist"/>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-column-properties-content-strict">
+    <rng:ref name="style-table-column-properties-attlist"/>
+    <rng:ref name="style-table-column-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-column-properties-elements">
+    <rng:empty/>
+  </rng:define>
+  <rng:define name="style-table-properties">
+    <rng:element name="style:table-properties">
+      <rng:ref name="style-table-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:width">
+          <rng:ref name="positiveLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:rel-width">
+          <rng:ref name="percent"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:align">
+          <rng:choice>
+            <rng:value>left</rng:value>
+            <rng:value>center</rng:value>
+            <rng:value>right</rng:value>
+            <rng:value>margins</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-horizontal-margin-attlist"/>
+      <rng:ref name="common-vertical-margin-attlist"/>
+      <rng:ref name="common-margin-attlist"/>
+      <rng:ref name="common-page-number-attlist"/>
+      <rng:ref name="common-break-attlist"/>
+      <rng:ref name="common-background-color-attlist"/>
+      <rng:ref name="common-shadow-attlist"/>
+      <rng:ref name="common-keep-with-next-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:may-break-between-rows">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:border-model">
+          <rng:choice>
+            <rng:value>collapsing</rng:value>
+            <rng:value>separating</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+      <rng:optional>
+        <rng:attribute name="table:display">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:tab-color">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-2173 -->
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="style-table-properties-content-strict">
+    <rng:ref name="style-table-properties-attlist"/>
+    <rng:ref name="style-table-properties-elements"/>
+  </rng:define>
+  <rng:define name="style-table-properties-elements">
+  <rng:define name="table-change-track-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:cell-address">
+          <rng:ref name="cellAddress"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:matrix-covered">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-columns">
+    <rng:choice>
+      <rng:ref name="table-table-columns"/>
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="table-columns-and-groups">
+    <rng:oneOrMore>
+      <rng:choice>
+        <rng:ref name="table-table-column-group"/>
+        <rng:ref name="table-columns-no-group"/>
+      </rng:choice>
+    </rng:oneOrMore>
+  </rng:define>
+  <rng:define name="table-columns-no-group">
+    <rng:choice>
+      <rng:group>
+        <rng:ref name="table-columns"/>
+        <rng:optional>
+          <rng:ref name="table-table-header-columns"/>
+          <rng:optional>
+            <rng:ref name="table-columns"/>
+          </rng:optional>
+        </rng:optional>
+      </rng:group>
+      <rng:group>
+        <rng:ref name="table-table-header-columns"/>
+        <rng:optional>
+          <rng:ref name="table-columns"/>
+        </rng:optional>
+      </rng:group>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="table-consolidation">
+    <rng:element name="table:consolidation">
+      <rng:ref name="table-consolidation-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-consolidation-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:function">
+        <rng:choice>
+          <rng:value>average</rng:value>
+          <rng:value>count</rng:value>
+          <rng:value>countnums</rng:value>
+          <rng:value>max</rng:value>
+          <rng:value>min</rng:value>
+          <rng:value>product</rng:value>
+          <rng:value>stdev</rng:value>
+          <rng:value>stdevp</rng:value>
+          <rng:value>sum</rng:value>
+          <rng:value>var</rng:value>
+          <rng:value>varp</rng:value>
+          <rng:ref name="string"/>
+        </rng:choice>
+      </rng:attribute>
+      <rng:attribute name="table:source-cell-range-addresses">
+        <rng:ref name="cellRangeAddressList"/>
+      </rng:attribute>
+      <rng:attribute name="table:target-cell-address">
+        <rng:ref name="cellAddress"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="table:use-labels">
+          <rng:choice>
+            <rng:value>none</rng:value>
+            <rng:value>row</rng:value>
+            <rng:value>column</rng:value>
+            <rng:value>both</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:link-to-source-data">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-content-validation">
+    <rng:element name="table:content-validation">
+      <rng:ref name="table-validation-attlist"/>
+      <rng:optional>
+        <rng:ref name="table-help-message"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:choice>
+          <rng:ref name="table-error-message"/>
+          <rng:group>
+            <rng:ref name="table-error-macro"/>
+            <rng:ref name="office-event-listeners"/>
+          </rng:group>
+        </rng:choice>
+      </rng:optional>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-content-validations">
+    <rng:element name="table:content-validations">
+      <rng:oneOrMore>
+        <rng:ref name="table-content-validation"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protection-key-digest-algorithm">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:print-ranges">
+          <rng:ref name="cellRangeAddressList"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:is-sub-table">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell">
+    <rng:element name="table:table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-attlist-extra"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:content-validation-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:formula">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-value-and-type-attlist"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protect">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="common-in-content-meta-attlist"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-attlist-extra">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-columns-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:number-matrix-rows-spanned">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-cell-content">
+    <rng:optional>
+      <rng:ref name="table-cell-range-source"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="office-annotation"/>
+    </rng:optional>
+    <rng:optional>
+      <rng:ref name="table-detective"/>
+    </rng:optional>
+    <rng:zeroOrMore>
+      <rng:ref name="text-content"/>
+    </rng:zeroOrMore>
+  </rng:define>
+  <rng:define name="table-table-cell-range-source-attlist">
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.12cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-family="Arial" fo:font-size="12pt" style:font-name="Arial"/>
+    </style:default-style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.9cm"/>
+      <style:text-properties fo:font-family="Arial" fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="SectionTitle" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.25cm"/>
+      <style:text-properties fo:font-family="Arial" fo:font-size="12pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="LargeTitle" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.2cm"/>
+      <style:text-properties fo:font-family="Arial" fo:font-size="18pt" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Bold" style:family="paragraph">
+      <style:text-properties fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Italic" style:family="paragraph">
+      <style:text-properties fo:font-style="italic"/>
+    </style:style>
+    <style:style style:name="Red" style:family="paragraph">
+      <style:text-properties fo:color="#ff0000" fo:font-weight="bold"/>
+    </style:style>
+    <style:style style:name="Centered" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="CellText" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.12cm"/>
+      <style:text-properties fo:font-family="Arial" fo:font-size="12pt"/>
+    </style:style>
+    <style:style style:name="FormTable" style:family="table">
+      <style:table-properties style:width="17cm" table:align="center" table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="ContactTable" style:family="table">
+      <style:table-properties style:width="8cm" table:align="left" table:border-model="collapsing"/>
+    </style:style>
+    <style:style style:name="ColLabel" style:family="table-column">
+      <style:table-column-properties style:column-width="1.3cm"/>
+    </style:style>
+    <style:style style:name="ColPrompt" style:family="table-column">
+      <style:table-column-properties style:column-width="15.7cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.15cm" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="EmptyCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.15cm" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="NoBorderCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="none" fo:padding="0.15cm" style:vertical-align="top"/>
+    </style:style>
+    <style:style style:name="ContactCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.15cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="ContactCol" style:family="table-column">
+      <style:table-column-properties style:column-width="4cm"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="A4">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:print-orientation="portrait" fo:margin-top="1.8cm" fo:margin-bottom="1.8cm" fo:margin-left="1.85cm" fo:margin-right="1.85cm"/>
+    </style:page-layout>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="A4"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Title">PART 5 – DIVIDENDS FOR THE FINANCIAL YEAR TO WHICH THE REPORT RELATES</text:p>
+      <text:p>This part of the template should be completed if the company is limited by shares and has declared or proposed to declare a dividend in respect of the financial year to which the report relates or has declared a dividend in respect of any of the four financial years immediately preceding that financial year.  If the company is limited by shares but has not declared or proposed any dividends in respect of the financial year to which the report relates, please indicate this.</text:p>
+      <text:p text:style-name="SectionTitle">For all dividends declared or proposed in respect of the financial year to which the report relates, please supply the following information:</text:p>
+      <table:table table:name="DividendsPage9" table:style-name="FormTable">
+        <table:table-column table:style-name="ColLabel"/>
+        <table:table-column table:style-name="ColPrompt"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(i)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">A description of the class, number and paid up value of the shares on which the dividend has been declared or paid.  <text:span text:style-name="Bold">Please state ‘none’ at each of the question responses below, if applicable.</text:span></text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(ii)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">The amount of dividend declared or paid per share</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(iii)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">Whether or not the dividend is an exempt dividend (in essence, a dividend paid directly or indirectly to an asset-locked body where the asset-locked body is either specified in the company’s constitution as a possible recipient of its assets, or the Regulator has consented to payment of the dividend.</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(iv)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">if it is an exempt dividend, why it is an exempt dividend. <text:span text:style-name="Bold">(If no exempt dividends have been paid please leave blank and go to section (V)</text:span></text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Centered">(Please continue on separate continuation sheet if necessary.)</text:p>
+
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="Italic">Where a dividend which is not an exempt dividend is declared or proposed in respect of the financial year to which the report relates, the report must explain how it complies with regulations 17 and 19 of the Community Interest Company Regulations 2005 by giving details of:</text:p>
+      <table:table table:name="DividendsPage10" table:style-name="FormTable">
+        <table:table-column table:style-name="ColLabel"/>
+        <table:table-column table:style-name="ColPrompt"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(v)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">The maximum aggregate dividend</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(vi)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">In addition to the above information, the total amount of (a) all exempt; and (b) all non-exempt dividends declared or proposed in respect of the financial year to which the report relates should be given.</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Centered">(Please continue on separate continuation sheet if necessary.)</text:p>
+
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="SectionTitle">PART 6 – INTEREST PAID AT A PERFORMANCE-RELATED RATE</text:p>
+      <text:p text:style-name="SectionTitle">This part should only be completed if the company has, at any time during the financial year to which this report relates, had a debt outstanding, or a debenture in issue on which a performance-related rate of interest was payable.  A performance-related rate of interest is a rate which varies according to the level of the company’s profits or turnover, or any item on its balance sheet.  See the Community Interest Companies guidance on the website.</text:p>
+      <text:p>In order to demonstrate compliance with the rules on performance-related rates of interest, please give the following details:</text:p>
+      <table:table table:name="InterestPage11" table:style-name="FormTable">
+        <table:table-column table:style-name="ColLabel"/>
+        <table:table-column table:style-name="ColPrompt"/>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(i)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">The rates of interest paid on any debt or debenture of the company on which a performance-related rate of interest was payable as calculated over a 12-month period ending with the most recent date on which interest became payable in respect of that debt or debenture during the financial year. <text:span text:style-name="Bold">(Please state ‘none’, at each of the question responses below if not applicable).</text:span></text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(ii)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(If the interest cap applied to that debt or debenture) how any such rates of interest were calculated.</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">(iii)</text:p></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="CellText">Either the interest cap applicable to the debt or debenture concerned (with an explanation of how it has been calculated), or an explanation of why the cap does not apply to it (i.e. because the agreement was entered into before the company became a community interest company).</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+          <table:table-cell table:style-name="EmptyCell"><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="Centered">(Please continue on separate continuation sheet if necessary.)</text:p>
+
+      <text:p text:style-name="PageStart"/>
+      <text:p text:style-name="Centered"><text:span text:style-name="Bold">(N.B. Please enclose a cheque for £15 payable to Companies House)</text:span></text:p>
+      <text:p text:style-name="LargeTitle">PART 7 – SIGNATORY</text:p>
+      <table:table table:name="Signatory" table:style-name="FormTable">
+        <table:table-column table:style-name="ColPrompt"/>
+        <table:table-column table:style-name="ContactCol"/>
+        <table:table-column table:style-name="ContactCol"/>
+        <table:table-row>
+          <table:table-cell table:style-name="NoBorderCell"><text:p text:style-name="SectionTitle">The original report must be signed by a director of the company.</text:p><text:p text:style-name="Red">Please note that it is a legal requirement for the date format to be provided in full throughout the CIC34 report.</text:p><text:p text:style-name="Red">Applications will be rejected if this information is incorrect.</text:p></table:table-cell>
+          <table:table-cell table:style-name="NoBorderCell"><text:p>Signed</text:p></table:table-cell>
+          <table:table-cell table:style-name="ContactCell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="NoBorderCell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="NoBorderCell"><text:p>Date</text:p></table:table-cell>
+          <table:table-cell table:style-name="ContactCell"><text:p/></table:table-cell>
+        </table:table-row>
+      </table:table>
+      <table:table table:name="ContactInformation" table:style-name="ContactTable">
+        <table:table-column table:style-name="ContactCol"/>
+        <table:table-column table:style-name="ContactCol"/>
+        <table:table-row><table:table-cell table:style-name="NoBorderCell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="NoBorderCell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="NoBorderCell" table:number-columns-spanned="2"><text:p/></table:table-cell><table:covered-table-cell/></table:table-row>
+        <table:table-row><table:table-cell table:style-name="ContactCell"><text:p>Email:</text:p></table:table-cell><table:table-cell table:style-name="ContactCell"><text:p>Tel</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="ContactCell"><text:p>DX Number</text:p></table:table-cell><table:table-cell table:style-name="ContactCell"><text:p>DX Exchange</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Red">When you have completed the form, please attach it to the accounts and send both documents to the Registrar of Companies at:</text:p>
+      <text:p>For companies registered in England, Scotland, Wales and Northern Ireland:</text:p>
+      <text:p text:style-name="Bold">Companies House, Crown Way, Cardiff, CF14 3UZ</text:p>
+      <text:p text:style-name="Bold">DX 33050 Cardiff</text:p>
+      <text:p text:style-name="Red">Please ensure the company name is consistent with the company name entered on the accounts. (N.B. Please enclose a cheque for £15 payable to Companies House).</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+62,575

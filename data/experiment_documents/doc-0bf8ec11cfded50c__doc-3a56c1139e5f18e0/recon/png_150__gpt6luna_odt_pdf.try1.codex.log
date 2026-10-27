@@ -1,0 +1,555 @@
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:use-banding-columns-styles">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:protected">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:attribute>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column">
+    <rng:element name="table:table-column">
+      <rng:ref name="table-table-column-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-columns-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-table-column-group">
+    <rng:element name="table:table-column-group">
+      <rng:ref name="table-table-column-group-attlist"/>
+      <rng:ref name="table-columns-and-groups"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-column-group-attlist">
+    <rng:optional>
+      <rng:attribute name="table:display">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+    </rng:optional>
+  </rng:define>
+  <rng:define name="table-table-columns">
+    <rng:element name="table:table-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-columns">
+    <rng:element name="table:table-header-columns">
+      <rng:oneOrMore>
+        <rng:ref name="table-table-column"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-header-rows">
+    <rng:element name="table:table-header-rows">
+      <rng:oneOrMore>
+        <rng:optional>
+          <rng:ref name="text-soft-page-break"/>
+        </rng:optional>
+        <rng:ref name="table-table-row"/>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row">
+    <rng:element name="table:table-row">
+      <rng:ref name="table-table-row-attlist"/>
+      <rng:oneOrMore>
+        <rng:choice>
+          <rng:ref name="table-table-cell"/>
+          <rng:ref name="table-covered-table-cell"/>
+        </rng:choice>
+      </rng:oneOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-table-row-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="table:number-rows-repeated">
+          <rng:ref name="positiveInteger"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:default-cell-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="table:visibility">
+          <rng:ref name="table-visibility-value"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:ref name="xml-id"/>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="table-covered-table-cell">
+    <rng:element name="table:covered-table-cell">
+      <rng:ref name="table-table-cell-attlist"/>
+      <rng:ref name="table-table-cell-content"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-cut-offs">
+    <rng:element name="table:cut-offs">
+      <rng:choice>
+        <rng:oneOrMore>
+          <rng:ref name="table-movement-cut-off"/>
+        </rng:oneOrMore>
+        <rng:group>
+          <rng:ref name="table-insertion-cut-off"/>
+          <rng:zeroOrMore>
+            <rng:ref name="table-movement-cut-off"/>
+          </rng:zeroOrMore>
+        </rng:group>
+      </rng:choice>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info">
+    <rng:element name="table:data-pilot-display-info">
+      <rng:ref name="table-data-pilot-display-info-attlist"/>
+      <rng:empty/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="table-data-pilot-display-info-attlist">
+    <rng:interleave>
+      <rng:attribute name="table:enabled">
+        <rng:ref name="boolean"/>
+      </rng:attribute>
+      <rng:attribute name="table:data-field">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:attribute name="table:member-count">
+        <rng:ref name="nonNegativeInteger"/>
+      </rng:attribute>
+    <rng:element name="style:style">
+      <rng:ref name="style-style-attlist"/>
+      <rng:ref name="style-style-content"/>
+      <rng:zeroOrMore>
+        <rng:ref name="style-map"/>
+      </rng:zeroOrMore>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-style-attlist">
+    <rng:interleave>
+      <rng:attribute name="style:name">
+        <rng:ref name="styleName"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="style:display-name">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:parent-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:next-style-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-level">
+          <rng:choice>
+            <rng:ref name="positiveInteger"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:list-style-name">
+          <rng:choice>
+            <rng:ref name="styleName"/>
+            <rng:empty/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:master-page-name">
+          <rng:ref name="styleNameRef"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:auto-update">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+  <rng:define name="style-paragraph-properties">
+    <rng:element name="style:paragraph-properties">
+      <rng:ref name="style-paragraph-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-paragraph-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:contextual-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <!-- https://issues.oasis-open.org/browse/OFFICE-3767 -->
+      <rng:optional>
+        <rng:attribute name="fo:line-height">
+          <rng:choice>
+            <rng:value>normal</rng:value>
+            <rng:ref name="nonNegativeLength"/>
+            <rng:ref name="percent"/>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-height-at-least">
+          <rng:ref name="nonNegativeLength"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:line-spacing">
+          <rng:ref name="length"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:font-independent-line-spacing">
+          <rng:ref name="boolean"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-text-align"/>
+      <rng:optional>
+        <rng:attribute name="fo:text-align-last">
+  <rng:define name="style-table-cell-properties">
+    <rng:element name="style:table-cell-properties">
+      <rng:ref name="style-table-cell-properties-content-strict"/>
+    </rng:element>
+  </rng:define>
+  <rng:define name="style-table-cell-properties-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="style:vertical-align">
+          <rng:choice>
+            <rng:value>top</rng:value>
+            <rng:value>middle</rng:value>
+            <rng:value>bottom</rng:value>
+            <rng:value>automatic</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="style:text-align-source">
+          <rng:choice>
+            <rng:value>fix</rng:value>
+            <rng:value>value-type</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-style-direction-attlist"/>
+      <rng:optional>
+        <rng:attribute name="style:glyph-orientation-vertical">
+          <rng:choice>
+            <rng:value>auto</rng:value>
+            <rng:value>0</rng:value>
+            <rng:value>0deg</rng:value>
+            <rng:value>0rad</rng:value>
+            <rng:value>0grad</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:ref name="common-writing-mode-attlist"/>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="9pt"/>
+    </style:default-style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="A4">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="2.3cm" fo:margin-bottom="2.3cm" fo:margin-left="2.3cm" fo:margin-right="2.3cm"/>
+    </style:page-layout>
+    <style:style style:name="Body" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%"/>
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="Title" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center" fo:margin-top="0.15cm" fo:margin-bottom="0.15cm"/>
+      <style:text-properties fo:font-size="18pt"/>
+    </style:style>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+      <style:text-properties fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="end"/>
+      <style:text-properties fo:font-size="8pt"/>
+    </style:style>
+    <style:style style:name="NextPage" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page" fo:margin-top="0cm" fo:margin-bottom="0cm"/>
+      <style:text-properties fo:font-size="1pt"/>
+    </style:style>
+    <style:style style:name="Col" style:family="table-column">
+      <style:table-column-properties style:column-width="1.36cm"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #666666" fo:padding="0.04cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Shade" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #666666" fo:padding="0.04cm" fo:background-color="#b3b3b3" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="Section" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.8pt solid #222222" fo:padding="0.06cm" style:vertical-align="middle"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Standard" style:page-layout-name="A4"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="Small">[별지 제1호서식] &lt;개정 2026. 2. 27.&gt;　　　　　　　　　　　　　　　　세움터(www.eais.go.kr)에서도 신청할 수 있습니다.</text:p>
+      <text:p text:style-name="Title">건축위원회　[ ] 심의　신청서　[ ] 재심의</text:p>
+      <text:p text:style-name="Body">• 어두운 란(■)은 신청인이 작성하지 아니하며, [ ]에는 해당하는 곳에 √표시를 합니다.</text:p>
+      <table:table table:name="신청서">
+        <table:table-column table:number-columns-repeated="12" table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Shade"><text:p>연번</text:p></table:table-cell>
+          <table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>건축종별</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>[ ] 신축</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>[ ] 증축</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>[ ] 대수선</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>[ ] 기타</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>교통영향분석 · 개선대책 심의 신청 여부</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>[ ] 신청함</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p>[ ] 신청하지 않음</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p text:style-name="Center">건축주</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>성명(법인명)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>생년월일(사업자 또는 법인등록번호)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="10" table:style-name="Cell"><text:p>주소　　　　　　　　　　　　　　　　　　　　　　　　　　(전화번호 :　　　　　　　　　)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-rows-spanned="4" table:number-columns-spanned="2" table:style-name="Section"><text:p text:style-name="Center">전자우편 등 송달 동의</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="10" table:style-name="Shade"><text:p>「행정절차법」 제14조에 따라 정보통신망을 이용한 각종 부담금 부과 사전통지 등의 문서 송달에 동의합니다.</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p text:style-name="Center">[ ] 동의함</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p text:style-name="Center">[ ] 동의하지 않음</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="10" table:style-name="Cell"><text:p text:style-name="Right">건축주　　　　　　　　　(서명 또는 인)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>전자우편 등 주소</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="9" table:style-name="Cell"><text:p>@</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p text:style-name="Center">설계자</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p>성명　　　　　　　　　　　(서명 또는 인)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>자격번호</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>협회 회원번호</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p>사무소 명</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="6" table:style-name="Cell"><text:p>신고번호</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="10" table:style-name="Cell"><text:p>사무소 주소　　　　　　　　　　　　　　　　　　　　　(전화번호 :　　　　　　　　　)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p text:style-name="Center">관계전문기술자</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p text:style-name="Center">분야</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">자격증</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">자격번호</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">사무소명</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">전화번호</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">주소</text:p></table:table-cell><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>(　)　　　 (서명 또는 인)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p text:style-name="Center">대지조건</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="10" table:style-name="Cell"><text:p>대지위치</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>지번</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>관련지번</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>지목</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>용도지역</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>용도지구　　　　　　/</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="5" table:style-name="Cell"><text:p>용도구역　　　　　　/</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Section"><text:p text:style-name="Center">건축 또는 대수선 계획 내용</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">대지면적</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p>　</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">건축면적</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="4" table:style-name="Cell"><text:p>　　　　　　　　　　　　　㎡</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">연면적</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>　　　　　　　　　㎡</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">건폐율</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>　　　　　%</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">용적률</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>　　　　　　　　　%</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">건물용도</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">구조</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">최고높이</text:p></table:table-cell><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">층수</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>지하 :　　 층</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>지상 :　　 층</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">세대수/동수</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>세대　　　　　　　　 동</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p text:style-name="Center">주차장</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p text:style-name="Center">구분</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">옥내</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">옥외</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p text:style-name="Center">인근</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p text:style-name="Center">면제</text:p></table:table-cell><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>자주식</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p>　　대</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>기계식</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>전기차</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:number-columns-spanned="3" table:style-name="Cell"><text:p>　　대　㎡</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+          <table:table-cell table:style-name="Cell"><text:p/></table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p text:style-name="Center">건축기준 완화내용</text:p></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>관계법령</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="9" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="2" table:style-name="Section"><text:p/></table:table-cell><table:covered-table-cell/>
+          <table:table-cell table:style-name="Cell"><text:p>신청사유</text:p></table:table-cell>
+          <table:table-cell table:number-columns-spanned="9" table:style-name="Cell"><text:p/></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+      <text:p text:style-name="NextPage"/>
+      <table:table table:name="변경내용">
+        <table:table-column table:number-columns-repeated="12" table:style-name="Col"/>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Section"><text:p>변경내용</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Cell"><text:p>「건축법」 제4조의2 및 같은 법 시행규칙 제2조의4에 따라 건축위원회의 심의(재심의)를 신청합니다.</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Cell"><text:p text:style-name="Right">년　 월　 일</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/></table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Cell"><text:p text:style-name="Right">신청인　　　　　　　　　　　(서명 또는 인)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Section"><text:p>특별시장 · 광역시장 · 특별자치시장 · 특별자치도지사 · 도지사 또는 시장 · 군수 · 구청장 귀하</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Cell"><text:p text:style-name="Center">첨부서류: 간략설계도서(배치도 · 평면도 · 입면도 · 주단면도와 국토교통부장관이 고시하는 도서를 말하며,</text:p><text:p text:style-name="Center">전자문서로 된 도서를 포함하고, 심의를 신청하는 경우에만 제출합니다)</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:number-columns-spanned="12" table:style-name="Cell"><text:p text:style-name="Right">210mm×297mm [보존용지(2종) 70g/㎡]</text:p></table:table-cell><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/><table:covered-table-cell/>
+        </table:table-row>
+      </table:table>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+34,597

@@ -1,0 +1,575 @@
+is:names:tc:opendocument:xmlns:animation:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:db="urn:oasis:names:tc:opendocument:xmlns:database:1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:smil="urn:oasis:names:tc:opendocument:xmlns:smil-compatible:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <rng:start>
+    <rng:choice>
+      <rng:ref name="office-document"/>
+      <rng:ref name="office-document-content"/>
+      <rng:ref name="office-document-styles"/>
+      <rng:ref name="office-document-meta"/>
+      <rng:ref name="office-document-settings"/>
+    </rng:choice>
+  </rng:start>
+  <rng:define name="CURIE">
+    <rng:data type="string">
+      <rng:param name="pattern">(([\i-[:]][\c-[:]]*)?:)?.+</rng:param>
+      <rng:param name="minLength">1</rng:param>
+    </rng:data>
+  </rng:define>
+  <rng:define name="CURIEs">
+    <rng:list>
+      <rng:oneOrMore>
+        <rng:ref name="CURIE"/>
+      </rng:oneOrMore>
+    </rng:list>
+  </rng:define>
+  <rng:define name="ID">
+    <rng:data type="ID"/>
+  </rng:define>
+  <rng:define name="IDREF">
+    <rng:data type="IDREF"/>
+  </rng:define>
+  <rng:define name="IDREFS">
+    <rng:data type="IDREFS"/>
+  </rng:define>
+  <rng:define name="NCName">
+    <rng:data type="NCName"/>
+  </rng:define>
+  <rng:define name="SafeCURIE">
+    <rng:data type="string">
+      <rng:param name="pattern">\[(([\i-[:]][\c-[:]]*)?:)?.+\]</rng:param>
+      <rng:param name="minLength">3</rng:param>
+    </rng:data>
+  </rng:define>
+  <rng:define name="URIorSafeCURIE">
+    <rng:choice>
+      <rng:ref name="anyURI"/>
+      <rng:ref name="SafeCURIE"/>
+    </rng:choice>
+  </rng:define>
+  <rng:define name="angle">
+    <rng:data type="string"/>
+  </rng:define>
+  <rng:define name="anim-animate-color-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="anim:color-interpolation">
+          <rng:choice>
+            <rng:value>rgb</rng:value>
+            <rng:value>hsl</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="anim:color-interpolation-direction">
+          <rng:choice>
+            <rng:value>clockwise</rng:value>
+            <rng:value>counter-clockwise</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="anim-animate-motion-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="svg:path">
+          <rng:ref name="pathData"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="svg:origin">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="smil:calcMode">
+          <rng:choice>
+            <rng:value>discrete</rng:value>
+            <rng:value>linear</rng:value>
+            <rng:value>paced</rng:value>
+            <rng:value>spline</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="anim-animate-transform-attlist">
+    <rng:attribute name="svg:type">
+      <rng:choice>
+        <rng:value>translate</rng:value>
+        <rng:value>scale</rng:value>
+        <rng:value>rotate</rng:value>
+        <rng:value>skewX</rng:value>
+        <rng:value>skewY</rng:value>
+      </rng:choice>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="anim-audio-attlist">
+    <rng:interleave>
+      <rng:optional>
+        <rng:attribute name="xlink:href">
+          <rng:ref name="anyIRI"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="anim:audio-level">
+          <rng:ref name="double"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="anim-command-attlist">
+    <rng:attribute name="anim:command">
+      <rng:ref name="string"/>
+    </rng:attribute>
+  </rng:define>
+  <rng:define name="anim-iterate-attlist">
+    <rng:interleave>
+      <rng:ref name="common-anim-target-attlist"/>
+      <rng:optional>
+        <rng:attribute name="anim:iterate-type">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="anim:iterate-interval">
+          <rng:ref name="duration"/>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="anim-transition-filter-attlist">
+    <rng:interleave>
+      <rng:attribute name="smil:type">
+        <rng:ref name="string"/>
+      </rng:attribute>
+      <rng:optional>
+        <rng:attribute name="smil:subtype">
+          <rng:ref name="string"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="smil:direction">
+          <rng:choice>
+            <rng:value>forward</rng:value>
+            <rng:value>reverse</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="smil:fadeColor">
+          <rng:ref name="color"/>
+        </rng:attribute>
+      </rng:optional>
+      <rng:optional>
+        <rng:attribute name="smil:mode">
+          <rng:choice>
+            <rng:value>in</rng:value>
+            <rng:value>out</rng:value>
+          </rng:choice>
+        </rng:attribute>
+      </rng:optional>
+    </rng:interleave>
+  </rng:define>
+  <rng:define name="animation-element">
+
+16.1 General
+
+16.2 <style:style>
+
+16.3 <style:map>
+
+16.4 <style:default-style>
+
+16.5 <style:page-layout>
+
+16.6 <style:header-style>
+
+16.7 <style:footer-style>
+
+16.8 <style:default-page-layout>
+
+16.9 <style:master-page>
+
+16.10 <style:header>
+
+16.11 <style:header-first>
+
+16.12 <style:footer>
+
+16.13 <style:footer-first>
+
+16.14 <style:header-left>
+
+16.15 <style:footer-left>
+
+16.16 <style:region-left>
+
+16.17 <style:region-center>
+
+16.18 <style:region-right>
+
+16.19 <presentation:notes>
+
+16.20 <table:table-template>
+
+
+19.677.5 <table:data-pilot-group-member>
+
+19.677.6 <table:data-pilot-member>
+
+19.677.7 <table:data-pilot-table>
+
+19.677.8 <table:database-range>
+
+19.677.9 <table:named-expression>
+
+19.677.10 <table:named-range>
+
+19.677.11 <table:operation>
+
+19.677.12 <table:source-cell-range>
+
+19.677.13 <table:source-service>
+
+19.677.14 <table:table>
+
+19.677.15 <table:table-template>
+
+19.678 table:null-year
+
+19.679 table:number-columns-repeated
+
+19.679.1 General
+
+19.679.2 <table:covered-table-cell>
+
+19.679.3 <table:table-cell>
+
+19.679.4 <table:table-column>
+
+19.680 table:number-columns-spanned
+
+19.681 table:number-rows-repeated
+
+19.682 table:number-rows-spanned
+
+19.683 table:number-matrix-columns-spanned
+
+19.684 table:number-matrix-rows-spanned
+
+19.685 table:object-name
+
+19.686 table:on-update-keep-size
+
+19.687 table:on-update-keep-styles
+
+
+20.177 draw:visible-area-left
+
+20.178 draw:visible-area-top
+
+20.179 draw:visible-area-width
+
+20.180 draw:unit
+
+20.181 draw:wrap-influence-on-position
+
+20.182 fo:background-color
+
+20.183 fo Border Properties
+
+20.183.1 General
+
+20.183.2 fo:border
+
+20.183.3 fo:border-bottom
+
+20.183.4 fo:border-left
+
+20.183.5 fo:border-right
+
+20.183.6 fo:border-top
+
+20.184 fo:break-after
+
+20.185 fo:break-before
+
+20.186 fo:clip
+
+20.187 fo:color
+
+20.188 fo:country
+
+20.189 fo:font-family
+
+20.190 fo:font-size
+
+20.191 fo:font-style
+
+20.192 fo:font-variant
+
+20.193 fo:font-weight
+
+exec
+/usr/bin/zsh -lc "rg -n '<rng:define name=\"office-document\"|<rng:define name=\"style-page-layout\"|<rng:define name=\"style-master-page\"|<rng:define name=\"table-table\"|<rng:define name=\"table-table-cell\"|<rng:define name=\"text-p\"|<rng:define name=\"style-style\"' odf_spec/OpenDocument-v1.4-schema.rng" in /tmp/fb_codex_pdf_wwiwlq_7
+ succeeded in 0ms:
+7798:  <rng:define name="office-document">
+12140:  <rng:define name="style-master-page">
+12212:  <rng:define name="style-page-layout">
+12757:  <rng:define name="style-style">
+15939:  <rng:define name="table-table">
+16052:  <rng:define name="table-table-cell">
+17949:  <rng:define name="text-p">
+
+exec
+/usr/bin/zsh -lc "rg -n 'name=\"office-document\"|name=\"style-page-layout\"|name=\"style-master-page\"|name=\"table-table\"|name=\"table-table-cell\"|name=\"text-p\"' odf_spec/OpenDocument-v1.4-schema.rng | head" in /tmp/fb_codex_pdf_wwiwlq_7
+ succeeded in 0ms:
+21:      <rng:ref name="office-document"/>
+483:        <rng:ref name="table-table"/>
+538:        <rng:ref name="text-p"/>
+597:        <rng:ref name="text-p"/>
+668:        <rng:ref name="text-p"/>
+698:        <rng:ref name="text-p"/>
+930:        <rng:ref name="text-p"/>
+938:        <rng:ref name="text-p"/>
+997:          <rng:ref name="text-p"/>
+3279:          <rng:ref name="office-document"/>
+
+exec
+/usr/bin/zsh -lc "rg -n 'office-document|style-page|table-table' odf_spec/OpenDocument-v1.4-schema.rng | head" in /tmp/fb_codex_pdf_wwiwlq_7
+ succeeded in 0ms:
+21:      <rng:ref name="office-document"/>
+22:      <rng:ref name="office-document-content"/>
+23:      <rng:ref name="office-document-styles"/>
+24:      <rng:ref name="office-document-meta"/>
+25:      <rng:ref name="office-document-settings"/>
+483:        <rng:ref name="table-table"/>
+3279:          <rng:ref name="office-document"/>
+5105:          <rng:ref name="table-table"/>
+5543:        <rng:ref name="office-document"/>
+5934:        <rng:ref name="table-table"/>
+
+exec
+/usr/bin/zsh -lc "wc -l odf_spec/OpenDocument-v1.4-schema.rng && rg -n 'office_document|office:document|document-attlist|office-document' odf_spec/OpenDocument-v1.4-schema.rng | head" in /tmp/fb_codex_pdf_wwiwlq_7
+ succeeded in 0ms:
+18572 odf_spec/OpenDocument-v1.4-schema.rng
+21:      <rng:ref name="office-document"/>
+22:      <rng:ref name="office-document-content"/>
+23:      <rng:ref name="office-document-styles"/>
+24:      <rng:ref name="office-document-meta"/>
+25:      <rng:ref name="office-document-settings"/>
+3279:          <rng:ref name="office-document"/>
+5543:        <rng:ref name="office-document"/>
+7798:  <rng:define name="office-document">
+7799:    <rng:element name="office:document">
+7800:      <rng:ref name="office-document-attrs"/>
+
+codex
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" office:mimetype="application/vnd.oasis.opendocument.text" office:version="1.4">
+  <office:font-face-decls>
+    <style:font-face style:name="Serif" svg:font-family="serif"/>
+  </office:font-face-decls>
+  <office:styles>
+    <style:default-style style:family="paragraph">
+      <style:paragraph-properties fo:margin-top="0cm" fo:margin-bottom="0.08cm" fo:line-height="100%"/>
+      <style:text-properties style:font-name="Serif" fo:font-size="10.5pt"/>
+    </style:default-style>
+    <style:style style:name="P" style:family="paragraph"/>
+    <style:style style:name="Center" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="Right" style:family="paragraph">
+      <style:paragraph-properties fo:text-align="right"/>
+    </style:style>
+    <style:style style:name="PageStart" style:family="paragraph">
+      <style:paragraph-properties fo:break-before="page"/>
+    </style:style>
+    <style:style style:name="Small" style:family="paragraph">
+      <style:text-properties fo:font-size="9pt"/>
+    </style:style>
+    <style:style style:name="Table" style:family="table">
+      <style:table-properties style:width="17cm" table:align="center"/>
+    </style:style>
+    <style:style style:name="Cell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+    </style:style>
+    <style:style style:name="HeadCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="middle"/>
+      <style:paragraph-properties fo:text-align="center"/>
+    </style:style>
+    <style:style style:name="OpenCell" style:family="table-cell">
+      <style:table-cell-properties fo:border="0.5pt solid #000000" fo:padding="0.08cm" style:vertical-align="top"/>
+    </style:style>
+  </office:styles>
+  <office:automatic-styles>
+    <style:page-layout style:name="PageLayout">
+      <style:page-layout-properties fo:page-width="21cm" fo:page-height="29.7cm" fo:margin-top="1.6cm" fo:margin-bottom="1.6cm" fo:margin-left="1.6cm" fo:margin-right="1.6cm"/>
+    </style:page-layout>
+    <style:style style:name="Wide" style:family="table-column">
+      <style:table-column-properties style:column-width="1.4cm"/>
+    </style:style>
+    <style:style style:name="Narrow" style:family="table-column">
+      <style:table-column-properties style:column-width="0.75cm"/>
+    </style:style>
+  </office:automatic-styles>
+  <office:master-styles>
+    <style:master-page style:name="Master" style:page-layout-name="PageLayout"/>
+  </office:master-styles>
+  <office:body>
+    <office:text>
+      <text:p text:style-name="P">様式Ｂ（６）</text:p>
+      <text:p text:style-name="Center">厚生労働科学研究費<br/>厚生労働行政推進調査事業費　補助金研究報告書</text:p>
+      <text:p text:style-name="Right">第　　　　号<br/>(元号)　　年　　月　　日</text:p>
+      <text:p>厚生労働大臣<br/>（国立医薬品食品衛生研究所長）　殿<br/>（国立保健医療科学院長）</text:p>
+      <table:table table:name="Organization" table:style-name="Table">
+        <table:table-column table:style-name="Wide"/>
+        <table:table-column table:style-name="Wide"/>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p>所在地</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>〒</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p>法人名</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p>職名</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p>代表者名</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p>交付決定日及び文書番号：（元号）　　年　　月　　日　　　　第　　号</text:p>
+      <text:p>補助事業名　　　　　　：（元号）　　年度　　厚生労働科学研究費<br/>　　　　　　　　　　　　　　　　　　　厚生労働行政推進調査事業費　補助金（　　　　事業）</text:p>
+      <text:p>研究課題名（課題番号）：　　　　　　　　　　　　　　　　（　　　　　　　　　）</text:p>
+      <text:p>研究実施期間　　　　　：（元号）　　年　　月　　日から（元号）　　年　　月　　日まで<br/>　　　　　　　　　　　　　（　　）年計画の（　　）年目</text:p>
+      <text:p>国庫補助金精算所要額　：金　　　　　　　　　　　　円也（※当該研究課題の総額を記載すること）</text:p>
+      <text:p>上記補助事業について、厚生労働科学研究費補助金等取扱規程（平成１０年４月９日厚生省告示第１３０号）第１６条第２項の規定に基づき下記のとおり研究成果を報告します。</text:p>
+      <text:p text:style-name="Center">記</text:p>
+      <text:p>１．研究概要の説明</text:p>
+      <text:p>（１）研究実施日程</text:p>
+      <table:table table:name="Schedule" table:style-name="Table">
+        <table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/>
+        <table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/>
+        <table:table-row>
+          <table:table-cell table:style-name="HeadCell" table:number-rows-spanned="2"><text:p>研究実施内容</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeadCell" table:number-rows-spanned="2"><text:p>研究実施期間</text:p></table:table-cell>
+          <table:table-cell table:style-name="HeadCell" table:number-columns-spanned="12"><text:p>実　施　日　程</text:p></table:table-cell>
+        </table:table-row>
+        <table:table-row><table:covered-table-cell/><table:covered-table-cell/><table:table-cell table:style-name="HeadCell"><text:p>４月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>５月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>６月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>７月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>８月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>９月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>10月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>11月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>12月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>１月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>２月</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>３月</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p>（注）研究者別に作成すること</text:p>
+
+      <text:p text:style-name="PageStart">（２）研究成果の説明</text:p>
+      <table:table table:name="ResultsGuide" table:style-name="Table">
+        <table:table-column table:style-name="Wide"/>
+        <table:table-row><table:table-cell table:style-name="OpenCell"><text:p>記載内容の例</text:p><text:p>研　究　の　目　的　：<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○<br/>○○○○○○○○○○○○○○○○。</text:p><text:p>研　究　結　果　の　概　要　：<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○<br/>○○○○○○○○○○○○○○○○。</text:p><text:p>研　究　の　実　施　経　過　：<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○<br/>○○○○○○○○○○○○○○○○。</text:p><text:p>研究成果の刊行に関する一覧表：刊行書籍又は雑誌名（雑誌の時は、雑誌名、巻数、論文名）、刊行年月日、刊行書店名、執筆者氏名</text:p><text:p>研究成果による知的財産権の出願・取得状況：知的財産の内容、種類、番号、出願年月日、取得年月日、権利者</text:p><text:p>研究により得られた成果の今後の活用・提供：<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○○<br/>○○○○○○○○○○○○○○○○○○。</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p>２．○○○○○補助金研究報告書表紙　（別添１のとおり）</text:p>
+      <text:p>３．○○○○○補助金研究報告書目次　（別添２のとおり）</text:p>
+      <text:p>４．○○○○○補助金総括研究報告書　（別添３のとおり）</text:p>
+      <text:p>５．○○○○○補助金分担研究報告書　（別添４のとおり）</text:p>
+      <text:p>６．研究成果の刊行に関する一覧表　（別添５のとおり）</text:p>
+      <text:p>７．研究成果による特許権等の知的財産権の出願・登録状況<br/>（総括研究報告書、分担研究報告書の中に、書式に従って記入すること。）</text:p>
+      <text:p>８．健康危険情報</text:p>
+      <text:p>・研究の結果、得られた成果の中で健康危険情報（国民の生命、健康に重大な影響を及ぼす情報として厚生労働省に報告すべきものがある場合や、研究過程において健康危険情報を把握した場合には、国民の生命、健康に重大な影響を及ぼすと考えられる内容と理由を簡潔に記入するとともに、その情報源（研究成果、研究者名、学会発表名、雑誌等の詳細）について記述すること。<br/>・既に厚生労働省に通報した健康危険情報であっても、本研究報告書の提出の時点において健康危険情報に該当すると判断されるものについては記述すること。<br/>・なお、健康危険情報を把握した際には、定めの書式で速やかに厚生労働省災害等危機管理対策室長まで通報していただくよう交付基準額等決定通知の添付文書において協力をお願いしているので、本件ともに留意すること。</text:p>
+      <text:p>９．厚生労働科学研究費における倫理審査及び利益相反の管理の状況に関する報告　（参考：別添６）</text:p>
+
+      <text:p text:style-name="PageStart">・「厚生労働科学研究費における倫理審査及び利益相反の管理の状況に関する報告について（平成26年4月14日科発0414第５号）」の別紙に定める様式の写しを、総括研究報告書または分担研究報告書の後に、それぞれ添付すること。</text:p>
+      <text:p>（作成上の留意事項）</text:p>
+      <text:p>１．宛先の欄には、規程第３条第１項の表第７号及び第２３号の右欄に掲げる一般公募型及び若手育成型については国立保健医療科学院長、同表第２２号の右欄に掲げる一般公募型及び若手育成型については国立医薬品食品衛生研究所長を記載する。</text:p>
+      <text:p>２．「１．（１）研究実施日程」について、研究実施期間は年月日を記載すること。<br/>例：令和○年○月○日～令和○年○月○日</text:p>
+      <text:p>３．「１．（２）研究成果の概要」欄について<br/>(1)当該研究の成果及びその利用上の効果等を記入すること。<br/>(2)当該研究の交付申請時における研究の概要との関連が明らかとなるように記入すること。<br/>(3)複数年度にわたる研究の場合には、研究全体の研究計画と当該事業年度における研究結果との関係が分かるように記入すること。また、最終年度の場合には、研究全体の研究結果を併せて記入すること。</text:p>
+      <text:p>４．「１．（２）研究の実施経過」欄は、主要な研究方法、手段等の経過を簡潔に記入すること。<br/>(1)複数年度にわたる研究の場合には、研究全体の研究の実施経過と当該研究年度における研究の実施経過との関係が分かるように記入すること。<br/>(2)当該研究の交付申請時における研究計画との関連が明らかとなるように記入すること。</text:p>
+      <text:p>５．「１．（２）研究により得られた成果の今後の活用・提供」欄について<br/>・当該研究の交付申請時における研究の目的との関連が明らかとなるように記入すること。</text:p>
+      <text:p>６．研究報告書（当該報告書に含まれる文献名等を含む。以下本留意事項において同じ。）は、国立国会図書館及び国立保健医療科学院ホームページにおいて公表されるものであること。<br/>※規程第19条第２項及び第３項に従い、事業完了後５年以内に、その結果又は経過の全部若しくは一部を刊行し、又は書籍、雑誌、新聞等に掲載した場合には、その刊行物又はその別刷の一部を添えて厚生労働大臣等に届け出ること。</text:p>
+      <text:p>７．研究者等は当該報告書を提出した時点で、公表について承諾したものとすること。</text:p>
+      <text:p>８．氏名の欄には、旧姓の記載又は併記が可能（別紙も同様）。</text:p>
+      <text:p>９．その他<br/>・各項目の記入量に応じて、適宜、欄を引き伸ばして差し支えない。</text:p>
+
+      <text:p text:style-name="PageStart">別添１</text:p>
+      <text:p text:style-name="Center">○○○○○補助金研究報告書表紙</text:p>
+      <text:p>（作成上の留意事項）</text:p>
+      <text:p>研究報告書の表紙は、別紙１「研究報告書表紙レイアウト」を参考に作成すること。</text:p>
+      <text:p>別添２</text:p>
+      <text:p text:style-name="Center">○○○○○補助金研究報告書目次</text:p>
+      <text:p>（作成上の留意事項）</text:p>
+      <text:p>研究報告書の目次は、別紙２「研究報告書目次レイアウト」を参考に作成すること。</text:p>
+      <text:p>別添３</text:p>
+      <text:p text:style-name="Center">○○○○○補助金総括研究報告書</text:p>
+      <text:p>（作成上の留意事項）</text:p>
+      <text:p>総括研究報告書は、別紙３「研究報告書レイアウト」を参考に作成すること。</text:p>
+      <text:p>別添４</text:p>
+      <text:p text:style-name="Center">○○○○○補助金分担研究報告書</text:p>
+      <text:p>（作成上の留意事項）</text:p>
+      <text:p>分担研究報告書は、別紙３「研究報告書レイアウト」を参考に作成すること。</text:p>
+      <text:p>別添５</text:p>
+      <text:p text:style-name="Center">研究成果の刊行に関する一覧表</text:p>
+      <text:p>（作成上の留意事項）</text:p>
+      <text:p>研究成果の刊行に関する一覧表は、別紙４「研究成果の刊行に関する一覧表レイアウト」を参考に作成すること。</text:p>
+      <text:p>別添６</text:p>
+      <text:p text:style-name="Center">厚生労働科学研究費における倫理審査及び利益相反の管理の状況に関する報告</text:p>
+      <text:p>（作成上の留意事項）</text:p>
+      <text:p>厚生労働科学研究費における倫理審査及び利益相反の管理の状況に関する報告は、「厚生労働科学研究費における倫理審査及び利益相反の管理の状況に関する報告について（平成26年4月14日科発0414第５号）」の別紙に定める様式の写しを添付するか、別紙５に当該様式を再掲するので参考にすること。</text:p>
+
+      <text:p text:style-name="PageStart">別紙１</text:p>
+      <text:p text:style-name="Center">研究報告書表紙レイアウト（参考）</text:p>
+      <table:table table:name="CoverLayout" table:style-name="Table"><table:table-column table:style-name="Wide"/><table:table-row><table:table-cell table:style-name="OpenCell"><text:p text:style-name="Center">○○○○○補助金</text:p><text:p text:style-name="Center">○○○○○研究事業</text:p><text:p text:style-name="Center">○○○○○○○○○○○○○○○○○○○○に関する研究</text:p><text:p text:style-name="Center">（元号）○○年度　総括研究報告書</text:p><text:p text:style-name="Center">（法人名）</text:p><text:p text:style-name="Center">（元号）○○（○○○○）年　○月</text:p></table:table-cell></table:table-row></table:table>
+      <text:p>作成上の留意事項</text:p><text:p>分担研究報告書がある場合は、「総括・分担研究報告書」と表記すること。</text:p>
+      <text:p>別紙２</text:p><text:p text:style-name="Center">研究報告書目次レイアウト（参考）</text:p>
+      <table:table table:name="ContentsLayout" table:style-name="Table"><table:table-column table:style-name="Wide"/><table:table-row><table:table-cell table:style-name="OpenCell"><text:p text:style-name="Center">目　次</text:p><text:p>Ⅰ．総括研究報告</text:p><text:p>　○○○○○○○○に関する研究　　　　　　　　　――――――――――――――　１</text:p><text:p>　　（法人名）</text:p><text:p>　　（資料）○○○○○○○○のアンケート調査用紙</text:p><text:p>Ⅱ．分担研究報告</text:p><text:p>　１．△△△△△△△に関する研究　　　　　　　　――――――――――――――　30</text:p><text:p>　　　厚生一郎</text:p><text:p>　　　（資料）資料名</text:p><text:p>　２．□□□□□□□に関する研究　　　　　　　　――――――――――――――　60</text:p><text:p>　　　厚生二郎</text:p><text:p>　　　（資料）資料名</text:p><text:p>　３．▽▽▽▽▽▽▽に関する研究　　　　　　　　――――――――――――――　80</text:p><text:p>　　　厚生三郎</text:p><text:p>　　　（資料）資料名</text:p><text:p>　４．◎◎◎◎◎◎◎に関する研究　　　　　　　　――――――――――――――　100</text:p><text:p>　　　厚生四郎</text:p><text:p>　　　（資料）資料名</text:p><text:p>　５．◇◇◇◇◇◇◇に関する研究　　　　　　　　――――――――――――――　120</text:p><text:p>　　　厚生五郎</text:p><text:p>　　　（資料）資料名</text:p><text:p>Ⅲ．研究成果の刊行に関する一覧表　　　　　　　　――――――――――――――　140</text:p></table:table-cell></table:table>
+
+      <text:p text:style-name="PageStart">別紙３</text:p>
+      <text:p text:style-name="Center">研究報告書レイアウト（参考）</text:p>
+      <text:p text:style-name="Center">（具体的かつ詳細に記入すること）</text:p>
+      <table:table table:name="ReportLayout" table:style-name="Table"><table:table-column table:style-name="Wide"/><table:table-row><table:table-cell table:style-name="OpenCell"><text:p text:style-name="Center">○○○○○補助金（○○○研究事業）<br/>（総括・分担）研究報告書</text:p><text:p text:style-name="Center">○○○○○○○○○○○○○○○○に関する研究<br/>（法人名）</text:p><text:p>研究要旨</text:p><text:p>研究者氏名・所属研究機関名及び所属研究機関における職名（分担研究報告書の場合は、省略）</text:p><text:p>A．研究目的<br/>○○○○○○○○○○○○○○○○○○</text:p><text:p>B．研究方法<br/>○○○○○○○○○○○○○○○○○○<br/>（倫理面への配慮）<br/>○○○○○○○○○○○○○○○○</text:p><text:p>C．研究結果<br/>○○○○○○○○○○○○○○○○○○○○○○</text:p><text:p>D．考察<br/>○○○○○○○○○○○○○○○○○○○○○○○○○○</text:p><text:p>E．結論<br/>○○○○○○○○○○○○○○○○○○</text:p><text:p>F．健康危険情報<br/>○○○○○○○○○○○○○○<br/>（分担研究報告書には記入せずに、総括研究報告書にまとめて記入）</text:p><text:p>G．研究発表<br/>１．論文発表<br/>○○○○○○○○○○○○○○<br/>２．学会発表<br/>○○○○○○○○○○○○○○<br/>（発表誌名巻号・頁・発行年等も記入）</text:p><text:p>H．知的財産権の出願・登録状況（予定を含む。）<br/>１．特許取得<br/>○○○○○○○○○○○○<br/>２．実用新案登録<br/>○○○○○○○○○○○○<br/>３．その他<br/>○○○○○○○○○○○○</text:p><text:p text:style-name="Center">-00-</text:p></table:table-cell></table:table>
+      <text:p>作成上の留意事項</text:p>
+      <text:p>１．「A．研究目的」について<br/>・厚生労働行政の課題との関連性を含めて記入すること。</text:p>
+      <text:p>２．「B．研究方法」について<br/>(1)実施経過が分かるように具体的に記入すること。<br/>(2)「（倫理面への配慮）」には、研究対象者に対する人権擁護上の配慮、研究方法による研究対象者に対する不利益、危険性の排除や説明と同意（インフォームド・コンセント）に関わる状況、実験動物に対する動物愛護上の配慮など、当該研究を行った際に実施した倫理面への配慮の内容及び方法について、具体的に記入すること。倫理面の問題がないと判断した場合には、その旨を記入するとともに必ず理由を明記すること。<br/>なお、人を対象とする生命科学・医学系研究に関する倫理指針（令和３年文部科学省・厚生労働省・経済産業省告示第１号）、遺伝子治療等臨床研究に関する指針（平成３１年厚生労働省告示第４８号）、厚生労働省の所管する実施機関における動物実験等の実施に関する基本指針（平成１８年６月１日付厚生労働省大臣官房厚生科学課長通知）及び申請者が所属する研究機関で定めた倫理規定等を遵守するとともに、あらかじめ当該研究機関の長等の承認、届出、確認等が必要な研究については、研究開始前に所定の手続きを行うこと。</text:p>
+      <text:p>３．「C．研究結果」について<br/>・当該年度の研究成果が明らかになるように具体的に記入すること。</text:p>
+      <text:p>４．その他<br/>・文字の大きさは、１０～１２ポイント程度とする。</text:p>
+
+      <text:p text:style-name="PageStart">別紙４</text:p>
+      <text:p text:style-name="Center">研究成果の刊行に関する一覧表レイアウト（参考）</text:p>
+      <text:p>書籍</text:p>
+      <table:table table:name="Books" table:style-name="Table">
+        <table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p>著者氏名</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>論文タイトル名</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>書籍全体の編集者名</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>書　籍　名</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>出版社名</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>出版地</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>出版年</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>ページ</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+      <text:p>雑誌</text:p>
+      <table:table table:name="Journals" table:style-name="Table">
+        <table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p>発表者氏名</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>論文タイトル名</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>発表誌名</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>巻号</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>ページ</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>出版年</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell><table:table-cell table:style-name="OpenCell"><text:p/></table:table-cell></table:table-row>
+      </table:table>
+
+      <text:p text:style-name="PageStart">別紙５</text:p>
+      <text:p text:style-name="Center">「厚生労働科学研究費における倫理審査及び利益相反の管理の状況に関する報告について<br/>（平成26年４月14日科発0414第５号）」の別紙に定める様式（参考）</text:p>
+      <table:table table:name="EthicsReport" table:style-name="Table">
+        <table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/>
+        <table:table-row><table:table-cell table:style-name="OpenCell" table:number-columns-spanned="2"><text:p text:style-name="Right">年　　月　　日</text:p><text:p>厚生労働大臣<br/>（国立医薬品食品衛生研究所長）　殿<br/>（国立保健医療科学院長）</text:p><text:p text:style-name="Right">機関名<br/>所属研究機関長　職　名<br/>氏　名</text:p><text:p>次の職員の（元号）　　年度厚生労働科学研究費の調査研究における、倫理審査状況及び利益相反等の管理については以下のとおりです。</text:p><text:p>１．研究事業名</text:p><text:p>２．研究課題名</text:p><text:p>３．研究者名　（所属部署・職名）<br/>　　　　　　　　（氏名・フリガナ）</text:p><text:p>４．倫理審査の状況</text:p></table:table-cell><table:covered-table-cell/></table:table-row>
+      </table:table>
+      <table:table table:name="EthicsStatus" table:style-name="Table">
+        <table:table-column table:style-name="Wide"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Narrow"/><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p/></table:table-cell><table:table-cell table:style-name="HeadCell" table:number-columns-spanned="2"><text:p>該当性の有無</text:p></table:table-cell><table:table-cell table:style-name="HeadCell" table:number-columns-spanned="2"><text:p>左記で該当がある場合のみ記入（※1）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="HeadCell"><text:p/></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>有</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>無</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>審査済み　　審査した機関</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>未審査（※2）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>人を対象とする生命科学・医学系研究に関する倫理指針（※3）</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>遺伝子治療等臨床研究に関する指針</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>厚生労働省の所管する実施機関における動物実験等の実施に関する基本指針</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>その他、該当する倫理指針があれば記入すること<br/>（指針の名称：　　　　　　　　　）</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>□</text:p></table:table-cell><table:table-cell table:style-name="HeadCell"><text:p>□</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Small">（※1）当該研究者が当該研究を実施するに当たり遵守すべき倫理指針に関する倫理委員会の審査が済んでいる場合は、「審査済み」にチェックし一部若しくは全部の審査が完了していない場合は、「未審査」にチェックすること。</text:p>
+      <text:p>その他（特記事項）</text:p>
+      <text:p text:style-name="Small">（※2）未審査の場合は、その理由を記載すること。<br/>（※3）廃止前の「疫学研究に関する倫理指針」、「臨床研究に関する倫理指針」、「ヒトゲノム・遺伝子解析研究に関する倫理指針」、「人を対象とする医学系研究に関する倫理指針」に準拠する場合は、当該項目に記入すること。</text:p>
+      <text:p>５．厚生労働分野の研究活動における不正行為への対応について</text:p>
+      <table:table table:name="Training" table:style-name="Table"><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/><table:table-row><table:table-cell table:style-name="Cell"><text:p>研究倫理教育の受講状況</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>受講 □　　未受講 □</text:p></table:table-cell></table:table-row></table:table>
+      <text:p>６．利益相反の管理</text:p>
+      <table:table table:name="COI" table:style-name="Table"><table:table-column table:style-name="Wide"/><table:table-column table:style-name="Wide"/>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>当該研究機関におけるＣＯＩの管理に関する規定の策定</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>有　□　　無　□　（無の場合はその理由：　　　　　　　　　）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>当該研究機関におけるＣＯＩ委員会設置の有無</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>有　□　　無　□　（無の場合は委託先機関：　　　　　　　）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>当該研究に係るＣＯＩについての報告・審査の有無</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>有　□　　無　□　（無の場合はその理由：　　　　　　　　　）</text:p></table:table-cell></table:table-row>
+        <table:table-row><table:table-cell table:style-name="Cell"><text:p>当該研究に係るＣＯＩについての指導・管理の有無</text:p></table:table-cell><table:table-cell table:style-name="Cell"><text:p>有　□　　無　□　（有の場合はその内容：　　　　　　　　　）</text:p></table:table-cell></table:table-row>
+      </table:table>
+      <text:p text:style-name="Small">（留意事項）　・該当する□にチェックを入れること。<br/>　　　　　　・分担研究者の所属する機関の長も作成すること。</text:p>
+    </office:text>
+  </office:body>
+</office:document>
+tokens used
+74,204
